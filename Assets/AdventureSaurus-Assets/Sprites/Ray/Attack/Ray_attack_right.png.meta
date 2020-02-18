@@ -1,22 +1,31 @@
 fileFormatVersion: 2
-guid: 3122b563dfeda4c4ba063839141cadf1
+guid: 9a90df91e7689da419ed2b50c229c211
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5593185305883653879
-    second: Ray_idle_back_0
+      213: -7137237423660945891
+    second: Ray_attack_right_0
   - first:
-      213: -3082641389593358972
-    second: Ray_idle_back_1
+      213: 4542080334627998315
+    second: Ray_attack_right_1
   - first:
-      213: -2824395071916081558
-    second: Ray_idle_back_2
+      213: -7718798249555616405
+    second: Ray_attack_right_2
   - first:
-      213: -7887462670638106240
-    second: Ray_idle_back_3
+      213: -8214208007701093364
+    second: Ray_attack_right_3
   - first:
-      213: 6620502286920772984
-    second: Ray_idle_back_4
+      213: 9123618473644314898
+    second: Ray_attack_right_4
+  - first:
+      213: -4891768613298310312
+    second: Ray_attack_right_5
+  - first:
+      213: -8489792374451331503
+    second: Ray_attack_right_6
+  - first:
+      213: 3792778826224117113
+    second: Ray_attack_right_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -75,7 +84,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 1
@@ -87,7 +96,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 128
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 1
@@ -99,7 +108,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
-    maxTextureSize: 128
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 1
@@ -113,7 +122,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ray_idle_back_0
+      name: Ray_attack_right_0
       rect:
         serializedVersion: 2
         x: 0
@@ -127,14 +136,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9015429480a67b94aa67adc5842f1457
-      internalID: 5593185305883653879
+      spriteID: a3996cc4e2a0fab4fab3206a7754a4c9
+      internalID: -7137237423660945891
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ray_idle_back_1
+      name: Ray_attack_right_1
       rect:
         serializedVersion: 2
         x: 32
@@ -148,14 +157,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 56fef7f31980ab5438ab2132e3481105
-      internalID: -3082641389593358972
+      spriteID: 13a5d494e4964364db85e9b12d76c1dc
+      internalID: 4542080334627998315
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ray_idle_back_2
+      name: Ray_attack_right_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3149bdf464d54e346a1b7f607a42e025
+      internalID: -7718798249555616405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ray_attack_right_3
       rect:
         serializedVersion: 2
         x: 0
@@ -169,14 +199,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f21f677af3549644833db8f722356e9
-      internalID: -2824395071916081558
+      spriteID: c441eb1c9ab891e40999e0d0977d00e5
+      internalID: -8214208007701093364
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ray_idle_back_3
+      name: Ray_attack_right_4
       rect:
         serializedVersion: 2
         x: 32
@@ -190,14 +220,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 894020711c592a6469d8388d2deaec83
-      internalID: -7887462670638106240
+      spriteID: a7117d99b14c2574093959218b08f66e
+      internalID: 9123618473644314898
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ray_idle_back_4
+      name: Ray_attack_right_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f685ba7d5c9cf484f9075f10f927a57b
+      internalID: -4891768613298310312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ray_attack_right_6
       rect:
         serializedVersion: 2
         x: 0
@@ -211,8 +262,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9da46eb5408751d449f472f0b946422c
-      internalID: 6620502286920772984
+      spriteID: a25269a075182214780d7228acafe6c7
+      internalID: -8489792374451331503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ray_attack_right_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46650ef5436339b41b70f6ee86332b12
+      internalID: 3792778826224117113
       vertices: []
       indices: 
       edges: []
