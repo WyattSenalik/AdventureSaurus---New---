@@ -7,6 +7,9 @@ public class Health : MonoBehaviour
     // The Bars are assumed to have the same sized sprite attached
     [SerializeField] private Transform redHealthBar = null;     // The transform that holds the sprite of the health
     [SerializeField] private Transform frameHealthBar = null;   // The transform that holds the sprite of the outline of the health
+    [SerializeField] private GameObject rightRedBit = null;     // The rid bit on the right side of the health bar
+    [SerializeField] private GameObject leftRedBit = null;      // The rid bit on the left side of the health bar
+    [SerializeField] private float redBarOffset = 0;    // The offset for the red health bar to be at
     private int maxHP;  // Maximum health of the character
     public int MaxHP
     {
@@ -79,15 +82,15 @@ public class Health : MonoBehaviour
     private void UpdateHealthBar()
     {
         // Change the localScale of the redHealthBar so that it is startingHP/curHP of its "full health" size
-        redHealthBar.transform.localScale = new Vector3(frameHealthBar.localScale.x * curHP / maxHP, frameHealthBar.localScale.y, frameHealthBar.localScale.z);
+        redHealthBar.transform.localScale = new Vector3((frameHealthBar.localScale.x - 2*redBarOffset) * curHP / maxHP, redHealthBar.localScale.y, redHealthBar.localScale.z);
 
         // Change the localPosition of the redHealthBar so that it looks like it is coming from the left of the frame
         // -(spritePixelSize / pixelsPerUnit) * blankBar.localScale.x / 2 + (spritePixelSize / pixelsPerUnit) * redBar.localScale.x / 2 + blankBar.localPosition.x
         // ((spritePixelSize / pixelsPerUnit) / 2) * (redBar.localScale.x - blankBar.localScale.x) + blankBar.localPosition.x
-        float pixelsPerUnit = redHealthBar.gameObject.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
-        float spritePixelSize = redHealthBar.gameObject.GetComponent<SpriteRenderer>().sprite.rect.size.x;
+        float pixelsPerUnit = redHealthBar.gameObject.GetComponent<SpriteMask>().sprite.pixelsPerUnit;
+        float spritePixelSize = redHealthBar.gameObject.GetComponent<SpriteMask>().sprite.rect.size.x;
         float xComponent = ((spritePixelSize / pixelsPerUnit) / 2) * (redHealthBar.localScale.x - frameHealthBar.localScale.x) + frameHealthBar.localPosition.x;
-        redHealthBar.transform.localPosition = new Vector3(xComponent, frameHealthBar.localPosition.y, frameHealthBar.localPosition.z);
+        redHealthBar.transform.localPosition = new Vector3(xComponent + redBarOffset, redHealthBar.localPosition.y, redHealthBar.localPosition.z);
     }
 
     // Decrements curHP by dmgToTake
