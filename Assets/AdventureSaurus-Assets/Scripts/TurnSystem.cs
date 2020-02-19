@@ -13,7 +13,7 @@ public class TurnSystem : MonoBehaviour
     private EnemyMoveAttackAI enMAAIRef;
     private MoveAttackGUIController mAGUIContRef;
     private bool stop;
-
+    public bool enemyTurn, playerTurn;
     private void Awake()
     {
         GameObject gameController = GameObject.FindWithTag("GameController");
@@ -42,16 +42,47 @@ public class TurnSystem : MonoBehaviour
         stop = true;
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && stop)
+        {
+            StartEnemyTurn();
+            stop = false;
+        }
+    }
+
     /// <summary>
     /// Called from EnemyMoveAttackAI after all enemies have moved
     /// </summary>
+    /// 
     public void StartPlayerTurn()//starts Players Turn, Enables player to control characters
     {
         endTurnButtObj.SetActive(true);
         state = TurnState.PLAYERTURN;
-        // Reset everyone's turns
-        ResetEveryoneTurns();
+        foreach(Transform potAlly in CharcterTeam)
+        {
+            MoveAttack potAllyMA = potAlly.GetComponent<MoveAttack>();
+            if(potAllyMA == null)
+            {
+                Debug.Log("There is a non character object in " + CharcterTeam.name);
+            }
+            else
+            {
+                if(potAllyMA.WhatAmI == CharacterType.Ally)
+                {
+                    potAllyMA.ResetMyTurn();
+                }
+            }
+        }
+
         mAGUIContRef.AllowSelect();
+        camFocusPlayer();
+    }
+
+    public void camFocusPlayer()
+    {
+        playerTurn = true;
+        enemyTurn = false;
     }
 
     /// <summary>
@@ -60,10 +91,23 @@ public class TurnSystem : MonoBehaviour
     void StartEnemyTurn()//starts Enemies Turn, Starts their AI
     {
         endTurnButtObj.SetActive(false);
-        state = TurnState.ENEMYTURN;
-        // Reset everyone's turns
-        ResetEveryoneTurns();
+        foreach (Transform potEnemy in CharcterTeam)
+        {
+            MoveAttack potEnemyMA = potEnemy.GetComponent<MoveAttack>();
+            if (potEnemyMA == null)
+            {
+                Debug.Log("There is a non character object in " + CharcterTeam.name);
+            }
+            else
+            {
+                if (potEnemyMA.WhatAmI == CharacterType.Enemy)
+                {
+                    potEnemyMA.ResetMyTurn();
+                }
+            }
+        }
         mAGUIContRef.DenySelect();
+        state = TurnState.ENEMYTURN;
         enMAAIRef.StartTakeTurn(); 
     }
     /// <summary>
@@ -123,6 +167,7 @@ public class TurnSystem : MonoBehaviour
         {
 
             StartPlayerTurn();
+
         }
 
     }
@@ -132,31 +177,17 @@ public class TurnSystem : MonoBehaviour
         state = TurnState.GAMESTOP;
     }
 
+    public void camFocusEnemy()
+    {
+        playerTurn = false;
+        enemyTurn = true;
+    }
+
     public void EndPlayerTurn()
     {
         mAGUIContRef.DenySelect();//disables some user's input
         StartEnemyTurn();
-    }
-
-    /// <summary>
-    /// Resets the turns of all characters, letting them move and attack again
-    /// We resets them all because on the player's turn we need them to be able to see the enemies' potential movements
-    /// </summary>
-    private void ResetEveryoneTurns()
-    {
-        // Iterate over each character
-        foreach (Transform character in CharcterTeam)
-        {
-            MoveAttack characterMA = character.GetComponent<MoveAttack>();
-            if (characterMA == null)
-            {
-                Debug.Log("There is a non character object in " + CharcterTeam.name);
-            }
-            else
-            {
-                characterMA.ResetMyTurn();
-            }
-        }
+        camFocusEnemy();
     }
     
 }
