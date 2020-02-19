@@ -233,7 +233,7 @@ public class Health : MonoBehaviour
         GameObject graveyard = new GameObject("Graveyard");
         this.transform.parent = graveyard.transform;
         // We then need to recreate all the visuals, so that the user can see they can move over the dead body
-        mAContRef.CreateAllVisualTiles();
+        //NEEDTOFIXmAContRef.CreateAllVisualTiles();
 
         // Give either the user or the ai control of their stuff
         GiveBackControl();

@@ -1295,10 +1295,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1
   whatAmI: 2
-  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
-  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
-  visualSortingLayer: VisualTile
   transSpeed: 4
+  rangeVisualParent: {fileID: 0}
 --- !u!1 &183829780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1827,6 +1825,9 @@ MonoBehaviour:
   gridBotRight: {x: 4, y: -3}
   wallParent: {fileID: 456022336}
   charParent: {fileID: 703480826}
+  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
+  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
+  visualSortingLayer: VisualTile
 --- !u!114 &314060241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1841,6 +1842,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharcterTeam: {fileID: 703480826}
   endTurnButtObj: {fileID: 1580259516}
+  enemyTurn: 0
+  playerTurn: 0
 --- !u!1 &344355393
 GameObject:
   m_ObjectHideFlags: 0
@@ -3525,10 +3528,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1
   whatAmI: 2
-  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
-  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
-  visualSortingLayer: VisualTile
   transSpeed: 4
+  rangeVisualParent: {fileID: 0}
 --- !u!1 &627439371
 GameObject:
   m_ObjectHideFlags: 0
@@ -4344,10 +4345,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1
   whatAmI: 3
-  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
-  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
-  visualSortingLayer: VisualTile
   transSpeed: 4
+  rangeVisualParent: {fileID: 0}
 --- !u!1 &756358008
 GameObject:
   m_ObjectHideFlags: 0
@@ -5741,10 +5740,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1
   whatAmI: 3
-  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
-  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
-  visualSortingLayer: VisualTile
   transSpeed: 4
+  rangeVisualParent: {fileID: 0}
 --- !u!1 &1019522859
 GameObject:
   m_ObjectHideFlags: 0
@@ -11538,10 +11535,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1
   whatAmI: 3
-  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
-  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
-  visualSortingLayer: VisualTile
   transSpeed: 4
+  rangeVisualParent: {fileID: 0}
 --- !u!1 &1391316218
 GameObject:
   m_ObjectHideFlags: 0
@@ -12246,8 +12241,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 230
@@ -12648,10 +12641,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1
   whatAmI: 3
-  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
-  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
-  visualSortingLayer: VisualTile
   transSpeed: 4
+  rangeVisualParent: {fileID: 0}
 --- !u!1 &1546913866
 GameObject:
   m_ObjectHideFlags: 0
@@ -12866,10 +12857,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1
   whatAmI: 3
-  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
-  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
-  visualSortingLayer: VisualTile
   transSpeed: 4
+  rangeVisualParent: {fileID: 0}
 --- !u!1 &1578913468
 GameObject:
   m_ObjectHideFlags: 0
@@ -12993,8 +12982,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1580259519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13013,8 +13000,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -14282,10 +14267,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1
   whatAmI: 3
-  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
-  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
-  visualSortingLayer: VisualTile
   transSpeed: 4
+  rangeVisualParent: {fileID: 0}
 --- !u!1 &1816405771
 GameObject:
   m_ObjectHideFlags: 0
@@ -15498,10 +15481,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1
   whatAmI: 3
-  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
-  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
-  visualSortingLayer: VisualTile
   transSpeed: 4
+  rangeVisualParent: {fileID: 0}
 --- !u!1 &2057508430
 GameObject:
   m_ObjectHideFlags: 0
@@ -15656,10 +15637,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1
   whatAmI: 3
-  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
-  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
-  visualSortingLayer: VisualTile
   transSpeed: 4
+  rangeVisualParent: {fileID: 0}
 --- !u!1 &2059122976
 GameObject:
   m_ObjectHideFlags: 0

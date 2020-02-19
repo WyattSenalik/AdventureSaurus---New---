@@ -38,12 +38,6 @@ public class MoveAttack : MonoBehaviour
         get { return attackTiles; }
         set { attackTiles = value; }
     }
-    private GameObject rangeVisualParent;   // The gameObject thats transform is the parent of the rangeVisuals
-
-    // For creating the visuals of move/attack tiles
-    [SerializeField] private Sprite moveTileSprite = null;      // The sprite that will be put on the visual move tile
-    [SerializeField] private Sprite attackTileSprite = null;    // The sprite that will be put on the visual attack tile
-    [SerializeField] private string visualSortingLayer = "Default"; // The sorting layer that the tiles will be put on
 
     // For actual movement calculations/animations
     [SerializeField] private float transSpeed = 4;  // Speed the character moves to transition from one tile to another
@@ -64,6 +58,9 @@ public class MoveAttack : MonoBehaviour
     {
         get { return hasAttacked; }
     }
+
+    // For displaying the tile visuals
+    public GameObject rangeVisualParent;
 
     // For attacking
     private Health enemyHP; // Reference to the health script attached to the enemy I start attacking
@@ -148,131 +145,6 @@ public class MoveAttack : MonoBehaviour
     {
         // Use my move tiles to figure out where I can attack
         attackTiles = mAContRef.GetValidAttackNodes(moveTiles, attackRange, whatAmI);
-    }
-
-    /// <summary>
-    /// Generates the visuals for movement and attack
-    /// </summary>
-    public void CreateVisualTiles(bool shouldActivate)
-    {
-        // Destroy the last visuals, they are probably inaccurate now
-        Destroy(rangeVisualParent);
-        // Recreate it again
-        rangeVisualParent = new GameObject("RangeVisualParent");
-        rangeVisualParent.SetActive(false);
-        rangeVisualParent.transform.parent = this.gameObject.transform;
-        rangeVisualParent.transform.localPosition = Vector3.zero;
-
-        // If there is not already a beginning tile
-        if (rangeVisualParent.transform.childCount < 1)
-        {
-            CreateSingleVisualTile(0, 0, rangeVisualParent.transform); // Make the first tile under the character
-        }
-        for (int i = 1; i <= moveRange + attackRange; ++i)
-        {
-            // Create a new child to serve as the parent for all the tiles about to be made
-            GameObject tilesParent = new GameObject("VisualTile" + i + " Parent");
-            tilesParent.transform.parent = rangeVisualParent.transform;
-            tilesParent.transform.localPosition = Vector3.zero;
-
-            Vector2Int placementPos = new Vector2Int(i, 0);
-            // Go down, left
-            while (placementPos.x > 0)
-            {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform);
-                placementPos.x -= 1;
-                placementPos.y -= 1;
-            }
-            // Go up, left
-            while (placementPos.y < 0)
-            {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform);
-                placementPos.x -= 1;
-                placementPos.y += 1;
-            }
-            // Go up, right
-            while (placementPos.x < 0)
-            {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform);
-                placementPos.x += 1;
-                placementPos.y += 1;
-            }
-            // Go down, right
-            while (placementPos.y > 0)
-            {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform);
-                placementPos.x += 1;
-                placementPos.y -= 1;
-            }
-        }
-        // If we are supposed to show the visuals after creating them
-        rangeVisualParent.SetActive(shouldActivate);
-    }
-
-    /// <summary>
-    /// Creates one visual tile for the visual tiles of this character
-    /// </summary>
-    /// <param name="x">X component of this tiles localPosition</param>
-    /// <param name="y">Y component of this tiles localPosition</param>
-    /// <param name="parent">What will be the parent of the newly created tile</param>
-    private void CreateSingleVisualTile(int x, int y, Transform parent)
-    {
-        // Get the tile in question
-        Vector2Int tileGridPos = new Vector2Int(Mathf.RoundToInt(this.transform.position.x + x), Mathf.RoundToInt(this.transform.position.y + y));
-        Node testNode = mAContRef.GetNodeAtPosition(tileGridPos);
-        if (testNode == null)
-            return;
-
-        // Initialize the variables that will change depending on if this is a move tile or an attack tile
-        Sprite sprToUse = null;
-        int orderOnLayer = -1;
-        float alpha = 0.2f;
-
-        bool isMoveTileVisual = moveTiles.Contains(testNode);
-        bool isAttackTileVisual = attackTiles.Contains(testNode);
-        // See if the tile is a move tile
-        if (isMoveTileVisual)
-        {
-            isAttackTileVisual = false; // Can't be both attack and move
-            sprToUse = moveTileSprite;
-            orderOnLayer = 1;
-            // If there is no character there, we want it to be brighter
-            if (mAContRef.GetCharacterMAByNode(testNode) == null)
-                alpha = 0.6f;
-        }
-        // See if the tile is an attack tile
-        if (isAttackTileVisual)
-        {
-            sprToUse = attackTileSprite;
-            orderOnLayer = 0;
-            // If there is an enemy character there, we want it to be brighter
-            MoveAttack mARef = mAContRef.GetCharacterMAByNode(testNode);
-            if (mARef != null)
-            {
-                if ((mARef.WhatAmI == CharacterType.Enemy && this.WhatAmI == CharacterType.Ally) ||
-                    (mARef.WhatAmI == CharacterType.Ally && this.WhatAmI == CharacterType.Enemy))
-                {
-                    alpha = 0.6f;
-                }
-            }
-        }
-        // See if the tile is neither
-        if (!isMoveTileVisual && !isAttackTileVisual)
-        {
-            return;
-        }
-
-        // Create the tile, set it as a child of rangeVisualParent, and place it in a localPosition determined by the passed in values
-        GameObject newTile = new GameObject("RangeVisual" + x + " " + y);
-        newTile.transform.parent = parent;
-        newTile.transform.localPosition = new Vector2(x, y);
-        // Attach a sprite renderer to the object, put the correct sprite on it, place it in the correct sorting layer, and give it an order
-        SpriteRenderer sprRend = newTile.AddComponent<SpriteRenderer>();
-        sprRend.sprite = sprToUse;
-        sprRend.sortingLayerName = visualSortingLayer;
-        sprRend.sortingOrder = orderOnLayer;
-
-        sprRend.color = new Color(sprRend.color.r, sprRend.color.g, sprRend.color.b, alpha);
     }
 
     /// <summary>

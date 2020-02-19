@@ -112,7 +112,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
 
         // Reset this enemies movement
         // We do this by calling create visual tiles because it does everything we want and a bit more
-        mAContRef.CreateAllVisualTiles();
+        //NEEDTOFIXmAContRef.CreateAllVisualTiles();
 
         // Get the node this character should try to attack and the node this character should move to
         curAttackNodePos = FindDesiredAttackNode(currentEnemy);

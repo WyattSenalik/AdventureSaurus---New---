@@ -210,7 +210,7 @@ public class MoveAttackGUIController : MonoBehaviour
     public void AllowSelect()
     {
         // Recalculate all the visual tiles for the characters
-        mAContRef.CreateAllVisualTiles();
+        //NEEDTOFIXmAContRef.CreateAllVisualTiles();
 
         // If the user still has someone selected, show their new active visuals
         if (charSelected != null)
@@ -263,7 +263,7 @@ public class MoveAttackGUIController : MonoBehaviour
         // and recalculate that character's movement tiles, displaying them afterwards
         charSelected.MoveTiles = attackMoveTiles;
         charSelected.AttackTiles = new List<Node>();
-        charSelected.CreateVisualTiles(true);
+        //NEEDS TO BE FIXEDcharSelected.CreateVisualTiles(true);
         awaitingChoice = true;  // Used in Update
     }
 
@@ -293,7 +293,7 @@ public class MoveAttackGUIController : MonoBehaviour
             // Recalculate where the unit can move and attack, then reapply those changes to the unit
             charSelected.CalcMoveTiles();
             charSelected.CalcAttackTiles();
-            charSelected.CreateVisualTiles(false);
+            //NEEDS TO BE FIXEDcharSelected.CreateVisualTiles(false);
             // Get rid of the enemy's node we were trying to attack
             nodeToAttack = null;
             // Deselect the ally unit
