@@ -16,7 +16,14 @@ public class MoveAttackController : MonoBehaviour
     }
     [SerializeField] private Transform wallParent = null;   // Parent of all wall objects
     [SerializeField] private Transform charParent = null;   // Parent of all character (ally and enemy) objects
-    private List<List<Node>> grid;  // The movement grid the characters are situated on
+    private List<MoveAttack> allyMA;    // References to all the allies MoveAttack scripts
+    private List<MoveAttack> enemyMA;   // References to all the allies MoveAttack script
+    private List<List<Node>> grid;  // The movement grid the characters are situated on\
+
+    // For creating the visuals of move/attack tiles
+    [SerializeField] private Sprite moveTileSprite = null;      // The sprite that will be put on the visual move tile
+    [SerializeField] private Sprite attackTileSprite = null;    // The sprite that will be put on the visual attack tile
+    [SerializeField] private string visualSortingLayer = "Default"; // The sorting layer that the tiles will be put on
 
     /// <summary>
     /// We have to wait for characters to set all their references first, so we go in start
@@ -64,9 +71,27 @@ public class MoveAttackController : MonoBehaviour
     /// </summary>
     private void FindCharacters()
     {
+        // Initialize the lists
+        allyMA = new List<MoveAttack>();
+        enemyMA = new List<MoveAttack>();
+
+        // Iterate over all characters
         foreach (Transform character in charParent)
         {
-            UpdateGrid(character, character.GetComponent<MoveAttack>().WhatAmI);
+            MoveAttack charMA = character.GetComponent<MoveAttack>();
+            // If the character has no MoveAttack script
+            if (charMA == null)
+            {
+                Debug.Log(character.name + " has no MoveAttack script attached to it");
+                continue;
+            }
+            UpdateGrid(character, charMA.WhatAmI);
+
+            // Add the characters to their proper list
+            if (charMA.WhatAmI == CharacterType.Ally)
+                allyMA.Add(charMA);
+            else if (charMA.WhatAmI == CharacterType.Enemy)
+                enemyMA.Add(charMA);
         }
     }
 
@@ -91,10 +116,183 @@ public class MoveAttackController : MonoBehaviour
         foreach (Transform character in charParent)
         {
             MoveAttack mARef = character.GetComponent<MoveAttack>();
+            if (mARef == null)
+            {
+                Debug.Log(character.name + " has no MoveAttack script attached to it");
+                continue;
+            }
             mARef.CalcMoveTiles();
             mARef.CalcAttackTiles();
-            mARef.CreateVisualTiles(false);
+            InitializeVisualTiles(mARef);
         }
+    }
+
+    /// <summary>
+    /// Generates the visuals for movement and attack. Called once at the start of the game
+    /// </summary>
+    public void InitializeVisualTiles(MoveAttack character)
+    {
+        // Create the actual game object
+        GameObject rangeVisualParent = new GameObject("RangeVisualParent");
+        rangeVisualParent.SetActive(false);
+        rangeVisualParent.transform.parent = character.transform;
+        rangeVisualParent.transform.localPosition = Vector3.zero;
+
+        // Make the first movement tile under the character
+        CreateSingleVisualTile(0, 0, rangeVisualParent.transform, character);
+        // Make the rest of the movement tiles around the character
+        for (int i = 1; i <= character.MoveRange; ++i)
+        {
+            // Create a new child to serve as the parent for all the tiles about to be made
+            GameObject tilesParent = new GameObject("VisualMoveTile" + i + " Parent");
+            tilesParent.transform.parent = rangeVisualParent.transform;
+            tilesParent.transform.localPosition = Vector3.zero;
+
+            Vector2Int placementPos = new Vector2Int(i, 0);
+            // Go down, left
+            while (placementPos.x > 0)
+            {
+                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform, character);
+                placementPos.x -= 1;
+                placementPos.y -= 1;
+            }
+            // Go up, left
+            while (placementPos.y < 0)
+            {
+                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform, character);
+                placementPos.x -= 1;
+                placementPos.y += 1;
+            }
+            // Go up, right
+            while (placementPos.x < 0)
+            {
+                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform, character);
+                placementPos.x += 1;
+                placementPos.y += 1;
+            }
+            // Go down, right
+            while (placementPos.y > 0)
+            {
+                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform, character);
+                placementPos.x += 1;
+                placementPos.y -= 1;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Creates one visual tile for the visual tiles of this character
+    /// </summary>
+    /// <param name="x">X component of this tiles localPosition</param>
+    /// <param name="y">Y component of this tiles localPosition</param>
+    /// <param name="parent">What will be the parent of the newly created tile</param>
+    private void CreateSingleVisualMoveTile(int x, int y, Transform parent, MoveAttack charMA, bool isMoveTile)
+    {
+        // Get the tile in question
+        Vector2Int tileGridPos = new Vector2Int(Mathf.RoundToInt(charMA.transform.position.x + x), Mathf.RoundToInt(charMA.transform.position.y + y));
+        Node testNode = GetNodeAtPosition(tileGridPos);
+        if (testNode == null)
+            return;
+
+
+        // Initialize the variables that will change depending on if this is a move tile or an attack tile
+        Sprite sprToUse = null;
+        int orderOnLayer = -1;
+
+        // Make a move tile and attack tile at the location
+        if (isMoveTile)
+        {
+            sprToUse = moveTileSprite;
+            orderOnLayer = 1;
+
+            // Create the tile, set it as a child of rangeVisualParent, and place it in a localPosition determined by the passed in values
+            GameObject newTile = new GameObject("RangeVisual" + x + " " + y);
+            newTile.transform.parent = parent;
+            newTile.transform.localPosition = new Vector2(x, y);
+            // Attach a sprite renderer to the object, put the correct sprite on it, place it in the correct sorting layer, and give it an order
+            SpriteRenderer sprRend = newTile.AddComponent<SpriteRenderer>();
+            sprRend.sprite = sprToUse;
+            sprRend.sortingLayerName = visualSortingLayer;
+            sprRend.sortingOrder = orderOnLayer;
+
+            sprRend.color = new Color(sprRend.color.r, sprRend.color.g, sprRend.color.b, 0.6f);
+        }
+        // Otherwise, its an 
+        /*
+        // Initialize the variables that will change depending on if this is a move tile or an attack tile
+        Sprite sprToUse = null;
+        int orderOnLayer = -1;
+        float alpha = 0.2f;
+
+        // See if the tile is a move tile
+        if (isMoveTileVisual)
+        {
+            isAttackTileVisual = false; // Can't be both attack and move
+            sprToUse = moveTileSprite;
+            orderOnLayer = 1;
+            // If there is no character there, we want it to be brighter
+            if (mAContRef.GetCharacterMAByNode(testNode) == null)
+                alpha = 0.6f;
+        }
+        // See if the tile is an attack tile
+        if (isAttackTileVisual)
+        {
+            sprToUse = attackTileSprite;
+            orderOnLayer = 0;
+            // If there is an enemy character there, we want it to be brighter
+            MoveAttack mARef = mAContRef.GetCharacterMAByNode(testNode);
+            if (mARef != null)
+            {
+                if ((mARef.WhatAmI == CharacterType.Enemy && this.WhatAmI == CharacterType.Ally) ||
+                    (mARef.WhatAmI == CharacterType.Ally && this.WhatAmI == CharacterType.Enemy))
+                {
+                    alpha = 0.6f;
+                }
+            }
+        }
+        // See if the tile is neither
+        if (!isMoveTileVisual && !isAttackTileVisual)
+        {
+            return;
+        }
+
+        // Create the tile, set it as a child of rangeVisualParent, and place it in a localPosition determined by the passed in values
+        GameObject newTile = new GameObject("RangeVisual" + x + " " + y);
+        newTile.transform.parent = parent;
+        newTile.transform.localPosition = new Vector2(x, y);
+        // Attach a sprite renderer to the object, put the correct sprite on it, place it in the correct sorting layer, and give it an order
+        SpriteRenderer sprRend = newTile.AddComponent<SpriteRenderer>();
+        sprRend.sprite = sprToUse;
+        sprRend.sortingLayerName = visualSortingLayer;
+        sprRend.sortingOrder = orderOnLayer;
+
+        sprRend.color = new Color(sprRend.color.r, sprRend.color.g, sprRend.color.b, alpha);
+        */
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="pos"></param>
+    /// <param name="sprToUse"></param>
+    /// <param name="orderOnLayer"></param>
+    private void SpawnVisualTile(Transform parent, Vector2 pos, Sprite sprToUse, int orderOnLayer)
+    {
+        sprToUse = moveTileSprite;
+        orderOnLayer = 1;
+
+        // Create the tile, set it as a child of rangeVisualParent, and place it in a localPosition determined by the passed in values
+        GameObject newTile = new GameObject("RangeVisual" + pos.x + " " + pos.y);
+        newTile.transform.parent = parent;
+        newTile.transform.localPosition = new Vector2(pos.x, pos.y);
+        // Attach a sprite renderer to the object, put the correct sprite on it, place it in the correct sorting layer, and give it an order
+        SpriteRenderer sprRend = newTile.AddComponent<SpriteRenderer>();
+        sprRend.sprite = sprToUse;
+        sprRend.sortingLayerName = visualSortingLayer;
+        sprRend.sortingOrder = orderOnLayer;
+
+        sprRend.color = new Color(sprRend.color.r, sprRend.color.g, sprRend.color.b, 0.6f);
     }
 
     /// <summary>
