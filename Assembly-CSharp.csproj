@@ -63,9 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\CamFollow.cs" />
-    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Floor.cs" />
-    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\FTile.cs" />
-    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Health.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\EnemyMoveAttackAI.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\InputController.cs" />
@@ -77,8 +74,6 @@
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Skill\Skill.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Stats.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\TurnSystem.cs" />
-    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Wall.cs" />
-    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\WallTile.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Unity Projects (Local)/AdventureSaurus - new - Copy/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
