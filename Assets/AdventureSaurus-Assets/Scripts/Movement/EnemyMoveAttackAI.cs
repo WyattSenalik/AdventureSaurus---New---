@@ -153,7 +153,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
                 return allyNode.position;
             }
         }
-        Debug.Log("No ally in range");
+        //Debug.Log("No ally in range");
         // If there is no ally in range, we don't want to attack anything with a character on it, so we return a position not on the grid
         return new Vector2Int(mAContRef.GridTopLeft.x - 1, 0);
     }
@@ -231,10 +231,29 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// Finds the closest ally to the current enemy
     /// </summary>
     /// <returns>Returns the node that the closest ally is on</returns>
-    private Node FindAllyOutOfRange(int maxDepth = 12)
+    private Node FindAllyOutOfRange(int maxDepth = 8)
     {
         // Get the node the current enemy is at
         Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+
+        // Find the allies, and see if they are more than maxDepth grid units away anyway
+        // If they are, we just return null
+        bool allyIsClose = false;
+        foreach (MoveAttack ally in alliesMA)
+        {
+            Node allyNode = mAContRef.GetNodeByWorldPosition(ally.transform.position);
+            if (Mathf.Abs(startNode.position.x - allyNode.position.x) + Mathf.Abs(startNode.position.y - allyNode.position.y) <= maxDepth)
+            {
+                allyIsClose = true;
+                break;
+            }
+        }
+        if (!allyIsClose)
+        {
+            //Debug.Log("No ally is close");
+            return null;
+        }
+
         // Initialize the list and add the current node as the start node
         List<Node> alreadyTestedNodes = new List<Node>();    // The nodes that have been tested already
         List<Node> currentNodes = new List<Node>(); // The nodes we have yet to test

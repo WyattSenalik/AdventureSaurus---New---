@@ -457,7 +457,7 @@ public class MoveAttack : MonoBehaviour
         // This occurs when an enemy isn't close enough to an ally to attack. Call end attack and don't start playing an animation
         else
         {
-            Debug.Log("Node to attack does not exist");
+            //Debug.Log("Node to attack does not exist");
             EndAttack();
             return;
         }
@@ -514,7 +514,7 @@ public class MoveAttack : MonoBehaviour
             // We should not attack anything, so set attack animation to 0
             animRef.SetInteger("AttackDirection", 0);
 
-            Debug.Log("There was no enemy to attack");
+            //Debug.Log("There was no enemy to attack");
             // If this character is an enemy, have the next enemy attack
             if (whatAmI == CharacterType.Enemy)
             {

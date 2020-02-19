@@ -223,7 +223,7 @@ public class MoveAttackController : MonoBehaviour
         }
         else
         {
-            Debug.Log("You cannot move here, it is occupied by " + endNode.occupying);
+            //Debug.Log("You cannot move here, it is occupied by " + endNode.occupying);
             return false;   // Was an invalid node
         }
     }

@@ -42,15 +42,6 @@ public class TurnSystem : MonoBehaviour
         stop = true;
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0) && stop)
-        {
-            StartEnemyTurn();
-            stop = false;
-        }
-    }
-
     /// <summary>
     /// Called from EnemyMoveAttackAI after all enemies have moved
     /// </summary>
