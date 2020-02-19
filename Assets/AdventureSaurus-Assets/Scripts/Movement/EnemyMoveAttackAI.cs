@@ -111,6 +111,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         }
 
         // Reset this enemies movement
+        // We do this by calling create visual tiles because it does everything we want and a bit more
         mAContRef.CreateAllVisualTiles();
 
         // Get the node this character should try to attack and the node this character should move to
@@ -152,7 +153,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
                 return allyNode.position;
             }
         }
-
+        Debug.Log("No ally in range");
         // If there is no ally in range, we don't want to attack anything with a character on it, so we return a position not on the grid
         return new Vector2Int(mAContRef.GridTopLeft.x - 1, 0);
     }
@@ -186,11 +187,13 @@ public class EnemyMoveAttackAI : MonoBehaviour
         {
             // Get the potential nodes that the enemy would be able to attack the ally from
             List<Node> potentialMoveTiles = mAContRef.GetNodesDistFromNode(nodeToAttack, enemy.AttackRange);
+            // The node we are currently on is not in MoveAttack's move tile, so we must test for that separately
+            Node currentNode = mAContRef.GetNodeByWorldPosition(enemy.transform.position);
             // Iterate over the potenital nodes until we find one that we can move to
             foreach (Node node in potentialMoveTiles)
             {
                 // Once we find one, return it
-                if (enemy.MoveTiles.Contains(node) && node.occupying == CharacterType.None)
+                if ((enemy.MoveTiles.Contains(node) && node.occupying == CharacterType.None) || (node == currentNode))
                 {
                     //Debug.Log("Found node to move to " + node.position);
                     return node;
@@ -205,6 +208,11 @@ public class EnemyMoveAttackAI : MonoBehaviour
         {
             // If we have no ally to attack, we need to find the closest ally to me and move as close to them as possible
             Node closestAllyNode = FindAllyOutOfRange();
+            // If there are no closest allies, we just should move
+            if (closestAllyNode == null)
+            {
+                return mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+            }
             // Find the path to that ally, we don't care about if we can actually move there in this case
             mAContRef.ResetPathing();
             mAContRef.Pathing(closestAllyNode, CharacterType.Enemy, false);

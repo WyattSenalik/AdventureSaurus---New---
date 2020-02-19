@@ -437,6 +437,8 @@ public class MoveAttack : MonoBehaviour
     /// </summary>
     public void StartAttack(Vector2Int attackNodePos)
     {
+        // We have attacked
+        hasAttacked = true;
         // We have to set the enemy to attack, we just need to validate a bit first
         Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
         if (nodeToAttack != null)
@@ -452,9 +454,12 @@ public class MoveAttack : MonoBehaviour
             else
                 Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
         }
+        // This occurs when an enemy isn't close enough to an ally to attack. Call end attack and don't start playing an animation
         else
         {
-            //Debug.Log("Node to attack does not exist");
+            Debug.Log("Node to attack does not exist");
+            EndAttack();
+            return;
         }
 
         int attackDirection = -1;
@@ -485,51 +490,41 @@ public class MoveAttack : MonoBehaviour
 
         //Debug.Log("Start Attack");
         animRef.SetInteger("AttackDirection", attackDirection);
-        hasAttacked = true;
     }
 
     /// <summary>
-    /// Stops the attack animation and lets the player have control again
-    /// If the attack kills the unit, we don't let the user have control again, we wait for them to die for that, same thing for the next enemy.
+    /// Stops the attack animation and lets the player have control again if there was no enemy to hit
     /// </summary>
     public void EndAttack()
     {
-        // Start attacking animation
-        animRef.SetInteger("AttackDirection", -animRef.GetInteger("AttackDirection"));
         //Debug.Log("Finished Attacking");
 
-        bool isFatal = false;   // If the attack will kill
         // Validate that we have an enemy to attack
         if (enemyHP != null)
         {
-            // Find out if the attack will kill
-            isFatal = false;
-            if (enemyHP.CurHP - dmgToDeal <= 0)
-            {
-                isFatal = true;
-            }
+            // Start attacking animation
+            animRef.SetInteger("AttackDirection", -animRef.GetInteger("AttackDirection"));
             // Deal the damage and get rid of our reference to the enemyHP
             enemyHP.TakeDamage(dmgToDeal);
-            enemyHP = null;//
+            enemyHP = null;
         }
+        // If we have no enemy to attack, give back control to the proper authority
         else
         {
-            //Debug.Log("There was no enemy to attack");
-        }
+            // We should not attack anything, so set attack animation to 0
+            animRef.SetInteger("AttackDirection", 0);
 
-        // If we did kill the unit, then don't allow for select or allow the next enemy to move yet
-        if (!isFatal)
-        {
-            // If the character is an ally, then we have to allow the user to select again
+            Debug.Log("There was no enemy to attack");
+            // If this character is an enemy, have the next enemy attack
+            if (whatAmI == CharacterType.Enemy)
+            {
+                enMAAIRef.NextEnemy();
+            }
+            // If this character is an ally, give back control to the user
             if (whatAmI == CharacterType.Ally)
             {
                 mAGUIContRef.AllowSelect();
                 turnSysRef.IsPlayerDone();
-            }
-            // If the character is an enemy, then we have to tell the enemy AI script to move the next enemy
-            if (whatAmI == CharacterType.Enemy)
-            {
-                enMAAIRef.NextEnemy();
             }
         }
     }
