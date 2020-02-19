@@ -135,10 +135,8 @@ public class MoveAttack : MonoBehaviour
     /// </summary>
     public void CalcMoveTiles()
     {
-        // Convert my position, to the grid format of Vec2Int
-        Vector2Int myGridPos = new Vector2Int(Mathf.RoundToInt(this.transform.position.x), Mathf.RoundToInt(this.transform.position.y));
-        // Use that grid position to get the node I'm on
-        Node myNode = mAContRef.GetNodeAtPosition(myGridPos);
+        // Use that my position to get the node I'm on
+        Node myNode = mAContRef.GetNodeByWorldPosition(this.transform.position);
         // Find the valid move tiles and save them
         moveTiles = mAContRef.GetValidMovementNodes(myNode, moveRange, whatAmI);
     }
@@ -293,7 +291,7 @@ public class MoveAttack : MonoBehaviour
     {
         //Debug.Log("Start Moving");
         // Assumes transToMove is on the grid
-        currentNode = mAContRef.GetNodeAtPosition(new Vector2Int(Mathf.RoundToInt(this.gameObject.transform.position.x), Mathf.RoundToInt(this.gameObject.transform.position.y)));
+        currentNode = mAContRef.GetNodeByWorldPosition(this.gameObject.transform.position);
         if (currentNode != null)
         {
             //Debug.Log("currentNode at " + currentNode.position + " wants to move to the node at " + currentNode.whereToGo.position);

@@ -144,14 +144,12 @@ public class EnemyMoveAttackAI : MonoBehaviour
         foreach (MoveAttack ally in alliesMA)
         {
             // Get that ally's node
-            Vector3 allyWorldPos = ally.transform.position;
-            Vector2Int allyGridPos = new Vector2Int(Mathf.RoundToInt(allyWorldPos.x), Mathf.RoundToInt(allyWorldPos.y));
-            Node allyNode = mAContRef.GetNodeAtPosition(allyGridPos);
+            Node allyNode = mAContRef.GetNodeByWorldPosition(ally.transform.position);
             // If that ally's node is in this enemy's move tiles, they are in range, so that is the node we want to reach
             if (enemy.MoveTiles.Contains(allyNode) || enemy.AttackTiles.Contains(allyNode))
             {
                 //Debug.Log("Found ally to attack at " + allyGridPos);
-                return allyGridPos;
+                return allyNode.position;
             }
         }
 
@@ -169,6 +167,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         {
             return;
         }
+        // Otherwise attack it
         currentEnemy.StartAttack(curAttackNodePos);
     }
 
@@ -209,10 +208,8 @@ public class EnemyMoveAttackAI : MonoBehaviour
             // Find the path to that ally, we don't care about if we can actually move there in this case
             mAContRef.ResetPathing();
             mAContRef.Pathing(closestAllyNode, CharacterType.Enemy, false);
-            // Get where the node the enemy is currently on
-            Vector3 curEnWorldPos = currentEnemy.transform.position;
-            Vector2Int curEnGridPos = new Vector2Int(Mathf.RoundToInt(curEnWorldPos.x), Mathf.RoundToInt(curEnWorldPos.y));
-            Node desiredNode = mAContRef.GetNodeAtPosition(curEnGridPos);
+            // Get the node the enemy is currently on
+            Node desiredNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
             // Use the new pathing and the current enemies movement range to determine where we should move
             for (int i = 0; i < currentEnemy.MoveRange; ++i)
             {
@@ -225,61 +222,59 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// <summary>
     /// Finds the closest ally to the current enemy
     /// </summary>
-    /// <returns>Returns the node that ally is on</returns>
+    /// <returns>Returns the node that the closest ally is on</returns>
     private Node FindAllyOutOfRange()
     {
         // Get the node the current enemy is at
-        Vector3 curEnWorldPos = currentEnemy.transform.position;
-        Vector2Int curEnGridPos = new Vector2Int(Mathf.RoundToInt(curEnWorldPos.x), Mathf.RoundToInt(curEnWorldPos.y));
-        Node startNode = mAContRef.GetNodeAtPosition(curEnGridPos);
+        Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
         // Initialize the list and add the current node as the start node
         List<Node> alreadyTestedNodes = new List<Node>();    // The nodes that have been tested already
         List<Node> currentNodes = new List<Node>(); // The nodes we have yet to test
         currentNodes.Add(startNode);
+        // While we haven't explored all the nodes yet
         while (currentNodes.Count != 0)
         {
-            int amountToTest = currentNodes.Count;
+            Vector2Int inProgNodePos = currentNodes[0].position; // For quick reference
 
-            for (int i = 0; i < amountToTest; ++i)
+            // Check above node
+            Vector2Int testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y + 1);
+            Node testNode = mAContRef.GetNodeAtPosition(testPos);
+            // If we find an ally, return the node that ally is at
+            if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
             {
-                Vector2Int inProgNodePos = currentNodes[0].position; // For quick reference
-
-                // Check above node
-                Vector2Int testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y + 1);
-                Node testNode = mAContRef.GetNodeAtPosition(testPos);
-                if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
-                {
-                    return testNode;
-                }
-
-                // Check left node
-                testPos = new Vector2Int(inProgNodePos.x - 1, inProgNodePos.y);
-                testNode = mAContRef.GetNodeAtPosition(testPos);
-                if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
-                {
-                    return testNode;
-                }
-
-                // Check right node
-                testPos = new Vector2Int(inProgNodePos.x + 1, inProgNodePos.y);
-                testNode = mAContRef.GetNodeAtPosition(testPos);
-                if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
-                {
-                    return testNode;
-                }
-
-                // Check down node
-                testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y - 1);
-                testNode = mAContRef.GetNodeAtPosition(testPos);
-                if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
-                {
-                    return testNode;
-                }
-
-                // Add the node we just tested to the already tested nodes and remove it from the current nodes
-                alreadyTestedNodes.Add(currentNodes[0]);
-                currentNodes.RemoveAt(0);
+                return testNode;
             }
+
+            // Check left node
+            testPos = new Vector2Int(inProgNodePos.x - 1, inProgNodePos.y);
+            testNode = mAContRef.GetNodeAtPosition(testPos);
+            // If we find an ally, return the node that ally is at
+            if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
+            {
+                return testNode;
+            }
+
+            // Check right node
+            testPos = new Vector2Int(inProgNodePos.x + 1, inProgNodePos.y);
+            testNode = mAContRef.GetNodeAtPosition(testPos);
+            // If we find an ally, return the node that ally is at
+            if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
+            {
+                return testNode;
+            }
+
+            // Check down node
+            testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y - 1);
+            testNode = mAContRef.GetNodeAtPosition(testPos);
+            // If we find an ally, return the node that ally is at
+            if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
+            {
+                return testNode;
+            }
+
+            // Add the node we just tested to the already tested nodes and remove it from the current nodes
+            alreadyTestedNodes.Add(currentNodes[0]);
+            currentNodes.RemoveAt(0);
         }
         // Found no allies on the map
         return null;

@@ -122,6 +122,18 @@ public class MoveAttackController : MonoBehaviour
     }
 
     /// <summary>
+    /// Accepts the world position of an object and returns what node is closest to that. If it's too far, null is returned.
+    /// </summary>
+    /// <param name="worldPos">The world position of the object as a Vector3</param>
+    /// <returns>Node closest to worldPos, or null if its too far</returns>
+    public Node GetNodeByWorldPosition(Vector3 worldPos)
+    {
+        // Cast the position to grid position
+        Vector2Int curEnGridPos = new Vector2Int(Mathf.RoundToInt(worldPos.x), Mathf.RoundToInt(worldPos.y));
+        return GetNodeAtPosition(curEnGridPos);
+    }
+
+    /// <summary>
     /// Finds if there is a character at the specified node. Returns a reference to that character's MoveAttack script
     /// </summary>
     /// <param name="testNode">The node that is being tested to see if there is a character there</param>

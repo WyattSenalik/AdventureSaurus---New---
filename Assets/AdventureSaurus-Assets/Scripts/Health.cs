@@ -9,7 +9,7 @@ public class Health : MonoBehaviour
     [SerializeField] private Transform frameHealthBar = null;   // The transform that holds the sprite of the outline of the health
     [SerializeField] private GameObject rightRedBit = null;     // The rid bit on the right side of the health bar
     [SerializeField] private GameObject leftRedBit = null;      // The rid bit on the left side of the health bar
-    [SerializeField] private float redBarOffset = 0;    // The offset for the red health bar to be at
+    [SerializeField] private float redBarOffset = 0.0625f;      // The offset for the red health bar to be at
     private int maxHP;  // Maximum health of the character
     public int MaxHP
     {
@@ -166,8 +166,7 @@ public class Health : MonoBehaviour
     private void Ascend()
     {
         // Since this is done, we need to let other character move to where this just was
-        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(this.transform.position.x), Mathf.RoundToInt(this.transform.position.y));
-        Node myNode = mAContRef.GetNodeAtPosition(gridPos);
+        Node myNode = mAContRef.GetNodeByWorldPosition(this.transform.position);
         myNode.occupying = CharacterType.None;
         // We need to move this character out from the character's parent before we recalculate the visuals, or this will be included in those calculaiton
         GameObject graveyard = new GameObject("Graveyard");

@@ -35,6 +35,7 @@ public class MoveAttackGUIController : MonoBehaviour
     }
 
     // Update is called once per frame
+    // We use it to test for input and take the appropriate action
     private void Update()
     {
         // If the user can select things right now
@@ -146,8 +147,7 @@ public class MoveAttackGUIController : MonoBehaviour
             // Once they select, move the character there and make them attack the enemy
             else if (charSelected.AttackTiles.Contains(selNode) && charAtNode != null && charAtNode.WhatAmI == CharacterType.Enemy)
             {
-                Vector2Int attackPos = new Vector2Int(Mathf.RoundToInt(charAtNode.gameObject.transform.position.x), Mathf.RoundToInt(charAtNode.gameObject.transform.position.y));
-                nodeToAttack = mAContRef.GetNodeAtPosition(attackPos);
+                nodeToAttack = mAContRef.GetNodeByWorldPosition(charAtNode.transform.position);
                 OfferMoveAttackOption(selNode);
             }
             // If neither, just deselect them
