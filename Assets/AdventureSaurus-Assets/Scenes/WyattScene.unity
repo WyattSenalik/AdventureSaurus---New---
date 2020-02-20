@@ -1372,6 +1372,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charIsSelected: {fileID: 0}
+  select1: {fileID: 0}
+  select2: {fileID: 0}
+  select3: {fileID: 0}
   attackRange: 1
   whatAmI: 2
   transSpeed: 4
@@ -1929,6 +1933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16198c1a4a73d504dbea5adf3b71866c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endTurnButtonObj: {fileID: 1580259516}
 --- !u!114 &314060240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3665,6 +3670,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charIsSelected: {fileID: 0}
+  select1: {fileID: 0}
+  select2: {fileID: 0}
+  select3: {fileID: 0}
   attackRange: 1
   whatAmI: 2
   transSpeed: 4
@@ -4480,6 +4489,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charIsSelected: {fileID: 0}
+  select1: {fileID: 0}
+  select2: {fileID: 0}
+  select3: {fileID: 0}
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
@@ -5952,6 +5965,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charIsSelected: {fileID: 0}
+  select1: {fileID: 0}
+  select2: {fileID: 0}
+  select3: {fileID: 0}
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
@@ -11978,6 +11995,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charIsSelected: {fileID: 0}
+  select1: {fileID: 0}
+  select2: {fileID: 0}
+  select3: {fileID: 0}
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
@@ -13082,6 +13103,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charIsSelected: {fileID: 0}
+  select1: {fileID: 0}
+  select2: {fileID: 0}
+  select3: {fileID: 0}
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
@@ -13425,6 +13450,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charIsSelected: {fileID: 0}
+  select1: {fileID: 0}
+  select2: {fileID: 0}
+  select3: {fileID: 0}
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
@@ -15324,6 +15353,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charIsSelected: {fileID: 0}
+  select1: {fileID: 0}
+  select2: {fileID: 0}
+  select3: {fileID: 0}
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
@@ -16742,6 +16775,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charIsSelected: {fileID: 0}
+  select1: {fileID: 0}
+  select2: {fileID: 0}
+  select3: {fileID: 0}
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
@@ -16896,6 +16933,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charIsSelected: {fileID: 0}
+  select1: {fileID: 0}
+  select2: {fileID: 0}
+  select3: {fileID: 0}
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
