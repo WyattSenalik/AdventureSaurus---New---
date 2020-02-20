@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class MoveAttack : MonoBehaviour
 {
+    public MoveAttackGUIController charIsSelected;
+    public p1 select1;
+    public p2 select2;
+    public p3 select3;
+
     private int moveRange;  // How many tiles this character can move
     public int MoveRange
     {
@@ -38,6 +43,9 @@ public class MoveAttack : MonoBehaviour
         get { return attackTiles; }
         set { attackTiles = value; }
     }
+
+    
+
 
     // For actual movement calculations/animations
     [SerializeField] private float transSpeed = 4;  // Speed the character moves to transition from one tile to another
@@ -178,7 +186,29 @@ public class MoveAttack : MonoBehaviour
             Move();
         }
     }
-
+    //gonna fix later
+    /*
+    private void FixedUpdate()
+    {
+        if (charIsSelected.areSelected == true)
+        {
+            
+            if (select1)
+            {
+                select1.p1Select = true;
+            }
+            else if (select2)
+            {
+                select2.p2Select = true;
+            }
+            else if (select3)
+            {
+                select3.p3Select = true;
+            }
+            charIsSelected.areSelected = false;
+        }
+    }
+    */
     /// <summary>
     /// Moves the object slightly towards the next tile. Called every frame this place can transition
     /// Also plays the correct animations
@@ -413,3 +443,5 @@ public class MoveAttack : MonoBehaviour
         hasMoved = false;
     }
 }
+
+ 
