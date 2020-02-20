@@ -31,7 +31,9 @@ public class CamFollow : MonoBehaviour
 
     //allows access to TurnSystem
     public TurnSystem turn;
-
+    public p1 select1;
+    public p2 select2;
+    public p3 select3;
 
 
     void Awake()
@@ -68,7 +70,23 @@ public class CamFollow : MonoBehaviour
                 turn.playerTurn = false;
             }
         }
-
+        /*
+        if (select1.p1Select == true)
+        {
+            player1Cam();
+            select1.p1Select = false;
+        }
+        if (select2.p2Select == true)
+        {
+            player2Cam();
+            select2.p2Select = false;
+        }
+        if (select3.p3Select == true)
+        {
+            player3Cam();
+            select3.p3Select = false;
+        }
+        */
         //defaults to follow player1 if no actions to change camera 
 
 
