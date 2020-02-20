@@ -1170,13 +1170,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181546986}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: 0}
+  m_LocalPosition: {x: 2, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1979834764}
   - {fileID: 1188475597}
   m_Father: {fileID: 703480826}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &181546988
 SpriteRenderer:
@@ -1242,7 +1242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 1
   magic: 0
-  speed: 3
+  speed: 2
   defense: 2
   vitality: 4
 --- !u!95 &181546990
@@ -1278,8 +1278,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redHealthBar: {fileID: 1480923689}
   frameHealthBar: {fileID: 2095443835}
-  rightRedBit: {fileID: 578357095}
-  leftRedBit: {fileID: 911983931}
   redBarOffset: 0.0625
 --- !u!114 &181546992
 MonoBehaviour:
@@ -2504,6 +2502,7 @@ Transform:
   - {fileID: 724305825}
   - {fileID: 163434133}
   - {fileID: 666985967}
+  - {fileID: 1201059653}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3409,7 +3408,7 @@ Transform:
   - {fileID: 1270996494}
   - {fileID: 1788519709}
   m_Father: {fileID: 703480826}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &625843696
 Animator:
@@ -3511,8 +3510,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redHealthBar: {fileID: 957270734}
   frameHealthBar: {fileID: 570819797}
-  rightRedBit: {fileID: 1349457368}
-  leftRedBit: {fileID: 8308545}
   redBarOffset: 0.0625
 --- !u!114 &625843700
 MonoBehaviour:
@@ -3954,9 +3951,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 751729088}
   - {fileID: 181546987}
   - {fileID: 625843695}
+  - {fileID: 751729088}
   - {fileID: 2044484868}
   - {fileID: 2057508431}
   - {fileID: 1571419403}
@@ -4226,7 +4223,7 @@ Transform:
   - {fileID: 1872965979}
   - {fileID: 1344788484}
   m_Father: {fileID: 703480826}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &751729089
 Animator:
@@ -4328,8 +4325,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redHealthBar: {fileID: 1451728144}
   frameHealthBar: {fileID: 2098384287}
-  rightRedBit: {fileID: 926604789}
-  leftRedBit: {fileID: 606462468}
   redBarOffset: 0.0625
 --- !u!114 &751729093
 MonoBehaviour:
@@ -5723,8 +5718,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redHealthBar: {fileID: 154788332}
   frameHealthBar: {fileID: 650089468}
-  rightRedBit: {fileID: 1697170531}
-  leftRedBit: {fileID: 1983176174}
   redBarOffset: 0.0625
 --- !u!114 &1017252445
 MonoBehaviour:
@@ -10464,6 +10457,36 @@ Transform:
   m_Father: {fileID: 456022336}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1201059652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1201059653}
+  m_Layer: 0
+  m_Name: Wall (19)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1201059653
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201059652}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 456022336}
+  m_RootOrder: 114
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1208945612
 GameObject:
   m_ObjectHideFlags: 0
@@ -11518,8 +11541,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redHealthBar: {fileID: 1760628192}
   frameHealthBar: {fileID: 4718773}
-  rightRedBit: {fileID: 1508479047}
-  leftRedBit: {fileID: 396906538}
   redBarOffset: 0.0625
 --- !u!114 &1352924772
 MonoBehaviour:
@@ -12624,8 +12645,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redHealthBar: {fileID: 946315523}
   frameHealthBar: {fileID: 1208945613}
-  rightRedBit: {fileID: 1016830274}
-  leftRedBit: {fileID: 2145940429}
   redBarOffset: 0.0625
 --- !u!114 &1531045651
 MonoBehaviour:
@@ -12840,8 +12859,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redHealthBar: {fileID: 245787224}
   frameHealthBar: {fileID: 1683360426}
-  rightRedBit: {fileID: 1472656612}
-  leftRedBit: {fileID: 1784590054}
   redBarOffset: 0.0625
 --- !u!114 &1571419408
 MonoBehaviour:
@@ -14250,8 +14267,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redHealthBar: {fileID: 1740477566}
   frameHealthBar: {fileID: 1027778836}
-  rightRedBit: {fileID: 781935985}
-  leftRedBit: {fileID: 353020401}
   redBarOffset: 0.0625
 --- !u!114 &1813054339
 MonoBehaviour:
@@ -15464,8 +15479,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redHealthBar: {fileID: 1122307947}
   frameHealthBar: {fileID: 882734752}
-  rightRedBit: {fileID: 2066463629}
-  leftRedBit: {fileID: 37282024}
   redBarOffset: 0.0625
 --- !u!114 &2044484873
 MonoBehaviour:
@@ -15620,8 +15633,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redHealthBar: {fileID: 941631074}
   frameHealthBar: {fileID: 1114351700}
-  rightRedBit: {fileID: 1804262257}
-  leftRedBit: {fileID: 1679374502}
   redBarOffset: 0.0625
 --- !u!114 &2057508436
 MonoBehaviour:

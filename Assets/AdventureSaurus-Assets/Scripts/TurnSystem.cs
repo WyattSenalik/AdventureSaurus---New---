@@ -12,7 +12,6 @@ public class TurnSystem : MonoBehaviour
     [SerializeField] GameObject endTurnButtObj = null;
     private EnemyMoveAttackAI enMAAIRef;
     private MoveAttackGUIController mAGUIContRef;
-    private bool stop;
     public bool enemyTurn, playerTurn;
     private void Awake()
     {
@@ -37,18 +36,6 @@ public class TurnSystem : MonoBehaviour
     void Start()
     {
         state = TurnState.GAMESTOP;//code between GAMESTOP and PLAYERTURN is for setup
-
-
-        stop = true;
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0) && stop)
-        {
-            StartEnemyTurn();
-            stop = false;
-        }
     }
 
     /// <summary>
@@ -59,6 +46,7 @@ public class TurnSystem : MonoBehaviour
     {
         endTurnButtObj.SetActive(true);
         state = TurnState.PLAYERTURN;
+        // We reset the turns of all characters
         foreach(Transform potAlly in CharcterTeam)
         {
             MoveAttack potAllyMA = potAlly.GetComponent<MoveAttack>();
@@ -68,10 +56,7 @@ public class TurnSystem : MonoBehaviour
             }
             else
             {
-                if(potAllyMA.WhatAmI == CharacterType.Ally)
-                {
-                    potAllyMA.ResetMyTurn();
-                }
+                potAllyMA.ResetMyTurn();
             }
         }
 

@@ -7,8 +7,6 @@ public class Health : MonoBehaviour
     // The Bars are assumed to have the same sized sprite attached
     [SerializeField] private Transform redHealthBar = null;     // The transform that holds the sprite of the health
     [SerializeField] private Transform frameHealthBar = null;   // The transform that holds the sprite of the outline of the health
-    [SerializeField] private GameObject rightRedBit = null;     // The rid bit on the right side of the health bar
-    [SerializeField] private GameObject leftRedBit = null;      // The rid bit on the left side of the health bar
     [SerializeField] private float redBarOffset = 0.0625f;      // The offset for the red health bar to be at
     private int maxHP;  // Maximum health of the character
     public int MaxHP

@@ -148,15 +148,6 @@ public class MoveAttack : MonoBehaviour
     }
 
     /// <summary>
-    /// Turns on or off the range visuals for movement and attack for this character
-    /// </summary>
-    /// <param name="shouldTurnOn">Is true, turn on the visuals. If false, turn them off</param>
-    public void SetActiveVisuals(bool shouldTurnOn)
-    {
-        rangeVisualParent.SetActive(shouldTurnOn);
-    }
-
-    /// <summary>
     /// Sets the movement variables to initialize movement of the character
     /// </summary>
     public void StartMove()
@@ -295,6 +286,10 @@ public class MoveAttack : MonoBehaviour
         // If the character is an ally, then we have to allow the user to select again
         if (whatAmI == CharacterType.Ally)
         {
+            // Recalculate move and attack tiles before allowing to select again so that it doesn't look like you can move after moving
+            // We need to recalculate the move and attack tiles
+            CalcMoveTiles();
+            CalcAttackTiles();
             mAGUIContRef.AllowSelect();
         }
         // If the character is an enemy, they need to attempt to attack now
@@ -406,8 +401,13 @@ public class MoveAttack : MonoBehaviour
     /// </summary>
     public void ResetMyTurn()
     {
+        // Reset stats like speed
         Stats myStats = this.gameObject.GetComponent<Stats>();
         myStats.Initialize();
+
+        // We need to recalculate the move and attack tiles
+        CalcMoveTiles();
+        CalcAttackTiles();
 
         hasAttacked = false;
         hasMoved = false;

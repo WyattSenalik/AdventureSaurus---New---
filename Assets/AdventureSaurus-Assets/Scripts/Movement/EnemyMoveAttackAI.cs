@@ -111,8 +111,8 @@ public class EnemyMoveAttackAI : MonoBehaviour
         }
 
         // Reset this enemies movement
-        // We do this by calling create visual tiles because it does everything we want and a bit more
-        //NEEDTOFIXmAContRef.CreateAllVisualTiles();
+        currentEnemy.CalcMoveTiles();
+        currentEnemy.CalcAttackTiles();
 
         // Get the node this character should try to attack and the node this character should move to
         curAttackNodePos = FindDesiredAttackNode(currentEnemy);
@@ -128,7 +128,6 @@ public class EnemyMoveAttackAI : MonoBehaviour
         mAContRef.Pathing(desiredNode, currentEnemy.WhatAmI);
         // Start moving the character
         currentEnemy.StartMove();
-        currentEnemy.SetActiveVisuals(false);
         // Attacking will be called after the enemy has moved
     }
 
@@ -147,7 +146,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
             // Get that ally's node
             Node allyNode = mAContRef.GetNodeByWorldPosition(ally.transform.position);
             // If that ally's node is in this enemy's move tiles, they are in range, so that is the node we want to reach
-            if (enemy.MoveTiles.Contains(allyNode) || enemy.AttackTiles.Contains(allyNode))
+            if (enemy.AttackTiles.Contains(allyNode))
             {
                 //Debug.Log("Found ally to attack at " + allyGridPos);
                 return allyNode.position;

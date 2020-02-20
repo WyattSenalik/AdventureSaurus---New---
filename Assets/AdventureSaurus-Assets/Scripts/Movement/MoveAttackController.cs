@@ -30,10 +30,22 @@ public class MoveAttackController : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        // Create the grid, and find where all the walls and characters are on it
         CreateGrid();
         FindWalls();
         FindCharacters();
-        CreateAllVisualTiles();
+        // Create the visual tiles for each character based on their starting moveRange and attackRange
+        foreach (Transform charTrans in charParent)
+        {
+            MoveAttack mARef = charTrans.GetComponent<MoveAttack>();
+            if (mARef == null)
+            {
+                Debug.Log(charTrans.name + " does not have a MoveAttack script attached to it");
+                continue;
+            }
+            // Create the visual tiles ahead of time
+            CreateVisualTiles(mARef);
+        }
     }
 
     /// <summary>
@@ -111,73 +123,84 @@ public class MoveAttackController : MonoBehaviour
     /// <summary>
     /// Creates the visual tiles for when a character is clicked on
     /// </summary>
-    private void CreateAllVisualTiles()
+    /// <param name="mARef">Reference to the character whose visual tiles will be created</param>
+    private void CreateVisualTiles(MoveAttack mARef)
     {
-        foreach (Transform character in charParent)
+        // Make sure it exists
+        if (mARef == null)
         {
-            MoveAttack mARef = character.GetComponent<MoveAttack>();
-            if (mARef == null)
-            {
-                Debug.Log(character.name + " has no MoveAttack script attached to it");
-                continue;
-            }
-            mARef.CalcMoveTiles();
-            mARef.CalcAttackTiles();
+            Debug.Log(mARef.name + " has no MoveAttack script attached to it");
+            return;
+        }
+        // Calculate its move tiles and attack tiles, then initialize the visual tiles for it
+        mARef.CalcMoveTiles();
+        mARef.CalcAttackTiles();
+        // If it is the first time displaying visuals for this character, we need to make brand new visual tiles
+        if (mARef.rangeVisualParent == null)
+        {
             InitializeVisualTiles(mARef);
+        }
+        // If the character already has the visuals and just needs some of them to be turned on
+        else
+        {
+            SetActiveVisuals(mARef);
         }
     }
 
     /// <summary>
     /// Generates the visuals for movement and attack. Called once at the start of the game
     /// </summary>
-    public void InitializeVisualTiles(MoveAttack character)
+    /// <param name="mARef">Reference to the character we are calculating visual tiles for</param>
+    public void InitializeVisualTiles(MoveAttack mARef)
     {
         // Create the actual game object
-        character.rangeVisualParent = new GameObject("RangeVisualParent");
-        character.rangeVisualParent.SetActive(false);
-        character.rangeVisualParent.transform.parent = character.transform;
-        character.rangeVisualParent.transform.localPosition = Vector3.zero;
-
+        mARef.rangeVisualParent = new GameObject("RangeVisualParent");
+        mARef.rangeVisualParent.transform.parent = mARef.transform;
+        mARef.rangeVisualParent.transform.localPosition = Vector3.zero;
+        // Create two game objects that are chilren of rangeVisualParent to serve as the parents for move and attack
+        GameObject moveTileParent = new GameObject("MoveVisualParent");
+        moveTileParent.transform.parent = mARef.rangeVisualParent.transform;
+        moveTileParent.transform.localPosition = Vector3.zero;
+        GameObject attackTileParent = new GameObject("AttackVisualParent");
+        attackTileParent.transform.parent = mARef.rangeVisualParent.transform;
+        attackTileParent.transform.localPosition = Vector3.zero;
         // Make the first movement tile under the character
-        CreateSingleVisualTile(0, 0, character.rangeVisualParent.transform, character, true);
+        CreateSingleVisualTile(0, 0, mARef, true, moveTileParent.transform, attackTileParent.transform);
+
         // Make the rest of the movement tiles around the character
         bool isMoveTile = true;
-        for (int i = 0; i <= character.MoveRange + character.AttackRange; ++i)
+        for (int i = 0; i <= mARef.MoveRange + mARef.AttackRange; ++i)
         {
             // If we have finished the move tiles
-            if (i >= character.MoveRange + 1)
+            if (i >= mARef.MoveRange + 1)
                 isMoveTile = false;
-            // Create a new child to serve as the parent for all the tiles about to be made
-            GameObject tilesParent = new GameObject("VisualMoveTile" + i + " Parent");
-            tilesParent.transform.parent = character.rangeVisualParent.transform;
-            tilesParent.transform.localPosition = Vector3.zero;
 
             Vector2Int placementPos = new Vector2Int(i, 0);
             // Go down, left
             while (placementPos.x > 0)
             {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform, character, isMoveTile);
+                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, moveTileParent.transform, attackTileParent.transform);
                 placementPos.x -= 1;
                 placementPos.y -= 1;
             }
             // Go up, left
             while (placementPos.y < 0)
             {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform, character, isMoveTile);
+                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, moveTileParent.transform, attackTileParent.transform);
                 placementPos.x -= 1;
                 placementPos.y += 1;
             }
             // Go up, right
             while (placementPos.x < 0)
             {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform, character, isMoveTile);
+                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, moveTileParent.transform, attackTileParent.transform);
                 placementPos.x += 1;
                 placementPos.y += 1;
             }
             // Go down, right
             while (placementPos.y > 0)
             {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, tilesParent.transform, character, isMoveTile);
+                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, moveTileParent.transform, attackTileParent.transform);
                 placementPos.x += 1;
                 placementPos.y -= 1;
             }
@@ -189,10 +212,13 @@ public class MoveAttackController : MonoBehaviour
     /// </summary>
     /// <param name="x">X component of this tiles localPosition</param>
     /// <param name="y">Y component of this tiles localPosition</param>
-    /// <param name="parent">What will be the parent of the newly created tile</param>
-    private void CreateSingleVisualTile(int x, int y, Transform parent, MoveAttack charMA, bool isMoveTile)
+    /// <param name="charMA">Reference to the character's MoveAttack script</param>
+    /// <param name="isMoveTile">If the current tile is a move tile</param>
+    /// <param name="moveTileParent">The parent of moveTiles</param>
+    /// <param name="attackTileParent">The parent of attackTiles</param>
+    private void CreateSingleVisualTile(int x, int y, MoveAttack charMA, bool isMoveTile, Transform moveTileParent, Transform attackTileParent)
     {
-        // Get the tile in question
+        // Don't spawn a tile if it is out of bounds
         Vector2Int tileGridPos = new Vector2Int(Mathf.RoundToInt(charMA.transform.position.x + x), Mathf.RoundToInt(charMA.transform.position.y + y));
         Node testNode = GetNodeAtPosition(tileGridPos);
         if (testNode == null)
@@ -201,66 +227,14 @@ public class MoveAttackController : MonoBehaviour
         // Make a move tile and attack tile at the location
         if (isMoveTile)
         {
-            SpawnVisualTile(parent, new Vector2(x, y), moveTileSprite, 1);
-            SpawnVisualTile(parent, new Vector2(x, y), attackTileSprite, 0);
+            SpawnVisualTile(moveTileParent, new Vector2(x, y), moveTileSprite, 1);
+            SpawnVisualTile(attackTileParent, new Vector2(x, y), attackTileSprite, 0);
         }
         // Make only an attack tile at the location
         else
         {
-            SpawnVisualTile(parent, new Vector2(x, y), attackTileSprite, 0);
+            SpawnVisualTile(attackTileParent, new Vector2(x, y), attackTileSprite, 0);
         }
-
-        // Otherwise, its an 
-        /*
-        // Initialize the variables that will change depending on if this is a move tile or an attack tile
-        Sprite sprToUse = null;
-        int orderOnLayer = -1;
-        float alpha = 0.2f;
-
-        // See if the tile is a move tile
-        if (isMoveTileVisual)
-        {
-            isAttackTileVisual = false; // Can't be both attack and move
-            sprToUse = moveTileSprite;
-            orderOnLayer = 1;
-            // If there is no character there, we want it to be brighter
-            if (mAContRef.GetCharacterMAByNode(testNode) == null)
-                alpha = 0.6f;
-        }
-        // See if the tile is an attack tile
-        if (isAttackTileVisual)
-        {
-            sprToUse = attackTileSprite;
-            orderOnLayer = 0;
-            // If there is an enemy character there, we want it to be brighter
-            MoveAttack mARef = mAContRef.GetCharacterMAByNode(testNode);
-            if (mARef != null)
-            {
-                if ((mARef.WhatAmI == CharacterType.Enemy && this.WhatAmI == CharacterType.Ally) ||
-                    (mARef.WhatAmI == CharacterType.Ally && this.WhatAmI == CharacterType.Enemy))
-                {
-                    alpha = 0.6f;
-                }
-            }
-        }
-        // See if the tile is neither
-        if (!isMoveTileVisual && !isAttackTileVisual)
-        {
-            return;
-        }
-
-        // Create the tile, set it as a child of rangeVisualParent, and place it in a localPosition determined by the passed in values
-        GameObject newTile = new GameObject("RangeVisual" + x + " " + y);
-        newTile.transform.parent = parent;
-        newTile.transform.localPosition = new Vector2(x, y);
-        // Attach a sprite renderer to the object, put the correct sprite on it, place it in the correct sorting layer, and give it an order
-        SpriteRenderer sprRend = newTile.AddComponent<SpriteRenderer>();
-        sprRend.sprite = sprToUse;
-        sprRend.sortingLayerName = visualSortingLayer;
-        sprRend.sortingOrder = orderOnLayer;
-
-        sprRend.color = new Color(sprRend.color.r, sprRend.color.g, sprRend.color.b, alpha);
-        */
     }
     
     /// <summary>
@@ -274,6 +248,7 @@ public class MoveAttackController : MonoBehaviour
     {
         // Create the tile, set it as a child of rangeVisualParent, and place it in a localPosition determined by the passed in values
         GameObject newTile = new GameObject("RangeVisual" + pos.x + " " + pos.y);
+        newTile.SetActive(false);
         newTile.transform.parent = parent;
         newTile.transform.localPosition = new Vector2(pos.x, pos.y);
         // Attach a sprite renderer to the object, put the correct sprite on it, place it in the correct sorting layer, and give it an order
@@ -283,6 +258,100 @@ public class MoveAttackController : MonoBehaviour
         sprRend.sortingOrder = orderOnLayer;
 
         sprRend.color = new Color(sprRend.color.r, sprRend.color.g, sprRend.color.b, 0.6f);
+    }
+
+    /// <summary>
+    /// Turns on or off the range visuals for movement and attack for this character
+    /// </summary>
+    /// <param name="shouldTurnOn">Is true, turn on the visuals. If false, turn them off</param>
+    public void SetActiveVisuals(MoveAttack mARef)
+    {
+        // Turn on all the movement ones that are in our moveTiles
+        foreach (Node moveNode in mARef.MoveTiles)
+        {
+            // Find a tile transform that matches the movement node's position
+            foreach (Transform tileTrans in mARef.rangeVisualParent.transform.GetChild(0))
+            {
+                // Find the node at the tiles location
+                Node tilesNode = GetNodeByWorldPosition(tileTrans.position);
+                // If the node doesn't exist, don't worry about it
+                if (tilesNode == null)
+                {
+                    continue;
+                }
+                // If the node is the same node as the one we are searching for, turn it on and break from this for
+                if (tilesNode == moveNode)
+                {
+                    tileTrans.gameObject.SetActive(true);
+                    break;
+                }
+            }
+        }
+        // Turn on all the attack nodes that is not also a move node
+        foreach (Node attackNode in mARef.AttackTiles)
+        {
+            // Test if the attack node is in moveTiles, if it is we keep moving
+            if (mARef.MoveTiles.Contains(attackNode))
+            {
+                continue;
+            }
+            // Find a tile transform that matches the attack node's position
+            foreach (Transform tileTrans in mARef.rangeVisualParent.transform.GetChild(1))
+            {
+                // Find the node at the tiles location
+                Node tilesNode = GetNodeByWorldPosition(tileTrans.position);
+                // If the node doesn't exist, don't worry about it
+                if (tilesNode == null)
+                {
+                    continue;
+                }
+                // If the node is the same node as the one we are searching for, turn it on and break from this for
+                if (tilesNode == attackNode)
+                {
+                    tileTrans.gameObject.SetActive(true);
+                    break;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Turns off all the visual tiles
+    /// </summary>
+    /// <param name="mARef">Reference to the MoveAttack script attached to the character whose visuals we are turning off</param>
+    public void TurnOffVisuals(MoveAttack mARef)
+    {
+        // Iterate over each move tile and turn them off
+        foreach (Transform tileTrans in mARef.rangeVisualParent.transform.GetChild(0))
+        {
+            tileTrans.gameObject.SetActive(false);
+        }
+        // Iterate over each attack tile and turn them off
+        foreach (Transform tileTrans in mARef.rangeVisualParent.transform.GetChild(1))
+        {
+            tileTrans.gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// Recalculates move and attack nodes for all characters
+    /// [Called at the start of the player's turn and (after an ally character moves or an enemy character dies)] = When Player gets control back
+    /// </summary>
+    public void RecalculateAllMovementAttackTiles()
+    {
+        // Iterate over each character
+        foreach (Transform character in charParent)
+        {
+            // Try to get that character's MoveAttack script
+            MoveAttack mARef = character.GetComponent<MoveAttack>();
+            // Make sure it exists
+            if (mARef == null)
+            {
+                continue;
+            }
+            mARef.CalcMoveTiles();
+            mARef.CalcAttackTiles();
+        }
     }
 
     /// <summary>
@@ -328,6 +397,10 @@ public class MoveAttackController : MonoBehaviour
     /// <returns>If it finds a character on it, it returns that character's MoveAttack. If it finds no character, returns null</returns>
     public MoveAttack GetCharacterMAByNode(Node testNode)
     {
+        if (testNode == null)
+        {
+            return null;
+        }
         foreach (Transform character in charParent)
         {
             // Convert the character's position to grid point
