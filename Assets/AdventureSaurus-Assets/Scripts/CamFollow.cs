@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CamFollow : MonoBehaviour
 {
+    //Allows access to player and enemy values//
     //Character 1
     public Transform player1;
     //Character 2
@@ -13,22 +14,32 @@ public class CamFollow : MonoBehaviour
     //Enemies
     public Transform enemy;
 
+
+    //Camera variables//
+    public float smoothTime = 0.3f;
     public float cameraDistance = 30.0f;
+    //Camera Velocity
+    private Vector3 velocity = Vector3.zero;
+    //
+
     //bools checking for who cam is on
     public bool isOnPlayer1;
     public bool isOnPlayer2;
     public bool isOnPlayer3;
     public bool isOnEnemy;
-
     //
+
+    //allows access to TurnSystem
     public TurnSystem turn;
+
 
 
     void Awake()
     {
         //defaults camera to player position
-        transform.position = new Vector3(player1.position.x, player1.position.y, -1); 
+        player1Cam();
     }
+
 
     void FixedUpdate()
     {
@@ -41,31 +52,48 @@ public class CamFollow : MonoBehaviour
 
         if (turn.playerTurn == true)
         {
-            player1Cam();
-            turn.playerTurn = false;
+            if (player1)
+            {
+                player1Cam();
+                turn.playerTurn = false;
+            }
+            else if (player2)
+            {
+                player2Cam();
+                turn.playerTurn = false;
+            }
+            else if (player3)
+            {
+                player3Cam();
+                turn.playerTurn = false;
+            }
         }
 
         //defaults to follow player1 if no actions to change camera 
-        transform.position = new Vector3(player1.position.x, player1.position.y, -1); 
+
 
 
         //checks bool to see who camera needs to be on
         //
         if (isOnPlayer1 == true)
         {
-            transform.position = new Vector3(player1.position.x, player1.position.y, -1);
+            Vector3 targetPosition = player1.TransformPoint(new Vector3(0, 0, -10));
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
         if (isOnPlayer2 == true)
         {
-            transform.position = new Vector3(player2.position.x, player2.position.y, -1);
+            Vector3 targetPosition = player2.TransformPoint(new Vector3(0, 0, -10));
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
         if (isOnPlayer3 == true)
         {
-            transform.position = new Vector3(player3.position.x, player3.position.y, -1);
+            Vector3 targetPosition = player3.TransformPoint(new Vector3(0, 0, -10));
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
         if (isOnEnemy == true)
         {
-            transform.position = new Vector3(enemy.position.x, enemy.position.y, -1);
+            Vector3 targetPosition = enemy.TransformPoint(new Vector3(0, 0, -10));
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
         //
     }
@@ -73,41 +101,39 @@ public class CamFollow : MonoBehaviour
 
     //sets bool values to where they need to focus
     //
-        //Cam follows player 1
-        public void player1Cam()
-        {
-            isOnPlayer1 = true;
-            isOnPlayer2 = false;
-            isOnPlayer3 = false;
-            isOnEnemy = false;
-        }
-        //Cam follows player 2
-        public void player2Cam()
-        {
-            isOnPlayer1 = false;
-            isOnPlayer2 = true;
-            isOnPlayer3 = false;
-            isOnEnemy = false;
-        }
-        //Cam follows player 3
-        public void player3Cam()
-        {
-            isOnPlayer1 = false;
-            isOnPlayer2 = false;
-            isOnPlayer3 = true;
-            isOnEnemy = false;
-        }
-        //Cam follows enemies
-        public void enemyCam()
-        {
-            isOnPlayer1 = false;
-            isOnPlayer2 = false;
-            isOnPlayer3 = false;
-            isOnEnemy = true;
-        }
+    //Cam follows player 1
+    public void player1Cam()
+    {
+        isOnPlayer1 = true;
+        isOnPlayer2 = false;
+        isOnPlayer3 = false;
+        isOnEnemy = false;
+    }
+    //Cam follows player 2
+    public void player2Cam()
+    {
+        isOnPlayer1 = false;
+        isOnPlayer2 = true;
+        isOnPlayer3 = false;
+        isOnEnemy = false;
+    }
+    //Cam follows player 3
+    public void player3Cam()
+    {
+        isOnPlayer1 = false;
+        isOnPlayer2 = false;
+        isOnPlayer3 = true;
+        isOnEnemy = false;
+    }
+    //Cam follows enemies
+    public void enemyCam()
+    {
+        isOnPlayer1 = false;
+        isOnPlayer2 = false;
+        isOnPlayer3 = false;
+        isOnEnemy = true;
+    }
     //
-    
+
 
 }
-  
-
