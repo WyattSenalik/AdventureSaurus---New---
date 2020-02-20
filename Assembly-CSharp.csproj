@@ -70,6 +70,7 @@
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\MoveAttackController.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\MoveAttackGUIController.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\Node.cs" />
+    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Pause.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Skill\Basic Attack.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Skill\Skill.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Stats.cs" />
