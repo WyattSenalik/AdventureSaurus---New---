@@ -125,7 +125,7 @@ public class MoveAttackGUIController : MonoBehaviour
         }
         if (charSelected != null && charSelected.WhatAmI == CharacterType.Ally)
         {
-            areSelected = true;
+            
         }
         // If the character has already moved, we dont really want to keep them selected, so deselect them
         if (charSelected != null && charSelected.WhatAmI == CharacterType.Ally && charSelected.HasMoved && charSelected.HasAttacked)

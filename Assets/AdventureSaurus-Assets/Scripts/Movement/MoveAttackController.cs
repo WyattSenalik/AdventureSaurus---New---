@@ -147,6 +147,11 @@ public class MoveAttackController : MonoBehaviour
         }
     }
 
+    private void SpecifyChosen(MoveAttack mARef)
+    {
+
+    }
+
     /// <summary>
     /// Generates the visuals for movement and attack. Called once at the start of the game
     /// </summary>
