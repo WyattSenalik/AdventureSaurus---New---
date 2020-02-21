@@ -11,9 +11,9 @@ public class MoveAttackGUIController : MonoBehaviour
     private bool canSelect; // If the user can select things right now
     private bool awaitingChoice;    // Whether the user must make a choice on where to move after saying they want to attack without moving first
     private Node nodeToAttack;  // Used with MoveAndAttack to keep track of who we should be attacking
-    /*
+    
     public  bool areSelected;
-    */
+    
     // Set references
     private void Awake()
     {
@@ -123,12 +123,10 @@ public class MoveAttackGUIController : MonoBehaviour
         {
             mAContRef.SetActiveVisuals(charSelected);    // Set the visuals of it to be on
         }
-        /*
         if (charSelected != null && charSelected.WhatAmI == CharacterType.Ally)
         {
             areSelected = true;
         }
-        */
         // If the character has already moved, we dont really want to keep them selected, so deselect them
         if (charSelected != null && charSelected.WhatAmI == CharacterType.Ally && charSelected.HasMoved && charSelected.HasAttacked)
         {

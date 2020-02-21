@@ -5,10 +5,7 @@ using UnityEngine;
 public class MoveAttack : MonoBehaviour
 {
     
-    public MoveAttackGUIController charIsSelected;
-    public p1 select1;
-    public p2 select2;
-    public p3 select3;
+
  
     private int moveRange;  // How many tiles this character can move
     public int MoveRange
@@ -186,29 +183,11 @@ public class MoveAttack : MonoBehaviour
         {
             Move();
         }
+
     }
-    //gonna fix later
-    
-    public void FixedUpdate()
-    {
-        if (charIsSelected.areSelected == true)
-        {
-            
-            if (p1!=NULL)
-            {
-                select1.p1Select = true;
-            }
-            else if (p2!=NULL)
-            {
-                select2.p2Select = true;
-            }
-            else if (p3!=NULL)
-            {
-                select3.p3Select = true;
-            }
-            charIsSelected.areSelected = false;
-        }
-    }
+
+
+ 
     
     /// <summary>
     /// Moves the object slightly towards the next tile. Called every frame this place can transition

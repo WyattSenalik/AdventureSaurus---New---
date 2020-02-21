@@ -70,7 +70,7 @@ public class CamFollow : MonoBehaviour
                 turn.playerTurn = false;
             }
         }
-        /*
+       /*
         if (select1.p1Select == true)
         {
             player1Cam();
@@ -86,7 +86,7 @@ public class CamFollow : MonoBehaviour
             player3Cam();
             select3.p3Select = false;
         }
-        */
+       */
         //defaults to follow player1 if no actions to change camera 
 
 
