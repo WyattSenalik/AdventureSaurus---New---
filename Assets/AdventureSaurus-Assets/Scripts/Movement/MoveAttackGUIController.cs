@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveAttackGUIController : MonoBehaviour
 {
+    [SerializeField] private GameObject endTurnButtonObj;   // Reference to the gameObject of the endTurnButton. This is turned on and off when the user has control
     private MoveAttackController mAContRef = null;  // Reference to the MoveAttackController script
     private InputController inpContRef = null;  // Reference to the InputController script
     private MoveAttack charSelected;    // A reference to the selected character's MoveAttack script 
@@ -33,7 +34,7 @@ public class MoveAttackGUIController : MonoBehaviour
     private void Start()
     {
         charSelected = null;
-        canSelect = true;
+        ToggleSelect(true);
     }
 
     // Update is called once per frame
@@ -146,7 +147,7 @@ public class MoveAttackGUIController : MonoBehaviour
         // If the current character can move there
         if (charSelected.MoveTiles.Contains(selNode) && selNode.occupying == CharacterType.None)
         {
-            canSelect = false;  // Make it so that the player cannot select whilst something is moving
+            ToggleSelect(false);    // Make it so that the player cannot select whilst something is moving
             // Calculate the pathing
             mAContRef.ResetPathing();
             mAContRef.Pathing(selNode, charSelected.WhatAmI);
@@ -176,7 +177,7 @@ public class MoveAttackGUIController : MonoBehaviour
         // If the current character can attack there
         if (charSelected.AttackTiles.Contains(selNode) && selNode.occupying == CharacterType.Enemy)
         {
-            canSelect = false;  // Make it so that the player cannot select whilst something is attacking
+            ToggleSelect(false);    // Make it so that the player cannot select whilst something is attacking
             charSelected.StartAttack(selNode.position); // Start the attack
         }
     }
@@ -218,20 +219,23 @@ public class MoveAttackGUIController : MonoBehaviour
             // If the character just moved, and now must start attacking someone
             if (nodeToAttack != null)
             {
-                canSelect = false;  // Make it so that the player cannot select whilst something is attacking
+                ToggleSelect(false);    // Make it so that the player cannot select whilst something is attacking
                 charSelected.StartAttack(nodeToAttack.position);
                 // Unselect and untarget everything that we saved for this move attack
                 nodeToAttack = null;
                 Deselect();
             }
-            // If the character isn't supposed to select someone, show their visuals
+            // If the character isn't supposed to attack someone, show their visuals
             else
             {
+                ToggleSelect(true);
                 mAContRef.SetActiveVisuals(charSelected);
             }
         }
-
-        canSelect = true;
+        else
+        {
+            ToggleSelect(true);
+        }
     }
 
     /// <summary>
@@ -239,7 +243,7 @@ public class MoveAttackGUIController : MonoBehaviour
     /// </summary>
     public void DenySelect()
     {
-        canSelect = false;  // Don't let the user select anything
+        ToggleSelect(false);    // Don't let the user select anything
         Deselect(); // Deselect anything that was selected
         // To be safe, reset any held references
         nodeToAttack = null;
@@ -279,7 +283,7 @@ public class MoveAttackGUIController : MonoBehaviour
             return;
         }
 
-        canSelect = false;  // Make it so that the player cannot select whilst something is moving
+        ToggleSelect(false);    // Make it so that the player cannot select whilst something is moving
         // Calculate the pathing
         mAContRef.ResetPathing();
         mAContRef.Pathing(nodeToMoveTo, charSelected.WhatAmI);
@@ -288,5 +292,15 @@ public class MoveAttackGUIController : MonoBehaviour
         mAContRef.TurnOffVisuals(charSelected);
 
         // The attack will be started in AllowSelect, so that we don't attack until we actually reach the tile we were going to
+    }
+
+    /// <summary>
+    /// Swaps canSelect to true or false. Also toggles the endTurnButton on and off
+    /// </summary>
+    /// <param name="onOff">Whether to let the user select or not</param>
+    private void ToggleSelect(bool onOff)
+    {
+        canSelect = onOff;
+        endTurnButtonObj.SetActive(onOff);
     }
 }
