@@ -132,13 +132,17 @@ public class EnemyMoveAttackAI : MonoBehaviour
         mAContRef.ResetPathing();
         mAContRef.Pathing(desiredNode, currentEnemy.WhatAmI);
         // Start moving the character
+        
         currentEnemy.StartMove();
+        /*
         if (currentEnemy.Transition == true)
         {
             enemyName = currentEnemy.name;
             isMoving = true;
         }
-        // Attacking will be called after the enemy has moved
+        // 
+          */
+         //Attacking will be called after the enemy has moved
     }
 
     /// <summary>
