@@ -4751,7 +4751,6 @@ GameObject:
   - component: {fileID: 720095089}
   - component: {fileID: 720095088}
   - component: {fileID: 720095087}
-  - component: {fileID: 720095091}
   - component: {fileID: 720095086}
   m_Layer: 0
   m_Name: Ally (2)
@@ -4893,18 +4892,6 @@ MonoBehaviour:
   whatAmI: 2
   transSpeed: 4
   rangeVisualParent: {fileID: 0}
---- !u!114 &720095091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 720095084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0407af7378f95d74084d664cb622bb18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &731996182
 GameObject:
   m_ObjectHideFlags: 0
@@ -9056,9 +9043,7 @@ MonoBehaviour:
   isOnPlayer3: 0
   isOnEnemy: 0
   turn: {fileID: 1765814750}
-  select1: {fileID: 1761227492}
-  select2: {fileID: 720095091}
-  select3: {fileID: 0}
+  control: {fileID: 1765814753}
 --- !u!81 &1533721865
 AudioListener:
   m_ObjectHideFlags: 0
@@ -10836,7 +10821,6 @@ GameObject:
   - component: {fileID: 1761227490}
   - component: {fileID: 1761227489}
   - component: {fileID: 1761227488}
-  - component: {fileID: 1761227492}
   - component: {fileID: 1761227487}
   m_Layer: 0
   m_Name: Ally (1)
@@ -10978,18 +10962,6 @@ MonoBehaviour:
   whatAmI: 2
   transSpeed: 4
   rangeVisualParent: {fileID: 0}
---- !u!114 &1761227492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1761227485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc6ff4c30838a3d42acfb62979149369, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1765814749
 GameObject:
   m_ObjectHideFlags: 0
@@ -11065,7 +11037,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endTurnButtonObj: {fileID: 1118138501}
-  areSelected: 0
+  areSelected1: 0
+  areSelected2: 0
+  areSelected3: 0
 --- !u!114 &1765814754
 MonoBehaviour:
   m_ObjectHideFlags: 0

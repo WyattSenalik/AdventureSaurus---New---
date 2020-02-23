@@ -12,7 +12,12 @@ public class EnemyMoveAttackAI : MonoBehaviour
     private int enemyIndex; // The current enemy in enemiesMA that should be moved
     private Vector2Int curAttackNodePos;    // Where the character should attack
     private MoveAttack currentEnemy;    // The currenet enemy reference
-
+    public MoveAttack CurrentEnemy
+    {
+        get { return currentEnemy; }
+    }
+    public string enemyName;
+    public bool isMoving;
     // Set References
     private void Awake()
     {
@@ -86,7 +91,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         {
             // Have the current enemy take their turn
             TakeSingleTurn();
-
+            isMoving = false;
             // Increment what enemy we are on for the next time
             ++enemyIndex;
         }
@@ -128,6 +133,11 @@ public class EnemyMoveAttackAI : MonoBehaviour
         mAContRef.Pathing(desiredNode, currentEnemy.WhatAmI);
         // Start moving the character
         currentEnemy.StartMove();
+        if (currentEnemy.Transition == true)
+        {
+            enemyName = currentEnemy.name;
+            isMoving = true;
+        }
         // Attacking will be called after the enemy has moved
     }
 

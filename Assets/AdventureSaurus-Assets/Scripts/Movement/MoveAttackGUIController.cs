@@ -12,7 +12,7 @@ public class MoveAttackGUIController : MonoBehaviour
     private bool awaitingChoice;    // Whether the user must make a choice on where to move after saying they want to attack without moving first
     private Node nodeToAttack;  // Used with MoveAndAttack to keep track of who we should be attacking
     
-    public  bool areSelected;
+    public  bool areSelected1,areSelected2,areSelected3;
     
     // Set references
     private void Awake()
@@ -125,7 +125,19 @@ public class MoveAttackGUIController : MonoBehaviour
         }
         if (charSelected != null && charSelected.WhatAmI == CharacterType.Ally)
         {
-            
+            if (charSelected.name == "Ally (1)")
+            {
+                areSelected1 = true;
+            }
+            else if (charSelected.name == "Ally (2)")
+            {
+                areSelected2 = true;
+            }
+            else if (charSelected.name == "Ally (3)")
+            {
+                areSelected3 = true;
+            }
+
         }
         // If the character has already moved, we dont really want to keep them selected, so deselect them
         if (charSelected != null && charSelected.WhatAmI == CharacterType.Ally && charSelected.HasMoved && charSelected.HasAttacked)

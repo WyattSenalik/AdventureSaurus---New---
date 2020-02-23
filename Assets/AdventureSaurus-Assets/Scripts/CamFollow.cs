@@ -31,10 +31,8 @@ public class CamFollow : MonoBehaviour
 
     //allows access to TurnSystem
     public TurnSystem turn;
-    public p1 select1;
-    public p2 select2;
-    public p3 select3;
-
+    public MoveAttackGUIController control;
+    public EnemyMoveAttackAI enemies;
 
     void Awake()
     {
@@ -45,13 +43,15 @@ public class CamFollow : MonoBehaviour
 
     void FixedUpdate()
     {
-
+        //Turn cams
+        //
+        //enemy turn cam
         if (turn.enemyTurn == true)
         {
             enemyCam();
             turn.enemyTurn = false;
         }
-
+        //player turn cam
         if (turn.playerTurn == true)
         {
             if (player1)
@@ -70,24 +70,25 @@ public class CamFollow : MonoBehaviour
                 turn.playerTurn = false;
             }
         }
-       /*
-        if (select1.p1Select == true)
+        //
+
+        // if character is selected camera moves to them
+        if (control.areSelected1 == true)
         {
             player1Cam();
-            select1.p1Select = false;
+            control.areSelected1 = false;
         }
-        if (select2.p2Select == true)
+        else if (control.areSelected2 == true)
         {
             player2Cam();
-            select2.p2Select = false;
+            control.areSelected2 = false;
         }
-        if (select3.p3Select == true)
+        else if (control.areSelected3 == true)
         {
             player3Cam();
-            select3.p3Select = false;
+            control.areSelected3 = false;
         }
-       */
-        //defaults to follow player1 if no actions to change camera 
+    
 
 
 
