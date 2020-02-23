@@ -4706,7 +4706,7 @@ Animator:
   m_GameObject: {fileID: 751729087}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cc7e474ff92d70345ae4dc6696a8bce0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 470113725cd42c24584cff578cb113b6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -16910,7 +16910,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851557504}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: efc730ecff318544bb93e1ac1432ade6, type: 3}
   m_Name: 
@@ -16918,7 +16918,7 @@ MonoBehaviour:
   player1: {fileID: 181546987}
   player2: {fileID: 625843695}
   player3: {fileID: 1198382505}
-  enemy: {fileID: 0}
+  enemy: {fileID: 751729088}
   smoothTime: 0.3
   cameraDistance: 30
   isOnPlayer1: 0

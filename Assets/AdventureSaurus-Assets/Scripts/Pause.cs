@@ -102,16 +102,16 @@ public class Pause : MonoBehaviour
             // Change the time scale
             prevTime = Time.timeScale;
             Time.timeScale = 0;
-            if (Time.fixedDeltaTime - prevTime < 0)
-                Time.fixedDeltaTime = 0;
-            else
-                Time.fixedDeltaTime -= prevTime;
+            //if (Time.fixedDeltaTime - prevTime < 0)
+                //Time.fixedDeltaTime = 0;
+            //else
+                //Time.fixedDeltaTime -= prevTime;
         }
         else
         {
             // Revert the time
             Time.timeScale = prevTime;
-            Time.fixedDeltaTime += prevTime;
+            //Time.fixedDeltaTime += prevTime;
         }
         // Turn on/off scripts
         ToggleScriptActivity(isPaused);
