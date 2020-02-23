@@ -12,7 +12,10 @@ public class EnemyMoveAttackAI : MonoBehaviour
     private int enemyIndex; // The current enemy in enemiesMA that should be moved
     private Vector2Int curAttackNodePos;    // Where the character should attack
     private MoveAttack currentEnemy;    // The currenet enemy reference
-   
+    public MoveAttack CurrentEnemy
+    {
+        get { return currentEnemy; }
+    }
     public string enemyName;
     public bool isMoving;
     // Set References
@@ -67,7 +70,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
     private void Update()
     {
         //if (Input.GetMouseButtonDown(0))
-           // NextEnemy();
+        // NextEnemy();
     }
 
     /// <summary>
@@ -124,22 +127,18 @@ public class EnemyMoveAttackAI : MonoBehaviour
         {
             return;
         }
-        
+
         // Calculate the pathing
         mAContRef.ResetPathing();
         mAContRef.Pathing(desiredNode, currentEnemy.WhatAmI);
         // Start moving the character
-        
         currentEnemy.StartMove();
-        /*
         if (currentEnemy.Transition == true)
         {
             enemyName = currentEnemy.name;
             isMoving = true;
         }
-        // 
-          */
-         //Attacking will be called after the enemy has moved
+        // Attacking will be called after the enemy has moved
     }
 
     /// <summary>
@@ -152,8 +151,16 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // If there is an "ally" character in range, we want that node
         // Test if the ally is in range
         // Iterate over each ally
-        foreach (MoveAttack ally in alliesMA)
+        for (int i = 0; i < alliesMA.Count; ++i)
         {
+            MoveAttack ally = alliesMA[i];
+            // Make sure the enemy exists
+            if (ally == null)
+            {
+                alliesMA.RemoveAt(i);
+                --i;
+                continue;
+            }
             // Get that ally's node
             Node allyNode = mAContRef.GetNodeByWorldPosition(ally.transform.position);
             // If that ally's node is in this enemy's move tiles, they are in range, so that is the node we want to reach
@@ -249,8 +256,17 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // Find the allies, and see if they are more than maxDepth grid units away anyway
         // If they are, we just return null
         bool allyIsClose = false;
-        foreach (MoveAttack ally in alliesMA)
+        for (int i = 0; i < alliesMA.Count; ++i)
         {
+            MoveAttack ally = alliesMA[i];
+            // Make sure the enemy exists
+            if (ally == null)
+            {
+                alliesMA.RemoveAt(i);
+                --i;
+                continue;
+            }
+
             Node allyNode = mAContRef.GetNodeByWorldPosition(ally.transform.position);
             if (Mathf.Abs(startNode.position.x - allyNode.position.x) + Mathf.Abs(startNode.position.y - allyNode.position.y) <= maxDepth)
             {
