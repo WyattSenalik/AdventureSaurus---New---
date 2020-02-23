@@ -32,7 +32,7 @@ public class CamFollow : MonoBehaviour
     //allows access to TurnSystem
     public TurnSystem turn;
     public MoveAttackGUIController control;
-
+    public EnemyMoveAttackAI enemies;
 
     void Awake()
     {
