@@ -46,7 +46,7 @@ public class CamFollow : MonoBehaviour
         //Turn cams
         //
         //enemy turn cam
-        if (turn.enemyTurn == true)
+        if (turn.enemyTurn == true && enemy)
         {
             enemyCam();
             turn.enemyTurn = false;
