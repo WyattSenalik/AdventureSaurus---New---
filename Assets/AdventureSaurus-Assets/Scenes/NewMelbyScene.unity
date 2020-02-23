@@ -9056,6 +9056,7 @@ MonoBehaviour:
   isOnPlayer3: 0
   isOnEnemy: 0
   turn: {fileID: 1765814750}
+  control: {fileID: 1765814753}
   select1: {fileID: 1761227492}
   select2: {fileID: 720095091}
   select3: {fileID: 0}
