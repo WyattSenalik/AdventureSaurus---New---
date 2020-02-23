@@ -73,17 +73,17 @@ public class CamFollow : MonoBehaviour
         //
 
         // if character is selected camera moves to them
-        if (control.areSelected1 == true)
+        if (control.areSelected1 == true && player1)
         {
             player1Cam();
             control.areSelected1 = false;
         }
-        else if (control.areSelected2 == true)
+        else if (control.areSelected2 == true && player2)
         {
             player2Cam();
             control.areSelected2 = false;
         }
-        else if (control.areSelected3 == true)
+        else if (control.areSelected3 == true && player3)
         {
             player3Cam();
             control.areSelected3 = false;

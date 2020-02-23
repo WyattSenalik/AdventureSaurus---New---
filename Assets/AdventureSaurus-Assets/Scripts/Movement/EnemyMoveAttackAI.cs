@@ -12,10 +12,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
     private int enemyIndex; // The current enemy in enemiesMA that should be moved
     private Vector2Int curAttackNodePos;    // Where the character should attack
     private MoveAttack currentEnemy;    // The currenet enemy reference
-    public MoveAttack CurrentEnemy
-    {
-        get { return currentEnemy; }
-    }
+   
     public string enemyName;
     public bool isMoving;
     // Set References
