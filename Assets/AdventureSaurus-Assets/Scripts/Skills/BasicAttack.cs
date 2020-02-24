@@ -13,11 +13,7 @@ public class BasicAttack : Skill
         base.Awake();
         // Set the unique stats for this attack
         skillNum = 0;
-        rangeTiles = new List<Vector2Int>();
-        rangeTiles.Add(Vector2Int.down);
-        rangeTiles.Add(Vector2Int.up);
-        rangeTiles.Add(Vector2Int.right);
-        rangeTiles.Add(Vector2Int.left);
+
         
     }
 

@@ -4,20 +4,27 @@ using UnityEngine;
 
 public class ThreeSixtySwing : Skill
 {
-    private void Awake()
+    private new void Awake()
     {
         skillNum = 360;
-        rangeTiles = new List<Vector2Int>();
-        rangeTiles.Add(Vector2Int.down);
-        rangeTiles.Add(Vector2Int.up);
-        rangeTiles.Add(Vector2Int.right);
-        rangeTiles.Add(Vector2Int.left);
-        rangeTiles.Add(new Vector2Int(1, 1));
-        rangeTiles.Add(new Vector2Int(-1, 1));
-        rangeTiles.Add(new Vector2Int(1, -1));
-        rangeTiles.Add(new Vector2Int(-1, -1));
 
     }
 
-    
+    override public void StartSkill(Vector2Int attackNodePos)
+    {
+        Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
+        if (nodeToAttack != null)
+        {
+            Node center = mAContRef.GetNodeByWorldPosition(this.transform.position);
+
+
+
+        }
+        else
+        {
+            //Debug.Log("Node to attack does not exist");
+            EndSkill();
+            return;
+        }
+    }
 }

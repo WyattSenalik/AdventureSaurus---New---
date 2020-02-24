@@ -10,7 +10,6 @@ public class Skill : MonoBehaviour
     protected MoveAttack maRef;// reference to the selected character's MoveAttack script
     protected MoveAttackController mAContRef;
     protected EnemyMoveAttackAI enMAAIRef;
-    protected List<Vector2Int> rangeTiles = null;
     protected int skillNum = -1;
     protected List<Health> enemiesHP;
     [SerializeField] private int cooldown = 1;
