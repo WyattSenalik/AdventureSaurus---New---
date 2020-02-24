@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class BasicAttack : Skill
 {
-    private void Awake()
+    /// <summary>
+    /// Called before Start. Sets references.
+    /// </summary>
+    private new void Awake()
     {
+        // Get references and such
+        base.Awake();
+        // Set the unique stats for this attack
         skillNum = 0;
         rangeTiles = new List<Vector2Int>();
         rangeTiles.Add(Vector2Int.down);
@@ -14,16 +20,16 @@ public class BasicAttack : Skill
         rangeTiles.Add(Vector2Int.left);
         
     }
-    public new void DoSkill()
-    {
-        base.DoSkill();
-        
-    }
 
-    public new void StartSkill(List<Vector2Int> attackNodesPos)
+    /// <summary>
+    /// Starts the skills animation and gets a reference to the enemy that will be hit.
+    /// </summary>
+    /// <param name="attackNodesPos">The nodes that will be attacked. There should only be 1 attackNode in attackNodes for Basic Attack</param>
+    override public void StartSkill(List<Vector2Int> attackNodesPos)
     {
+        Vector2Int nodePos = new Vector2Int(attackNodesPos[0].x, attackNodesPos[0].y);
         // We have to set the enemy to attack, we just need to validate a bit first
-        Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodesPos[0]);
+        Node nodeToAttack = mAContRef.GetNodeAtPosition(nodePos);
         if (nodeToAttack != null)
         {
             MoveAttack charToAttack = mAContRef.GetCharacterMAByNode(nodeToAttack);
@@ -34,6 +40,9 @@ public class BasicAttack : Skill
                 enemiesHP.Add(charToAttack.GetComponent<Health>());
                 if (enemiesHP[0] == null)
                     Debug.Log("Enemy to attack does not have a Health script attached to it");
+
+                // Start the skill's animation
+                StartSkillAnimation(nodePos);
             }
             else
                 Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
@@ -47,13 +56,16 @@ public class BasicAttack : Skill
         }
     }
 
-    public new void EndSkill()
+    /// <summary>
+    /// Ends the skills animaton and does damage to the 1 enemy that was hit
+    /// </summary>
+    override public void EndSkill()
     {
         // Validate that we have an enemy to attack
-        if (enemiesHP[0] != null)
+        if (enemiesHP != null && enemiesHP[0] != null)
         {
-            // Start attacking animation
-            anime.SetInteger("AttackDirection", -anime.GetInteger("AttackDirection"));
+            // End the skills animation
+            EndSkillAnimation();
             // Deal the damage and get rid of our reference to the enemyHP
             enemiesHP[0].TakeDamage(damage);
             enemiesHP[0] = null;
@@ -68,7 +80,7 @@ public class BasicAttack : Skill
             // If this character is an enemy, have the next enemy attack
             if (maRef.WhatAmI == CharacterType.Enemy)
             {
-                enMAAIRef.NextEnemy();
+                enMAAIRef.StartNextEnemy();
             }
             // If this character is an ally, give back control to the user
             else if (maRef.WhatAmI == CharacterType.Ally)
