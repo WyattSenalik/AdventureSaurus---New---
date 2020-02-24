@@ -10,8 +10,12 @@ public class Stairs : MonoBehaviour
     public Transform player3;
     public Transform stair;
 
-    
+    public GameObject image;
 
+    public void Awake()
+    {
+        image.SetActive(false);
+    }
     private void FixedUpdate()
     {
         winCondition();
@@ -20,6 +24,7 @@ public class Stairs : MonoBehaviour
     private void win()
     {
         Debug.Log("Winner winner chicken dinner");
+        image.SetActive(true);
     }
 
     private void winCondition()
