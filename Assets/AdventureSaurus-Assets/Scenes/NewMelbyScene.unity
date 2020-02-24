@@ -463,6 +463,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &29052922
 GameObject:
@@ -3784,6 +3785,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &549744891
 GameObject:
@@ -3998,6 +4000,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &579111112
 GameObject:
@@ -4891,6 +4894,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 2
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &731996182
 GameObject:
@@ -9035,7 +9039,14 @@ MonoBehaviour:
   player1: {fileID: 1761227486}
   player2: {fileID: 720095085}
   player3: {fileID: 0}
-  enemy: {fileID: 548190905}
+  enemy1: {fileID: 548190905}
+  enemy2: {fileID: 578039488}
+  enemy3: {fileID: 1698031903}
+  enemy4: {fileID: 1879771248}
+  enemy5: {fileID: 18180087}
+  enemy6: {fileID: 2139094420}
+  enemy7: {fileID: 1879731540}
+  enemy8: {fileID: 1586221240}
   smoothTime: 0.3
   cameraDistance: 30
   isOnPlayer1: 0
@@ -9044,6 +9055,7 @@ MonoBehaviour:
   isOnEnemy: 0
   turn: {fileID: 1765814750}
   control: {fileID: 1765814753}
+  whoIsEnemy: {fileID: 1765814752}
 --- !u!81 &1533721865
 AudioListener:
   m_ObjectHideFlags: 0
@@ -9458,6 +9470,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &1595878556
 GameObject:
@@ -10250,6 +10263,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &1699413672
 GameObject:
@@ -10961,6 +10975,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 2
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &1765814749
 GameObject:
@@ -11024,6 +11039,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charParent: {fileID: 150512027}
+  enemyName: 
+  isMoving: 0
 --- !u!114 &1765814753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15390,6 +15407,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &1879771247
 GameObject:
@@ -15544,6 +15562,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &1901253288
 GameObject:
@@ -16923,4 +16942,5 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}

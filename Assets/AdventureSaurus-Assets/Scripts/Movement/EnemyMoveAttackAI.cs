@@ -91,7 +91,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         {
             // Have the current enemy take their turn
             TakeSingleTurn();
-            isMoving = false;
+  
             // Increment what enemy we are on for the next time
             ++enemyIndex;
         }
@@ -127,17 +127,21 @@ public class EnemyMoveAttackAI : MonoBehaviour
         {
             return;
         }
+        /*
+        if (FindAllyOutOfRange() != null)
+        {
+            isMoving = true;
+            enemyName = currentEnemy.name;
 
+   
+        }
+    */
         // Calculate the pathing
         mAContRef.ResetPathing();
         mAContRef.Pathing(desiredNode, currentEnemy.WhatAmI);
         // Start moving the character
         currentEnemy.StartMove();
-        if (currentEnemy.Transition == true)
-        {
-            enemyName = currentEnemy.name;
-            isMoving = true;
-        }
+        
         // Attacking will be called after the enemy has moved
     }
 

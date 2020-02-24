@@ -51,11 +51,8 @@ public class MoveAttack : MonoBehaviour
     private Animator animRef;   // Reference to the animator attached to this character
     private MoveAttackGUIController mAGUIContRef;   // Reference to the moveAttackGUIController
     private Node currentNode;   // The node this object wants to move to next
-    private bool transition;    // Whether this character should be moving or not
-    public bool Transition
-    {
-        get { return transition; }
-    }
+    public bool transition;    // Whether this character should be moving or not
+
     private bool doneTransX;    // If this character has finished moving in the x direction
     private bool doneTransY;    // If this character has finished moving in the y direction
     private bool hasMoved;  // If this character has already moved in the "turn"
