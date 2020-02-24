@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class MoveAttack : MonoBehaviour
 {
-    
-
- 
     private int moveRange;  // How many tiles this character can move
     public int MoveRange
     {
@@ -42,8 +39,6 @@ public class MoveAttack : MonoBehaviour
         set { attackTiles = value; }
     }
 
-    
-
 
     // For actual movement calculations/animations
     [SerializeField] private float transSpeed = 4;  // Speed the character moves to transition from one tile to another
@@ -71,6 +66,7 @@ public class MoveAttack : MonoBehaviour
 
     // For attacking
     private Health enemyHP; // Reference to the health script attached to the enemy I start attacking
+    private Skill skillRef; // Reference to the skill script attached to this character
 
     // For enemy movement AI
     private EnemyMoveAttackAI enMAAIRef;    // Reference to the EnemyMoveAttackAI script
@@ -119,6 +115,11 @@ public class MoveAttack : MonoBehaviour
         if (animRef == null)
         {
             Debug.Log("Could not find Animator attached to " + this.name);
+        }
+        skillRef = this.GetComponent<Skill>();
+        if (skillRef == null)
+        {
+            Debug.Log("Could not find Skill attached to " + this.name);
         }
     }
 
@@ -317,6 +318,11 @@ public class MoveAttack : MonoBehaviour
     {
         // We have attacked
         hasAttacked = true;
+
+        List<Vector2Int> attackNodesPos = new List<Vector2Int>();
+        attackNodesPos.Add(attackNodePos);
+        skillRef.StartSkill(attackNodesPos);
+        /*
         // We have to set the enemy to attack, we just need to validate a bit first
         Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
         if (nodeToAttack != null)
@@ -368,6 +374,7 @@ public class MoveAttack : MonoBehaviour
 
         //Debug.Log("Start Attack");
         animRef.SetInteger("AttackDirection", attackDirection);
+        */
     }
 
     /// <summary>
@@ -375,6 +382,9 @@ public class MoveAttack : MonoBehaviour
     /// </summary>
     public void EndAttack()
     {
+        Debug.Log("EndAttack for " + this.name);
+        skillRef.EndSkill();
+        /*
         //Debug.Log("Finished Attacking");
 
         // Validate that we have an enemy to attack
@@ -405,6 +415,7 @@ public class MoveAttack : MonoBehaviour
                 turnSysRef.IsPlayerDone();
             }
         }
+        */
     }
 
     /// <summary>

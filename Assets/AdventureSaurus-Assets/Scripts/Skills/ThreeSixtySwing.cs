@@ -19,11 +19,5 @@ public class ThreeSixtySwing : Skill
 
     }
 
-    public new void DoSkill()
-    {
-        base.DoSkill();
-        //do animation
-    }
-
     
 }

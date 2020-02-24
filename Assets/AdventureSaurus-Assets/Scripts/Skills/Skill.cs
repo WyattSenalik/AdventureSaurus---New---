@@ -15,10 +15,10 @@ public class Skill : MonoBehaviour
     protected List<Health> enemiesHP;
     [SerializeField] private int cooldown = 1;
     [SerializeField] protected int damage = 0;
-    [SerializeField] protected Animator anime = null;//damage to deal, amount to heal ,and amount to buff
-    [SerializeField] protected SpriteRenderer sprRendRef = null;
+    protected Animator anime = null;//damage to deal, amount to heal ,and amount to buff
+    protected SpriteRenderer sprRendRef = null;
 
-    private void Awake()
+    protected void Awake()
     {
         GameObject gameControllerObj = GameObject.FindWithTag("GameController");
         if (gameControllerObj == null)
@@ -48,12 +48,24 @@ public class Skill : MonoBehaviour
                 Debug.Log("Could not find EnemyMoveAttackAI attached to " + gameControllerObj.name);
             }
         }
+
+        sprRendRef = this.GetComponent<SpriteRenderer>();
+        if (sprRendRef == null)
+        {
+            Debug.Log("Could not find SpriteRenderer attached to " + this.name);
+        }
+        anime = this.GetComponent<Animator>();
+        if (anime == null)
+        {
+            Debug.Log("Could not find Animator attached to " + this.name);
+        }
+        maRef = this.GetComponent<MoveAttack>();
+        if (maRef == null)
+        {
+            Debug.Log("Could not find MoveAttack attached to " + this.name);
+        }
     }
 
-    virtual public void DoSkill()
-    {
-        anime.SetInteger("SkillNum", skillNum);
-    }
 
     /// <summary>
     /// Calls StartSkillAnimation and gets reference to the enemies damaged by this skill

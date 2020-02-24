@@ -486,6 +486,7 @@ GameObject:
   - component: {fileID: 113392486}
   - component: {fileID: 113392485}
   - component: {fileID: 113392484}
+  - component: {fileID: 113392489}
   m_Layer: 0
   m_Name: Enemy (16)
   m_TagString: Player
@@ -627,6 +628,20 @@ MonoBehaviour:
   transSpeed: 4
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &113392489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113392482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 1
 --- !u!1 &117086974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,6 +1317,7 @@ GameObject:
   - component: {fileID: 181546989}
   - component: {fileID: 181546988}
   - component: {fileID: 181546990}
+  - component: {fileID: 181546993}
   m_Layer: 0
   m_Name: Ally (1)
   m_TagString: Player
@@ -1443,6 +1459,20 @@ MonoBehaviour:
   transSpeed: 4
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &181546993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181546986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 1
 --- !u!1 &183829780
 GameObject:
   m_ObjectHideFlags: 0
@@ -2820,6 +2850,7 @@ GameObject:
   - component: {fileID: 464225077}
   - component: {fileID: 464225076}
   - component: {fileID: 464225075}
+  - component: {fileID: 464225080}
   m_Layer: 0
   m_Name: Enemy (15)
   m_TagString: Player
@@ -2961,6 +2992,20 @@ MonoBehaviour:
   transSpeed: 4
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &464225080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464225073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 1
 --- !u!1 &482013798
 GameObject:
   m_ObjectHideFlags: 0
@@ -3922,6 +3967,7 @@ GameObject:
   - component: {fileID: 625843698}
   - component: {fileID: 625843697}
   - component: {fileID: 625843696}
+  - component: {fileID: 625843701}
   m_Layer: 0
   m_Name: Ally (2)
   m_TagString: Player
@@ -4063,6 +4109,20 @@ MonoBehaviour:
   transSpeed: 4
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &625843701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625843694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 1
 --- !u!1 &627439371
 GameObject:
   m_ObjectHideFlags: 0
@@ -6782,6 +6842,7 @@ GameObject:
   - component: {fileID: 1017252443}
   - component: {fileID: 1017252442}
   - component: {fileID: 1017252441}
+  - component: {fileID: 1017252446}
   m_Layer: 0
   m_Name: Enemy (5)
   m_TagString: Player
@@ -6923,6 +6984,20 @@ MonoBehaviour:
   transSpeed: 4
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &1017252446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1017252439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 1
 --- !u!1 &1017449824
 GameObject:
   m_ObjectHideFlags: 0
@@ -7458,6 +7533,7 @@ GameObject:
   - component: {fileID: 1086096831}
   - component: {fileID: 1086096830}
   - component: {fileID: 1086096829}
+  - component: {fileID: 1086096834}
   m_Layer: 0
   m_Name: Enemy (14)
   m_TagString: Player
@@ -7599,6 +7675,20 @@ MonoBehaviour:
   transSpeed: 4
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &1086096834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086096827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 1
 --- !u!1 &1088184493
 GameObject:
   m_ObjectHideFlags: 0
@@ -11792,6 +11882,7 @@ GameObject:
   - component: {fileID: 1198382508}
   - component: {fileID: 1198382507}
   - component: {fileID: 1198382506}
+  - component: {fileID: 1198382511}
   m_Layer: 0
   m_Name: Ally (3)
   m_TagString: Player
@@ -11933,6 +12024,20 @@ MonoBehaviour:
   transSpeed: 4
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &1198382511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198382504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 1
 --- !u!1 &1198637420
 GameObject:
   m_ObjectHideFlags: 0
@@ -12756,6 +12861,7 @@ GameObject:
   - component: {fileID: 1280204703}
   - component: {fileID: 1280204702}
   - component: {fileID: 1280204701}
+  - component: {fileID: 1280204706}
   m_Layer: 0
   m_Name: Enemy (13)
   m_TagString: Player
@@ -12897,6 +13003,20 @@ MonoBehaviour:
   transSpeed: 4
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &1280204706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280204699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 1
 --- !u!1 &1280485845
 GameObject:
   m_ObjectHideFlags: 0
@@ -13484,6 +13604,7 @@ GameObject:
   - component: {fileID: 1352924770}
   - component: {fileID: 1352924769}
   - component: {fileID: 1352924768}
+  - component: {fileID: 1352924773}
   m_Layer: 0
   m_Name: Enemy (4)
   m_TagString: Player
@@ -13625,6 +13746,20 @@ MonoBehaviour:
   transSpeed: 4
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &1352924773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352924766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 1
 --- !u!1 &1356738190
 GameObject:
   m_ObjectHideFlags: 0
@@ -14772,6 +14907,7 @@ GameObject:
   - component: {fileID: 1531045649}
   - component: {fileID: 1531045648}
   - component: {fileID: 1531045647}
+  - component: {fileID: 1531045652}
   m_Layer: 0
   m_Name: Enemy (7)
   m_TagString: Player
@@ -14913,6 +15049,20 @@ MonoBehaviour:
   transSpeed: 4
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &1531045652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531045645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 1
 --- !u!1 &1544495811
 GameObject:
   m_ObjectHideFlags: 0
@@ -16722,6 +16872,7 @@ GameObject:
   - component: {fileID: 1813054337}
   - component: {fileID: 1813054336}
   - component: {fileID: 1813054335}
+  - component: {fileID: 1813054340}
   m_Layer: 0
   m_Name: Enemy (6)
   m_TagString: Player
@@ -16863,6 +17014,20 @@ MonoBehaviour:
   transSpeed: 4
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &1813054340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1813054333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 1
 --- !u!1 &1816405771
 GameObject:
   m_ObjectHideFlags: 0
