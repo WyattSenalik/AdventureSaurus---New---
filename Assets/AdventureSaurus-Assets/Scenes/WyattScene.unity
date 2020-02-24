@@ -1325,7 +1325,7 @@ MonoBehaviour:
   magic: 0
   speed: 2
   defense: 2
-  vitality: 4
+  vitality: 2
 --- !u!95 &181546990
 Animator:
   serializedVersion: 3
@@ -1375,6 +1375,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 2
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &183829780
 GameObject:
@@ -1999,8 +2000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charParent: {fileID: 703480826}
-  enemyName: 
-  isMoving: 0
+  aggroRange: 8
 --- !u!114 &314060239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3888,7 +3888,7 @@ MonoBehaviour:
   magic: 0
   speed: 3
   defense: 2
-  vitality: 3
+  vitality: 2
 --- !u!114 &625843699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3919,6 +3919,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 2
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &627439371
 GameObject:
@@ -4812,6 +4813,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &756358008
 GameObject:
@@ -6490,6 +6492,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &1019522859
 GameObject:
@@ -11426,7 +11429,7 @@ MonoBehaviour:
   magic: 0
   speed: 3
   defense: 2
-  vitality: 3
+  vitality: 2
 --- !u!114 &1198382509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11457,6 +11460,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 2
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &1198637420
 GameObject:
@@ -12827,6 +12831,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &1356738190
 GameObject:
@@ -14220,6 +14225,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &1546913866
 GameObject:
@@ -14563,6 +14569,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &1578913468
 GameObject:
@@ -16541,6 +16548,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &1816405771
 GameObject:
@@ -16873,7 +16881,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -16918,7 +16926,14 @@ MonoBehaviour:
   player1: {fileID: 181546987}
   player2: {fileID: 625843695}
   player3: {fileID: 1198382505}
-  enemy: {fileID: 751729088}
+  enemy1: {fileID: 751729088}
+  enemy2: {fileID: 2044484868}
+  enemy3: {fileID: 2057508431}
+  enemy4: {fileID: 1571419403}
+  enemy5: {fileID: 1352924767}
+  enemy6: {fileID: 1017252440}
+  enemy7: {fileID: 1813054334}
+  enemy8: {fileID: 1531045646}
   smoothTime: 0.3
   cameraDistance: 30
   isOnPlayer1: 0
@@ -16927,7 +16942,7 @@ MonoBehaviour:
   isOnEnemy: 0
   turn: {fileID: 314060241}
   control: {fileID: 314060239}
-  enemies: {fileID: 314060238}
+  whoIsEnemy: {fileID: 314060238}
 --- !u!1 &1854242713
 GameObject:
   m_ObjectHideFlags: 0
@@ -17985,6 +18000,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &2057508430
 GameObject:
@@ -18139,6 +18155,7 @@ MonoBehaviour:
   attackRange: 1
   whatAmI: 3
   transSpeed: 4
+  transition: 0
   rangeVisualParent: {fileID: 0}
 --- !u!1 &2059122976
 GameObject:

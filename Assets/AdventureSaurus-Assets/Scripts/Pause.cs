@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Pause : MonoBehaviour
 {
-    [SerializeField] private Transform charParent;   // Parent of all the characters
-    [SerializeField] private GameObject[] uIElementsToTurnOff;  // The UI elements that will be turned off by the pause
+    [SerializeField] private Transform charParent = null;   // Parent of all the characters
+    [SerializeField] private GameObject[] uIElementsToTurnOff = null;   // The UI elements that will be turned off by the pause
     private bool[] uIElementsActiveStatus;  // Holds if each element of uIElementsToTurnOff was on or off before the game was paused
-    [SerializeField] private GameObject[] pauseMenuElements;    // The things we want to turn on when the game is paused
+    [SerializeField] private GameObject[] pauseMenuElements = null;     // The things we want to turn on when the game is paused
     private InputController inpContRef; // Reference to the Input controller
     // References to the various scripts that will be turned off by the pause
     private List<MoveAttack> allyMARefs;

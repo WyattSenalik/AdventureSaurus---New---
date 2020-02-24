@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class EnemyMoveAttackAI : MonoBehaviour
 {
-    [SerializeField] Transform charParent = null;   // The parent of all the characters
+    [SerializeField] private Transform charParent = null;   // The parent of all the characters
+    [SerializeField] private int aggroRange = 8;    // Range the enemies will aggro
     private TurnSystem turnSysRef;  // Reference to the TurnSystem script
     private MoveAttackController mAContRef; // Reference to the MoveAttackController script
+    private CamFollow camFollowRef; // Reference to the CamFollow script
     private List<MoveAttack> alliesMA;  // List of all allies' MoveAttack scripts
     private List<MoveAttack> enemiesMA; // List of all enemies' MoveAttack scripts
     private int enemyIndex; // The current enemy in enemiesMA that should be moved
@@ -16,8 +18,10 @@ public class EnemyMoveAttackAI : MonoBehaviour
     {
         get { return currentEnemy; }
     }
-    public string enemyName;
-    public bool isMoving;
+    private bool curEnemyActive;    // If the current enemy is an active enemy that will be moving
+    //public string enemyName;
+    //public bool isMoving;
+
     // Set References
     private void Awake()
     {
@@ -36,6 +40,17 @@ public class EnemyMoveAttackAI : MonoBehaviour
             // Make sure we verify we actually found a TurnSystem
             if (turnSysRef == null)
                 Debug.Log("There was no TurnSystem attached to " + gameController.name);
+        }
+
+        GameObject mainCamObj = GameObject.FindWithTag("MainCamera");
+        if (mainCamObj == null)
+            Debug.Log("Could not find any GameObject  with the tag MainCamera");
+        else
+        {
+            camFollowRef = mainCamObj.GetComponent<CamFollow>();
+            // Make sure we verify we actually found a MoveAttackController
+            if (camFollowRef == null)
+                Debug.Log("There was no CamFollow attached to " + mainCamObj.name);
         }
     }
 
@@ -66,29 +81,60 @@ public class EnemyMoveAttackAI : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
-        //if (Input.GetMouseButtonDown(0))
-        // NextEnemy();
-    }
-
     /// <summary>
     /// Finds all the enmies and starts to make the first enemy move
     /// </summary>
     public void StartTakeTurn()
     {
         Start();    // Refind all the allies and enemies as well set enemyIndex to 0
-        NextEnemy();    // Start from the first enemy
+        StartNextEnemy();    // Start from the first enemy
     }
 
     /// <summary>
     /// Has the current enemy move and then increments it so that the next time this is called, the next enemy will move
     /// </summary>
-    public void NextEnemy()
+    public IEnumerator NextEnemy()
     {
         if (enemyIndex < enemiesMA.Count)
         {
+            // Try to get the current enemy we should move
+            currentEnemy = enemiesMA[enemyIndex];
+            // If the enemy does not exist, do not try to move it
+            if (currentEnemy != null)
+            {
+                // See if the current enemy will be active
+                curEnemyActive = false;
+                Node enemyNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+                for (int i = 0; i < alliesMA.Count; ++i)
+                {
+                    MoveAttack ally = alliesMA[i];
+                    // Make sure the enemy exists
+                    if (ally == null)
+                    {
+                        alliesMA.RemoveAt(i);
+                        --i;
+                        continue;
+                    }
+
+                    Node allyNode = mAContRef.GetNodeByWorldPosition(ally.transform.position);
+                    if (Mathf.Abs(enemyNode.position.x - allyNode.position.x) + Mathf.Abs(enemyNode.position.y - allyNode.position.y) <= aggroRange)
+                    {
+                        curEnemyActive = true;
+                        break;
+                    }
+                }
+
+                if (curEnemyActive)
+                {
+                    camFollowRef.FollowEnemy(currentEnemy.transform);
+                    // Wait until the camera is on the enemy we are about to take the turn of
+                    while (!camFollowRef.AmFollowing)
+                    {
+                        yield return null;
+                    }
+                }
+            }
+
             // Have the current enemy take their turn
             TakeSingleTurn();
   
@@ -98,8 +144,9 @@ public class EnemyMoveAttackAI : MonoBehaviour
         else
         {
             turnSysRef.StartPlayerTurn();
-            Debug.Log("All enemies have moved");
         }
+
+        yield return null;
     }
 
     /// <summary>
@@ -252,7 +299,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// Finds the closest ally to the current enemy
     /// </summary>
     /// <returns>Returns the node that the closest ally is on</returns>
-    private Node FindAllyOutOfRange(int maxDepth = 8)
+    private Node FindAllyOutOfRange()
     {
         // Get the node the current enemy is at
         Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
@@ -272,7 +319,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
             }
 
             Node allyNode = mAContRef.GetNodeByWorldPosition(ally.transform.position);
-            if (Mathf.Abs(startNode.position.x - allyNode.position.x) + Mathf.Abs(startNode.position.y - allyNode.position.y) <= maxDepth)
+            if (Mathf.Abs(startNode.position.x - allyNode.position.x) + Mathf.Abs(startNode.position.y - allyNode.position.y) <= aggroRange)
             {
                 allyIsClose = true;
                 break;
@@ -290,7 +337,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         currentNodes.Add(startNode);
         // While we haven't explored all the nodes yet or we havent explored the maxDepth yet
         int curDepth = 0;
-        while (currentNodes.Count != 0 && curDepth < maxDepth)
+        while (currentNodes.Count != 0 && curDepth < aggroRange)
         {
             int amountNodes = currentNodes.Count;
 
@@ -368,5 +415,13 @@ public class EnemyMoveAttackAI : MonoBehaviour
             }
         }
         return false;
+    }
+
+    /// <summary>
+    /// Starts a coroutine of nextEnemy
+    /// </summary>
+    public void StartNextEnemy()
+    {
+        StartCoroutine(NextEnemy());
     }
 }

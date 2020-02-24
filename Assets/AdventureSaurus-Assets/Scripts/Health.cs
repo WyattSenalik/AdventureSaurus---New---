@@ -250,7 +250,7 @@ public class Health : MonoBehaviour
         // If the character is an ally, that means an enemy killed it, so we have to tell the enemy AI script to move the next enemy
         if (whatAmI == CharacterType.Ally)
         {
-            enMAAIRef.NextEnemy();
+            enMAAIRef.StartNextEnemy();
             //Debug.Log("Dead ally");
         }
         // If the character is an enemy, that means an ally killed it, so we have to allow the user to select again

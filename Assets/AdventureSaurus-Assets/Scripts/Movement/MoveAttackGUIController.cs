@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class MoveAttackGUIController : MonoBehaviour
 {
-    [SerializeField] private GameObject endTurnButtonObj;   // Reference to the gameObject of the endTurnButton. This is turned on and off when the user has control
+    [SerializeField] private GameObject endTurnButtonObj = null;    // Reference to the gameObject of the endTurnButton. This is turned on and off when the user has control
     private MoveAttackController mAContRef = null;  // Reference to the MoveAttackController script
     private InputController inpContRef = null;  // Reference to the InputController script
     private MoveAttack charSelected;    // A reference to the selected character's MoveAttack script 
     private bool canSelect; // If the user can select things right now
-    private bool awaitingChoice;    // Whether the user must make a choice on where to move after saying they want to attack without moving first
     private Node nodeToAttack;  // Used with MoveAndAttack to keep track of who we should be attacking
     
     public  bool areSelected1,areSelected2,areSelected3;
@@ -257,7 +256,6 @@ public class MoveAttackGUIController : MonoBehaviour
         Deselect(); // Deselect anything that was selected
         // To be safe, reset any held references
         nodeToAttack = null;
-        awaitingChoice = false;
     }
 
 

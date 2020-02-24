@@ -396,7 +396,7 @@ public class MoveAttack : MonoBehaviour
             // If this character is an enemy, have the next enemy attack
             if (whatAmI == CharacterType.Enemy)
             {
-                enMAAIRef.NextEnemy();
+                enMAAIRef.StartNextEnemy();
             }
             // If this character is an ally, give back control to the user
             if (whatAmI == CharacterType.Ally)

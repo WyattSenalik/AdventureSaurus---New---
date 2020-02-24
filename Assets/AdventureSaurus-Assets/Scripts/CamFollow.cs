@@ -20,7 +20,6 @@ public class CamFollow : MonoBehaviour
     public Transform enemy6;
     public Transform enemy7;
     public Transform enemy8;
-
    
 
     //Camera variables//
@@ -42,11 +41,28 @@ public class CamFollow : MonoBehaviour
     public MoveAttackGUIController control;
     public EnemyMoveAttackAI whoIsEnemy;
 
+    /// Wyatt added
+    // Stuff for getting the camera to follow each enemy
+    private bool amFollowing;   // If the camera is following an enemy or not
+    public bool AmFollowing
+    {
+        get { return amFollowing; }
+    }
+    /// End Wyatt added
+
     void Awake()
     {
         //defaults camera to player position
         player1Cam();
     }
+
+    /// Wyatt added
+    // Called before the first frame update
+    private void Start()
+    {
+        amFollowing = false;
+    }
+    /// End Wyatt added
 
     void FixedUpdate()
     {
@@ -84,6 +100,17 @@ public class CamFollow : MonoBehaviour
         {
             Vector3 targetPosition = enemy1.TransformPoint(new Vector3(0, 0, -10));
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+
+            /// Wyatt added
+            if (Mathf.Abs(transform.position.x - targetPosition.x) + Mathf.Abs(transform.position.y - targetPosition.y) <= 1)
+            {
+                amFollowing = true;
+            }
+            else
+            {
+                amFollowing = false;
+            }
+            /// End Wyatt added
         }
    
         //
@@ -95,6 +122,7 @@ public class CamFollow : MonoBehaviour
     //Cam follows player 1
     public void player1Cam()
     {
+        amFollowing = false;
         isOnPlayer1 = true;
         isOnPlayer2 = false;
         isOnPlayer3 = false;
@@ -103,6 +131,7 @@ public class CamFollow : MonoBehaviour
     //Cam follows player 2
     public void player2Cam()
     {
+        amFollowing = false;
         isOnPlayer1 = false;
         isOnPlayer2 = true;
         isOnPlayer3 = false;
@@ -111,6 +140,7 @@ public class CamFollow : MonoBehaviour
     //Cam follows player 3
     public void player3Cam()
     {
+        amFollowing = false;
         isOnPlayer1 = false;
         isOnPlayer2 = false;
         isOnPlayer3 = true;
@@ -119,6 +149,7 @@ public class CamFollow : MonoBehaviour
     //Cam follows enemies
     public void enemyCam()
     {
+        amFollowing = false;
         isOnPlayer1 = false;
         isOnPlayer2 = false;
         isOnPlayer3 = false;
@@ -150,7 +181,7 @@ public class CamFollow : MonoBehaviour
         if (turn.enemyTurn == true)
         {
   
-            enemyCam();
+            //enemyCam();
             /*
             enemySwitch();
              * */
@@ -176,6 +207,18 @@ public class CamFollow : MonoBehaviour
             }
         }
     }
+
+    /// Wyatt added
+    /// <summary>
+    /// Sets the camera to go to the enemy specified by enemyTrans
+    /// </summary>
+    /// <param name="enemyTrans">The transform of the enemy to follow</param>
+    public void FollowEnemy(Transform enemyTrans)
+    {
+        enemy1 = enemyTrans;
+        enemyCam();
+    }
+    /// End Wyatt added
 
     /*
     public void enemySwitch()
