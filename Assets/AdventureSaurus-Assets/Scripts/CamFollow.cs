@@ -79,17 +79,17 @@ public class CamFollow : MonoBehaviour
 
         //checks bool to see who camera needs to be on
         //
-        if (isOnPlayer1 == true)
+        if (player1!=null && isOnPlayer1 == true)
         {
             Vector3 targetPosition = player1.TransformPoint(new Vector3(0, 0, -10));
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
-        if (isOnPlayer2 == true)
+        if (player2 != null && isOnPlayer2 == true)
         {
             Vector3 targetPosition = player2.TransformPoint(new Vector3(0, 0, -10));
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
-        if (isOnPlayer3 == true)
+        if (player3 != null && isOnPlayer3 == true)
         {
             Vector3 targetPosition = player3.TransformPoint(new Vector3(0, 0, -10));
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
@@ -158,17 +158,17 @@ public class CamFollow : MonoBehaviour
     //
     private void camSelection()
     {
-        if (control.areSelected1 == true && player1)
+        if (player1!=null && control.areSelected1 == true)
         {
             player1Cam();
             control.areSelected1 = false;
         }
-        else if (control.areSelected2 == true && player2)
+        else if (player2 != null && control.areSelected2 == true)
         {
             player2Cam();
             control.areSelected2 = false;
         }
-        else if (control.areSelected3 == true && player3)
+        else if (player3 != null && control.areSelected3 == true)
         {
             player3Cam();
             control.areSelected3 = false;
@@ -220,54 +220,5 @@ public class CamFollow : MonoBehaviour
     }
     /// End Wyatt added
 
-    /*
-    public void enemySwitch()
-    {
-
-            if ( whoIsEnemy.enemyName==enemy1.name && enemy1 )
-            {
-                Vector3 targetPosition = enemy1.TransformPoint(new Vector3(0, 0, -10));
-                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-            }
-
-            
-            else if (whoIsEnemy.enemyName == enemy2.name && enemy2)
-            {
-                Vector3 targetPosition = enemy2.TransformPoint(new Vector3(0, 0, -10));
-                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-            }
-            else if (whoIsEnemy.enemyName == enemy3.name && enemy3)
-            {
-                Vector3 targetPosition = enemy3.TransformPoint(new Vector3(0, 0, -10));
-                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-            }
-            else if (whoIsEnemy.enemyName == enemy4.name && enemy4)
-            {
-                Vector3 targetPosition = enemy4.TransformPoint(new Vector3(0, 0, -10));
-                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-            }
-            else if (whoIsEnemy.enemyName == enemy5.name && enemy5)
-            {
-                Vector3 targetPosition = enemy5.TransformPoint(new Vector3(0, 0, -10));
-                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-            }
-            else if (whoIsEnemy.enemyName == enemy6.name && enemy6)
-            {
-                Vector3 targetPosition = enemy6.TransformPoint(new Vector3(0, 0, -10));
-                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-            }
-            else if (whoIsEnemy.enemyName == enemy7.name && enemy7)
-            {
-                Vector3 targetPosition = enemy7.TransformPoint(new Vector3(0, 0, -10));
-                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-            }
-            else if (whoIsEnemy.enemyName == enemy8.name && enemy8)
-            {
-                Vector3 targetPosition = enemy8.TransformPoint(new Vector3(0, 0, -10));
-                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-            }
-        
-        
-    }
-    */
+   
 }
