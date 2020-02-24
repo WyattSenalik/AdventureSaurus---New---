@@ -5077,6 +5077,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 611029754}
+  - component: {fileID: 611029755}
   m_Layer: 0
   m_Name: EndStairs
   m_TagString: Untagged
@@ -5098,6 +5099,22 @@ Transform:
   m_Father: {fileID: 329865860}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &611029755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611029753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5258049b3bc3ee4cb858150e9630b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1: {fileID: 15832296}
+  player2: {fileID: 534659169}
+  player3: {fileID: 11730880}
+  stair: {fileID: 611029754}
 --- !u!1 &627532696
 GameObject:
   m_ObjectHideFlags: 0
@@ -8672,7 +8689,7 @@ Sprite:
         format: 0
         dimension: 0
       m_DataSize: 80
-      _typelessdata: 000000bf0000003f000000000000003f0000003f00000000000000bf000000bf000000000000003f000000bf000000000000000000000000000000000000000000000000000000000000000000000000
+      _typelessdata: 000000bf0000003f000000000000003f0000003f00000000000000bf000000bf000000000000003f000000bf00000000000000000000803f0000803f0000803f00000000000000000000803f00000000
     m_Bindpose: []
     textureRect:
       serializedVersion: 2
