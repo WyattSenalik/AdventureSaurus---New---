@@ -24,12 +24,11 @@ public class BasicAttack : Skill
     /// <summary>
     /// Starts the skills animation and gets a reference to the enemy that will be hit.
     /// </summary>
-    /// <param name="attackNodesPos">The nodes that will be attacked. There should only be 1 attackNode in attackNodes for Basic Attack</param>
-    override public void StartSkill(List<Vector2Int> attackNodesPos)
+    /// <param name="attackNodesPos">The position of the node that will be attacked</param>
+    override public void StartSkill(Vector2Int attackNodePos)
     {
-        Vector2Int nodePos = new Vector2Int(attackNodesPos[0].x, attackNodesPos[0].y);
         // We have to set the enemy to attack, we just need to validate a bit first
-        Node nodeToAttack = mAContRef.GetNodeAtPosition(nodePos);
+        Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
         if (nodeToAttack != null)
         {
             MoveAttack charToAttack = mAContRef.GetCharacterMAByNode(nodeToAttack);
@@ -42,7 +41,7 @@ public class BasicAttack : Skill
                     Debug.Log("Enemy to attack does not have a Health script attached to it");
 
                 // Start the skill's animation
-                StartSkillAnimation(nodePos);
+                StartSkillAnimation(attackNodePos);
             }
             else
                 Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");

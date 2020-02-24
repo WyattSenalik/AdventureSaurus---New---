@@ -70,7 +70,8 @@ public class Skill : MonoBehaviour
     /// <summary>
     /// Calls StartSkillAnimation and gets reference to the enemies damaged by this skill
     /// </summary>
-    virtual public void StartSkill(List<Vector2Int> attackNodesPos)
+    /// <param name="attackNodesPos">Grid position of the node at the center of the skill</param>
+    virtual public void StartSkill(Vector2Int attackNodesPos)
     {
         Debug.Log("StartAttack not implemented");
     }

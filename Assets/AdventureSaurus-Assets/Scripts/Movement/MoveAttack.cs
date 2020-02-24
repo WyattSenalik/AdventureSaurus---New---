@@ -319,9 +319,7 @@ public class MoveAttack : MonoBehaviour
         // We have attacked
         hasAttacked = true;
 
-        List<Vector2Int> attackNodesPos = new List<Vector2Int>();
-        attackNodesPos.Add(attackNodePos);
-        skillRef.StartSkill(attackNodesPos);
+        skillRef.StartSkill(attackNodePos);
         /*
         // We have to set the enemy to attack, we just need to validate a bit first
         Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
@@ -382,7 +380,6 @@ public class MoveAttack : MonoBehaviour
     /// </summary>
     public void EndAttack()
     {
-        Debug.Log("EndAttack for " + this.name);
         skillRef.EndSkill();
         /*
         //Debug.Log("Finished Attacking");
