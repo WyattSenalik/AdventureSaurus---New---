@@ -56,7 +56,6 @@ public class MoveAttackGUIController : MonoBehaviour
             // If the user has not already selected some character
             if (charSelected == null)
             {
-                Debug.Log("Attempt Select");
                 AttemptSelect(selectedNode);
             }
             // Otherwise, they have a character selected already

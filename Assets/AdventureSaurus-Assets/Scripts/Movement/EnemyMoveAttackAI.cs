@@ -286,10 +286,17 @@ public class EnemyMoveAttackAI : MonoBehaviour
             mAContRef.Pathing(closestAllyNode, CharacterType.Enemy, false);
             // Get the node the enemy is currently on
             Node desiredNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
-            // Use the new pathing and the current enemies movement range to determine where we should move
-            for (int i = 0; i < currentEnemy.MoveRange; ++i)
+            // In the case that the enemy is trying to move onto another enemy
+            int testRange = currentEnemy.MoveRange;
+            while (desiredNode.occupying != CharacterType.None)
             {
-                desiredNode = desiredNode.whereToGo;
+                desiredNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+                // Use the new pathing and the current enemies movement range to determine where we should move
+                for (int i = 0; i < testRange; ++i)
+                {
+                    desiredNode = desiredNode.whereToGo;
+                }
+                --testRange;
             }
             return desiredNode;
         }
