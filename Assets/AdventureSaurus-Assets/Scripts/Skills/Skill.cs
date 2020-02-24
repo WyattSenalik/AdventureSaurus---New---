@@ -6,7 +6,7 @@ public class Skill : MonoBehaviour
 {
 
     protected TurnSystem turnSysRef;//need turn system to call isPlayerDone after using Skill
-    protected MoveAttackGUIController maGuiControllerRef;
+    protected MoveAttackGUIController mAGUIContRef;
     protected MoveAttack maRef;// reference to the selected character's MoveAttack script
     protected MoveAttackController mAContRef;
     protected EnemyMoveAttackAI enMAAIRef;
@@ -32,8 +32,8 @@ public class Skill : MonoBehaviour
             {
                 Debug.Log("Could not find TurnSystem attached to " + gameControllerObj.name);
             }
-            maGuiControllerRef = gameControllerObj.GetComponent<MoveAttackGUIController>();
-            if (maGuiControllerRef == null)
+            mAGUIContRef = gameControllerObj.GetComponent<MoveAttackGUIController>();
+            if (mAGUIContRef == null)
             {
                 Debug.Log("Could not find MoveAttackGUIController attached to " + gameControllerObj.name);
             }

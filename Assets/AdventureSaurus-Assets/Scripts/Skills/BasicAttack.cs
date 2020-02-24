@@ -71,7 +71,7 @@ public class BasicAttack : Skill
                 enMAAIRef.NextEnemy();
             }
             // If this character is an ally, give back control to the user
-            if (whatAmI == CharacterType.Ally)
+            else if (maRef.WhatAmI == CharacterType.Ally)
             {
                 mAGUIContRef.AllowSelect();
                 turnSysRef.IsPlayerDone();

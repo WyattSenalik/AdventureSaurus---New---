@@ -71,9 +71,8 @@
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\MoveAttackGUIController.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\Node.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Pause.cs" />
-    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Skill\Basic Attack.cs" />
-    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Skill\Skill.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Skills\BasicAttack.cs" />
+    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Skills\Skill.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Skills\ThreeSixtySwing.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Stairs.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Stats.cs" />
