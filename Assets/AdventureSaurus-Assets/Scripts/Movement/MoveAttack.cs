@@ -187,8 +187,6 @@ public class MoveAttack : MonoBehaviour
         }
 
     }
-
-
  
     
     /// <summary>
@@ -204,14 +202,14 @@ public class MoveAttack : MonoBehaviour
             if (!doneTransX)
             {
                 // While this is left of the node it wants to get to
-                if (currentNode.whereToGo.position.x - this.gameObject.transform.position.x > 0.1f)
+                if (currentNode.whereToGo.position.x - this.gameObject.transform.position.x > 0.07f)
                 {
                     animRef.SetInteger("MoveState", 1);
                     sprRendRef.flipX = false;
                     this.gameObject.transform.position += Vector3.right * transSpeed * Time.deltaTime;
                 }
                 // While this is right of the node it wants to get to
-                else if (this.gameObject.transform.position.x - currentNode.whereToGo.position.x > 0.1f)
+                else if (this.gameObject.transform.position.x - currentNode.whereToGo.position.x > 0.07f)
                 {
                     animRef.SetInteger("MoveState", 1);
                     sprRendRef.flipX = true;
@@ -229,14 +227,14 @@ public class MoveAttack : MonoBehaviour
             if (!doneTransY)
             {
                 // While the node this wants to get to is above where this is
-                if (currentNode.whereToGo.position.y - this.gameObject.transform.position.y > 0.1f)
+                if (currentNode.whereToGo.position.y - this.gameObject.transform.position.y > 0.07f)
                 {
                     sprRendRef.flipX = false;
                     animRef.SetInteger("MoveState", 2);
                     this.gameObject.transform.position += Vector3.up * transSpeed * Time.deltaTime;
                 }
                 // While the node this wants to get to is below where this is
-                else if (this.gameObject.transform.position.y - currentNode.whereToGo.position.y > 0.1f)
+                else if (this.gameObject.transform.position.y - currentNode.whereToGo.position.y > 0.07f)
                 {
                     sprRendRef.flipX = false;
                     animRef.SetInteger("MoveState", 0);
@@ -312,8 +310,9 @@ public class MoveAttack : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the animtion direction and sets hasAttacked to true
+    /// Calls the StartSkill from skillRef and sets hasAttacked to true
     /// </summary>
+    /// <param name="attackNodePos">The grid position of the center of the attack</param>
     public void StartAttack(Vector2Int attackNodePos)
     {
         // We have attacked
@@ -376,7 +375,7 @@ public class MoveAttack : MonoBehaviour
     }
 
     /// <summary>
-    /// Stops the attack animation and lets the player have control again if there was no enemy to hit
+    /// Call EndSkill from skillRef
     /// </summary>
     public void EndAttack()
     {
