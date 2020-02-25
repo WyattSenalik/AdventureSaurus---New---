@@ -202,14 +202,14 @@ public class MoveAttack : MonoBehaviour
             if (!doneTransX)
             {
                 // While this is left of the node it wants to get to
-                if (currentNode.whereToGo.position.x - this.gameObject.transform.position.x > 0.07f)
+                if (currentNode.whereToGo.position.x - this.gameObject.transform.position.x > 0.03f)
                 {
                     animRef.SetInteger("MoveState", 1);
                     sprRendRef.flipX = false;
                     this.gameObject.transform.position += Vector3.right * transSpeed * Time.deltaTime;
                 }
                 // While this is right of the node it wants to get to
-                else if (this.gameObject.transform.position.x - currentNode.whereToGo.position.x > 0.07f)
+                else if (this.gameObject.transform.position.x - currentNode.whereToGo.position.x > 0.03f)
                 {
                     animRef.SetInteger("MoveState", 1);
                     sprRendRef.flipX = true;
@@ -218,7 +218,7 @@ public class MoveAttack : MonoBehaviour
                 // Once we get to the x value of the node
                 else
                 {
-                    this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(currentNode.whereToGo.position.x), Mathf.RoundToInt(this.gameObject.transform.position.y), this.gameObject.transform.position.z);
+                    //this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(currentNode.whereToGo.position.x), Mathf.RoundToInt(this.gameObject.transform.position.y), this.gameObject.transform.position.z);
                     doneTransX = true;
                 }
             }
@@ -227,14 +227,14 @@ public class MoveAttack : MonoBehaviour
             if (!doneTransY)
             {
                 // While the node this wants to get to is above where this is
-                if (currentNode.whereToGo.position.y - this.gameObject.transform.position.y > 0.07f)
+                if (currentNode.whereToGo.position.y - this.gameObject.transform.position.y > 0.03f)
                 {
                     sprRendRef.flipX = false;
                     animRef.SetInteger("MoveState", 2);
                     this.gameObject.transform.position += Vector3.up * transSpeed * Time.deltaTime;
                 }
                 // While the node this wants to get to is below where this is
-                else if (this.gameObject.transform.position.y - currentNode.whereToGo.position.y > 0.07f)
+                else if (this.gameObject.transform.position.y - currentNode.whereToGo.position.y > 0.03f)
                 {
                     sprRendRef.flipX = false;
                     animRef.SetInteger("MoveState", 0);
@@ -243,7 +243,7 @@ public class MoveAttack : MonoBehaviour
                 // Once we get to the y value of the node
                 else
                 {
-                    this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(this.gameObject.transform.position.x), Mathf.RoundToInt(currentNode.whereToGo.position.y), this.gameObject.transform.position.z);
+                    //this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(this.gameObject.transform.position.x), Mathf.RoundToInt(currentNode.whereToGo.position.y), this.gameObject.transform.position.z);
                     doneTransY = true;
                 }
             }
@@ -253,7 +253,8 @@ public class MoveAttack : MonoBehaviour
             {
                 // If that node is the last node, stop moving
                 if (currentNode.whereToGo == currentNode)
-                {
+                { 
+                    this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(currentNode.whereToGo.position.x), Mathf.RoundToInt(currentNode.whereToGo.position.y), this.gameObject.transform.position.z);
                     EndMove();
                 }
                 // Otherwise, find the next node
@@ -264,7 +265,7 @@ public class MoveAttack : MonoBehaviour
                     {
                         currentNode.occupying = CharacterType.None;
                     }
-                    animRef.SetInteger("MoveState", -1);
+                    //animRef.SetInteger("MoveState", -1);
                     currentNode = currentNode.whereToGo;
                     doneTransX = false;
                     doneTransY = false;
