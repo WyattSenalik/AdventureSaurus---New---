@@ -25626,6 +25626,7 @@ GameObject:
   - component: {fileID: 1851557506}
   - component: {fileID: 1851557505}
   - component: {fileID: 1851557508}
+  - component: {fileID: 1851557509}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -25668,7 +25669,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -25723,6 +25724,21 @@ MonoBehaviour:
   turn: {fileID: 314060241}
   control: {fileID: 314060239}
   whoIsEnemy: {fileID: 314060238}
+--- !u!114 &1851557509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851557504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9904f93f185add54d9c9abe762a06d68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxZoomSize: 8
+  minZoomSize: 2
+  zoomSpeed: 5
 --- !u!1 &1854242713
 GameObject:
   m_ObjectHideFlags: 0
