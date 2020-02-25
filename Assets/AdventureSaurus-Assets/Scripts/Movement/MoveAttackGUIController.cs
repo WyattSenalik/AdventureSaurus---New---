@@ -166,6 +166,9 @@ public class MoveAttackGUIController : MonoBehaviour
         charSelected = mAContRef.GetCharacterMAByNode(selNode);
         if (charSelected == null)
             return;
+        // Make sure this character is active before doing anything else
+        if (!charSelected.gameObject.activeInHierarchy)
+            return;
         // If it has one and hasn't moved this turn yet or hasn't attacked this turn
         if (!(charSelected.HasMoved && charSelected.HasAttacked))
         {
@@ -228,9 +231,10 @@ public class MoveAttackGUIController : MonoBehaviour
 
             return true;
         }
-        // If the current character can attack there, and there is an enemy there.
+        // If the current character can attack there, and there is an (active) enemy there.
         // Then we want the current character to walk to the closest node to there and attack
-        else if (charSelected.AttackTiles.Contains(selNode) && charAtNode != null && charAtNode.WhatAmI == CharacterType.Enemy)
+        else if (charSelected.AttackTiles.Contains(selNode) && charAtNode != null && 
+            charAtNode.WhatAmI == CharacterType.Enemy && charAtNode.gameObject.activeInHierarchy)
         {
             AttemptMoveAndAttack(selNode);
             return true;
@@ -251,7 +255,8 @@ public class MoveAttackGUIController : MonoBehaviour
     private bool AttemptAttack(Node selNode)
     {
         // If the current character can attack there
-        if (charSelected.AttackTiles.Contains(selNode) && selNode.occupying == CharacterType.Enemy)
+        MoveAttack charToAttack = mAContRef.GetCharacterMAByNode(selNode);
+        if (charSelected.AttackTiles.Contains(selNode) && selNode.occupying == CharacterType.Enemy && charToAttack != null && charToAttack.gameObject.activeInHierarchy)
         {
             ToggleSelect(false);    // Make it so that the player cannot select whilst something is attacking
             charSelected.StartAttack(selNode.position); // Start the attack
