@@ -25,6 +25,7 @@ public class MoveAttackController : MonoBehaviour
     [SerializeField] private Sprite attackTileSprite = null;    // The sprite that will be put on the visual attack tile
     [SerializeField] private string visualSortingLayer = "Default"; // The sorting layer that the tiles will be put on
 
+
     /// <summary>
     /// We have to wait for characters to set all their references first, so we go in start
     /// </summary>
@@ -382,6 +383,14 @@ public class MoveAttackController : MonoBehaviour
     /// <returns>A node with the same position as the entered position. Or null</returns>
     public Node GetNodeAtPosition(Vector2Int pos)
     {
+        // Make sure its not out of bounds
+        if (pos.x < gridTopLeft.x || pos.x > gridBotRight.x || pos.y < gridBotRight.y || pos.y > gridTopLeft.y)
+            return null;
+
+        int rowIndex = pos.y - gridBotRight.y;
+        int colIndex = pos.x - gridTopLeft.x;
+        return grid[rowIndex][colIndex];
+
         // Iterate over every row
         foreach (List<Node> row in grid)
         {
@@ -727,6 +736,8 @@ public class MoveAttackController : MonoBehaviour
         List<Node> validNodes = new List<Node>();   // This list is what will be returned. It is the nodes that can be attacked
 
         List<Node> currentNodes = new List<Node>(); // This list holds the nodes that have yet to be tested for validity
+        List<Node> testedNodes = new List<Node>();  // This list holds the nodes that have already been tested
+
         foreach (Node node in moveNodes)
         {
             currentNodes.Add(node);

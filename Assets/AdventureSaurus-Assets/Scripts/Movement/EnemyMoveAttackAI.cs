@@ -336,6 +336,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
                 break;
             }
         }
+        // Stop if there was no close ally
         if (!allyIsClose)
         {
             //Debug.Log("No ally is close");
@@ -370,7 +371,6 @@ public class EnemyMoveAttackAI : MonoBehaviour
                 // Check if this node is the endNode
                 if (currentNode != null && currentNode.occupying == CharacterType.Ally)
                 {
-                    Debug.Log("Current node " + currentNode.position);
                     return currentNode;
                 }
 
