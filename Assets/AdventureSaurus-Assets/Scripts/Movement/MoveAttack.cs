@@ -298,8 +298,6 @@ public class MoveAttack : MonoBehaviour
         {
             // Recalculate move and attack tiles before allowing to select again so that it doesn't look like you can move after moving
             // We need to recalculate the move and attack tiles
-            CalcMoveTiles();
-            CalcAttackTiles();
             mAGUIContRef.AllowSelect();
         }
         // If the character is an enemy, they need to attempt to attack now

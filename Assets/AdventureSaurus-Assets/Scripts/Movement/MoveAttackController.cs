@@ -152,7 +152,7 @@ public class MoveAttackController : MonoBehaviour
     /// Generates the visuals for movement and attack. Called once at the start of the game
     /// </summary>
     /// <param name="mARef">Reference to the character we are calculating visual tiles for</param>
-    public void InitializeVisualTiles(MoveAttack mARef)
+    private void InitializeVisualTiles(MoveAttack mARef)
     {
         // Create the actual game object
         mARef.rangeVisualParent = new GameObject("RangeVisualParent");
@@ -170,7 +170,7 @@ public class MoveAttackController : MonoBehaviour
 
         // Make the rest of the movement tiles around the character
         bool isMoveTile = true;
-        for (int i = 0; i <= mARef.MoveRange + mARef.AttackRange; ++i)
+        for (int i = 1; i <= mARef.MoveRange + mARef.AttackRange; ++i)
         {
             // If we have finished the move tiles
             if (i >= mARef.MoveRange + 1)
@@ -219,12 +219,6 @@ public class MoveAttackController : MonoBehaviour
     /// <param name="attackTileParent">The parent of attackTiles</param>
     private void CreateSingleVisualTile(int x, int y, MoveAttack charMA, bool isMoveTile, Transform moveTileParent, Transform attackTileParent)
     {
-        // Don't spawn a tile if it is out of bounds
-        Vector2Int tileGridPos = new Vector2Int(Mathf.RoundToInt(charMA.transform.position.x + x), Mathf.RoundToInt(charMA.transform.position.y + y));
-        Node testNode = GetNodeAtPosition(tileGridPos);
-        if (testNode == null)
-            return;
-
         // Make a move tile and attack tile at the location
         if (isMoveTile)
         {
@@ -262,7 +256,7 @@ public class MoveAttackController : MonoBehaviour
     }
 
     /// <summary>
-    /// Turns on or off the range visuals for movement and attack for this character
+    /// Turns on the range visuals for movement and attack for this character
     /// </summary>
     /// <param name="shouldTurnOn">Is true, turn on the visuals. If false, turn them off</param>
     public void SetActiveVisuals(MoveAttack mARef)
@@ -281,8 +275,15 @@ public class MoveAttackController : MonoBehaviour
                     continue;
                 }
                 // If the node is the same node as the one we are searching for, turn it on and break from this for
-                if (tilesNode == moveNode)
+                if (tilesNode.position == moveNode.position)
                 {
+                    // If the node is empty we want it to be more highlighted, signifying we can move there
+                    SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
+                    if (tilesNode.occupying == CharacterType.None)
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
+                    else
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
+
                     tileTrans.gameObject.SetActive(true);
                     break;
                 }
@@ -307,8 +308,16 @@ public class MoveAttackController : MonoBehaviour
                     continue;
                 }
                 // If the node is the same node as the one we are searching for, turn it on and break from this for
-                if (tilesNode == attackNode)
+                if (tilesNode.position == attackNode.position)
                 {
+                    // If the node is contains an enemy/ally (depending on the character's team) we want it to be more highlighted, signifying we can attack it
+                    SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
+                    if (tilesNode.occupying == CharacterType.Ally && mARef.WhatAmI == CharacterType.Enemy ||
+                        tilesNode.occupying == CharacterType.Enemy && mARef.WhatAmI == CharacterType.Ally)
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
+                    else
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
+
                     tileTrans.gameObject.SetActive(true);
                     break;
                 }
