@@ -74,6 +74,13 @@ public class MoveAttack : MonoBehaviour
     // For turns
     private TurnSystem turnSysRef;  // Reference to the TurnSystem script
 
+    // For displaying the information about this character
+    private Stats statsRef; // Reference to this character's stats
+    public Stats MyStats
+    {
+        get { return statsRef; }
+    }
+
     // Set references
     private void Awake()
     {
@@ -120,6 +127,11 @@ public class MoveAttack : MonoBehaviour
         if (skillRef == null)
         {
             Debug.Log("Could not find Skill attached to " + this.name);
+        }
+        statsRef = this.GetComponent<Stats>();
+        if (statsRef == null)
+        {
+            Debug.Log("Could not find Stats attached to " + this.name);
         }
     }
 

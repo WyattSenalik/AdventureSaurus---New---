@@ -65,7 +65,7 @@ public class MoveAttackGUIController : MonoBehaviour
         {
             // Get the node that was just selected
             Node selectedNode = GetSelectedNode();
-            // Deselect whatever was selected
+            // Deselect whatever charcter we had select if the user clicked somewhere that is not a node
             if (selectedNode == null)
             {
                 Deselect();
@@ -81,12 +81,26 @@ public class MoveAttackGUIController : MonoBehaviour
             // Otherwise, they have a character selected already
             else
             {
+                // If the selected node is the one housing the currently selected character
+                MoveAttack mARef = mAContRef.GetCharacterMAByNode(selectedNode);
+                if (mARef != null && mARef == charSelected)
+                {
+                    // If we aren't display stats, we want to do that
+                    if (!mARef.MyStats.AreStatsDisplayed())
+                    {
+                        mARef.MyStats.DisplayStats(true);
+                    }
+                    // If we are, we want to stop
+                    else
+                    {
+                        mARef.MyStats.DisplayStats(false);
+                    }
+                }
                 // If the selected node contains an ally, deselect the current selected character, and select the new character
                 // Or if the selected node contains an enemy and we have an enemy selected
-                if (selectedNode.occupying == CharacterType.Ally ||
+                else if (selectedNode.occupying == CharacterType.Ally ||
                     (selectedNode.occupying == CharacterType.Enemy && charSelected.WhatAmI == CharacterType.Enemy))
                 {
-                    MoveAttack mARef = mAContRef.GetCharacterMAByNode(selectedNode);
                     if (mARef == null)
                         Debug.Log("There was no MoveAttack script associated with this node, yet it was occupied by an Ally");
                     // If that ally is not the currently selected ally, attempt to select them
@@ -110,6 +124,9 @@ public class MoveAttackGUIController : MonoBehaviour
                         // Try to move/attack with them. If it fails (since the node was an invalid one to move/attack), try to select an enemy if its there
                         if (!AttemptMoveOrAttack(selectedNode))
                             AttemptSelect(selectedNode);
+                        // If it was successful, we need to hide their stats
+                        else
+                            charSelected.MyStats.DisplayStats(false);
                     }
                     // If the character has moved, but not attacked yet
                     else if (!charSelected.HasAttacked)
@@ -156,6 +173,7 @@ public class MoveAttackGUIController : MonoBehaviour
         }
 
         // Camera stuff
+        // Update ally camera
         if (charSelected.WhatAmI == CharacterType.Ally)
         {
             if (charSelected.name == "Ally (1)")
@@ -171,16 +189,19 @@ public class MoveAttackGUIController : MonoBehaviour
                 areSelected3 = true;
             }
         }
+        // Update enemy camera
         else if (charSelected.WhatAmI == CharacterType.Enemy)
         {
             camFollowRef.FollowEnemy(charSelected.transform);
         }
 
+        /*
         // If the character has already moved, we dont really want to keep them selected, so deselect them
         if (charSelected.WhatAmI == CharacterType.Ally && charSelected.HasMoved && charSelected.HasAttacked)
         {
             Deselect();
         }
+        */
     }
     
     /// <summary>
@@ -247,6 +268,7 @@ public class MoveAttackGUIController : MonoBehaviour
         if (charSelected != null)
         {
             mAContRef.TurnOffVisuals(charSelected);
+            charSelected.MyStats.DisplayStats(false);
             charSelected = null;
         }
     }
