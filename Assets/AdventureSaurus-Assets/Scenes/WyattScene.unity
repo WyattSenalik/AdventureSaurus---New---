@@ -25668,7 +25668,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -25714,13 +25714,6 @@ MonoBehaviour:
   player2: {fileID: 625843695}
   player3: {fileID: 1198382505}
   enemy1: {fileID: 0}
-  enemy2: {fileID: 0}
-  enemy3: {fileID: 0}
-  enemy4: {fileID: 0}
-  enemy5: {fileID: 1352924767}
-  enemy6: {fileID: 1017252440}
-  enemy7: {fileID: 1813054334}
-  enemy8: {fileID: 1531045646}
   smoothTime: 0.3
   cameraDistance: 30
   isOnPlayer1: 0

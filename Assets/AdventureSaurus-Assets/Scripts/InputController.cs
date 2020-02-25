@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
-    private bool canInput;
+    private bool canInput;  // Whether input will be excepted or not
 
+    // Initialize variables
     private void Start()
     {
         canInput = true;
@@ -41,11 +42,17 @@ public class InputController : MonoBehaviour
         return new Vector2Int(0, 0);
     }
 
+    /// <summary>
+    /// Sets canInput to true
+    /// </summary>
     public void AllowInput()
     {
         canInput = true;
     }
 
+    /// <summary>
+    /// Sets canInput to false
+    /// </summary>
     public void DenyInput()
     {
         canInput = false;

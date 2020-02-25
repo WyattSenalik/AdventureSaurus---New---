@@ -391,6 +391,7 @@ public class MoveAttackController : MonoBehaviour
         int colIndex = pos.x - gridTopLeft.x;
         return grid[rowIndex][colIndex];
 
+        /*
         // Iterate over every row
         foreach (List<Node> row in grid)
         {
@@ -406,6 +407,7 @@ public class MoveAttackController : MonoBehaviour
         }
         // If we found no node with the desired position
         return null;
+        */
     }
 
     /// <summary>

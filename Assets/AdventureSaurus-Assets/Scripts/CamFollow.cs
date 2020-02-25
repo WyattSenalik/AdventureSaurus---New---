@@ -11,15 +11,8 @@ public class CamFollow : MonoBehaviour
     public Transform player2;
     //Character 3
     public Transform player3;
-    //Enemies
+    //Enemy to follow
     public Transform enemy1;
-    public Transform enemy2;
-    public Transform enemy3;
-    public Transform enemy4;
-    public Transform enemy5;
-    public Transform enemy6;
-    public Transform enemy7;
-    public Transform enemy8;
    
 
     //Camera variables//

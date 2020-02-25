@@ -10,8 +10,10 @@ public class MoveAttackGUIController : MonoBehaviour
     private MoveAttack charSelected;    // A reference to the selected character's MoveAttack script 
     private bool canSelect; // If the user can select things right now
     private Node nodeToAttack;  // Used with MoveAndAttack to keep track of who we should be attacking
-    
-    public  bool areSelected1,areSelected2,areSelected3;
+
+    // For CamFollow
+    private CamFollow camFollowRef;
+    public bool areSelected1,areSelected2,areSelected3;
     
     // Set references
     private void Awake()
@@ -27,6 +29,16 @@ public class MoveAttackGUIController : MonoBehaviour
         {
             Debug.Log("Could not find InputController attached to " + this.name);
         }
+
+        GameObject mainCam = GameObject.FindWithTag("MainCamera");
+        if (mainCam == null)
+            Debug.Log("Could not find a GameObject with the tag MainCamera");
+        else
+        {
+            camFollowRef = mainCam.GetComponent<CamFollow>();
+            if (camFollowRef == null)
+                Debug.Log("Could not find CamFollow attached to " + mainCam.name);
+        }
     }
 
     // Start is called before the first frame update
@@ -39,6 +51,14 @@ public class MoveAttackGUIController : MonoBehaviour
     // Update is called once per frame
     // We use it to test for input and take the appropriate action
     private void Update()
+    {
+        CheckForSelection();
+    }
+
+    /// <summary>
+    /// Called every frame, logics out what should happen upon a selection from the user
+    /// </summary>
+    private void CheckForSelection()
     {
         // If the user can select things right now and they tried to select something
         if (canSelect && inpContRef.SelectClick())
@@ -62,7 +82,9 @@ public class MoveAttackGUIController : MonoBehaviour
             else
             {
                 // If the selected node contains an ally, deselect the current selected character, and select the new character
-                if (selectedNode.occupying == CharacterType.Ally)
+                // Or if the selected node contains an enemy and we have an enemy selected
+                if (selectedNode.occupying == CharacterType.Ally ||
+                    (selectedNode.occupying == CharacterType.Enemy && charSelected.WhatAmI == CharacterType.Enemy))
                 {
                     MoveAttack mARef = mAContRef.GetCharacterMAByNode(selectedNode);
                     if (mARef == null)
@@ -85,15 +107,24 @@ public class MoveAttackGUIController : MonoBehaviour
                     // If the character has not moved yet
                     if (!charSelected.HasMoved)
                     {
-                        AttemptMoveOrAttack(selectedNode);
+                        // Try to move/attack with them. If it fails (since the node was an invalid one to move/attack), try to select an enemy if its there
+                        if (!AttemptMoveOrAttack(selectedNode))
+                            AttemptSelect(selectedNode);
                     }
                     // If the character has moved, but not attacked yet
                     else if (!charSelected.HasAttacked)
                     {
-                        AttemptAttack(selectedNode);
-                        Deselect(); // Deselect the already selected character
+                        // Try to attack, if successful, just deselect
+                        if (AttemptAttack(selectedNode))
+                            Deselect(); // Deselect the already selected character
+                        // Otherwise, the node was invalid to attack, so try to select a character if there is one there
+                        else
+                        {
+                            Deselect();
+                            AttemptSelect(selectedNode);
+                        }
                     }
-                    // If they can do neither, just deselect
+                    // If they can do neither just deselect (this would probably never happen)
                     else
                     {
                         Deselect();
@@ -103,7 +134,7 @@ public class MoveAttackGUIController : MonoBehaviour
                 else
                 {
                     Deselect();
-                }                
+                }
             }
         }
     }
@@ -116,12 +147,16 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         // Try to get the MoveAttack script off the character
         charSelected = mAContRef.GetCharacterMAByNode(selNode);
+        if (charSelected == null)
+            return;
         // If it has one and hasn't moved this turn yet or hasn't attacked this turn
-        if (charSelected != null && !(charSelected.HasMoved && charSelected.HasAttacked))
+        if (!(charSelected.HasMoved && charSelected.HasAttacked))
         {
             mAContRef.SetActiveVisuals(charSelected);    // Set the visuals of it to be on
         }
-        if (charSelected != null && charSelected.WhatAmI == CharacterType.Ally)
+
+        // Camera stuff
+        if (charSelected.WhatAmI == CharacterType.Ally)
         {
             if (charSelected.name == "Ally (1)")
             {
@@ -135,10 +170,14 @@ public class MoveAttackGUIController : MonoBehaviour
             {
                 areSelected3 = true;
             }
-
         }
+        else if (charSelected.WhatAmI == CharacterType.Enemy)
+        {
+            camFollowRef.FollowEnemy(charSelected.transform);
+        }
+
         // If the character has already moved, we dont really want to keep them selected, so deselect them
-        if (charSelected != null && charSelected.WhatAmI == CharacterType.Ally && charSelected.HasMoved && charSelected.HasAttacked)
+        if (charSelected.WhatAmI == CharacterType.Ally && charSelected.HasMoved && charSelected.HasAttacked)
         {
             Deselect();
         }
@@ -149,7 +188,8 @@ public class MoveAttackGUIController : MonoBehaviour
     /// or tries to go to hit the enemy at the selected node
     /// </summary>
     /// <param name="selNode">The node that was just selected</param>
-    private void AttemptMoveOrAttack(Node selNode)
+    /// <returns>Returns true if the character will do an action, false if they just got deselected</returns>
+    private bool AttemptMoveOrAttack(Node selNode)
     {
         MoveAttack charAtNode = mAContRef.GetCharacterMAByNode(selNode);
         // If the current character can move there
@@ -164,17 +204,21 @@ public class MoveAttackGUIController : MonoBehaviour
             // Start moving the character
             charSelected.StartMove();
             mAContRef.TurnOffVisuals(charSelected);
+
+            return true;
         }
         // If the current character can attack there, and there is an enemy there.
         // Then we want the current character to walk to the closest node to there and attack
         else if (charSelected.AttackTiles.Contains(selNode) && charAtNode != null && charAtNode.WhatAmI == CharacterType.Enemy)
         {
             AttemptMoveAndAttack(selNode);
+            return true;
         }
         // If neither, just deselect them
         else
         {
             Deselect();
+            return false;
         }
     }
 
@@ -182,14 +226,17 @@ public class MoveAttackGUIController : MonoBehaviour
     /// Tries to attack something near itself
     /// </summary>
     /// <param name="selNode">The node that was selected</param>
-    private void AttemptAttack(Node selNode)
+    /// <returns>Returns true if the attack was successful, false otherwise</returns>
+    private bool AttemptAttack(Node selNode)
     {
         // If the current character can attack there
         if (charSelected.AttackTiles.Contains(selNode) && selNode.occupying == CharacterType.Enemy)
         {
             ToggleSelect(false);    // Make it so that the player cannot select whilst something is attacking
             charSelected.StartAttack(selNode.position); // Start the attack
+            return true;
         }
+        return false;
     }
 
     /// <summary>
