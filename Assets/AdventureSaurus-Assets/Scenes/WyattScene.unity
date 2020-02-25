@@ -3750,7 +3750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charParent: {fileID: 703480826}
-  aggroRange: 8
+  aggroRange: 12
 --- !u!114 &314060239
 MonoBehaviour:
   m_ObjectHideFlags: 0

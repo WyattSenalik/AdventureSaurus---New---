@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyMoveAttackAI : MonoBehaviour
 {
     [SerializeField] private Transform charParent = null;   // The parent of all the characters
-    [SerializeField] private int aggroRange = 8;    // Range the enemies will aggro
+    [SerializeField] private int aggroRange = 16;    // Range the enemies will aggro
     private TurnSystem turnSysRef;  // Reference to the TurnSystem script
     private MoveAttackController mAContRef; // Reference to the MoveAttackController script
     private CamFollow camFollowRef; // Reference to the CamFollow script
