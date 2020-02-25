@@ -316,6 +316,8 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // Find the allies, and see if they are more than maxDepth grid units away anyway
         // If they are, we just return null
         bool allyIsClose = false;
+        // The node the ally will be at if its found
+        Node allyNode = null;
         for (int i = 0; i < alliesMA.Count; ++i)
         {
             MoveAttack ally = alliesMA[i];
@@ -327,7 +329,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
                 continue;
             }
 
-            Node allyNode = mAContRef.GetNodeByWorldPosition(ally.transform.position);
+            allyNode = mAContRef.GetNodeByWorldPosition(ally.transform.position);
             if (Mathf.Abs(startNode.position.x - allyNode.position.x) + Mathf.Abs(startNode.position.y - allyNode.position.y) <= aggroRange)
             {
                 allyIsClose = true;
@@ -346,84 +348,64 @@ public class EnemyMoveAttackAI : MonoBehaviour
         currentNodes.Add(startNode);
         // While we haven't explored all the nodes yet or we havent explored the maxDepth yet
         int curDepth = 0;
-        while (currentNodes.Count != 0 && curDepth < aggroRange)
+        while (currentNodes.Count != 0 && curDepth <= aggroRange)
         {
             int amountNodes = currentNodes.Count;
 
             for (int i = 0; i < amountNodes; ++i)
             {
-                Vector2Int inProgNodePos = currentNodes[0].position; // For quick reference
+                // The current node equals the node with the least F
+                Node currentNode = currentNodes[0];
+                // First, find this node
+                foreach (Node node in currentNodes)
+                {
+                    if (currentNode.F > node.F)
+                        currentNode = node;
+                }
+
+                // Remove it from inProgressNodes and add it to testedNodes
+                currentNodes.Remove(currentNode);
+                alreadyTestedNodes.Add(currentNode);
+
+                // Check if this node is the endNode
+                if (currentNode != null && currentNode.occupying == CharacterType.Ally)
+                {
+                    Debug.Log("Current node " + currentNode.position);
+                    return currentNode;
+                }
+
+
+                // Generate children
+                Vector2Int inProgNodePos = currentNode.position; // For quick reference
 
                 // Check above node
                 Vector2Int testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y + 1);
                 Node testNode = mAContRef.GetNodeAtPosition(testPos);
-                // If we find an ally, return the node that ally is at
-                if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
-                {
-                    return testNode;
-                }
+                // Test the node and see if it should be added to current nodes
+                mAContRef.PathingTestNode(testPos, currentNodes, alreadyTestedNodes, currentNode, allyNode.position, CharacterType.Enemy, false);
 
                 // Check left node
                 testPos = new Vector2Int(inProgNodePos.x - 1, inProgNodePos.y);
                 testNode = mAContRef.GetNodeAtPosition(testPos);
-                // If we find an ally, return the node that ally is at
-                if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
-                {
-                    return testNode;
-                }
+                // Test the node and see if it should be added to current nodes
+                mAContRef.PathingTestNode(testPos, currentNodes, alreadyTestedNodes, currentNode, allyNode.position, CharacterType.Enemy, false);
 
                 // Check right node
                 testPos = new Vector2Int(inProgNodePos.x + 1, inProgNodePos.y);
                 testNode = mAContRef.GetNodeAtPosition(testPos);
-                // If we find an ally, return the node that ally is at
-                if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
-                {
-                    return testNode;
-                }
+                // Test the node and see if it should be added to current nodes
+                mAContRef.PathingTestNode(testPos, currentNodes, alreadyTestedNodes, currentNode, allyNode.position, CharacterType.Enemy, false);
 
                 // Check down node
                 testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y - 1);
                 testNode = mAContRef.GetNodeAtPosition(testPos);
-                // If we find an ally, return the node that ally is at
-                if (DetectAllyAtNode(testNode, currentNodes, alreadyTestedNodes))
-                {
-                    return testNode;
-                }
-
-                // Add the node we just tested to the already tested nodes and remove it from the current nodes
-                alreadyTestedNodes.Add(currentNodes[0]);
-                currentNodes.RemoveAt(0);
+                // Test the node and see if it should be added to current nodes
+                mAContRef.PathingTestNode(testPos, currentNodes, alreadyTestedNodes, currentNode, allyNode.position, CharacterType.Enemy, false);
             }
-            ++curDepth;
+            //++curDepth;
         }
         // Found no allies on the map
         return null;
-    }
-
-    /// <summary>
-    /// Used to see if an enemy is at a node, if its not return false
-    /// Also adds the node to the currentNodes array so that we may test the nodes adjacent to this one
-    /// </summary>
-    /// <param name="testNode">The node being tested</param>
-    /// <param name="currentNodes">Reference to the List of Nodes that have not been tested yet and need to be</param>
-    /// <param name="alreadyTestedNodes">Reference to the List of Nodes that have already been tested</param>
-    public bool DetectAllyAtNode(Node testNode, List<Node> currentNodes, List<Node> alreadyTestedNodes)
-    {
-        // If the node exists and we haven't already tested it
-        if (testNode != null && !alreadyTestedNodes.Contains(testNode))
-        {
-            // If the node I am trying to go to is not occupied or is occupied by someone on my team
-            if (testNode.occupying == CharacterType.None || testNode.occupying == CharacterType.Enemy)
-            {
-                currentNodes.Add(testNode);
-            }
-            // If we found an ally at this node
-            else if (testNode.occupying == CharacterType.Ally)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     /// <summary>
