@@ -184,8 +184,8 @@ public class EnemyMoveAttackAI : MonoBehaviour
         }
     */
         // Calculate the pathing
-        mAContRef.ResetPathing();
-        mAContRef.Pathing(desiredNode, currentEnemy.WhatAmI);
+        Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+        mAContRef.Pathing(startNode, desiredNode, currentEnemy.WhatAmI);
         // Start moving the character
         currentEnemy.StartMove();
         
@@ -281,24 +281,26 @@ public class EnemyMoveAttackAI : MonoBehaviour
             {
                 return mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
             }
+            //Debug.Log("ClosestAllyNode " + closestAllyNode.position);
             // Find the path to that ally, we don't care about if we can actually move there in this case
-            mAContRef.ResetPathing();
-            mAContRef.Pathing(closestAllyNode, CharacterType.Enemy, false);
-            // Get the node the enemy is currently on
-            Node desiredNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+            Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+            mAContRef.Pathing(startNode, closestAllyNode, CharacterType.Enemy, false);
             // In the case that the enemy is trying to move onto another enemy
             int testRange = currentEnemy.MoveRange;
-            while (desiredNode.occupying != CharacterType.None)
+            while (startNode != null && startNode.occupying != CharacterType.None)
             {
-                desiredNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+                startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
                 // Use the new pathing and the current enemies movement range to determine where we should move
                 for (int i = 0; i < testRange; ++i)
                 {
-                    desiredNode = desiredNode.whereToGo;
+                    if (startNode != null)
+                    {
+                        startNode = startNode.whereToGo;
+                    }
                 }
                 --testRange;
             }
-            return desiredNode;
+            return startNode;
         }
     }
 

@@ -48,6 +48,9 @@ public class MoveAttackController : MonoBehaviour
         }
     }
 
+
+    // Grid functions 
+
     /// <summary>
     /// Initialize the grid to have nodes at all possible grid points
     /// </summary>
@@ -119,6 +122,10 @@ public class MoveAttackController : MonoBehaviour
         // Set that node to be occupied
         occupantNode.occupying = charType;
     }
+    // End Grid Functions
+
+    
+    // Visual Tile Functions
 
     /// <summary>
     /// Creates the visual tiles for when a character is clicked on
@@ -363,6 +370,10 @@ public class MoveAttackController : MonoBehaviour
             mARef.CalcAttackTiles();
         }
     }
+    // End Visual Tile Functions
+
+
+    // Grid Getter Functions
 
     /// <summary>
     /// Returns a node at the given position. If it finds no nodes, it returns null
@@ -423,6 +434,10 @@ public class MoveAttackController : MonoBehaviour
         }
         return null;
     }
+    // End Grid Getter Functions
+
+
+    // Pathing Functions
 
     /// <summary>
     /// Should always be called before Pathing. Resets the whereToGo variable on each node that determines where it should go
@@ -434,6 +449,10 @@ public class MoveAttackController : MonoBehaviour
             foreach (Node node in row)
             {
                 node.whereToGo = null;
+                node.G = 0;
+                node.H = 0;
+                node.F = 0;
+                node.parent = null;
             }
         }
     }
@@ -443,58 +462,119 @@ public class MoveAttackController : MonoBehaviour
     /// Characters of the same type can move through one another, but not onto each other.
     /// Walls cannot be traversed by any character
     /// </summary>
+    /// <param name="startNode">The node that we start at</param>
     /// <param name="endNode">The node that the pathing is trying to reach</param>
     /// <param name="requesterType">The type of the character who requested the pathing</param>
     /// <param name="shouldCare">If we should test if the node we are moving to is empty or not</param>
     /// <returns>True if the node that we tried to get to was valid, false otherwise</returns>
-    public bool Pathing(Node endNode, CharacterType requesterType, bool shouldCare=true)
+    public bool Pathing(Node startNode, Node endNode, CharacterType requesterType, bool shouldCare=true)
     {
-        // Make the first nodes end node be itself
+        ResetPathing();
+        //Debug.Log("Looking to go to node at " + endNode.position + " from node at " + startNode.position);
+
+        if (endNode == null)
+            return false;
+
+        // Make the last nodes' end node be itself
+        // We do this before so that enemies can walk in place. Don't question it
         endNode.whereToGo = endNode;
 
         // Make sure the node I want to go to is not occupied
         if (!shouldCare || endNode.occupying == CharacterType.None)
         {
-            List<Node> InProgressNodes = new List<Node>();  // The nodes that are being tested
-            InProgressNodes.Add(endNode);   // We start with the one we want to reach
+            List<Node> inProgressNodes = new List<Node>();  // The nodes that are being tested
+            List<Node> testedNodes = new List<Node>();
+            inProgressNodes.Add(startNode);   // We start with the one we want to reach
 
             // While we are still testing nodes
-            while (InProgressNodes.Count != 0)
+            while (inProgressNodes.Count != 0)
             {
-                int amountNodes = InProgressNodes.Count;    // The Count will change, so we set it be what we began with
+                // The current node equals the node with the least F
+                Node currentNode = inProgressNodes[0];
+                // First, find this node
+                foreach (Node node in inProgressNodes)
+                {
+                    if (currentNode.F > node.F)
+                        currentNode = node;
+                }
+
+                // Remove it from inProgressNodes and add it to testedNodes
+                inProgressNodes.Remove(currentNode);
+                testedNodes.Add(currentNode);
+
+                // Check if this node is the endNode
+                if (currentNode.position == endNode.position)
+                {
+                    //Debug.Log("Found Path");
+                    // Find the path
+                    Node prevPathNode = currentNode;
+                    Node curPathNode = currentNode.parent;
+                    while (curPathNode != null)
+                    {
+                        curPathNode.whereToGo = prevPathNode;
+                        prevPathNode = curPathNode;
+                        curPathNode = curPathNode.parent;
+                    }
+                    break;
+                }
+
+                // Generate children
+                Vector2Int inProgNodePos = currentNode.position; // For quick reference
+                //Debug.Log("Generating children of node at " + inProgNodePos);
+
+                // Check above node
+                Vector2Int testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y + 1);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, endNode.position, requesterType, shouldCare);
+
+                // Check left node
+                testPos = new Vector2Int(inProgNodePos.x - 1, inProgNodePos.y);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, endNode.position, requesterType, shouldCare);
+
+                // Check right node
+                testPos = new Vector2Int(inProgNodePos.x + 1, inProgNodePos.y);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, endNode.position, requesterType, shouldCare);
+
+                // Check down node
+                testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y - 1);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, endNode.position, requesterType, shouldCare);
+
+
+
+                /*
+                int amountNodes = inProgressNodes.Count;    // The Count will change, so we set it be what we began with
                 //Debug.Log("There are " + amountNodes + " nodes in InProgressNodes");
 
                 // Iterate over only the nodes that were in the list before we started testing
                 for (int i = 0; i < amountNodes; ++i)
                 {
-                    Vector2Int inProgNodePos = InProgressNodes[i].position; // For quick reference
+                    Vector2Int inProgNodePos = inProgressNodes[i].position; // For quick reference
                     //Debug.Log("Telling adjacent nodes to come to " + InProgressNodes[i].position);
                     // Check above node
                     Vector2Int testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y + 1);
-                    PathingTestNode(testPos, InProgressNodes, i, requesterType);
+                    PathingTestNode(testPos, inProgressNodes, i, requesterType);
 
                     // Check left node
                     testPos = new Vector2Int(inProgNodePos.x - 1, inProgNodePos.y);
-                    PathingTestNode(testPos, InProgressNodes, i, requesterType);
+                    PathingTestNode(testPos, inProgressNodes, i, requesterType);
 
                     // Check right node
                     testPos = new Vector2Int(inProgNodePos.x + 1, inProgNodePos.y);
-                    PathingTestNode(testPos, InProgressNodes, i, requesterType);
+                    PathingTestNode(testPos, inProgressNodes, i, requesterType);
 
                     // Check down node
                     testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y - 1);
-                    PathingTestNode(testPos, InProgressNodes, i, requesterType);
+                    PathingTestNode(testPos, inProgressNodes, i, requesterType);
                 }
                 for (int i = 0; i < amountNodes; ++i)
                 {
-                    InProgressNodes.RemoveAt(0);
+                    inProgressNodes.RemoveAt(0);
                 }
+                */
             }
             return true;    // Was a valid spot to move
         }
         else
         {
-            //Debug.Log("You cannot move here, it is occupied by " + endNode.occupying);
             return false;   // Was an invalid node
         }
     }
@@ -503,25 +583,57 @@ public class MoveAttackController : MonoBehaviour
     /// Used to test and set whereToGo of the current testNode in Pathing
     /// </summary>
     /// <param name="testPos">The position of the node being tested</param>
-    /// <param name="InProgressNodes">Reference to the List of Nodes that have not been tested yet and need to be</param>
-    /// <param name="i">Index of the InProgressNodes we are testing</param>
+    /// <param name="inProgressNodes">Reference to the List of Nodes that have not been tested yet and need to be</param>
+    /// <param name="testedNodes">Reference to the list of Nodes that have been tested and should not be tested again</param>
+    /// <param name="currentNode">The node whose children are being created</param>
+    /// <param name="endPos">The position we are trying to get to with the path. Used to calculate H</param>
     /// <param name="requestType">CharacterType the requester is. They can move through their allys</param>
-    public void PathingTestNode(Vector2Int testPos, List<Node> InProgressNodes, int i, CharacterType requestType)
+    /// <param name="shouldCare">If this was called by enemyMoveAttackAI just to see how one would get to the closest enemy</param>
+    public void PathingTestNode(Vector2Int testPos, List<Node> inProgressNodes, List<Node> testedNodes, Node currentNode, Vector2Int endPos, CharacterType requestType, bool shouldCare)
     {
         Node testNode = GetNodeAtPosition(testPos);
-        if (testNode != null)
+        // Make sure the node exists
+        if (testNode == null)
         {
-            // If the node I am trying to go to has not already been set
-            if (testNode.whereToGo == null)
-            {
-                // If the node I am trying to go to is not occupied or is occupied by someone on my team
-                if (testNode.occupying == CharacterType.None || testNode.occupying == requestType)
-                {
-                    testNode.whereToGo = InProgressNodes[i];
-                    InProgressNodes.Add(testNode);
-                }
-            }
+            return;
         }
+
+        // If the node I am trying to go to is not occupied or is occupied by someone on my team
+        // or if the node is occupied by someone, but I don't care and its the last node
+        if (testNode.occupying == CharacterType.None || testNode.occupying == requestType || (testPos == endPos && !shouldCare))
+        {
+            // Make sure this node is not already on the tested list
+            if (testedNodes.Contains(testNode))
+            {
+                return;
+            }
+
+            if (testNode != currentNode)
+            {
+                // The new node's parent is the current node
+                testNode.parent = currentNode;
+            }
+            else
+            {
+                Debug.Log("TestNode is the current node");
+                return;
+            }
+
+            // Set the g, h, and f values
+            testNode.G = currentNode.G + 1;
+            testNode.H = (int)Mathf.Pow(Mathf.Abs(testPos.x - endPos.x), 2) + (int)Mathf.Pow(Mathf.Abs(testPos.y - endPos.y), 2);
+            testNode.F = testNode.G + testNode.H;
+
+            // If the node is already in the inProgressNodes
+            if (inProgressNodes.Contains(testNode))
+            {
+                return;
+            }
+
+            // Otherwise, add it
+            inProgressNodes.Add(testNode);
+        }
+        
     }
 
     /// <summary>
@@ -750,4 +862,5 @@ public class MoveAttackController : MonoBehaviour
             currentNodes.Add(testNode);
         }
     }
+    // End Pathing Functions
 }

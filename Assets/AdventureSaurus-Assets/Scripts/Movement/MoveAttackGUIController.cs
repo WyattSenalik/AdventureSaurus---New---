@@ -155,10 +155,12 @@ public class MoveAttackGUIController : MonoBehaviour
         // If the current character can move there
         if (charSelected.MoveTiles.Contains(selNode) && selNode.occupying == CharacterType.None)
         {
+            //Debug.Log("AttemptMove");
             ToggleSelect(false);    // Make it so that the player cannot select whilst something is moving
             // Calculate the pathing
             mAContRef.ResetPathing();
-            mAContRef.Pathing(selNode, charSelected.WhatAmI);
+            Node startNode = mAContRef.GetNodeByWorldPosition(charSelected.transform.position);
+            mAContRef.Pathing(startNode, selNode, charSelected.WhatAmI);
             // Start moving the character
             charSelected.StartMove();
             mAContRef.TurnOffVisuals(charSelected);
@@ -293,7 +295,7 @@ public class MoveAttackGUIController : MonoBehaviour
         ToggleSelect(false);    // Make it so that the player cannot select whilst something is moving
         // Calculate the pathing
         mAContRef.ResetPathing();
-        mAContRef.Pathing(nodeToMoveTo, charSelected.WhatAmI);
+        mAContRef.Pathing(charSelectedNode, nodeToMoveTo, charSelected.WhatAmI);
         // Start moving the character
         charSelected.StartMove();
         mAContRef.TurnOffVisuals(charSelected);
