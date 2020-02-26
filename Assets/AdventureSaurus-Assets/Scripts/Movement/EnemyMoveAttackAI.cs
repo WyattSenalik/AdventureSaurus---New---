@@ -11,6 +11,10 @@ public class EnemyMoveAttackAI : MonoBehaviour
     private CamFollow camFollowRef; // Reference to the CamFollow script
     private List<MoveAttack> alliesMA;  // List of all allies' MoveAttack scripts
     private List<MoveAttack> enemiesMA; // List of all enemies' MoveAttack scripts
+    public List<MoveAttack> EnemiesList
+    {
+        get { return enemiesMA; }
+    }
     private int enemyIndex; // The current enemy in enemiesMA that should be moved
     private Vector2Int curAttackNodePos;    // Where the character should attack
     private MoveAttack currentEnemy;    // The currenet enemy reference
@@ -57,10 +61,18 @@ public class EnemyMoveAttackAI : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        alliesMA = new List<MoveAttack>();
         enemiesMA = new List<MoveAttack>();
+        Initialize();
+    }
+
+    /// <summary>
+    /// For setting variables and list each time we start a turn
+    /// </summary>
+    private void Initialize()
+    {
+        alliesMA = new List<MoveAttack>();
         enemyIndex = 0;
-        // Iterate over each character to find all the enemies and allies
+        // Iterate over each character to find all the allies
         foreach (Transform character in charParent)
         {
             MoveAttack ma = character.GetComponent<MoveAttack>();
@@ -70,13 +82,22 @@ public class EnemyMoveAttackAI : MonoBehaviour
                 continue;
             }
 
-            if (ma.WhatAmI == CharacterType.Enemy)
-            {
-                enemiesMA.Add(ma);
-            }
-            else if (ma.WhatAmI == CharacterType.Ally)
+
+            if (ma.WhatAmI == CharacterType.Ally)
             {
                 alliesMA.Add(ma);
+            }
+        }
+        // Bring out your dead *rings bell* Bring out your dead
+        // We have to go over the enemies list and remove any dead enemies
+        for (int i = 0; i < enemiesMA.Count; ++i)
+        {
+            // If we find a dead enemy, get rid of them
+            if (enemiesMA[i] == null)
+            {
+                enemiesMA.RemoveAt(i);
+                // We also need to decrement i so that the list does not stop prematurely since the list now shrank by 1
+                --i;
             }
         }
     }
@@ -86,7 +107,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// </summary>
     public void StartTakeTurn()
     {
-        Start();    // Refind all the allies and enemies as well set enemyIndex to 0
+        Initialize();    // Refind all the allies, set enemyIndex to 0, and remove any dead enemies from the list
         StartNextEnemy();    // Start from the first enemy
     }
 
@@ -414,5 +435,21 @@ public class EnemyMoveAttackAI : MonoBehaviour
     public void StartNextEnemy()
     {
         StartCoroutine(NextEnemy());
+    }
+
+    /// <summary>
+    /// Called from Room when an ally enters a new room. Sets active the enemies in that room and adds them to the enemies list
+    /// </summary>
+    /// <param name="enemiesToAdd">The enemies to add to the enemies list</param>
+    public void ActivateRoom(List<MoveAttack> enemiesToAdd)
+    {
+        // Add the enemies to the list
+        foreach (MoveAttack enemy in enemiesToAdd)
+        {
+            if (enemy == null)
+                continue;
+            enemy.gameObject.SetActive(true);
+            enemiesMA.Add(enemy);
+        }
     }
 }

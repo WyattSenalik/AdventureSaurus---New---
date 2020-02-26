@@ -51,6 +51,9 @@ TagManager:
   - name: HealthBars
     uniqueID: 3405616317
     locked: 0
+  - name: Fog
+    uniqueID: 2433642777
+    locked: 0
   - name: Canvas
     uniqueID: 1386005715
     locked: 0

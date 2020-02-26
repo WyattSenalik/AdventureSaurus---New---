@@ -254,9 +254,12 @@ public class Health : MonoBehaviour
             //Debug.Log("Dead ally");
         }
         // If the character is an enemy, that means an ally killed it, so we have to allow the user to select again
+        // If this character is an enemy we need to remove it from the enemies list before giving back control, in the case it is the player's
+        // last action and the enemy that died was high up in the list
         if (whatAmI == CharacterType.Enemy)
         {
             //Debug.Log("Dead enemy");
+            enMAAIRef.EnemiesList.Remove(this.GetComponent<MoveAttack>());
             mAGUIContRef.AllowSelect();
             turnSysRef.IsPlayerDone();
         }

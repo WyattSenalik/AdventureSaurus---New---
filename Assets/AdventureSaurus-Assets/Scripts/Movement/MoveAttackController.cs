@@ -24,6 +24,7 @@ public class MoveAttackController : MonoBehaviour
     [SerializeField] private Sprite moveTileSprite = null;      // The sprite that will be put on the visual move tile
     [SerializeField] private Sprite attackTileSprite = null;    // The sprite that will be put on the visual attack tile
     [SerializeField] private string visualSortingLayer = "Default"; // The sorting layer that the tiles will be put on
+    [SerializeField] private Material tileMaterial = null;  // The material that will be applied to the sprite renderer of the tiles
 
 
     /// <summary>
@@ -46,6 +47,12 @@ public class MoveAttackController : MonoBehaviour
             }
             // Create the visual tiles ahead of time
             CreateVisualTiles(mARef);
+
+            // If the character is an enemy, we want to hide those until the their room is gone into
+            if (mARef.WhatAmI == CharacterType.Enemy)
+            {
+                mARef.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -259,6 +266,7 @@ public class MoveAttackController : MonoBehaviour
         sprRend.sprite = sprToUse;
         sprRend.sortingLayerName = visualSortingLayer;
         sprRend.sortingOrder = orderOnLayer;
+        sprRend.material = tileMaterial;
 
         sprRend.color = new Color(sprRend.color.r, sprRend.color.g, sprRend.color.b, 0.6f);
     }
