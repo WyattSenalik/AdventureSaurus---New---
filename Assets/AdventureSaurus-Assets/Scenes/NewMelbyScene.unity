@@ -298,11 +298,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: Character
   strength: 1
   magic: 0
   speed: 3
   defense: 2
   vitality: 2
+  statsDisplay: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  defenseText: {fileID: 0}
+  healthText: {fileID: 0}
+  speedText: {fileID: 0}
 --- !u!114 &11730884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,11 +490,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: Character
   strength: 1
   magic: 0
   speed: 2
   defense: 2
   vitality: 2
+  statsDisplay: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  defenseText: {fileID: 0}
+  healthText: {fileID: 0}
+  speedText: {fileID: 0}
 --- !u!114 &15832300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -739,11 +753,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: Character
   strength: 1
   magic: 0
   speed: 3
   defense: 2
   vitality: 1
+  statsDisplay: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  defenseText: {fileID: 0}
+  healthText: {fileID: 0}
+  speedText: {fileID: 0}
 --- !u!114 &30398108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1708,11 +1729,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: Character
   strength: 1
   magic: 0
   speed: 3
   defense: 2
   vitality: 1
+  statsDisplay: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  defenseText: {fileID: 0}
+  healthText: {fileID: 0}
+  speedText: {fileID: 0}
 --- !u!114 &171853605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3672,11 +3700,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: Character
   strength: 1
   magic: 0
   speed: 3
   defense: 2
   vitality: 1
+  statsDisplay: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  defenseText: {fileID: 0}
+  healthText: {fileID: 0}
+  speedText: {fileID: 0}
 --- !u!114 &372176505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4152,11 +4187,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: Character
   strength: 1
   magic: 0
   speed: 3
   defense: 2
   vitality: 1
+  statsDisplay: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  defenseText: {fileID: 0}
+  healthText: {fileID: 0}
+  speedText: {fileID: 0}
 --- !u!114 &443636673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4752,11 +4794,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: Character
   strength: 1
   magic: 0
   speed: 3
   defense: 2
   vitality: 2
+  statsDisplay: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  defenseText: {fileID: 0}
+  healthText: {fileID: 0}
+  speedText: {fileID: 0}
 --- !u!114 &534659173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7729,7 +7778,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -439.70004, y: 202}
+  m_AnchoredPosition: {x: -330, y: 112.000015}
   m_SizeDelta: {x: 322.8, y: 293.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1076782391
@@ -8327,11 +8376,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: Character
   strength: 1
   magic: 0
   speed: 3
   defense: 2
   vitality: 1
+  statsDisplay: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  defenseText: {fileID: 0}
+  healthText: {fileID: 0}
+  speedText: {fileID: 0}
 --- !u!114 &1150110848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9967,7 +10023,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -439.70004, y: 296.10004}
+  m_AnchoredPosition: {x: -330, y: 188}
   m_SizeDelta: {x: 322.8, y: 293.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1394742369
@@ -10343,6 +10399,7 @@ MonoBehaviour:
   moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
   attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
   visualSortingLayer: VisualTile
+  tileMaterial: {fileID: 0}
 --- !u!4 &1437039230
 Transform:
   m_ObjectHideFlags: 0
@@ -10585,11 +10642,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: Character
   strength: 1
   magic: 0
   speed: 3
   defense: 2
   vitality: 1
+  statsDisplay: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  defenseText: {fileID: 0}
+  healthText: {fileID: 0}
+  speedText: {fileID: 0}
 --- !u!114 &1455122996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11619,7 +11683,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 501, y: -328}
+  m_AnchoredPosition: {x: 243, y: -172.3}
   m_SizeDelta: {x: 1000, y: 275}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1590287944
@@ -16046,7 +16110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -439.70004, y: 111.999985}
+  m_AnchoredPosition: {x: -330, y: 37}
   m_SizeDelta: {x: 322.8, y: 293.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1767039688
@@ -17064,11 +17128,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: Character
   strength: 1
   magic: 0
   speed: 3
   defense: 2
   vitality: 1
+  statsDisplay: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  defenseText: {fileID: 0}
+  healthText: {fileID: 0}
+  speedText: {fileID: 0}
 --- !u!114 &1890397826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17446,7 +17517,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 528.2, y: 317.2}
+  m_AnchoredPosition: {x: 300, y: 161}
   m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1928149792
@@ -17866,13 +17937,6 @@ MonoBehaviour:
   player2: {fileID: 534659169}
   player3: {fileID: 11730880}
   enemy1: {fileID: 443636669}
-  enemy2: {fileID: 30398104}
-  enemy3: {fileID: 1890397822}
-  enemy4: {fileID: 1150110844}
-  enemy5: {fileID: 171853601}
-  enemy6: {fileID: 1990600683}
-  enemy7: {fileID: 372176501}
-  enemy8: {fileID: 1455122992}
   smoothTime: 0.3
   cameraDistance: 30
   isOnPlayer1: 0
@@ -17911,13 +17975,13 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
+    width: 0.75
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -18225,11 +18289,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: Character
   strength: 1
   magic: 0
   speed: 3
   defense: 2
   vitality: 1
+  statsDisplay: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  defenseText: {fileID: 0}
+  healthText: {fileID: 0}
+  speedText: {fileID: 0}
 --- !u!114 &1990600687
 MonoBehaviour:
   m_ObjectHideFlags: 0
