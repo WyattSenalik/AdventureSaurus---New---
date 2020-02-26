@@ -195,7 +195,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -1707,7 +1707,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -2079,7 +2079,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -3353,7 +3353,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -6814,7 +6814,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -8027,7 +8027,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -11288,7 +11288,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -11733,7 +11733,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -11967,7 +11967,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -15228,7 +15228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -439.70004, y: 111.999985}
+  m_AnchoredPosition: {x: -529, y: 111.999985}
   m_SizeDelta: {x: 322.8, y: 293.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &893174153
@@ -16628,7 +16628,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -17060,7 +17060,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -25519,7 +25519,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -28655,7 +28655,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -29388,7 +29388,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -439.70004, y: 296.10004}
+  m_AnchoredPosition: {x: -529, y: 296.10004}
   m_SizeDelta: {x: 322.8, y: 293.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1420555786
@@ -30308,7 +30308,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -31904,7 +31904,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -32399,7 +32399,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -35645,7 +35645,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -38883,7 +38883,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -39532,7 +39532,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -40783,7 +40783,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -40898,7 +40898,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -439.70004, y: 202}
+  m_AnchoredPosition: {x: -529, y: 202}
   m_SizeDelta: {x: 322.8, y: 293.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2077513292
@@ -41611,7 +41611,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -42323,7 +42323,7 @@ SpriteMask:
   m_BackSortingLayerID: -889350979
   m_FrontSortingLayer: 3
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 2
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0

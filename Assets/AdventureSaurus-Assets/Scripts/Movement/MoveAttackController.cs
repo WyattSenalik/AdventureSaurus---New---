@@ -398,9 +398,11 @@ public class MoveAttackController : MonoBehaviour
         int rowIndex = pos.y - gridBotRight.y;
         int colIndex = pos.x - gridTopLeft.x;
         return grid[rowIndex][colIndex];
+        
 
-        /*
+        
         // Iterate over every row
+        /*
         foreach (List<Node> row in grid)
         {
             // Iterate over each node in that row
@@ -416,6 +418,7 @@ public class MoveAttackController : MonoBehaviour
         // If we found no node with the desired position
         return null;
         */
+        
     }
 
     /// <summary>
