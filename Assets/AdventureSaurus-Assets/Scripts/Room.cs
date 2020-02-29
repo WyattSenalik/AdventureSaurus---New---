@@ -66,9 +66,10 @@ public class Room : MonoBehaviour
         if (otherRoom == null)
         {
             // Turn on the starting room's lights and thats it
-            StartCoroutine(ChangeIntensity(this, true));
+            StartCoroutine(ChangeIntensity(this));
             return;
         }
+        Debug.Log("otherRoom is " + otherRoom.name);
         int amountAlliesInOtherRoom = otherRoom.alliesInRoom.Count; // The number of allies in the other room
 
         // If the room the character came from has only that character in it
@@ -91,9 +92,9 @@ public class Room : MonoBehaviour
 
         // Actually update the lighting of everything after determining what it should be
         // Turn on the lights of this room
-        StartCoroutine(ChangeIntensity(this, true));
+        StartCoroutine(ChangeIntensity(this));
         // Change the lighting of the other room
-        StartCoroutine(ChangeIntensity(otherRoom, false));
+        StartCoroutine(ChangeIntensity(otherRoom));
     }
 
 
@@ -173,89 +174,85 @@ public class Room : MonoBehaviour
     }
 
     /// <summary>
-    /// Turns all the broadcast lights of the past-in room to the target intensity (kinda)
-    /// This is supposed to be called from ChangeIntensity
+    /// Turns on all the broadcast lights of enter room little by little.
+    /// This is supposed to be called from ChangeIntensity at each interval
     /// </summary>
-    /// <param name="sharedRoom">The room that will have its broadcast lights updated</param>
-    /// <param name="targetIntensity">The target intensity for the lights to be set to. Defaults to 1</param>
-    public void UpdateBroadcastLights(Room sharedRoom = null, float targetIntensity = 1)
+    /// <param name="enterRoom">The room who owns the broadcast lights. It was just entered by an ally</param>
+    private void UpdateBroadcastLights(Room enterRoom)
     {
-        // If no room was passed in, default it to this room
-        if (sharedRoom == null)
-            sharedRoom = this;
-
-        // We need to determine the actual intensity we should set the light to. We want the brightest part to
-        // be the same intensity as the target intensity, but we are broadcasting into another room, so we need to determine
-        // what room we are broadcasting into and find out its intensity
-        for (int i = 0; i < broadcastLights.Count; ++i)
+        // We are going to be setting the intensity of each broadcast light coming from this room to go to other rooms.
+        // The resulting overlap of intensities should equal the enterRoom's light's intensity at this moment (not currentIntensity)
+        float targetIntensity = enterRoom.roomLight.intensity;
+        for (int i = 0; i < enterRoom.broadcastLights.Count; ++i)
         {
-            float actualIntensity = targetIntensity - broadcastToRooms[i].roomLight.intensity;
-            broadcastLights[i].intensity = actualIntensity;
-        }
-    }
-
-    /// <summary>
-    /// Turns all the receiving lights of the past-in room to the target intensity (kinda)
-    /// </summary>
-    /// <param name="sharedRoom">The room that will have its receiving lights updated</param>
-    /// <param name="targetIntensity">The target intensity for the lights to be set to. Defaults to 1</param>
-    private void UpdateReceivingLights(Room sharedRoom = null, float targetIntensity = 1)
-    {
-        // If no room was passed in, default it to this room
-        if (sharedRoom == null)
-            sharedRoom = this;
-
-        // We need to determine the actual intensity we should set the light to. We want the brightest part to
-        // be the same intensity as the target intensity, but we are broadcasting into another room, so we need to determine
-        // what room we are broadcasting into and find out its intensity
-        for (int i = 0; i < receiveLights.Count; ++i)
-        {
-            float actualIntensity = receiveFromRooms[i].roomLight.intensity - this.roomLight.intensity;
-            if (actualIntensity < 0)
+            // We have to make it so the sum of the room this broadcast light is 
+            // broadcasting into's light plus this light is the target intensity.
+            // The room this light is broadcasting into is the broadcastToRooms at the same index.
+            float actualIntensity = targetIntensity - enterRoom.broadcastToRooms[i].roomLight.intensity;
+            // Make sure this intensity is not negative, if it is, we just want to turn it off
+            if (actualIntensity < 0f)
             {
-                actualIntensity = 0;
+                actualIntensity = 0f;
             }
-            receiveLights[i].intensity = actualIntensity;
+            // Set the value
+            enterRoom.broadcastLights[i].intensity = actualIntensity;
         }
     }
 
     /// <summary>
-    /// Slowly changes the light intensity to be targetIntensity
+    /// Turns off all the broadcast lights of enter room little by little
+    /// This is supposed to be called from ChangeIntensity at each interval
     /// </summary>
-    /// <param name="lightToChange">The light that will be changed</param>
-    /// <param name="targetIntensity">The intensity the light will be set to</param>
+    /// <param name="enterRoom">The room who is receiving the receiveLights. It was just entered by an ally</param>
+    private void UpdateReceivingLights(Room enterRoom)
+    {
+        for (int i = 0; i < enterRoom.receiveLights.Count; ++i)
+        {
+            // We are going to be setting the intensity of each receiving light coming into etner room from other rooms.
+            // The resulting overlap of intensities should equal the room this light is being broadcast from's light's 
+            // intensity at this moment (not currentIntensity)
+            // The light we are on has the same index as the room it is receiving from
+            float targetIntensity = enterRoom.receiveFromRooms[i].roomLight.intensity;
+            // We have to make it so the sum of enterRoom's light's intensity and the receiving light's intensity
+            // equals the target intensity
+            float actualIntensity = targetIntensity - enterRoom.roomLight.intensity;
+            // Make sure this intensity is not negative, if it is, we just want to turn it off
+            if (actualIntensity < 0f)
+            {
+                actualIntensity = 0f;
+            }
+            // Set the value
+            enterRoom.receiveLights[i].intensity = actualIntensity;
+        }
+    }
+
+    /// <summary>
+    /// Slowly changes the room's light intensity to be the room's currentItensity
+    /// </summary>
+    /// <param name="roomToChange">The room whose light will be changed</param>
     /// <returns>IEnumerator</returns>
-    public IEnumerator ChangeIntensity(Room roomToChange, bool enteringRoom)
+    public IEnumerator ChangeIntensity(Room roomToChange)
     {
         // If its dimmer than its supposed to be, make it brighter
         while (roomToChange.roomLight.intensity < roomToChange.currentLightIntensity)
         {
             roomToChange.roomLight.intensity += Time.deltaTime;
-            if (enteringRoom)
-            {
-                UpdateBroadcastLights(roomToChange, roomToChange.roomLight.intensity);
-                UpdateReceivingLights(roomToChange, roomToChange.roomLight.intensity);
-            }
+            UpdateBroadcastLights(roomToChange);
+            UpdateReceivingLights(roomToChange);
             yield return null;
         }
         // If its brighter than its supposed to be, make it dimmer
         while (roomToChange.roomLight.intensity > roomToChange.currentLightIntensity)
         {
             roomToChange.roomLight.intensity -= Time.deltaTime;
-            if (enteringRoom)
-            {
-                UpdateBroadcastLights(roomToChange, roomToChange.roomLight.intensity);
-                UpdateReceivingLights(roomToChange, roomToChange.roomLight.intensity);
-            }
+            UpdateBroadcastLights(roomToChange);
+            UpdateReceivingLights(roomToChange);
             yield return null;
         }
         // Its close enough, so finish setting it
         roomToChange.roomLight.intensity = roomToChange.currentLightIntensity;
-        if (enteringRoom)
-        {
-            UpdateBroadcastLights(roomToChange, roomToChange.roomLight.intensity);
-            UpdateReceivingLights(roomToChange, roomToChange.roomLight.intensity);
-        }
+        UpdateBroadcastLights(roomToChange);
+        UpdateReceivingLights(roomToChange);
         yield return null;
     }
 
