@@ -155,7 +155,6 @@ public class EnemyMoveAttackAI : MonoBehaviour
                     }
                 }
             }
-
             // Have the current enemy take their turn
             TakeSingleTurn();
   
@@ -194,6 +193,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // If the node returns null, it means we cannot do anything with this enemy
         if (desiredNode == null)
         {
+            Debug.Log("Desired node is null");
             return;
         }
         /*
@@ -204,19 +204,22 @@ public class EnemyMoveAttackAI : MonoBehaviour
 
    
         }
-    */
+        */
         // Calculate the pathing
         Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+        // If they successfully pathed
         if (mAContRef.Pathing(startNode, desiredNode, currentEnemy.WhatAmI))
+        {
             // Start moving the character
             currentEnemy.StartMove();
+        }
+        // If they didn't just attempt an attack
         else
         {
-            currentEnemy.HasAttacked = true;
             currentEnemy.HasMoved = true;
-            StartNextEnemy();
+            AttemptAttack();
         }
-        
+
         // Attacking will be called after the enemy has moved
     }
 
@@ -262,6 +265,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // If the enemy does not exist, do not try to attack something
         if (currentEnemy == null)
         {
+            Debug.Log("No enemy is current");
             return;
         }
         // Otherwise attack it
@@ -315,7 +319,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
             mAContRef.Pathing(startNode, closestAllyNode, CharacterType.Enemy, false);
             // In the case that the enemy is trying to move onto another enemy
             int testRange = currentEnemy.MoveRange;
-            while (startNode != null && startNode.occupying != CharacterType.None)
+            while (startNode != null && startNode.occupying != CharacterType.None && startNode.whereToGo != startNode)
             {
                 startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
                 // Use the new pathing and the current enemies movement range to determine where we should move

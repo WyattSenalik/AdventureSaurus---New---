@@ -95,7 +95,7 @@ public class CamFollow : MonoBehaviour
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
 
             /// Wyatt added
-            if (Mathf.Abs(transform.position.x - targetPosition.x) + Mathf.Abs(transform.position.y - targetPosition.y) <= 1)
+            if (Mathf.Abs(transform.position.x - enemy1.position.x) + Mathf.Abs(transform.position.y - enemy1.position.y) <= 1)
             {
                 amFollowing = true;
             }
