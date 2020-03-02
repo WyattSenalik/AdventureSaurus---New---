@@ -66,6 +66,7 @@
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\CamZoom.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Health.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\InputController.cs" />
+    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\MenuToGame.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\EnemyMoveAttackAI.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\MoveAttack.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\MoveAttackController.cs" />
