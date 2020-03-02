@@ -73,6 +73,7 @@
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\Node.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Pause.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Room.cs" />
+    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\SharedRoomLight.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Skills\BasicAttack.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Skills\Skill.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Skills\ThreeSixtySwing.cs" />
