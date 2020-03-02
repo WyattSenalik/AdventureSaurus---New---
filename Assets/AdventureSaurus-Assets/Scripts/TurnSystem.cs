@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum TurnState {GAMESTOP, PLAYERTURN, ENEMYTURN }//the states the game can be in
 
@@ -44,7 +45,7 @@ public class TurnSystem : MonoBehaviour
     /// 
     public void StartPlayerTurn()//starts Players Turn, Enables player to control characters
     {
-        endTurnButtObj.SetActive(true);
+        endTurnButtObj.GetComponent<Button>().interactable = true;
         state = TurnState.PLAYERTURN;
         // We reset the turns of all characters
         foreach(Transform potAlly in CharcterTeam)
@@ -75,7 +76,7 @@ public class TurnSystem : MonoBehaviour
     /// </summary>
     void StartEnemyTurn()//starts Enemies Turn, Starts their AI
     {
-        endTurnButtObj.SetActive(false);
+        endTurnButtObj.GetComponent<Button>().interactable = false;
         foreach (Transform potEnemy in CharcterTeam)
         {
             MoveAttack potEnemyMA = potEnemy.GetComponent<MoveAttack>();

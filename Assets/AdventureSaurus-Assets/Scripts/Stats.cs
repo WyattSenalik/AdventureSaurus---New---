@@ -44,10 +44,12 @@ public class Stats : MonoBehaviour
     // The experience to give to the killer of this character
     // Only used by allies
     [SerializeField] private int xpToGive = 0;
-    public int Experience
+    public int KillReward
     {
         get { return xpToGive; }
     }
+    // The experience this character has
+    private int experience;
 
     private MoveAttack mARef;   // Reference to the MoveAttack script attached to this character
     private Health hpRef;   // Reference to the Health script attached to this character
@@ -78,6 +80,8 @@ public class Stats : MonoBehaviour
         {
             hpRef.MaxHP = vitality;
         }
+
+        experience = 0;
     }
 
     /// <summary>
@@ -116,5 +120,15 @@ public class Stats : MonoBehaviour
         if (statsDisplay != null)
             return statsDisplay.activeSelf;
         return false;
+    }
+
+    /// <summary>
+    /// Gives this character experience. Called from Health by Ascend unction
+    /// </summary>
+    /// <param name="xpToGain">The amount of experience to gain</param>
+    public void GainExperience(int xpToGain)
+    {
+        experience += xpToGain;
+        Debug.Log(this.name + " gained " + xpToGain + " XP");
     }
 }

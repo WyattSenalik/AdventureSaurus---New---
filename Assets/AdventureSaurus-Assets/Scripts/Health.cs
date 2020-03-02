@@ -237,8 +237,9 @@ public class Health : MonoBehaviour
         this.transform.parent = graveyard.transform;
         // We then need to recreate all the visuals, so that the user can see they can move over the dead body
         //NEEDTOFIXmAContRef.CreateAllVisualTiles();
-        
+
         // Give xp to the killer
+        myKiller.GainExperience(this.GetComponent<Stats>().KillReward);
 
         // Give either the user or the ai control of their stuff
         GiveBackControl();

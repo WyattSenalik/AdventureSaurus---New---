@@ -54,11 +54,13 @@ public class MoveAttack : MonoBehaviour
     public bool HasMoved
     {
         get { return hasMoved; }
+        set { hasMoved = value; }
     }
     private bool hasAttacked;   // If this character has already attacked in the "turn"
     public bool HasAttacked
     {
         get { return hasAttacked; }
+        set { hasAttacked = value; }
     }
 
     // For displaying the tile visuals

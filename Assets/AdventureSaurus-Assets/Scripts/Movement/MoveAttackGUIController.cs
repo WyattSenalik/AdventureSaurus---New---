@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MoveAttackGUIController : MonoBehaviour
 {
@@ -384,6 +385,7 @@ public class MoveAttackGUIController : MonoBehaviour
     private void ToggleSelect(bool onOff)
     {
         canSelect = onOff;
-        endTurnButtonObj.SetActive(onOff);
+        //endTurnButtonObj.SetActive(onOff);
+        endTurnButtonObj.GetComponent<Button>().interactable = onOff;
     }
 }

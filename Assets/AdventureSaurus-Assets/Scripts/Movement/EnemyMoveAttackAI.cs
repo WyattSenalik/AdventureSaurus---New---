@@ -207,9 +207,15 @@ public class EnemyMoveAttackAI : MonoBehaviour
     */
         // Calculate the pathing
         Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
-        mAContRef.Pathing(startNode, desiredNode, currentEnemy.WhatAmI);
-        // Start moving the character
-        currentEnemy.StartMove();
+        if (mAContRef.Pathing(startNode, desiredNode, currentEnemy.WhatAmI))
+            // Start moving the character
+            currentEnemy.StartMove();
+        else
+        {
+            currentEnemy.HasAttacked = true;
+            currentEnemy.HasMoved = true;
+            StartNextEnemy();
+        }
         
         // Attacking will be called after the enemy has moved
     }

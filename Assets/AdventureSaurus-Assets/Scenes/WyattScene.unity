@@ -1391,7 +1391,7 @@ GameObject:
   - component: {fileID: 73870182}
   m_Layer: 0
   m_Name: Enemy (6)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1561,6 +1561,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 1377391857}
   nameText: {fileID: 1749119062}
   attackText: {fileID: 1964513907}
@@ -3468,7 +3469,7 @@ GameObject:
   - component: {fileID: 169463903}
   m_Layer: 0
   m_Name: Enemy (13)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3638,6 +3639,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 1930439604}
   nameText: {fileID: 1489661172}
   attackText: {fileID: 230345534}
@@ -3756,89 +3758,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
---- !u!1 &179137503
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 179137504}
-  - component: {fileID: 179137506}
-  - component: {fileID: 179137505}
-  m_Layer: 5
-  m_Name: Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &179137504
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 179137503}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1.4, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1555513144}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 30.455002}
-  m_SizeDelta: {x: 0, y: 60.91}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &179137505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 179137503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 300
-    m_FontStyle: 0
-    m_BestFit: 1
-    m_MinSize: 0
-    m_MaxSize: 300
-    m_Alignment: 1
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 0.3
-  m_Text: '-
-
-    -
-
-    -'
---- !u!222 &179137506
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 179137503}
-  m_CullTransparentMesh: 0
 --- !u!1 &179360555
 GameObject:
   m_ObjectHideFlags: 0
@@ -4062,7 +3981,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181546986}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: -1, z: 0}
+  m_LocalPosition: {x: 3, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1979834764}
@@ -4138,7 +4057,8 @@ MonoBehaviour:
   magic: 0
   speed: 3
   defense: 2
-  vitality: 3
+  vitality: 100
+  xpToGive: 0
   statsDisplay: {fileID: 1486203825}
   nameText: {fileID: 1135165276}
   attackText: {fileID: 793067921}
@@ -8299,7 +8219,7 @@ GameObject:
   - component: {fileID: 379010654}
   m_Layer: 0
   m_Name: Enemy (16)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8469,6 +8389,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 311376548}
   nameText: {fileID: 344414758}
   attackText: {fileID: 240862256}
@@ -10561,7 +10482,7 @@ GameObject:
   - component: {fileID: 474315689}
   m_Layer: 0
   m_Name: Enemy (21)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10731,6 +10652,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 1748302324}
   nameText: {fileID: 1114824516}
   attackText: {fileID: 43981875}
@@ -15195,7 +15117,7 @@ GameObject:
   - component: {fileID: 711381969}
   m_Layer: 0
   m_Name: Enemy (17)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15365,6 +15287,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 2076781809}
   nameText: {fileID: 968674416}
   attackText: {fileID: 1930315291}
@@ -17341,6 +17264,7 @@ MonoBehaviour:
   speed: 3
   defense: 2
   vitality: 3
+  xpToGive: 0
   statsDisplay: {fileID: 1013817273}
   nameText: {fileID: 1013824228}
   attackText: {fileID: 261379379}
@@ -17398,7 +17322,7 @@ GameObject:
   - component: {fileID: 783841602}
   m_Layer: 0
   m_Name: Enemy (2)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17411,7 +17335,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783841600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 9, z: 0}
+  m_LocalPosition: {x: 2, y: 7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1855929167}
@@ -17568,6 +17492,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 1271970051}
   nameText: {fileID: 430814092}
   attackText: {fileID: 1350363106}
@@ -18695,7 +18620,7 @@ GameObject:
   - component: {fileID: 880331379}
   m_Layer: 0
   m_Name: Enemy (5)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18865,6 +18790,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 852986490}
   nameText: {fileID: 568923760}
   attackText: {fileID: 603823872}
@@ -20873,7 +20799,7 @@ GameObject:
   - component: {fileID: 980549906}
   m_Layer: 0
   m_Name: Enemy (20)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21043,6 +20969,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 1231216742}
   nameText: {fileID: 1353093271}
   attackText: {fileID: 2029196864}
@@ -21868,7 +21795,7 @@ GameObject:
   - component: {fileID: 1018634681}
   m_Layer: 0
   m_Name: Enemy (11)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22038,6 +21965,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 983947435}
   nameText: {fileID: 1149967617}
   attackText: {fileID: 118456901}
@@ -29772,7 +29700,7 @@ GameObject:
   - component: {fileID: 1266370092}
   m_Layer: 0
   m_Name: Enemy (8)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29942,6 +29870,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 31264682}
   nameText: {fileID: 885505058}
   attackText: {fileID: 1755639427}
@@ -30441,7 +30370,7 @@ GameObject:
   - component: {fileID: 1282632888}
   m_Layer: 0
   m_Name: Enemy (4)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30611,6 +30540,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 585626486}
   nameText: {fileID: 2015026652}
   attackText: {fileID: 918610500}
@@ -31271,7 +31201,7 @@ GameObject:
   - component: {fileID: 1333461269}
   m_Layer: 0
   m_Name: Enemy (1)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31284,7 +31214,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1333461267}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 8, z: 0}
+  m_LocalPosition: {x: 2, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1253209501}
@@ -31441,6 +31371,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 637944203}
   nameText: {fileID: 1173695863}
   attackText: {fileID: 571538110}
@@ -32721,7 +32652,7 @@ GameObject:
   - component: {fileID: 1386007900}
   m_Layer: 0
   m_Name: Enemy (3)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32734,7 +32665,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1386007898}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 9, z: 0}
+  m_LocalPosition: {x: 3, y: 7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 952293220}
@@ -32891,6 +32822,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 668411643}
   nameText: {fileID: 1420865210}
   attackText: {fileID: 310529391}
@@ -33727,7 +33659,7 @@ GameObject:
   - component: {fileID: 1451993615}
   m_Layer: 0
   m_Name: Enemy (12)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33897,6 +33829,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 1060631746}
   nameText: {fileID: 1145467994}
   attackText: {fileID: 600387594}
@@ -34272,7 +34205,7 @@ GameObject:
   - component: {fileID: 1472380690}
   m_Layer: 0
   m_Name: Enemy (7)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34442,6 +34375,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 1925472024}
   nameText: {fileID: 1482455601}
   attackText: {fileID: 1517620824}
@@ -34560,85 +34494,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
---- !u!1 &1478275274
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1478275275}
-  - component: {fileID: 1478275277}
-  - component: {fileID: 1478275276}
-  m_Layer: 5
-  m_Name: Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1478275275
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1478275274}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1580259517}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1478275276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1478275274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 230
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 0
-    m_MaxSize: 300
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: End Turn
---- !u!222 &1478275277
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1478275274}
-  m_CullTransparentMesh: 0
 --- !u!1 &1478644494
 GameObject:
   m_ObjectHideFlags: 0
@@ -35973,15 +35828,14 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
-  m_Children:
-  - {fileID: 179137504}
+  m_Children: []
   m_Father: {fileID: 455021180}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 528.2, y: 317.2}
-  m_SizeDelta: {x: 500, y: 500}
+  m_AnchoredPosition: {x: 528.2, y: 317}
+  m_SizeDelta: {x: 640, y: 640}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1555513145
 MonoBehaviour:
@@ -36059,9 +35913,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: 953e90158a1c59e49a55f3d43c99fec3, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -36485,15 +36339,14 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
-  m_Children:
-  - {fileID: 1478275275}
+  m_Children: []
   m_Father: {fileID: 455021180}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 501, y: -328}
-  m_SizeDelta: {x: 1000, y: 275}
+  m_SizeDelta: {x: 1150, y: 370}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1580259518
 MonoBehaviour:
@@ -36519,7 +36372,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -36571,9 +36424,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: 67d1638c3a038524fb9a2c10b1c45a5a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -36608,7 +36461,7 @@ GameObject:
   - component: {fileID: 1581850089}
   m_Layer: 0
   m_Name: Enemy (9)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36778,6 +36631,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 441555193}
   nameText: {fileID: 572474847}
   attackText: {fileID: 364827775}
@@ -38036,7 +37890,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1660040298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: -2, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2092970666}
@@ -38193,6 +38047,7 @@ MonoBehaviour:
   speed: 3
   defense: 2
   vitality: 3
+  xpToGive: 0
   statsDisplay: {fileID: 921302799}
   nameText: {fileID: 888125395}
   attackText: {fileID: 663042277}
@@ -39098,7 +38953,7 @@ GameObject:
   - component: {fileID: 1712552358}
   m_Layer: 0
   m_Name: Enemy (18)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39268,6 +39123,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 1124236094}
   nameText: {fileID: 1508431433}
   attackText: {fileID: 1860830916}
@@ -39355,7 +39211,7 @@ GameObject:
   - component: {fileID: 1715853728}
   m_Layer: 0
   m_Name: Enemy (15)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39525,6 +39381,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 2117823216}
   nameText: {fileID: 3734228}
   attackText: {fileID: 151032986}
@@ -39807,7 +39664,7 @@ GameObject:
   - component: {fileID: 1735600861}
   m_Layer: 0
   m_Name: Enemy (22)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39977,6 +39834,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 2028942335}
   nameText: {fileID: 391477330}
   attackText: {fileID: 1353816065}
@@ -40044,15 +39902,14 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.20000002, y: 0.20000002, z: 0.20000002}
-  m_Children:
-  - {fileID: 1769539141}
+  m_Children: []
   m_Father: {fileID: 248366443}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 528.2, y: 317.2}
-  m_SizeDelta: {x: 500, y: 500}
+  m_SizeDelta: {x: 480, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1738060920
 MonoBehaviour:
@@ -40130,9 +39987,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: d0a0ba815485c894f9bd9f49f666003d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -40838,85 +40695,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
---- !u!1 &1769539140
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1769539141}
-  - component: {fileID: 1769539143}
-  - component: {fileID: 1769539142}
-  m_Layer: 5
-  m_Name: Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1769539141
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1769539140}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.17, y: 1.5, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1738060919}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -27.950012}
-  m_SizeDelta: {x: 0, y: -55.9}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1769539142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1769539140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 300
-    m_FontStyle: 0
-    m_BestFit: 1
-    m_MinSize: 0
-    m_MaxSize: 300
-    m_Alignment: 1
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 0.3
-  m_Text: "\u2190"
---- !u!222 &1769539143
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1769539140}
-  m_CullTransparentMesh: 0
 --- !u!1 &1771371205
 GameObject:
   m_ObjectHideFlags: 0
@@ -41409,7 +41187,7 @@ GameObject:
   - component: {fileID: 1799354188}
   m_Layer: 0
   m_Name: Enemy (10)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41579,6 +41357,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 1223892691}
   nameText: {fileID: 380109933}
   attackText: {fileID: 1379643647}
@@ -42125,7 +41904,7 @@ GameObject:
   - component: {fileID: 1830689906}
   m_Layer: 0
   m_Name: Enemy (19)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42295,6 +42074,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 319641310}
   nameText: {fileID: 937948214}
   attackText: {fileID: 1120275801}
@@ -43029,7 +42809,7 @@ GameObject:
   - component: {fileID: 1870394079}
   m_Layer: 0
   m_Name: Enemy (14)
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43199,6 +42979,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
+  xpToGive: 1
   statsDisplay: {fileID: 826035070}
   nameText: {fileID: 955470201}
   attackText: {fileID: 284651697}
