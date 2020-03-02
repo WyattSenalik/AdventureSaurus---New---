@@ -2,28 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicAttack : Skill
+public class Heal : Skill
 {
-    /// <summary>
-    /// Called before Start. Sets references.
-    /// </summary>
     private new void Awake()
     {
-        // Get references and such
         base.Awake();
-        // Set the unique stats for this attack
-        skillNum = 0;
-
-        
+        skillNum = 1334;//spells heel in numbers upside down
+        healing = true;
     }
 
-    /// <summary>
-    /// Starts the skills animation and gets a reference to the enemy that will be hit.
-    /// </summary>
-    /// <param name="attackNodesPos">The position of the node that will be attacked</param>
-    override public void StartSkill(Vector2Int attackNodePos)
+    public override void StartSkill(Vector2Int attackNodePos)
     {
-        // We have to set the enemy to attack, we just need to validate a bit first
         Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
         if (nodeToAttack != null)
         {
@@ -34,7 +23,7 @@ public class BasicAttack : Skill
                 enemiesHP = new List<Health>();
                 enemiesHP.Add(charToAttack.GetComponent<Health>());
                 if (enemiesHP[0] == null)
-                    Debug.Log("Enemy to attack does not have a Health script attached to it");
+                    Debug.Log("Ally to heal does not have a Health script attached to it");
 
                 // Start the skill's animation
                 StartSkillAnimation(attackNodePos);
@@ -42,29 +31,20 @@ public class BasicAttack : Skill
             else
                 Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
         }
-        // This occurs when an enemy isn't close enough to an ally to attack. Call end attack and don't start playing an animation
-        else
-        {
-            //Debug.Log("Node to attack does not exist");
-            EndSkill();
-            return;
-        }
+        
     }
 
-    /// <summary>
-    /// Ends the skills animaton and does damage to the 1 enemy that was hit
-    /// </summary>
-    override public void EndSkill()
+    public override void EndSkill()
     {
-        // Validate that we have an enemy to attack
         if (enemiesHP != null && enemiesHP[0] != null)
         {
             // End the skills animation
             EndSkillAnimation();
             // Deal the damage and get rid of our reference to the enemyHP
-            enemiesHP[0].TakeDamage(damage, this.GetComponent<Stats>());
+            enemiesHP[0].Heal(damage);
+            
+            enemiesHP[0] = null;
         }
-        // If we have no enemy to attack, give back control to the proper authority
         else
         {
             // We should not attack anything, so set attack animation to 0
@@ -84,4 +64,5 @@ public class BasicAttack : Skill
             }
         }
     }
+
 }

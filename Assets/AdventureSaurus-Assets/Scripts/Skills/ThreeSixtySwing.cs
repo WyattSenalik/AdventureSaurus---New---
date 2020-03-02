@@ -8,6 +8,8 @@ public class ThreeSixtySwing : Skill
     {
         base.Awake();
         skillNum = 360;
+        diagnols = true;
+        //damage = 1;
 
     }
     /// <summary>
@@ -30,6 +32,8 @@ public class ThreeSixtySwing : Skill
             areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.right));
             areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.down));
             areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.left));
+
+            //These are the diagnol tiles
             areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.up + Vector2Int.left));
             areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.up + Vector2Int.right));
             areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.down + Vector2Int.left));
@@ -44,7 +48,7 @@ public class ThreeSixtySwing : Skill
                 charToAttack = mAContRef.GetCharacterMAByNode(attack);
                 if (charToAttack != null)//checks if character exist on node
                 {
-                    if(charToAttack.gameObject.tag == "Enemy")//checks if charcter is an enemy
+                    if(charToAttack.WhatAmI == CharacterType.Enemy)//checks if charcter is an enemy
                     {
                         enemiesHP.Add(charToAttack.GetComponent<Health>());
                         if (enemiesHP[HPindex] == null)
@@ -52,8 +56,7 @@ public class ThreeSixtySwing : Skill
                         HPindex++;
                     }
                 }
-                else
-                    Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
+                
 
             }
             StartSkillAnimation(attackNodePos);
@@ -66,5 +69,43 @@ public class ThreeSixtySwing : Skill
             EndSkill();
             return;
         }
+    }
+
+    /// <summary>
+    /// Ends the skill animation. Deals damage to all participating enemies.
+    /// </summary>
+    public override void EndSkill()
+    {
+        if (enemiesHP != null)
+        {
+            // End the skills animation
+            EndSkillAnimation();
+
+            // Deal the damage and get rid of our reference to the enemyHP
+            for (int i = 0; i < enemiesHP.Count; i++)
+            {
+                enemiesHP[i].TakeDamage(damage, this.GetComponent<Stats>());
+                enemiesHP[i] = null;
+            }
+        }
+        else
+        {
+            // We should not attack anything, so set attack animation to 0
+            anime.SetInteger("AttackDirection", 0);
+
+            //Debug.Log("There was no enemy to attack");
+            // If this character is an enemy, have the next enemy attack
+            if (maRef.WhatAmI == CharacterType.Enemy)
+            {
+                enMAAIRef.StartNextEnemy();
+            }
+            // If this character is an ally, give back control to the user
+            else if (maRef.WhatAmI == CharacterType.Ally)
+            {
+                mAGUIContRef.AllowSelect();
+                turnSysRef.IsPlayerDone();
+            }
+        }
+
     }
 }

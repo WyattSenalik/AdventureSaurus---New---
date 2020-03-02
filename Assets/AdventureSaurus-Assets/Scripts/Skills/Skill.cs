@@ -11,6 +11,8 @@ public class Skill : MonoBehaviour
     protected MoveAttackController mAContRef;
     protected EnemyMoveAttackAI enMAAIRef;
     protected int skillNum = -1;
+    protected bool diagnols = false;
+    protected bool healing = false;
     protected List<Health> enemiesHP;
     [SerializeField] private int cooldown = 1;
     [SerializeField] protected int damage = 0;
@@ -70,7 +72,7 @@ public class Skill : MonoBehaviour
     /// Calls StartSkillAnimation and gets reference to the enemies damaged by this skill
     /// </summary>
     /// <param name="attackNodesPos">Grid position of the node at the center of the skill</param>
-    virtual public void StartSkill(Vector2Int attackNodesPos)
+    virtual public void StartSkill(Vector2Int attackNodePos)
     {
         Debug.Log("StartAttack not implemented");
     }
