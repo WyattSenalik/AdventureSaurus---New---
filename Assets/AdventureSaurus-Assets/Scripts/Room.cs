@@ -5,11 +5,18 @@ using UnityEngine.Experimental.Rendering.LWRP;
 
 public class Room : MonoBehaviour
 {
-    [SerializeField] private List<MoveAttack> enemiesInRoom = null; // An list of the enemies in the room
+    [SerializeField] private List<Light2D> broadcastLights = null;  // A list of the lights that this room is broadcasting to other rooms
+    [SerializeField] private List<Room> broadcastToRooms = null;    // A list of the rooms the broadcastLights are broadcasting to. Indices line up
+    [SerializeField] private List<Light2D> receiveLights = null;    // A list of the lights that are shining into this room
+    [SerializeField] private List<Room> receiveFromRooms = null;    // A list of the rooms the receiveLights are coming from. Indices line up
+    [SerializeField] private List<Room> adjacentRooms = null;   // A list of room adjacent to this one
     private Light2D roomLight = null;    // The light that will illuminate the room
     private EnemyMoveAttackAI enMAAIRef;    // Reference to the EnemyMoveAttackAI script
-    private bool roomHasBeenActivated;  // Whether or not this room has been walked into or not
-    private List<MoveAttack> charactersInRoom;  // The characters currently in the room
+    private List<MoveAttack> alliesInRoom;  // The characters currently in the room
+    private List<MoveAttack> enemiesInRoom; // A list of the enemies in the room
+    private bool isRoomActive;  // If the room is on or off
+    private float currentLightIntensity;    // The current light level of the room
+    private bool clear; // If all enemies in the room have been defeated
 
     // Set References
     // Awake is called before Start
@@ -36,28 +43,60 @@ public class Room : MonoBehaviour
     // Initialize variables
     private void Start()
     {
-        roomHasBeenActivated = false;
         roomLight.intensity = 0;
-        charactersInRoom = new List<MoveAttack>();
+        currentLightIntensity = 0;
+        alliesInRoom = new List<MoveAttack>();
+        enemiesInRoom = new List<MoveAttack>();
+        isRoomActive = false;
+        clear = true;
     }
 
     /// <summary>
-    /// Called when an ally enters this room for the first time. Sends the enemies in this room information to the EnemyMoveAttackAI script
-    /// to be added to the active enemies list and be activated
+    /// Called every time a character enters the room
     /// </summary>
-    private void TriggerRoom()
+    /// <param name="allyWhoEntered">MoveAttack script attached to the ally who entered the room</param>
+    private void TriggerRoom(MoveAttack allyWhoEntered)
     {
-        roomHasBeenActivated = true;
-        enMAAIRef.ActivateRoom(enemiesInRoom);
+        Room otherRoom = GetAdjacentRoomByAlly(allyWhoEntered); // The room the character just came from
+
+        // Since we just walked into the room, we want to turn it on
+        currentLightIntensity = 1f;
+
+        // Test if there is another room, there may not be, if the character starts in that room
+        if (otherRoom == null)
+        {
+            // Turn on the starting room's lights and thats it
+            StartCoroutine(ChangeIntensity(this));
+            return;
+        }
+        Debug.Log("otherRoom is " + otherRoom.name);
+        int amountAlliesInOtherRoom = otherRoom.alliesInRoom.Count; // The number of allies in the other room
+
+        // If the room the character came from has only that character in it
+        if (amountAlliesInOtherRoom == 1)
+        {
+            // Turn off the room that was came from's light
+            // If that room has been cleared, we dim it, otherwise we turn it completely off
+            if (otherRoom.clear)
+            {
+                // Change the otherRoom's light
+                otherRoom.currentLightIntensity = 0.5f;
+            }
+            // If the room has not been cleared, we turn it off completely
+            else
+            {
+                // Change the otherRoom's light
+                otherRoom.currentLightIntensity = 0f;
+            }
+        }
+
+        // Actually update the lighting of everything after determining what it should be
+        // Turn on the lights of this room
+        StartCoroutine(ChangeIntensity(this));
+        // Change the lighting of the other room
+        StartCoroutine(ChangeIntensity(otherRoom));
     }
 
-    /// <summary>
-    /// CAlled when the last character in the room leaves. Makes the room light faded
-    /// </summary>
-    private void SleepRoom()
-    {
-        roomLight.intensity = 0.4f;
-    }
 
     /// <summary>
     /// When this object collides with the player for the first time, we trigger the room. Also adds characters to what is currently in the room
@@ -65,21 +104,38 @@ public class Room : MonoBehaviour
     /// <param name="collision">The collider2d of the object that was collided with</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // If we collide with a player
-        if (collision.gameObject.tag == "Player")
+        // Try to get the movement script from what we collided with, and tests if it exists
+        MoveAttack mARef = collision.GetComponent<MoveAttack>();
+        if (mARef == null)
         {
-            roomLight.intensity = 1f;
-            // If this is first time colliding, turn on the room
-            if (!roomHasBeenActivated)
+            return;
+        }
+
+        // If we collide with an enemy
+        if (mARef.WhatAmI == CharacterType.Enemy)
+        {
+            // If they aren't already a part of the room's enemies, add them to it
+            if (!enemiesInRoom.Contains(mARef))
             {
-                TriggerRoom();
+                clear = false;
+                enemiesInRoom.Add(mARef);
+            }
+            // Also, if their room isn't active hide them (transition is used to test if it is the beginning of the game or not, since we don't
+            // want an enemy to disappear when they walk between rooms, for which transition will always be true
+            if (!isRoomActive && mARef.transition == false)
+            {
+                mARef.gameObject.SetActive(false);
             }
         }
-        // If we collide with something that has a MoveAttack script attached, add it to the characters currently in the room
-        MoveAttack mARef = collision.GetComponent<MoveAttack>();
-        if (mARef != null)
+        // If we collide with a player
+        else if (mARef.WhatAmI == CharacterType.Ally)
         {
-            charactersInRoom.Add(mARef);
+            // Add them to the allies in room
+            // Make sure they are not already in the list
+            if (!alliesInRoom.Contains(mARef))
+                alliesInRoom.Add(mARef);
+            // Turn on the room
+            TriggerRoom(mARef);
         }
     }
 
@@ -89,14 +145,134 @@ public class Room : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // If we collide with something that has a MoveAttack script attached, add it to the characters currently in the room
+        // If we collide with something that has a MoveAttack script attached, remove it from characters currently in the room
         MoveAttack mARef = collision.GetComponent<MoveAttack>();
-        if (mARef != null)
+        if (mARef == null)
+            return;
+        // If it was an ally
+        if (mARef.WhatAmI == CharacterType.Ally)
         {
-            charactersInRoom.Remove(mARef);
-            // If it was the last character
-            if (charactersInRoom.Count == 0)
-                SleepRoom();
+            alliesInRoom.Remove(mARef);
         }
+        // If it was an enemy
+        else if (mARef.WhatAmI == CharacterType.Enemy)
+        {
+            enemiesInRoom.Remove(mARef);
+            // If it was the last enemy
+            if (enemiesInRoom.Count == 0)
+                clear = true;
+        }
+    }
+
+    /// <summary>
+    /// Returns the intensity of the room's main light
+    /// </summary>
+    /// <returns>float that is the intensity of the room light</returns>
+    public float GetIntensity()
+    {
+        return currentLightIntensity;
+    }
+
+    /// <summary>
+    /// Turns on all the broadcast lights of enter room little by little.
+    /// This is supposed to be called from ChangeIntensity at each interval
+    /// </summary>
+    /// <param name="enterRoom">The room who owns the broadcast lights. It was just entered by an ally</param>
+    private void UpdateBroadcastLights(Room enterRoom)
+    {
+        // We are going to be setting the intensity of each broadcast light coming from this room to go to other rooms.
+        // The resulting overlap of intensities should equal the enterRoom's light's intensity at this moment (not currentIntensity)
+        float targetIntensity = enterRoom.roomLight.intensity;
+        for (int i = 0; i < enterRoom.broadcastLights.Count; ++i)
+        {
+            // We have to make it so the sum of the room this broadcast light is 
+            // broadcasting into's light plus this light is the target intensity.
+            // The room this light is broadcasting into is the broadcastToRooms at the same index.
+            float actualIntensity = targetIntensity - enterRoom.broadcastToRooms[i].roomLight.intensity;
+            // Make sure this intensity is not negative, if it is, we just want to turn it off
+            if (actualIntensity < 0f)
+            {
+                actualIntensity = 0f;
+            }
+            // Set the value
+            enterRoom.broadcastLights[i].intensity = actualIntensity;
+        }
+    }
+
+    /// <summary>
+    /// Turns off all the broadcast lights of enter room little by little
+    /// This is supposed to be called from ChangeIntensity at each interval
+    /// </summary>
+    /// <param name="enterRoom">The room who is receiving the receiveLights. It was just entered by an ally</param>
+    private void UpdateReceivingLights(Room enterRoom)
+    {
+        for (int i = 0; i < enterRoom.receiveLights.Count; ++i)
+        {
+            // We are going to be setting the intensity of each receiving light coming into etner room from other rooms.
+            // The resulting overlap of intensities should equal the room this light is being broadcast from's light's 
+            // intensity at this moment (not currentIntensity)
+            // The light we are on has the same index as the room it is receiving from
+            float targetIntensity = enterRoom.receiveFromRooms[i].roomLight.intensity;
+            // We have to make it so the sum of enterRoom's light's intensity and the receiving light's intensity
+            // equals the target intensity
+            float actualIntensity = targetIntensity - enterRoom.roomLight.intensity;
+            // Make sure this intensity is not negative, if it is, we just want to turn it off
+            if (actualIntensity < 0f)
+            {
+                actualIntensity = 0f;
+            }
+            // Set the value
+            enterRoom.receiveLights[i].intensity = actualIntensity;
+        }
+    }
+
+    /// <summary>
+    /// Slowly changes the room's light intensity to be the room's currentItensity
+    /// </summary>
+    /// <param name="roomToChange">The room whose light will be changed</param>
+    /// <returns>IEnumerator</returns>
+    public IEnumerator ChangeIntensity(Room roomToChange)
+    {
+        // If its dimmer than its supposed to be, make it brighter
+        while (roomToChange.roomLight.intensity < roomToChange.currentLightIntensity)
+        {
+            roomToChange.roomLight.intensity += Time.deltaTime;
+            UpdateBroadcastLights(roomToChange);
+            UpdateReceivingLights(roomToChange);
+            yield return null;
+        }
+        // If its brighter than its supposed to be, make it dimmer
+        while (roomToChange.roomLight.intensity > roomToChange.currentLightIntensity)
+        {
+            roomToChange.roomLight.intensity -= Time.deltaTime;
+            UpdateBroadcastLights(roomToChange);
+            UpdateReceivingLights(roomToChange);
+            yield return null;
+        }
+        // Its close enough, so finish setting it
+        roomToChange.roomLight.intensity = roomToChange.currentLightIntensity;
+        UpdateBroadcastLights(roomToChange);
+        UpdateReceivingLights(roomToChange);
+        yield return null;
+    }
+
+    /// <summary>
+    /// Returns a room, that is not this room, that contains the given ally
+    /// </summary>
+    /// <param name="ally">The ally coming from the room we will return</param>
+    /// <returns>Room adjacent to this room where ally came from</returns>
+    private Room GetAdjacentRoomByAlly(MoveAttack ally)
+    {
+        // Iterate over the adjacent rooms until we get the room this ally is in
+        foreach (Room adjRoom in adjacentRooms)
+        {
+            if (adjRoom.alliesInRoom.Contains(ally))
+            {
+                return adjRoom;
+            }
+        }
+        // If we don't find it, something went wrong
+        Debug.Log("Could not find adjacent room with " + ally.name + " in it");
+        return null;
     }
 }

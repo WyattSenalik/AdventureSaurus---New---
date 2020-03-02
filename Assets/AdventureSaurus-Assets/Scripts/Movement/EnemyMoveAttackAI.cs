@@ -180,6 +180,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // If the enemy does not exist, do not try to move it
         if (currentEnemy == null)
         {
+            Debug.Log("We done bois");
             return;
         }
 
@@ -449,6 +450,24 @@ public class EnemyMoveAttackAI : MonoBehaviour
             if (enemy == null)
                 continue;
             enemy.gameObject.SetActive(true);
+            // Make sure its not already there
+            if (!enemiesMA.Contains(enemy))
+                enemiesMA.Add(enemy);
+        }
+    }
+
+    /// <summary>
+    /// Called from Room when the last ally leaves the room. Removes the enemies in that room from the active enemies list
+    /// </summary>
+    /// <param name="enemiesToRemove">The enemies to remove from the enemies list</param>
+    public void DeactivateRoom(List<MoveAttack> enemiesToRemove)
+    {
+        // Remove the enemies to the list
+        foreach (MoveAttack enemy in enemiesToRemove)
+        {
+            if (enemy == null)
+                continue;
+            enemy.gameObject.SetActive(false);
             enemiesMA.Add(enemy);
         }
     }

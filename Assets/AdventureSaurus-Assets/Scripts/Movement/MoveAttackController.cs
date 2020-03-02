@@ -48,11 +48,12 @@ public class MoveAttackController : MonoBehaviour
             // Create the visual tiles ahead of time
             CreateVisualTiles(mARef);
 
+            // We used to hide enemies here, but now we do that in Room
             // If the character is an enemy, we want to hide those until the their room is gone into
-            if (mARef.WhatAmI == CharacterType.Enemy)
+            /*if (mARef.WhatAmI == CharacterType.Enemy)
             {
                 mARef.gameObject.SetActive(false);
-            }
+            }*/
         }
     }
 
@@ -398,9 +399,11 @@ public class MoveAttackController : MonoBehaviour
         int rowIndex = pos.y - gridBotRight.y;
         int colIndex = pos.x - gridTopLeft.x;
         return grid[rowIndex][colIndex];
+        
 
-        /*
+        
         // Iterate over every row
+        /*
         foreach (List<Node> row in grid)
         {
             // Iterate over each node in that row
@@ -416,6 +419,7 @@ public class MoveAttackController : MonoBehaviour
         // If we found no node with the desired position
         return null;
         */
+        
     }
 
     /// <summary>
