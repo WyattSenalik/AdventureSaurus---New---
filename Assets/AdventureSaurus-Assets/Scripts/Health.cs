@@ -31,6 +31,9 @@ public class Health : MonoBehaviour
     // For turns
     private TurnSystem turnSysRef;  // Reference to the TurnSystem script
 
+    // For giving xp
+    private Stats myKiller; // Reference to the Stats component of who killed this character
+
     // Set References
     private void Awake()
     {
@@ -139,7 +142,8 @@ public class Health : MonoBehaviour
     /// Decrements curHP by dmgToTake
     /// </summary>
     /// <param name="dmgToTake">Amount curHP will go down by</param>
-    public void TakeDamage(int dmgToTake)
+    /// <param name="dmgDealer">The Stats of the character who dealt damage</param>
+    public void TakeDamage(int dmgToTake, Stats dmgDealer)
     {
         // Make sure the input is valid. If its not, print a debug and stop the function
         if (dmgToTake < 0)
@@ -147,16 +151,17 @@ public class Health : MonoBehaviour
             Debug.Log("A negative value was passed into Health.TakeDamage() attached to " + this.gameObject.name + "\nPlease do not try to heal the unit using this function");
             return;
         }
-
         // If damage will deal more than needed to take health to 0, just reduce health to 0
         else if (curHP - dmgToTake <= 0)
         {
             curHP = 0;
+            myKiller = dmgDealer;
         }
         // Otherwise do it normally
         else
         {
             curHP -= dmgToTake;
+            myKiller = dmgDealer;
         }
 
         // If this unit has a health bar, update it to properly display the new health information
@@ -232,6 +237,8 @@ public class Health : MonoBehaviour
         this.transform.parent = graveyard.transform;
         // We then need to recreate all the visuals, so that the user can see they can move over the dead body
         //NEEDTOFIXmAContRef.CreateAllVisualTiles();
+        
+        // Give xp to the killer
 
         // Give either the user or the ai control of their stuff
         GiveBackControl();
