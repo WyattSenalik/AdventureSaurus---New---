@@ -62,7 +62,7 @@ public class BasicAttack : Skill
             // End the skills animation
             EndSkillAnimation();
             // Deal the damage and get rid of our reference to the enemyHP
-            enemiesHP[0].TakeDamage(damage);
+            enemiesHP[0].TakeDamage(damage, this.GetComponent<Stats>());
             enemiesHP[0] = null;
         }
         // If we have no enemy to attack, give back control to the proper authority

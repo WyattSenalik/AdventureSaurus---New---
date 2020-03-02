@@ -447,6 +447,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // Add the enemies to the list
         foreach (MoveAttack enemy in enemiesToAdd)
         {
+            //Debug.Log("Activating " + enemy.name);
             if (enemy == null)
                 continue;
             enemy.gameObject.SetActive(true);

@@ -6,9 +6,7 @@ using UnityEngine.Experimental.Rendering.LWRP;
 public class Room : MonoBehaviour
 {
     [SerializeField] private List<Light2D> broadcastLights = null;  // A list of the lights that this room is broadcasting to other rooms
-    [SerializeField] private List<Room> broadcastToRooms = null;    // A list of the rooms the broadcastLights are broadcasting to. Indices line up
     [SerializeField] private List<Light2D> receiveLights = null;    // A list of the lights that are shining into this room
-    [SerializeField] private List<Room> receiveFromRooms = null;    // A list of the rooms the receiveLights are coming from. Indices line up
     [SerializeField] private List<Room> adjacentRooms = null;   // A list of room adjacent to this one
     private Light2D roomLight = null;    // The light that will illuminate the room
     private EnemyMoveAttackAI enMAAIRef;    // Reference to the EnemyMoveAttackAI script
@@ -69,7 +67,7 @@ public class Room : MonoBehaviour
             StartCoroutine(ChangeIntensity(this));
             return;
         }
-        Debug.Log("otherRoom is " + otherRoom.name);
+        //Debug.Log("otherRoom is " + otherRoom.name);
         int amountAlliesInOtherRoom = otherRoom.alliesInRoom.Count; // The number of allies in the other room
 
         // If the room the character came from has only that character in it
@@ -95,6 +93,24 @@ public class Room : MonoBehaviour
         StartCoroutine(ChangeIntensity(this));
         // Change the lighting of the other room
         StartCoroutine(ChangeIntensity(otherRoom));
+    }
+
+
+    /// <summary>
+    /// Called when the last ally in a room dies. Turns off the room
+    /// </summary>
+    /// <param name="allyWhoExited">The enemy who just exited the room (died)</param>
+    private void CalmRoom(MoveAttack allyWhoExited)
+    {
+        // We want to turn the room off
+        currentLightIntensity = 0f;
+        // Change the intensity of this room
+        StartCoroutine(ChangeIntensity(this));
+        // Update lighting of the adjacent rooms
+        foreach (Room adjRoom in adjacentRooms)
+        {
+            StartCoroutine(ChangeIntensity(adjRoom));
+        }
     }
 
 
@@ -136,6 +152,13 @@ public class Room : MonoBehaviour
                 alliesInRoom.Add(mARef);
             // Turn on the room
             TriggerRoom(mARef);
+
+            // If we haven't activated the enemies in the room yet, do that
+            if (!isRoomActive)
+            {
+                enMAAIRef.ActivateRoom(enemiesInRoom);
+                isRoomActive = true;
+            }
         }
     }
 
@@ -153,9 +176,12 @@ public class Room : MonoBehaviour
         if (mARef.WhatAmI == CharacterType.Ally)
         {
             alliesInRoom.Remove(mARef);
+            // If it was the last ally and that ally is not moving (they died)
+            if (alliesInRoom.Count == 0 && !mARef.transition)
+                CalmRoom(mARef);
         }
-        // If it was an enemy
-        else if (mARef.WhatAmI == CharacterType.Enemy)
+        // If it was an enemy and the room is active
+        else if (mARef.WhatAmI == CharacterType.Enemy && isRoomActive)
         {
             enemiesInRoom.Remove(mARef);
             // If it was the last enemy
@@ -188,7 +214,7 @@ public class Room : MonoBehaviour
             // We have to make it so the sum of the room this broadcast light is 
             // broadcasting into's light plus this light is the target intensity.
             // The room this light is broadcasting into is the broadcastToRooms at the same index.
-            float actualIntensity = targetIntensity - enterRoom.broadcastToRooms[i].roomLight.intensity;
+            float actualIntensity = targetIntensity - enterRoom.adjacentRooms[i].roomLight.intensity;
             // Make sure this intensity is not negative, if it is, we just want to turn it off
             if (actualIntensity < 0f)
             {
@@ -212,7 +238,7 @@ public class Room : MonoBehaviour
             // The resulting overlap of intensities should equal the room this light is being broadcast from's light's 
             // intensity at this moment (not currentIntensity)
             // The light we are on has the same index as the room it is receiving from
-            float targetIntensity = enterRoom.receiveFromRooms[i].roomLight.intensity;
+            float targetIntensity = enterRoom.adjacentRooms[i].roomLight.intensity;
             // We have to make it so the sum of enterRoom's light's intensity and the receiving light's intensity
             // equals the target intensity
             float actualIntensity = targetIntensity - enterRoom.roomLight.intensity;
