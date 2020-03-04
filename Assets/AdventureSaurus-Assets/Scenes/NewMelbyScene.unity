@@ -27464,8 +27464,8 @@ Tilemap:
       m_ColliderType: 1
   - first: {x: -1, y: -1, z: 0}
     second:
-      m_TileIndex: 18
-      m_TileSpriteIndex: 16
+      m_TileIndex: 13
+      m_TileSpriteIndex: 19
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -30838,7 +30838,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 25d59e8133c4fb142be3aac26b56ebb4, type: 2}
   - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: 867bc6836ae8acd4eae015d09d251651, type: 2}
-  - m_RefCount: 200
+  - m_RefCount: 201
     m_Data: {fileID: 11400000, guid: 9b8e1ec37fa577346b73f5c6ca462a17, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -30848,7 +30848,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 11dbdc8f7bb3dac40b9fcc65a24ea812, type: 2}
   - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: 7226f7718453fb940b9d3c4eeb8a31b1, type: 2}
@@ -30900,7 +30900,7 @@ Tilemap:
       type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 3549856501438407143, guid: b58c4e8b8bf1ab24dbeb686853470c41,
       type: 3}
   - m_RefCount: 3
@@ -30909,7 +30909,7 @@ Tilemap:
   - m_RefCount: 3
     m_Data: {fileID: 8706842635339425914, guid: 9a83c4caab9d5104981ac321e1b6ba02,
       type: 3}
-  - m_RefCount: 200
+  - m_RefCount: 201
     m_Data: {fileID: 3630754617989248545, guid: 288a50bacbc7f28409f92b2d032495c5,
       type: 3}
   - m_RefCount: 4
@@ -32781,14 +32781,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: b9b20b818db174b45aa108a434d4cf4a, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -47840,7 +47840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2063824615}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -21, y: 23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
