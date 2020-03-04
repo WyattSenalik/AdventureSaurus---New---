@@ -188,8 +188,8 @@ public class EnemyMoveAttackAI : MonoBehaviour
         currentEnemy.CalcAttackTiles();
 
         // Get the node this character should try to attack and the node this character should move to
-        curAttackNodePos = FindDesiredAttackNode(currentEnemy);
-        Node desiredNode = FindDesiredMovementNode(currentEnemy);
+        curAttackNodePos = FindDesiredAttackNode();
+        Node desiredNode = FindDesiredMovementNode();
         // If the node returns null, it means we cannot do anything with this enemy
         if (desiredNode == null)
         {
@@ -235,9 +235,8 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// <summary>
     /// Finds if there is an enemy in range and gives its gridPositon, if there's not, it returns an invalid gridPosition
     /// </summary>
-    /// <param name="enemy">The enemy we are testing from</param>
     /// <returns>Returns a Vector2Int on the grid if it finds an enemy, otherwise returns a Vector2Int off the grid</returns>
-    private Vector2Int FindDesiredAttackNode(MoveAttack enemy)
+    private Vector2Int FindDesiredAttackNode()
     {
         // If there is an "ally" character in range, we want that node
         // Test if the ally is in range
@@ -255,7 +254,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
             // Get that ally's node
             Node allyNode = mAContRef.GetNodeByWorldPosition(ally.transform.position);
             // If that ally's node is in this enemy's move tiles, they are in range, so that is the node we want to reach
-            if (enemy.AttackTiles.Contains(allyNode))
+            if (currentEnemy.AttackTiles.Contains(allyNode))
             {
                 //Debug.Log("Found ally to attack at " + allyGridPos);
                 return allyNode.position;
@@ -284,9 +283,8 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// <summary>
     /// Finds the node that the enemy "wants" to move to
     /// </summary>
-    /// <param name="enemy">The enemy we are testing from</param>
     /// <returns>A Node that is the Node the enemy has chosen to move to</returns>
-    private Node FindDesiredMovementNode(MoveAttack enemy)
+    private Node FindDesiredMovementNode()
     {
         // Determine if we found a node with an ally on it, by just checking if the position is on the grid
         Node nodeToAttack = mAContRef.GetNodeAtPosition(curAttackNodePos);
@@ -294,14 +292,14 @@ public class EnemyMoveAttackAI : MonoBehaviour
         if (nodeToAttack != null && nodeToAttack.occupying == CharacterType.Ally)
         {
             // Get the potential nodes that the enemy would be able to attack the ally from
-            List<Node> potentialMoveTiles = mAContRef.GetNodesDistFromNode(nodeToAttack, enemy.AttackRange);
+            List<Node> potentialMoveTiles = mAContRef.GetNodesDistFromNode(nodeToAttack, currentEnemy.AttackRange);
             // The node we are currently on is not in MoveAttack's move tile, so we must test for that separately
-            Node currentNode = mAContRef.GetNodeByWorldPosition(enemy.transform.position);
+            Node currentNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
             // Iterate over the potenital nodes until we find one that we can move to
             foreach (Node node in potentialMoveTiles)
             {
                 // Once we find one, return it
-                if ((enemy.MoveTiles.Contains(node) && node.occupying == CharacterType.None) || (node == currentNode))
+                if ((currentEnemy.MoveTiles.Contains(node) && node.occupying == CharacterType.None) || (node == currentNode))
                 {
                     //Debug.Log("Found node to move to " + node.position);
                     return node;
@@ -316,31 +314,36 @@ public class EnemyMoveAttackAI : MonoBehaviour
         {
             // If we have no ally to attack, we need to find the closest ally to me and move as close to them as possible
             Node closestAllyNode = FindAllyOutOfRange();
-            // If there are no closest allies, we just should move
+            // If there are no closest allies, we just should move in place
             if (closestAllyNode == null)
             {
-                return mAContRef.GetNodeByWorldPosition(enemy.transform.position);
+                return mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
             }
-            //Debug.Log("ClosestAllyNode " + closestAllyNode.position);
             // Find the path to that ally, we don't care about if we can actually move there in this case
-            Node startNode = mAContRef.GetNodeByWorldPosition(enemy.transform.position);
-            mAContRef.Pathing(startNode, closestAllyNode, CharacterType.Enemy, false);
-            // In the case that the enemy is trying to move onto another enemy
-            int testRange = enemy.MoveRange;
-            while (startNode != null && startNode.occupying != CharacterType.None && startNode.whereToGo != startNode)
+            Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+            mAContRef.Pathing(startNode, closestAllyNode, CharacterType.Enemy);
+            // We need to iterate over the new path to see if the enemy would end up on another ally
+            int testRange = currentEnemy.MoveRange;
+            Node currentNode = startNode;
+            // We test if the node is invalid. A valid node is either null or has no one occupying it. If the current node has itself as where to go, 
+            // we also want to stop iterating because that node is the end of the path
+            while (currentNode != null && currentNode.occupying != CharacterType.None && currentNode.whereToGo != currentNode)
             {
-                startNode = mAContRef.GetNodeByWorldPosition(enemy.transform.position);
+                currentNode = startNode;
                 // Use the new pathing and the current enemies movement range to determine where we should move
                 for (int i = 0; i < testRange; ++i)
                 {
-                    if (startNode != null)
+                    if (currentNode != null)
                     {
-                        startNode = startNode.whereToGo;
+                        currentNode = currentNode.whereToGo;
                     }
                 }
                 --testRange;
+                // We now test in the while statement if the current node is still invalid
+                // If it comes back that the node is still invalid --testRange makes it so we only iterate over 1 less
             }
-            return startNode;
+            // This can return the startNode
+            return currentNode;
         }
     }
 
@@ -355,97 +358,46 @@ public class EnemyMoveAttackAI : MonoBehaviour
 
         // Find the allies, and see if they are more than maxDepth grid units away anyway
         // If they are, we just return null
-        bool allyIsClose = false;
-        // The node the ally will be at if its found
-        Node allyNode = null;
+        Node closestAllyNode = null; // The node of the closest ally
+        // The closest allies distance from the currentEnemy
+        int closestAllyDist = (mAContRef.GridTopLeft.y - mAContRef.GridBotRight.y) + (mAContRef.GridBotRight.x - mAContRef.GridTopLeft.x) + 2;
         for (int i = 0; i < alliesMA.Count; ++i)
         {
-            MoveAttack ally = alliesMA[i];
-            // Make sure the enemy exists
-            if (ally == null)
+            MoveAttack curAlly = alliesMA[i];
+            // Make sure the current ally exists
+            if (curAlly == null)
             {
-                alliesMA.RemoveAt(i);
-                --i;
                 continue;
             }
 
-            allyNode = mAContRef.GetNodeByWorldPosition(ally.transform.position);
-            if (Mathf.Abs(startNode.position.x - allyNode.position.x) + Mathf.Abs(startNode.position.y - allyNode.position.y) <= aggroRange)
+            Node curAllyNode = mAContRef.GetNodeByWorldPosition(curAlly.transform.position);
+            int curAllyDist = Mathf.Abs(startNode.position.x - curAllyNode.position.x) + Mathf.Abs(startNode.position.y - curAllyNode.position.y);
+            // Quick check if ally is close to this enemy and is closer than the current closest ally
+            if (curAllyDist <= aggroRange &&  curAllyDist < closestAllyDist)
             {
-                allyIsClose = true;
-                break;
+                // Check to make sure the enemy has a place to stand to attack and that the enemy can reach that node
+                //
+                // Get the nodes the enemy can attack the ally from
+                List<Node> allyAttackNodes = mAContRef.GetNodesDistFromNode(curAllyNode, currentEnemy.AttackRange);
+                // Iterate over each of the nodes the enemy could potentially stand at to attack
+                for (int j = 0; j < allyAttackNodes.Count; ++j)
+                {
+                    // See if the node exists and there is no character there
+                    if (allyAttackNodes[j] != null && allyAttackNodes[j].occupying == CharacterType.None)
+                    {
+                        // See if there is a path to there for enemies
+                        if (mAContRef.Pathing(startNode, allyAttackNodes[j], CharacterType.Enemy))
+                        {
+                            mAContRef.ResetPathing();
+                            closestAllyNode = curAllyNode;
+                            closestAllyDist = curAllyDist;
+                        }
+                    }
+                }
             }
         }
-        // Stop if there was no close ally
-        if (!allyIsClose)
-        {
-            //Debug.Log("No ally is close");
-            return null;
-        }
-
-        // Initialize the list and add the current node as the start node
-        List<Node> alreadyTestedNodes = new List<Node>();    // The nodes that have been tested already
-        List<Node> currentNodes = new List<Node>(); // The nodes we have yet to test
-        currentNodes.Add(startNode);
-        // While we haven't explored all the nodes yet or we havent explored the maxDepth yet
-        int curDepth = 0;
-        while (currentNodes.Count != 0 && curDepth <= aggroRange)
-        {
-            int amountNodes = currentNodes.Count;
-
-            for (int i = 0; i < amountNodes; ++i)
-            {
-                // The current node equals the node with the least F
-                Node currentNode = currentNodes[0];
-                // First, find this node
-                foreach (Node node in currentNodes)
-                {
-                    if (currentNode.F > node.F)
-                        currentNode = node;
-                }
-
-                // Remove it from inProgressNodes and add it to testedNodes
-                currentNodes.Remove(currentNode);
-                alreadyTestedNodes.Add(currentNode);
-
-                // Check if this node is the endNode
-                if (currentNode != null && currentNode.occupying == CharacterType.Ally)
-                {
-                    return currentNode;
-                }
-
-
-                // Generate children
-                Vector2Int inProgNodePos = currentNode.position; // For quick reference
-
-                // Check above node
-                Vector2Int testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y + 1);
-                Node testNode = mAContRef.GetNodeAtPosition(testPos);
-                // Test the node and see if it should be added to current nodes
-                mAContRef.PathingTestNode(testPos, currentNodes, alreadyTestedNodes, currentNode, allyNode.position, CharacterType.Enemy, false);
-
-                // Check left node
-                testPos = new Vector2Int(inProgNodePos.x - 1, inProgNodePos.y);
-                testNode = mAContRef.GetNodeAtPosition(testPos);
-                // Test the node and see if it should be added to current nodes
-                mAContRef.PathingTestNode(testPos, currentNodes, alreadyTestedNodes, currentNode, allyNode.position, CharacterType.Enemy, false);
-
-                // Check right node
-                testPos = new Vector2Int(inProgNodePos.x + 1, inProgNodePos.y);
-                testNode = mAContRef.GetNodeAtPosition(testPos);
-                // Test the node and see if it should be added to current nodes
-                mAContRef.PathingTestNode(testPos, currentNodes, alreadyTestedNodes, currentNode, allyNode.position, CharacterType.Enemy, false);
-
-                // Check down node
-                testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y - 1);
-                testNode = mAContRef.GetNodeAtPosition(testPos);
-                // Test the node and see if it should be added to current nodes
-                mAContRef.PathingTestNode(testPos, currentNodes, alreadyTestedNodes, currentNode, allyNode.position, CharacterType.Enemy, false);
-            }
-            //++curDepth;
-        }
-        // Found no allies on the map
-        return null;
+        // Returns null if the closestAlly node was not found
+        return closestAllyNode;
     }
 
     /// <summary>

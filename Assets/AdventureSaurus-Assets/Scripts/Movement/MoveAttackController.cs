@@ -560,39 +560,6 @@ public class MoveAttackController : MonoBehaviour
                 // Check down node
                 testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y - 1);
                 PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, endNode.position, requesterType, shouldCare);
-
-
-
-                /*
-                int amountNodes = inProgressNodes.Count;    // The Count will change, so we set it be what we began with
-                //Debug.Log("There are " + amountNodes + " nodes in InProgressNodes");
-
-                // Iterate over only the nodes that were in the list before we started testing
-                for (int i = 0; i < amountNodes; ++i)
-                {
-                    Vector2Int inProgNodePos = inProgressNodes[i].position; // For quick reference
-                    //Debug.Log("Telling adjacent nodes to come to " + InProgressNodes[i].position);
-                    // Check above node
-                    Vector2Int testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y + 1);
-                    PathingTestNode(testPos, inProgressNodes, i, requesterType);
-
-                    // Check left node
-                    testPos = new Vector2Int(inProgNodePos.x - 1, inProgNodePos.y);
-                    PathingTestNode(testPos, inProgressNodes, i, requesterType);
-
-                    // Check right node
-                    testPos = new Vector2Int(inProgNodePos.x + 1, inProgNodePos.y);
-                    PathingTestNode(testPos, inProgressNodes, i, requesterType);
-
-                    // Check down node
-                    testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y - 1);
-                    PathingTestNode(testPos, inProgressNodes, i, requesterType);
-                }
-                for (int i = 0; i < amountNodes; ++i)
-                {
-                    inProgressNodes.RemoveAt(0);
-                }
-                */
             }
             return true;    // Was a valid spot to move
         }
