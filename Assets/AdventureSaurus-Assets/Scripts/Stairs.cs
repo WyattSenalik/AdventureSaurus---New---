@@ -10,22 +10,41 @@ public class Stairs : MonoBehaviour
     public Transform player2;
     public Transform player3;
     public Transform stair;
-    private bool nextArea;
     private bool touchedOnce;
-
+    private string whoIsOn;
     public Prompter prompter;
 
 
 
     private void Awake()
     {
-        nextArea = false;
         touchedOnce = false;
     }
 
     private void Update()
     {
         touchStairs();
+        if (player1 != null && whoIsOn == player1.name)
+        {
+            if (player1.transform.position != stair.transform.position )
+            {
+                touchedOnce = false;
+            }
+        }
+        else if(player2 != null && whoIsOn == player2.name)
+        {
+            if (player2.transform.position != stair.transform.position)
+            {
+                touchedOnce = false;
+            }
+        }
+        else if(player3 != null && whoIsOn == player3.name)
+        {
+            if (player3.transform.position != stair.transform.position)
+            {
+                touchedOnce = false;
+            }
+        }
     }
 
    
@@ -37,16 +56,19 @@ public class Stairs : MonoBehaviour
             {
                 prompt();
                 touchedOnce = true;
+                whoIsOn = player1.name;
             }
             else if (player2 != null && player2.transform.position == stair.transform.position)
             {
                 prompt();
                 touchedOnce = true;
+                whoIsOn = player2.name;
             }
             else if (player3 != null && player3.transform.position == stair.transform.position)
             {
                 prompt();
                 touchedOnce = true;
+                whoIsOn = player3.name;
             }
         }
     }
@@ -60,15 +82,13 @@ public class Stairs : MonoBehaviour
 
     public void yes()
     {
-        nextArea = true;
-        prompter.PromptGame();
+
         SceneManager.LoadScene("Title Screen");
+        prompter.PromptGame();
     }
     public void no()
     {
-        nextArea = false;
         prompter.PromptGame();
-        
     }
     
 }
