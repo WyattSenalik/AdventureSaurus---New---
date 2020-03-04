@@ -11030,7 +11030,7 @@ MonoBehaviour:
   charName: Ray
   strength: 1
   magic: 0
-  speed: 3
+  speed: 7
   defense: 2
   vitality: 100
   xpToGive: 0
@@ -27464,8 +27464,8 @@ Tilemap:
       m_ColliderType: 1
   - first: {x: -1, y: -1, z: 0}
     second:
-      m_TileIndex: 6
-      m_TileSpriteIndex: 11
+      m_TileIndex: 18
+      m_TileSpriteIndex: 16
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -30824,7 +30824,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 5
     m_Data: {fileID: 11400000, guid: 9a7e76879ea36b949afad5e3343a7fce, type: 2}
-  - m_RefCount: 18
+  - m_RefCount: 17
     m_Data: {fileID: 11400000, guid: e31c5f43f4bf1b3428e93e20bcb728b6, type: 2}
   - m_RefCount: 16
     m_Data: {fileID: 11400000, guid: 8b05c82ffe5361645b3af3bcc515614e, type: 2}
@@ -30848,7 +30848,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 11dbdc8f7bb3dac40b9fcc65a24ea812, type: 2}
   - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: 7226f7718453fb940b9d3c4eeb8a31b1, type: 2}
@@ -30886,7 +30886,7 @@ Tilemap:
       type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 18
+  - m_RefCount: 17
     m_Data: {fileID: -7379138608119373286, guid: 288a50bacbc7f28409f92b2d032495c5,
       type: 3}
   - m_RefCount: 16
@@ -30900,7 +30900,7 @@ Tilemap:
       type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 3549856501438407143, guid: b58c4e8b8bf1ab24dbeb686853470c41,
       type: 3}
   - m_RefCount: 3
@@ -46291,7 +46291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2014396232}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 7, z: 0}
+  m_LocalPosition: {x: -23, y: 12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1294887366}
@@ -47840,7 +47840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2063824615}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21, y: 23, z: -8.879217}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -48705,7 +48705,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2128618931}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2063824617}
+        m_MethodName: no
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2128618931
