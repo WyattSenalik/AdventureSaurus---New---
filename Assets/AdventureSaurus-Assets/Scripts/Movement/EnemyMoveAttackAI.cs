@@ -196,6 +196,14 @@ public class EnemyMoveAttackAI : MonoBehaviour
             Debug.Log("Desired node is null");
             return;
         }
+        // See if they are trying to move where a character already is
+        else if (desiredNode.occupying != CharacterType.None)
+        {
+            Debug.Log("Wrong move pal");
+            currentEnemy.HasMoved = true;
+            AttemptAttack();
+            return;
+        }
         /*
         if (FindAllyOutOfRange() != null)
         {
@@ -216,6 +224,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // If they didn't just attempt an attack
         else
         {
+            mAContRef.ResetPathing();
             currentEnemy.HasMoved = true;
             AttemptAttack();
         }
@@ -275,15 +284,14 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// <summary>
     /// Finds the node that the enemy "wants" to move to
     /// </summary>
-    /// <param name="enemy"></param>
-    /// <param name="attackNode"></param>
-    /// <returns></returns>
+    /// <param name="enemy">The enemy we are testing from</param>
+    /// <returns>A Node that is the Node the enemy has chosen to move to</returns>
     private Node FindDesiredMovementNode(MoveAttack enemy)
     {
         // Determine if we found a node with an ally on it, by just checking if the position is on the grid
         Node nodeToAttack = mAContRef.GetNodeAtPosition(curAttackNodePos);
         // If we found an ally to attack
-        if (nodeToAttack != null)
+        if (nodeToAttack != null && nodeToAttack.occupying == CharacterType.Ally)
         {
             // Get the potential nodes that the enemy would be able to attack the ally from
             List<Node> potentialMoveTiles = mAContRef.GetNodesDistFromNode(nodeToAttack, enemy.AttackRange);
@@ -311,17 +319,17 @@ public class EnemyMoveAttackAI : MonoBehaviour
             // If there are no closest allies, we just should move
             if (closestAllyNode == null)
             {
-                return mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+                return mAContRef.GetNodeByWorldPosition(enemy.transform.position);
             }
             //Debug.Log("ClosestAllyNode " + closestAllyNode.position);
             // Find the path to that ally, we don't care about if we can actually move there in this case
-            Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+            Node startNode = mAContRef.GetNodeByWorldPosition(enemy.transform.position);
             mAContRef.Pathing(startNode, closestAllyNode, CharacterType.Enemy, false);
             // In the case that the enemy is trying to move onto another enemy
-            int testRange = currentEnemy.MoveRange;
+            int testRange = enemy.MoveRange;
             while (startNode != null && startNode.occupying != CharacterType.None && startNode.whereToGo != startNode)
             {
-                startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+                startNode = mAContRef.GetNodeByWorldPosition(enemy.transform.position);
                 // Use the new pathing and the current enemies movement range to determine where we should move
                 for (int i = 0; i < testRange; ++i)
                 {
