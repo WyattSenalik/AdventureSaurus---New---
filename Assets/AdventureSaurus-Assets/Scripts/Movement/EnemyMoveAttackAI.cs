@@ -23,6 +23,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         get { return currentEnemy; }
     }
     private bool curEnemyActive;    // If the current enemy is an active enemy that will be moving
+    private bool duringEnemyTurn;  // If an enemy is still taking its turn
     //public string enemyName;
     //public bool isMoving;
 
@@ -100,6 +101,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
                 --i;
             }
         }
+        duringEnemyTurn = false;
     }
 
     /// <summary>
@@ -116,6 +118,13 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// </summary>
     public IEnumerator NextEnemy()
     {
+        // So that the this enemy can't start until the previous one is done
+        while (duringEnemyTurn)
+        {
+            yield return null;
+        }
+        duringEnemyTurn = true;
+
         if (enemyIndex < enemiesMA.Count)
         {
             // Try to get the current enemy we should move
@@ -147,12 +156,14 @@ public class EnemyMoveAttackAI : MonoBehaviour
 
                 if (curEnemyActive)
                 {
+                    //Debug.Log("Following " + currentEnemy.name);
                     camFollowRef.FollowEnemy(currentEnemy.transform);
                     // Wait until the camera is on the enemy we are about to take the turn of
                     while (!camFollowRef.AmFollowing)
                     {
                         yield return null;
                     }
+                    //Debug.Log("Finished Following " + currentEnemy.name);
                 }
             }
             // Have the current enemy take their turn
@@ -160,12 +171,14 @@ public class EnemyMoveAttackAI : MonoBehaviour
   
             // Increment what enemy we are on for the next time
             ++enemyIndex;
+            //Debug.Log(currentEnemy.name + " Incremented Enemy");
         }
         else
         {
             turnSysRef.StartPlayerTurn();
         }
 
+        duringEnemyTurn = false;
         yield return null;
     }
 
@@ -182,7 +195,12 @@ public class EnemyMoveAttackAI : MonoBehaviour
             Debug.Log("We done bois");
             return;
         }
+        else
+        {
+            Debug.Log("Moving " + currentEnemy.name);
+        }
 
+        Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
         // Reset this enemies movement
         currentEnemy.CalcMoveTiles();
         currentEnemy.CalcAttackTiles();
@@ -193,17 +211,25 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // If the node returns null, it means we cannot do anything with this enemy
         if (desiredNode == null)
         {
+            // Debug.Log(currentEnemy.name + " Attack Node: " + curAttackNodePos);
             Debug.Log("Desired node is null");
+            currentEnemy.HasMoved = true;
+            AttemptAttack();
             return;
         }
         // See if they are trying to move where a character already is
         else if (desiredNode.occupying != CharacterType.None)
         {
+            // Debug.Log(currentEnemy.name + " Start Node: " + startNode.position + ". End Node: " + desiredNode.position);
+            // Debug.Log(currentEnemy.name + " Attack Node: " + curAttackNodePos);
             Debug.Log("Wrong move pal");
             currentEnemy.HasMoved = true;
             AttemptAttack();
             return;
         }
+        // Debug.Log(currentEnemy.name + " Start Node: " + startNode.position + ". End Node: " + desiredNode.position);
+        // Debug.Log(currentEnemy.name + " Attack Node: " + curAttackNodePos);
+
         /*
         if (FindAllyOutOfRange() != null)
         {
@@ -214,7 +240,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         }
         */
         // Calculate the pathing
-        Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+
         // If they successfully pathed
         if (mAContRef.Pathing(startNode, desiredNode, currentEnemy.WhatAmI))
         {
@@ -288,30 +314,39 @@ public class EnemyMoveAttackAI : MonoBehaviour
     {
         // Determine if we found a node with an ally on it, by just checking if the position is on the grid
         Node nodeToAttack = mAContRef.GetNodeAtPosition(curAttackNodePos);
-        // If we found an ally to attack
+        Node currentEnemyNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+        // If we found an ally in range to attack
         if (nodeToAttack != null && nodeToAttack.occupying == CharacterType.Ally)
         {
-            // Get the potential nodes that the enemy would be able to attack the ally from
-            List<Node> potentialMoveTiles = mAContRef.GetNodesDistFromNode(nodeToAttack, currentEnemy.AttackRange);
-            // The node we are currently on is not in MoveAttack's move tile, so we must test for that separately
-            Node currentNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
-            // Iterate over the potenital nodes until we find one that we can move to
-            foreach (Node node in potentialMoveTiles)
+            // Check to make sure the enemy has a place to stand to attack and that the enemy can reach that node
+            //
+            // Get the nodes the enemy can attack the ally from
+            List<Node> allyAttackNodes = mAContRef.GetNodesDistFromNode(nodeToAttack, currentEnemy.AttackRange);
+            // Debug.Log(currentEnemy.name + " ally attack nodes in FindDesiredMovementode: " + allyAttackNodes);
+            // Iterate over each of the nodes the enemy could potentially stand at to attack
+            for (int j = 0; j < allyAttackNodes.Count; ++j)
             {
-                // Once we find one, return it
-                if ((currentEnemy.MoveTiles.Contains(node) && node.occupying == CharacterType.None) || (node == currentNode))
+                // Debug.Log(currentEnemy.name + " single node at j in FindDesiredMovementode: " + allyAttackNodes[j]);
+                // See if the node exists and there is no character there
+                if (allyAttackNodes[j] != null && allyAttackNodes[j].occupying == CharacterType.None)
                 {
-                    //Debug.Log("Found node to move to " + node.position);
-                    return node;
+                    // Debug.Log(currentEnemy.name + " single node occupying at j in FindDesiredMovementode: " + allyAttackNodes[j].occupying);
+                    // See if there is a path to there for enemies
+                    if (mAContRef.Pathing(currentEnemyNode, allyAttackNodes[j], CharacterType.Enemy))
+                    {
+                        // Debug.Log("Found node to attack" + nodeToAttack.position);
+                        return allyAttackNodes[j];
+                    }
                 }
             }
             // If we reach this point, something went wrong
-            Debug.Log("nodeToAttack in FindDesiredMovementNode wasn't null, but was invalid");
+            // Debug.Log("nodeToAttack in FindDesiredMovementNode wasn't null, but was invalid");
             return null;
         }
-        // If there is no ally to attack
+        // If there is no ally in range to attack
         else
         {
+            Debug.Log(currentEnemy.name + " can't attack an ally this turn");
             // If we have no ally to attack, we need to find the closest ally to me and move as close to them as possible
             Node closestAllyNode = FindAllyOutOfRange();
             // If there are no closest allies, we just should move in place
@@ -319,15 +354,46 @@ public class EnemyMoveAttackAI : MonoBehaviour
             {
                 return mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
             }
+
+            // We want to get a list of the nodes that we can attack from arround the ally
+            List<Node> potAttackNodes = mAContRef.GetNodesDistFromNode(closestAllyNode, currentEnemy.AttackRange);
+            // We remove the nodes that already have something occupying them
+            for (int i = 0; i < potAttackNodes.Count; ++i)
+            {
+                if (potAttackNodes[i].occupying != CharacterType.None)
+                {
+                    potAttackNodes.RemoveAt(i);
+                    --i;
+                }
+            }
+            // Determine the closest node out of those nodes
+            if (potAttackNodes.Count > 0) {
+                Node closestAttackNode = potAttackNodes[0];
+                int closestDist = Mathf.Abs(closestAttackNode.position.x - currentEnemyNode)
+                for (int i = 1; i < potAttackNodes.Count; ++i)
+                {
+                        if ()
+                        /// WORKING HERE
+                }
+            }
+
             // Find the path to that ally, we don't care about if we can actually move there in this case
             Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
-            mAContRef.Pathing(startNode, closestAllyNode, CharacterType.Enemy);
-            // We need to iterate over the new path to see if the enemy would end up on another ally
+            if (mAContRef.Pathing(startNode, closestAllyNode, CharacterType.Enemy, false))
+            {
+                //Debug.Log("Pathing successful for " + currentEnemy.name);
+            }
+            else
+            {
+                //Debug.Log("Pathing failed for " + currentEnemy.name);
+            }
+            // We need to iterate over the new path to see if the enemy would end up on another enemy
             int testRange = currentEnemy.MoveRange;
             Node currentNode = startNode;
+            //Debug.Log(startNode.position);
             // We test if the node is invalid. A valid node is either null or has no one occupying it. If the current node has itself as where to go, 
             // we also want to stop iterating because that node is the end of the path
-            while (currentNode != null && currentNode.occupying != CharacterType.None && currentNode.whereToGo != currentNode)
+            while (!(currentNode == null || currentNode.occupying == CharacterType.None || currentNode.whereToGo == currentNode))
             {
                 currentNode = startNode;
                 // Use the new pathing and the current enemies movement range to determine where we should move
@@ -335,6 +401,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
                 {
                     if (currentNode != null)
                     {
+                        //Debug.Log("Current nodes position: " + currentNode.position + ". Current node occupying: " + currentNode.occupying + ". Current node where to go postion: " + currentNode.whereToGo);
                         currentNode = currentNode.whereToGo;
                     }
                 }
