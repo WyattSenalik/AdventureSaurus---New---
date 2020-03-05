@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class MoveAttackGUIController : MonoBehaviour
 {
-    [SerializeField] private GameObject endTurnButtonObj = null;    // Reference to the gameObject of the endTurnButton. This is turned on and off when the user has control
+    // Reference to the Buttons of the endTurnButton, character Portraits, etc. These are turned on and off when the user has control
+    [SerializeField] private List<Button> buttonsToTurnOff = null;
+
     private MoveAttackController mAContRef = null;  // Reference to the MoveAttackController script
     private InputController inpContRef = null;  // Reference to the InputController script
     private MoveAttack charSelected;    // A reference to the selected character's MoveAttack script 
+
     private bool canSelect; // If the user can select things right now
     private Node nodeToAttack;  // Used with MoveAndAttack to keep track of who we should be attacking
 
@@ -400,7 +403,10 @@ public class MoveAttackGUIController : MonoBehaviour
     private void ToggleSelect(bool onOff)
     {
         canSelect = onOff;
-        //endTurnButtonObj.SetActive(onOff);
-        endTurnButtonObj.GetComponent<Button>().interactable = onOff;
+        // Switch the buttons on or off
+        foreach (Button butt in buttonsToTurnOff)
+        {
+            butt.interactable = onOff;
+        }
     }
 }
