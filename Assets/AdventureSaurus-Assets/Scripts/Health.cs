@@ -239,7 +239,8 @@ public class Health : MonoBehaviour
         //NEEDTOFIXmAContRef.CreateAllVisualTiles();
 
         // Give xp to the killer
-        myKiller.GainExperience(this.GetComponent<Stats>().KillReward);
+        Stats myStats = this.GetComponent<Stats>();
+        myKiller.GainExperience(myStats.KillReward(myKiller));
 
         // Give either the user or the ai control of their stuff
         GiveBackControl();

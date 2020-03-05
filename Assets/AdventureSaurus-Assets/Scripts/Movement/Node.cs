@@ -13,7 +13,7 @@ public class Node
     // A* Stuff
     public int G;   // Distance between current node and the start node
     public int H;   // Heuristic - estimated distance from the current node to the end node
-    public int F;   // Total cost of the node (F + G)
+    public int F;   // Total cost of the node (H + G)
     public Node parent; // The parent of this node
 
     /// <summary>
@@ -29,5 +29,29 @@ public class Node
         H = 0;
         F = 0;
         parent = null;
+    }
+}
+
+/// <summary>
+/// For sorting a list of Nodes by their F
+/// </summary>
+public class NodeComp : IComparer<Node>
+{
+    // Compares two nodes based on their F
+    public int Compare(Node n0, Node n1)
+    {
+        if (n0 == null && n1 == null)
+        {
+            return 0;
+        }
+        else if (n0 == null)
+        {
+            return 0.CompareTo(n1.F);
+        }
+        else if (n1 == null)
+        {
+            return n0.F.CompareTo(0);
+        }
+        return n0.F.CompareTo(n1.F);
     }
 }

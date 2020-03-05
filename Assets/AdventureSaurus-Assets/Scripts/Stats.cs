@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Stats : MonoBehaviour
 {
+    // Stats
     // Name of the character
     [SerializeField] private string charName = "Character";
     public string CharacterName
@@ -42,15 +43,25 @@ public class Stats : MonoBehaviour
         get { return vitality; }
     }
     // The experience to give to the killer of this character
-    // Only used by allies
-    [SerializeField] private int xpToGive = 0;
-    public int KillReward
-    {
-        get { return xpToGive; }
-    }
+
+    // Experience
+    // For determining how much xp the killer of this character should get
+    // Allies give 0
+    [SerializeField] private int baseXPToGive = 0;
     // The experience this character has
     private int experience;
+    // The current level of this character
+    private int level;
+    public int Level
+    {
+        get { return level; }
+    }
+    // The amount of experience this character needs to level up
+    private int nextLevelThreshold;
+    // If the character is currently in the process of leveling up
+    private bool isLevelingUp;
 
+    // References
     private MoveAttack mARef;   // Reference to the MoveAttack script attached to this character
     private Health hpRef;   // Reference to the Health script attached to this character
 
@@ -62,6 +73,7 @@ public class Stats : MonoBehaviour
     [SerializeField] private Text healthText = null;    // Reference to the text of the stats display that shows the max health
     [SerializeField] private Text speedText = null; // Reference to the text of the stats display that shows the speed
 
+    // Set references
     private void Awake()
     {
         mARef = this.GetComponent<MoveAttack>();
@@ -80,8 +92,16 @@ public class Stats : MonoBehaviour
         {
             hpRef.MaxHP = vitality;
         }
+    }
 
+    // Inititalize variables
+    private void Start()
+    {
+        // Start the character out at level 1 with no experience
         experience = 0;
+        level = 1;
+        // Calculate how much xp to reach the next level
+        nextLevelThreshold = CalculateAmountToReachNextLevel(level);
     }
 
     /// <summary>
@@ -130,5 +150,78 @@ public class Stats : MonoBehaviour
     {
         experience += xpToGain;
         Debug.Log(this.name + " gained " + xpToGain + " XP");
+        StartCoroutine(CheckLevelUp());
+    }
+
+    /// <summary>
+    /// Checks if the character should level up or not after gaining experience
+    /// Is called as a coroutine in case this character has enough experience to level up multiple times
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    private IEnumerator CheckLevelUp()
+    {
+        isLevelingUp = false;   // Assume we are not leveling up
+        do
+        {
+            // Test if the character has enough exp to level up and isn't already currently leveling up
+            if (experience >= nextLevelThreshold && !isLevelingUp)
+            {
+                // Start leveling the character up
+                isLevelingUp = true;
+                ++level; // Increment level
+                nextLevelThreshold = CalculateAmountToReachNextLevel(level); // Make sure we do this so that the next loop test works as intended
+                StartCoroutine(LevelUp());
+            }
+            yield return null;
+        } while (experience >= nextLevelThreshold); // If the character can still level up more, we will do the loop again
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Increments this character's level. Probably will do some visual stuff in the future
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    private IEnumerator LevelUp()
+    {
+        Debug.Log("Congratulations!! " + this.name + " has reached level " + level);
+
+        // Give the character skill points
+        ////TODO
+
+        // Show level up visuals
+        ////TODO
+
+        // Stop leveling up, so that we can increment the next level if desired
+        isLevelingUp = false;
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Calculates the amount needed to reach the next level based on the currentLevel
+    /// </summary>
+    /// <param name="currentLevel">The current level to calculate from</param>
+    /// <returns>The amount of xp needed to reach level (currentLevel + 1)</returns>
+    private int CalculateAmountToReachNextLevel(int currentLevel)
+    {
+        // Do the simple calculaiton (n^3)
+        return currentLevel * currentLevel * currentLevel + 2;
+    }
+
+    /// <summary>
+    /// Calculates how much xp should be gained by the killer for killing this character
+    /// </summary>
+    /// <param name="killer">Stats component of the character who killed this unit</param>
+    /// <returns>int amount of xp the killer should gain</returns>
+    public int KillReward(Stats killer)
+    {
+        // If this character is not supposed to give any xp
+        if (baseXPToGive == 0)
+        {
+            return 0;
+        }
+        // Do the calculation
+        return Mathf.RoundToInt(baseXPToGive * (vitality + strength + magic) / 7.0f) + 1;
     }
 }

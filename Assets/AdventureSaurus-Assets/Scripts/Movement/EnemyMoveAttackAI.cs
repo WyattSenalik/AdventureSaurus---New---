@@ -327,6 +327,12 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // Determine if we found a node with an ally on it, by just checking if the position is on the grid
         Node nodeToAttack = mAContRef.GetNodeAtPosition(curAttackNodePos);
         Node currentEnemyNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+        if (currentEnemyNode == null)
+        {
+            Debug.Log("WARNING - BUG DETECTED: It seems there is a problem in the FindDesiredMovementNode function of EnemyMoveAttackAI " +
+                    "attached to " + this.name + "" + ". Double click this message for more information.");
+            // It seems there is no node where this character is standing. That doesn't make a lot of sense to me
+        }
         // If we found an ally in range to attack
         if (nodeToAttack != null && nodeToAttack.occupying == CharacterType.Ally)
         {
@@ -441,10 +447,9 @@ public class EnemyMoveAttackAI : MonoBehaviour
             // Find the path to that found node, we don't care about if we can actually make it the full way there
             Node startNode = currentEnemyNode;
             int moveRangeDecrement = 0;
-            Node lastResortNode = currentEnemyNode; // If we are unable to fully move anywhere, this node is where the enemy will go
-            // The distance lastResortNode is from our target node
-            int lastResortNodeDist = Mathf.Abs(currentEnemyNode.position.x - closestAttackFromNode.position.x) +
-                Mathf.Abs(currentEnemyNode.position.y - closestAttackFromNode.position.y);
+            Node lastResortNode = null; // If we are unable to fully move anywhere, this node will be returned. Will be updated in the do-while
+            // The distance lastResortNode is from our target node. Start it out as infinite
+            int lastResortNodeDist = int.MaxValue;
 
             // This list will hold the nodes we have already tested pathing from
             // and we have tested pathing from their adjacent nodes
@@ -464,6 +469,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
                 startNode = nodesToTest[0];
 
                 // We let FindGoalNode determine the path and the node the current enemy would stop at along that path
+                // Pathing gets called in FindGoalNode
                 Node goalNode = FindGoalNode(startNode, closestAttackFromNode, moveRangeDecrement);
 
                 // Test if the newly found goalNode is already occupied
@@ -475,8 +481,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
                     return goalNode;
                 }
                 // For if we can't get to the node, we need to update lastResort if this startNode is closer
-                int currentStartNodeDist = Mathf.Abs(startNode.position.x - closestAttackFromNode.position.x) +
-                    Mathf.Abs(startNode.position.y - closestAttackFromNode.position.y);
+                int currentStartNodeDist = startNode.F;
                 if (startNode.occupying == CharacterType.None && currentStartNodeDist < lastResortNodeDist)
                 {
                     lastResortNode = startNode;
@@ -528,6 +533,8 @@ public class EnemyMoveAttackAI : MonoBehaviour
                     // The next nodes are 1 further than we have moved before probably
                     ++moveRangeDecrement;
                     Debug.Log("Depth Test: " + moveRangeDecrement + " for " + currentEnemy.name);
+                    // We want to sort the nodes in the list based on their F value
+                    nodesToTest.Sort(new NodeComp());
                 }
 
             } while (moveRangeDecrement < currentEnemy.MoveRange);
@@ -619,6 +626,13 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // Iterate over the nodes, once we finish the goal node will be the one the enemy would stop at
         for (int i = 0; i < currentEnemy.MoveRange - moveRangeDecrement; ++i)
         {
+            if (goalNode.whereToGo == null)
+            {
+                Debug.Log("WARNING - BUG DETECTED: It seems there is a problem in the FindGoalNode function of EnemyMoveAttackAI " +
+                "attached to " + this.name + "" + ". Double click this message for more information.");
+                // Seems like pathing failed, but was not caught above
+                break;
+            }
             goalNode = goalNode.whereToGo;
         }
 

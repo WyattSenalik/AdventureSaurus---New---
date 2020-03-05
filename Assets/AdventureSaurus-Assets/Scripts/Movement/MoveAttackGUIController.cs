@@ -347,15 +347,30 @@ public class MoveAttackGUIController : MonoBehaviour
         // Find out the node attackRange away from selNode that is closest to the charSelected
         // Get the viable nodes
         List<Node> potNodes = mAContRef.GetNodesDistFromNode(selNode, charSelected.AttackRange);
-        Node nodeToMoveTo = null;
-        Node charSelectedNode = mAContRef.GetNodeByWorldPosition(charSelected.transform.position);
+        Node nodeToMoveTo = null; // The node that will be moved to
+        int distToMoveNode = int.MaxValue; // The distance to the closest node
+        Node charSelectedNode = mAContRef.GetNodeByWorldPosition(charSelected.transform.position); // Node the ally is on
         // Cross reference them against the nodes this character can move to until a match is found
         foreach (Node testNode in potNodes)
         {
-            if (charSelected.MoveTiles.Contains(testNode) || testNode == charSelectedNode)
+            // We haven't done pathing, so we can't compare Fs, so we will just calculate it by actual distance
+            int testNodeDist = Mathf.Abs(testNode.position.x - charSelectedNode.position.x) +
+                Mathf.Abs(testNode.position.y - charSelectedNode.position.y);
+            if (nodeToMoveTo != null)
+                Debug.Log("Seeing if node at " + testNode.position + " is closer than " + nodeToMoveTo.position + "from " + charSelectedNode.position);
+            else
+                Debug.Log("Seeing if node at " + testNode.position + " is closer than null from " + charSelectedNode.position);
+            // If the ally can move there or is already there and that node is closer than the closer than the current nodeToMoveTo
+            if ((charSelected.MoveTiles.Contains(testNode) || testNode == charSelectedNode) && testNodeDist < distToMoveNode)
             {
+                if (nodeToMoveTo != null)
+                    Debug.Log("It was! Node at " + testNode.position + " was closer than " + nodeToMoveTo.position + " from " + charSelectedNode.position + " by " +
+                        testNodeDist + " compared to " + distToMoveNode);
+                else
+                    Debug.Log("It was! Node at " + testNode.position + " was closer than null from " + charSelectedNode.position + " by " +
+                        testNodeDist + " compared to " + distToMoveNode);
                 nodeToMoveTo = testNode;
-                break;
+                distToMoveNode = testNodeDist;
             }
         }
 
