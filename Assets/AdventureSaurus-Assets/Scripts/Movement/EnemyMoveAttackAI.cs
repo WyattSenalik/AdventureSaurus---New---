@@ -192,12 +192,12 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // If the enemy does not exist, do not try to move it
         if (currentEnemy == null)
         {
-            Debug.Log("We done bois");
+            Debug.Log("We done bois, I'm don't exist");
             return;
         }
         else
         {
-            Debug.Log("Moving " + currentEnemy.name);
+            //Debug.Log("Moving " + currentEnemy.name);
         }
 
         Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
@@ -206,7 +206,8 @@ public class EnemyMoveAttackAI : MonoBehaviour
         currentEnemy.CalcAttackTiles();
 
         // Get the node this character should try to attack and the node this character should move to
-        curAttackNodePos = FindDesiredAttackNode();
+        curAttackNodePos = FindDesiredAttackNodePos();
+        Debug.Log("Found node to attack at " + curAttackNodePos);
         Node desiredNode = FindDesiredMovementNode();
         // If the node returns null, it means we cannot do anything with this enemy
         if (desiredNode == null)
@@ -220,9 +221,12 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // See if they are trying to move where a character already is
         else if (desiredNode.occupying != CharacterType.None)
         {
-            // Debug.Log(currentEnemy.name + " Start Node: " + startNode.position + ". End Node: " + desiredNode.position);
-            // Debug.Log(currentEnemy.name + " Attack Node: " + curAttackNodePos);
-            Debug.Log("Wrong move pal");
+            if (desiredNode != startNode)
+            {
+                Debug.Log("Wrong move pal");
+                Debug.Log(currentEnemy.name + " Start Node: " + startNode.position + ". End Node: " + desiredNode.position);
+                Debug.Log(currentEnemy.name + " Attack Node: " + curAttackNodePos);
+            }
             currentEnemy.HasMoved = true;
             AttemptAttack();
             return;
@@ -262,7 +266,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// Finds if there is an enemy in range and gives its gridPositon, if there's not, it returns an invalid gridPosition
     /// </summary>
     /// <returns>Returns a Vector2Int on the grid if it finds an enemy, otherwise returns a Vector2Int off the grid</returns>
-    private Vector2Int FindDesiredAttackNode()
+    private Vector2Int FindDesiredAttackNodePos()
     {
         // If there is an "ally" character in range, we want that node
         // Test if the ally is in range
@@ -302,6 +306,14 @@ public class EnemyMoveAttackAI : MonoBehaviour
             Debug.Log("No enemy is current");
             return;
         }
+        // Try to cast the curAttackNodePos to a node, if there is no node there, don't attack
+        Node nodeToAttack = mAContRef.GetNodeAtPosition(curAttackNodePos);
+        if (nodeToAttack == null)
+        {
+            currentEnemy.HasAttacked = true;
+            StartNextEnemy();
+            return;
+        }
         // Otherwise attack it
         currentEnemy.StartAttack(curAttackNodePos);
     }
@@ -318,30 +330,52 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // If we found an ally in range to attack
         if (nodeToAttack != null && nodeToAttack.occupying == CharacterType.Ally)
         {
+            Debug.Log(currentEnemy.name + " is close enough to strike");
             // Check to make sure the enemy has a place to stand to attack and that the enemy can reach that node
             //
             // Get the nodes the enemy can attack the ally from
             List<Node> allyAttackNodes = mAContRef.GetNodesDistFromNode(nodeToAttack, currentEnemy.AttackRange);
             // Debug.Log(currentEnemy.name + " ally attack nodes in FindDesiredMovementode: " + allyAttackNodes);
+            // Test to make sure allyAttackNodes contains something
+            if (allyAttackNodes.Count <= 0)
+            {
+                return null;
+            }
+
+            // The closest node to the current enemy that they can hit the enemy from. Assume its none of them
+            Node closestAttackFromNode = null;
+            // Assign this to basically infinity
+            int closestAttackFromNodeDist = Mathf.Abs(mAContRef.GridBotRight.x - mAContRef.GridTopLeft.x) +
+                Mathf.Abs(mAContRef.GridTopLeft.y - mAContRef.GridBotRight.y) + 2;
+
             // Iterate over each of the nodes the enemy could potentially stand at to attack
             for (int j = 0; j < allyAttackNodes.Count; ++j)
             {
                 // Debug.Log(currentEnemy.name + " single node at j in FindDesiredMovementode: " + allyAttackNodes[j]);
-                // See if the node exists and there is no character there
-                if (allyAttackNodes[j] != null && allyAttackNodes[j].occupying == CharacterType.None)
+                // See if the node exists and there is no character there (besides potentially this character
+                if (allyAttackNodes[j] != null && (allyAttackNodes[j].occupying == CharacterType.None || allyAttackNodes[j] == currentEnemyNode))
                 {
-                    // Debug.Log(currentEnemy.name + " single node occupying at j in FindDesiredMovementode: " + allyAttackNodes[j].occupying);
-                    // See if there is a path to there for enemies
-                    if (mAContRef.Pathing(currentEnemyNode, allyAttackNodes[j], CharacterType.Enemy))
+                    // Test if it is closer than the currently closest node
+                    Node currentTestNode = allyAttackNodes[j];
+                    int currentTestNodeDist = Mathf.Abs(currentTestNode.position.x - currentEnemyNode.position.x) +
+                        Mathf.Abs(currentTestNode.position.y - currentEnemyNode.position.y);
+                    Debug.Log("Testing node at " + currentTestNode.position + ", which is " + currentTestNodeDist + " away from me at " + currentEnemyNode.position);
+                    if (currentTestNodeDist < closestAttackFromNodeDist)
                     {
-                        // Debug.Log("Found node to attack" + nodeToAttack.position);
-                        return allyAttackNodes[j];
+                        // Debug.Log(currentEnemy.name + " single node occupying at j in FindDesiredMovementode: " + allyAttackNodes[j].occupying);
+                        // See if there is a path to there for the current enemy
+                        if (mAContRef.Pathing(currentEnemyNode, allyAttackNodes[j], CharacterType.Enemy, false))
+                        {
+                            // Set the new closest node to attack
+                            closestAttackFromNode = currentTestNode;
+                            closestAttackFromNodeDist = currentTestNodeDist;
+                            Debug.Log("Found closer node to move to " + closestAttackFromNode.position + " in order to attack " + nodeToAttack.position);
+                        }
                     }
                 }
             }
-            // If we reach this point, something went wrong
-            // Debug.Log("nodeToAttack in FindDesiredMovementNode wasn't null, but was invalid");
-            return null;
+            Debug.Log("Found final node to move to " + closestAttackFromNode.position + " in order to attack " + nodeToAttack.position);
+            return closestAttackFromNode;
         }
         // If there is no ally in range to attack
         else
@@ -352,65 +386,154 @@ public class EnemyMoveAttackAI : MonoBehaviour
             // If there are no closest allies, we just should move in place
             if (closestAllyNode == null)
             {
-                return mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
+                return currentEnemyNode;
             }
 
             // We want to get a list of the nodes that we can attack from arround the ally
-            List<Node> potAttackNodes = mAContRef.GetNodesDistFromNode(closestAllyNode, currentEnemy.AttackRange);
+            List<Node> potAttackFromNodes = mAContRef.GetNodesDistFromNode(closestAllyNode, currentEnemy.AttackRange);
             // We remove the nodes that already have something occupying them
-            for (int i = 0; i < potAttackNodes.Count; ++i)
+            for (int i = 0; i < potAttackFromNodes.Count; ++i)
             {
-                if (potAttackNodes[i].occupying != CharacterType.None)
+                if (potAttackFromNodes[i].occupying != CharacterType.None)
                 {
-                    potAttackNodes.RemoveAt(i);
+                    potAttackFromNodes.RemoveAt(i);
                     --i;
                 }
             }
+
             // Determine the closest node out of those nodes
-            if (potAttackNodes.Count > 0) {
-                Node closestAttackNode = potAttackNodes[0];
-                int closestDist = Mathf.Abs(closestAttackNode.position.x - currentEnemyNode)
-                for (int i = 1; i < potAttackNodes.Count; ++i)
+            Node closestAttackFromNode = null;
+            if (potAttackFromNodes.Count > 0)
+            {
+                // Assume the first node is the closest
+                closestAttackFromNode = potAttackFromNodes[0];
+                int closestDist = Mathf.Abs(closestAttackFromNode.position.x - currentEnemyNode.position.x) +
+                    Mathf.Abs(closestAttackFromNode.position.y - currentEnemyNode.position.y);
+                for (int i = 1; i < potAttackFromNodes.Count; ++i)
                 {
-                        if ()
-                        /// WORKING HERE
+                    // Determine the distance from the current node
+                    int currentDist = Mathf.Abs(potAttackFromNodes[i].position.x - currentEnemyNode.position.x) +
+                        Mathf.Abs(potAttackFromNodes[i].position.y - currentEnemyNode.position.y);
+                    // If we find a node that is closer than the closestAttackNode, save it as the new closest
+                    if (currentDist < closestDist)
+                    {
+                        closestAttackFromNode = potAttackFromNodes[i];
+                        closestDist = currentDist;
+                    }
                 }
             }
 
-            // Find the path to that ally, we don't care about if we can actually move there in this case
-            Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
-            if (mAContRef.Pathing(startNode, closestAllyNode, CharacterType.Enemy, false))
+            // Test if we got a node or not
+            // If we did not get a node, we have a problem. FindAllyOutOfRange should have only given us an ally with an opening to attack,
+            // you will need to check that debug why it gave an ally this ally could not attack
+            if (closestAttackFromNode == null)
             {
-                //Debug.Log("Pathing successful for " + currentEnemy.name);
+                Debug.Log("WARNING - BUG DETECTED: It seems there is a problem in the FindDesiredMovementNode function of EnemyMoveAttackAI " +
+                    "attached to " + this.name + "" + ". Double click this message for more information.");
+                // See statement above "if" for more information
+                return currentEnemyNode;
             }
-            else
+
+            // If we found a node to attack the ally from, we now need to start determining the path to that node. First, we try pathing
+            // towards the node, not caring if we can actually make it the full there. Then we figure out which node along that path
+            // this enemy would stop at. If that is a free spot, we just follow that path and done.
+            //
+            // Find the path to that found node, we don't care about if we can actually make it the full way there
+            Node startNode = currentEnemyNode;
+            int moveRangeDecrement = 0;
+            Node lastResortNode = currentEnemyNode; // If we are unable to fully move anywhere, this node is where the enemy will go
+            // The distance lastResortNode is from our target node
+            int lastResortNodeDist = Mathf.Abs(currentEnemyNode.position.x - closestAttackFromNode.position.x) +
+                Mathf.Abs(currentEnemyNode.position.y - closestAttackFromNode.position.y);
+
+            // This list will hold the nodes we have already tested pathing from
+            // and we have tested pathing from their adjacent nodes
+            List<Node> finishedNodes = new List<Node>();
+            // This list will hold the nodes that we have tested pathing from, but have not yet
+            // tested pathing from their adjacent nodes
+            List<Node> touchOffNodes = new List<Node>();
+            // This list will hold the nodes we have not tested pathing from yet (obviously we have not
+            // tested pathing from their adjacent nodes)
+            List<Node> nodesToTest = new List<Node>();
+            nodesToTest.Add(startNode);
+
+            Debug.Log("Depth Test: 0 for " + currentEnemy.name);
+            do
             {
-                //Debug.Log("Pathing failed for " + currentEnemy.name);
-            }
-            // We need to iterate over the new path to see if the enemy would end up on another enemy
-            int testRange = currentEnemy.MoveRange;
-            Node currentNode = startNode;
-            //Debug.Log(startNode.position);
-            // We test if the node is invalid. A valid node is either null or has no one occupying it. If the current node has itself as where to go, 
-            // we also want to stop iterating because that node is the end of the path
-            while (!(currentNode == null || currentNode.occupying == CharacterType.None || currentNode.whereToGo == currentNode))
-            {
-                currentNode = startNode;
-                // Use the new pathing and the current enemies movement range to determine where we should move
-                for (int i = 0; i < testRange; ++i)
+                // Update the start node to be the first node to test
+                startNode = nodesToTest[0];
+
+                // We let FindGoalNode determine the path and the node the current enemy would stop at along that path
+                Node goalNode = FindGoalNode(startNode, closestAttackFromNode, moveRangeDecrement);
+
+                // Test if the newly found goalNode is already occupied
+                // If its not, we're done! We just need to return this goal node
+                if (goalNode.occupying == CharacterType.None)
                 {
-                    if (currentNode != null)
-                    {
-                        //Debug.Log("Current nodes position: " + currentNode.position + ". Current node occupying: " + currentNode.occupying + ". Current node where to go postion: " + currentNode.whereToGo);
-                        currentNode = currentNode.whereToGo;
-                    }
+                    Debug.Log("Congratulations " + currentEnemy.name + "!!! Even without being in striking distance of an ally, you managed to find" +
+                        " a good place to move: " + goalNode.position + ". Good for you.");
+                    return goalNode;
                 }
-                --testRange;
-                // We now test in the while statement if the current node is still invalid
-                // If it comes back that the node is still invalid --testRange makes it so we only iterate over 1 less
-            }
-            // This can return the startNode
-            return currentNode;
+                // For if we can't get to the node, we need to update lastResort if this startNode is closer
+                int currentStartNodeDist = Mathf.Abs(startNode.position.x - closestAttackFromNode.position.x) +
+                    Mathf.Abs(startNode.position.y - closestAttackFromNode.position.y);
+                if (startNode.occupying == CharacterType.None && currentStartNodeDist < lastResortNodeDist)
+                {
+                    lastResortNode = startNode;
+                    lastResortNodeDist = currentStartNodeDist;
+                }
+
+                // If it is occupied, we need to devise a new solution. Pathing straight from this enemy to that closestAttackFromNode will not get this
+                // enemy to move as we wish. We will now try pathing from the nodes adjacent to this enemy and just decrement the amount it is able to move
+                // by pretending the enemy has moved to them as one of its steps. Then we will preform the same test we just did above from the initialization
+                // of the startNode variable
+                nodesToTest.Remove(startNode); // Remove the startNode from the nodesToTest, since we just finished testing it
+                touchOffNodes.Add(startNode); // Add the startNode to the touchOffNodes, so that we may later add the adjacent nodes to nodesToTest
+                // Make sure there are nodes in touchOffNodes before we attempt to get the 0th index
+                if (touchOffNodes.Count <= 0)
+                {
+                    Debug.Log("WARNING - BUG DETECTED: It seems there is a problem in the FindDesiredMovementNode function of EnemyMoveAttackAI " +
+                        "attached to " + this.name + "" + ". Double click this message for more information.");
+                    // We encountered a situation where touchOffNodes was empty, this means that we couldn't reach the enemy and it was not properly tested
+                    break;
+                }
+                // Test if nodes to test is empty, if it is, we increment moveRangeDecrement and the 4 adjacent nodes
+                // of the touchOffNode at index 0 to the nodesToTest and add the touchOffNode to finishedNodes
+                // This is a while, but will often only happen once
+                while (nodesToTest.Count == 0)
+                {
+                    // We want to add all the adjacent nodes of the touchOffNodes to the current nodes so that we test all nodes
+                    // n spaces out at the same time
+                    while (touchOffNodes.Count > 0)
+                    {
+                        // Find the adjacent nodes from the first node in touchOffNodes
+                        List<Node> potNodesToAdd = mAContRef.GetNodesDistFromNode(touchOffNodes[0], 1);
+                        // Add the first touchOffNode to finished nodes since it has now been searched and we have gotten its adjacent nodes
+                        // We can also now remove it from touchOffNodes
+                        finishedNodes.Add(touchOffNodes[0]);
+                        touchOffNodes.RemoveAt(0);
+                        // Iterate over these potNodesToAdd and add any node that has not already been tested to the nodes to test
+                        foreach (Node potNode in potNodesToAdd)
+                        {
+                            // See if it has already been tested or that it is impassable
+                            if (finishedNodes.Contains(potNode) || touchOffNodes.Contains(potNode) ||
+                                potNode.occupying == CharacterType.Wall || potNode.occupying == CharacterType.Ally)
+                            {
+                                continue;
+                            }
+                            // Otherwise add it to the nodesToTest
+                            nodesToTest.Add(potNode);
+                        }
+                    }
+                    // The next nodes are 1 further than we have moved before probably
+                    ++moveRangeDecrement;
+                    Debug.Log("Depth Test: " + moveRangeDecrement + " for " + currentEnemy.name);
+                }
+
+            } while (moveRangeDecrement < currentEnemy.MoveRange);
+
+            // If we made it here, we just give the lastResortNode
+            return lastResortNode;
         }
     }
 
@@ -465,6 +588,41 @@ public class EnemyMoveAttackAI : MonoBehaviour
         }
         // Returns null if the closestAlly node was not found
         return closestAllyNode;
+    }
+
+    /// <summary>
+    /// Called from FindDesiredMovementNode when an enemy is out of range.
+    /// Finds the Node the currentEnemy would stop at when pathing from the startNode to the closestAttackFromNode
+    /// </summary>
+    /// <param name="startNode">Node to start pathing from</param>
+    /// <param name="closestAttackFromNode">Node to end pathing at</param>
+    /// <param name="moveRangeDecrement">The amount of steps from move range to ignore</param>
+    /// <returns>The Node the currentEnemy would stop at on the path from startNode to closestAttackFromNode. Null if pathing failed.</returns>
+    private Node FindGoalNode(Node startNode, Node closestAttackFromNode, int moveRangeDecrement=0)
+    {
+        // If our pathing was not sucessful, we have a big problem. It should never be the case that our pathing failed.
+        // FindAllyOutOfRange should have returned an ally which it was possible to attack. Furthermore, if that function returned
+        // null, we should have broken from this function long ago. It may be the case that the closestAttackFromNode is incorrect,
+        // if that is the case, check the loop that finds this node above. Or this may be a Pathing bug in the MoveAttackController
+        // script.
+        if (!mAContRef.Pathing(startNode, closestAttackFromNode, CharacterType.Enemy))
+        {
+            mAContRef.ResetPathing();
+            Debug.Log("WARNING - BUG DETECTED: It seems there is a problem in the FindGoalNode function of EnemyMoveAttackAI " +
+                "attached to " + this.name + "" + ". Double click this message for more information.");
+            // See statement above "if" for more information
+            return null;
+        }
+
+        // If our pathing was successful, we need to see where this enemy would stop along this path
+        Node goalNode = startNode; // Start the goal node as the startNode
+        // Iterate over the nodes, once we finish the goal node will be the one the enemy would stop at
+        for (int i = 0; i < currentEnemy.MoveRange - moveRangeDecrement; ++i)
+        {
+            goalNode = goalNode.whereToGo;
+        }
+
+        return goalNode;
     }
 
     /// <summary>
