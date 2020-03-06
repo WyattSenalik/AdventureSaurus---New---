@@ -16,6 +16,7 @@ public class Pause : MonoBehaviour
     private MoveAttackGUIController mAGUIContRef;
     private EnemyMoveAttackAI enemyMAAIRef;
     private TurnSystem turnSysRef;
+    private PauseMenuController pauseMenuContRef;
 
     private List<MonoBehaviour> scriptsToTurnOff;   // The scripts that will be turned off by the pause
 
@@ -36,6 +37,9 @@ public class Pause : MonoBehaviour
             inpContRef = gameController.GetComponent<InputController>();
             if (inpContRef == null)
                 Debug.Log("Could not find InputController attached to " + gameController.name);
+            pauseMenuContRef = gameController.GetComponent<PauseMenuController>();
+            if (pauseMenuContRef == null)
+                Debug.Log("Could not find PauseMenuController attached to " + gameController.name);
 
             mAContRef = gameController.GetComponent<MoveAttackController>();
             if (mAContRef == null)
@@ -167,6 +171,17 @@ public class Pause : MonoBehaviour
         {
             scriptsToTurnOff.Remove(script);
         }
+
+        if (onOff)
+        {
+            // Let the player input again
+            inpContRef.AllowInput();
+        }
+        else
+        {
+            // Don't let the player input (they can still push buttons)
+            inpContRef.DenyInput();
+        }
     }
 
     /// <summary>
@@ -184,5 +199,8 @@ public class Pause : MonoBehaviour
             }
             element.SetActive(onOff);
         }
+
+        // Also update the information we need to update in PauseMenuController
+        pauseMenuContRef.UpdateValues();
     }
 }

@@ -140,7 +140,7 @@ public class MoveAttackController : MonoBehaviour
     /// Creates the visual tiles for when a character is clicked on
     /// </summary>
     /// <param name="mARef">Reference to the character whose visual tiles will be created</param>
-    private void CreateVisualTiles(MoveAttack mARef)
+    public void CreateVisualTiles(MoveAttack mARef)
     {
         // Make sure it exists
         if (mARef == null)

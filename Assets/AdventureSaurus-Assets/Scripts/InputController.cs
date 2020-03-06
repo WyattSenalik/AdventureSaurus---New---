@@ -49,7 +49,11 @@ public class InputController : MonoBehaviour
     /// <returns>Zoom amount. Positive is in. Negative is out</returns>
     public float ZoomCommand()
     {
-        return -Input.GetAxis("Mouse ScrollWheel");
+        if (canInput)
+        {
+            return -Input.GetAxis("Mouse ScrollWheel");
+        }
+        return 0;
     }
 
     /// <summary>

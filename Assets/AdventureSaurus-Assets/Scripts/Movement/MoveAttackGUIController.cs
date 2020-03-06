@@ -406,7 +406,8 @@ public class MoveAttackGUIController : MonoBehaviour
         // Switch the buttons on or off
         foreach (Button butt in buttonsToTurnOff)
         {
-            butt.interactable = onOff;
+            if (butt.enabled)
+                butt.interactable = onOff;
         }
     }
 }

@@ -5,15 +5,21 @@ using UnityEngine.UI;
 
 public class Stats : MonoBehaviour
 {
+    private const int maxSpeed = 7; // Mostly for performance reasons, but there should probably be a limit
+    public int MaxSpeed
+    {
+        get { return maxSpeed; }
+    }
+
     // Stats
     // Name of the character
-    [SerializeField] private string charName = "Character";
+    [SerializeField] private string charName = "Deceased";
     public string CharacterName
     {
         get { return charName; }
     }
     // How much damage this character deals
-    [SerializeField] private int strength = 1;
+    [SerializeField] private int strength = 0;
     public int Strength
     {
         get { return strength; }
@@ -25,7 +31,7 @@ public class Stats : MonoBehaviour
         get { return magic; }
     }
     // How many tiles this character can move
-    [SerializeField] private int speed = 2;
+    [SerializeField] private int speed = 0;
     public int Speed
     {
         get { return speed; }
@@ -37,19 +43,23 @@ public class Stats : MonoBehaviour
         get { return defense; }
     }
     // Max health this character has
-    [SerializeField] private int vitality = 2;
+    [SerializeField] private int vitality = 0;
     public int Vitality
     {
         get { return vitality; }
     }
-    // The experience to give to the killer of this character
 
     // Experience
     // For determining how much xp the killer of this character should get
     // Allies give 0
     [SerializeField] private int baseXPToGive = 0;
     // The experience this character has
-    private int experience;
+    private int experience; // Total experience
+    private int oneLevelExperience; // The experience this character has gained on the current level
+    public int OneLevelExperience
+    {
+        get { return oneLevelExperience; }
+    }
     // The current level of this character
     private int level;
     public int Level
@@ -57,13 +67,28 @@ public class Stats : MonoBehaviour
         get { return level; }
     }
     // The amount of experience this character needs to level up
-    private int nextLevelThreshold;
+    private int nextLevelThreshold; // Total experience needed
+    private int oneLevelNextLevelThreshold; // The experience this character needs to gain since the current level
+    public int OneLevelNextLevelThreshold
+    {
+        get { return oneLevelNextLevelThreshold; }
+    }
     // If the character is currently in the process of leveling up
     private bool isLevelingUp;
+    // Reference to this allies level up button. Null always for enemies
+    [SerializeField] private GameObject levelUpButton = null;
+    // The amount of stat increases that this character has left
+    private int amountStatIncreases;
+    public int AmountStatIncreases
+    {
+        get { return amountStatIncreases; }
+        set { amountStatIncreases = value; }
+    }
 
     // References
     private MoveAttack mARef;   // Reference to the MoveAttack script attached to this character
     private Health hpRef;   // Reference to the Health script attached to this character
+    private MoveAttackController mAContRef; // Reference to the MoveAttackController. Used when updating speed
 
     // Stats display stuff
     [SerializeField] private GameObject statsDisplay = null;    // Reference to the stats display of this character
@@ -92,6 +117,19 @@ public class Stats : MonoBehaviour
         {
             hpRef.MaxHP = vitality;
         }
+
+        GameObject gameController = GameObject.FindWithTag("GameController");
+        // Make sure a GameController exists
+        if (gameController == null)
+            Debug.Log("Could not find any GameObject with the tag GameController");
+        else
+        {
+            mAContRef = gameController.GetComponent<MoveAttackController>();
+            if (mAContRef == null)
+            {
+                Debug.Log("Could not find MoveAttackController attached to " + gameController.name);
+            }
+        }
     }
 
     // Inititalize variables
@@ -99,9 +137,17 @@ public class Stats : MonoBehaviour
     {
         // Start the character out at level 1 with no experience
         experience = 0;
+        oneLevelExperience = experience;
         level = 1;
         // Calculate how much xp to reach the next level
         nextLevelThreshold = CalculateAmountToReachNextLevel(level);
+        oneLevelNextLevelThreshold = nextLevelThreshold;
+        // Don't start the player out with any potential stat increases
+        amountStatIncreases = 0;
+
+        // If this character has a level up button, hide it
+        if (levelUpButton != null)
+            levelUpButton.SetActive(false);
     }
 
     /// <summary>
@@ -149,6 +195,7 @@ public class Stats : MonoBehaviour
     public void GainExperience(int xpToGain)
     {
         experience += xpToGain;
+        oneLevelExperience += xpToGain;
         Debug.Log(this.name + " gained " + xpToGain + " XP");
         StartCoroutine(CheckLevelUp());
     }
@@ -170,6 +217,14 @@ public class Stats : MonoBehaviour
                 isLevelingUp = true;
                 ++level; // Increment level
                 nextLevelThreshold = CalculateAmountToReachNextLevel(level); // Make sure we do this so that the next loop test works as intended
+
+                // Give the character skill points
+                amountStatIncreases += 3;
+
+                // Set the oneLevel variables accordingly
+                oneLevelExperience -= oneLevelNextLevelThreshold;
+                oneLevelNextLevelThreshold = nextLevelThreshold - oneLevelNextLevelThreshold;
+
                 StartCoroutine(LevelUp());
             }
             yield return null;
@@ -186,11 +241,10 @@ public class Stats : MonoBehaviour
     {
         Debug.Log("Congratulations!! " + this.name + " has reached level " + level);
 
-        // Give the character skill points
-        ////TODO
-
         // Show level up visuals
         ////TODO
+        if (levelUpButton != null)
+            levelUpButton.SetActive(true);
 
         // Stop leveling up, so that we can increment the next level if desired
         isLevelingUp = false;
@@ -222,6 +276,73 @@ public class Stats : MonoBehaviour
             return 0;
         }
         // Do the calculation
-        return Mathf.RoundToInt(baseXPToGive * (vitality + strength + magic) / 7.0f) + 1;
+        return (Mathf.RoundToInt((vitality + strength + magic) / 7.0f) + 1) * baseXPToGive;
+    }
+
+    // The following 4 functions are for increasing stats upon a level up
+    // They are all called from CharDetailedMenuController
+    /// <summary>
+    /// Increases vitality, Health.maxHP, Health.curHP, and updates the health bar to reflect that
+    /// </summary>
+    /// <param name="amountToIncr">The amount to increase vitality by</param>
+    public void IncreaseVitality(int amountToIncr)
+    {
+        // Don't bother if we aren't increasing anything
+        if (amountToIncr == 0)
+            return;
+        vitality += amountToIncr; // Increase the literal stat
+        hpRef.MaxHP = vitality; // Have the max health value reflect the change
+        // Heal the character by the amount they just increased their vitality by, so they can start using that health right away.
+        // This also serves to update the health bar visual
+        hpRef.Heal(amountToIncr);
+    }
+    /// <summary>
+    /// Increases magic
+    /// </summary>
+    /// <param name="amountToIncr">The amount to increase magic by</param>
+    public void IncreaseMagic(int amountToIncr)
+    {
+        // Don't bother if we aren't increasing anything
+        if (amountToIncr == 0)
+            return;
+        magic += amountToIncr; // Increase the literal stat
+    }
+    /// <summary>
+    /// Increases strength and MoveAttack.damageToDeal
+    /// </summary>
+    /// <param name="amountToIncr">The amount to increase strength by</param>
+    public void IncreaseStrength(int amountToIncr)
+    {
+        // Don't bother if we aren't increasing anything
+        if (amountToIncr == 0)
+            return;
+        strength += amountToIncr; // Increase the literal stat
+        mARef.DmgToDeal = strength; // Have the damge this character deals reflect the change
+    }
+    /// <summary>
+    /// Increases speed, 
+    /// </summary>
+    /// <param name="amountToIncr">The amount to increase speed by</param>
+    public void IncreaseSpeed(int amountToIncr)
+    {
+        // Don't bother if we aren't increasing anything
+        if (amountToIncr == 0)
+            return;
+        speed += amountToIncr; // Increase the literal stat
+        mARef.MoveRange = speed; // Have the distance this character can move reflect that change
+        Destroy(mARef.rangeVisualParent.gameObject); // Get rid of the character's old rangeVisuals
+        mARef.rangeVisualParent = null;
+        mAContRef.CreateVisualTiles(mARef); // Make new ones
+        // Recalculate the character's movement and attack
+        mARef.CalcMoveTiles();
+        mARef.CalcAttackTiles();
+    }
+
+    /// <summary>
+    /// Hides the little level up indicator next to this enemies portrait
+    /// </summary>
+    public void HideLevelUpButton()
+    {
+        levelUpButton.gameObject.SetActive(false);
     }
 }

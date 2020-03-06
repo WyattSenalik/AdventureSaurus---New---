@@ -74,7 +74,9 @@
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\MoveAttackController.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\MoveAttackGUIController.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Movement\Node.cs" />
-    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Pause.cs" />
+    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\PauseMenu\CharDetailedMenuController.cs" />
+    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\PauseMenu\Pause.cs" />
+    <Compile Include="Assets\AdventureSaurus-Assets\Scripts\PauseMenu\PauseMenuController.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Prompter.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Room.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\SharedRoomLight.cs" />
