@@ -85,6 +85,33 @@ public class Stats : MonoBehaviour
         set { amountStatIncreases = value; }
     }
 
+    // For determining how close towards a particular stat increase the character is.
+    // Also the amount of bubbles that should be filled in
+    private int vitalityBubblesFilled;
+    public int VitalityBubblesFilled
+    {
+        get { return vitalityBubblesFilled; }
+        set { vitalityBubblesFilled = value; }
+    }
+    private int magicBubblesFilled;
+    public int MagicBubblesFilled
+    {
+        get { return magicBubblesFilled; }
+        set { magicBubblesFilled = value; }
+    }
+    private int strBubblesFilled;
+    public int StrBubblesFilled
+    {
+        get { return strBubblesFilled; }
+        set { strBubblesFilled = value; }
+    }
+    private int speedBubblesFilled;
+    public int SpeedBubblesFilled
+    {
+        get { return speedBubblesFilled; }
+        set { speedBubblesFilled = value; }
+    }
+
     // References
     private MoveAttack mARef;   // Reference to the MoveAttack script attached to this character
     private Health hpRef;   // Reference to the Health script attached to this character
@@ -107,7 +134,6 @@ public class Stats : MonoBehaviour
         else
         {
             mARef.MoveRange = speed;
-            mARef.DmgToDeal = strength;
         }
 
         hpRef = this.GetComponent<Health>();
@@ -148,6 +174,12 @@ public class Stats : MonoBehaviour
         // If this character has a level up button, hide it
         if (levelUpButton != null)
             levelUpButton.SetActive(false);
+
+        // Initialize the bubbles filled to 0
+        vitalityBubblesFilled = 0;
+        magicBubblesFilled = 0;
+        strBubblesFilled = 0;
+        speedBubblesFilled = 0;
     }
 
     /// <summary>
@@ -156,7 +188,7 @@ public class Stats : MonoBehaviour
     public void Initialize()
     {
         mARef.MoveRange = speed;
-        mARef.DmgToDeal = strength;
+
         hpRef.MaxHP = vitality;
     }
 
@@ -317,7 +349,6 @@ public class Stats : MonoBehaviour
         if (amountToIncr == 0)
             return;
         strength += amountToIncr; // Increase the literal stat
-        mARef.DmgToDeal = strength; // Have the damge this character deals reflect the change
     }
     /// <summary>
     /// Increases speed, 

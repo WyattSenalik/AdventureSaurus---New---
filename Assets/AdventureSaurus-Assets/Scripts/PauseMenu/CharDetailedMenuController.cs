@@ -22,6 +22,13 @@ public class CharDetailedMenuController : MonoBehaviour
     [SerializeField] private Text magicNums = null;
     [SerializeField] private Text strNums = null;
     [SerializeField] private Text speedNums = null;
+    // Bubbles stuff. The bubbles are children of these transforms
+    [SerializeField] private Transform vitalityBubblesParent = null;
+    [SerializeField] private Transform magicBubblesParent = null;
+    [SerializeField] private Transform strBubblesParent = null;
+    [SerializeField] private Transform speedBubblesParent = null;
+    [SerializeField] private Sprite emptyBubbleSpr = null;
+    [SerializeField] private Sprite fullBubbleSpr = null;
     // These are set true or false depending if there are points to spend for the current character
     [SerializeField] private Text pointsText = null;
     [SerializeField] private Button vitalityIncrButt = null;
@@ -37,6 +44,12 @@ public class CharDetailedMenuController : MonoBehaviour
     private int magicAmountIncr;
     private int strAmountIncr;
     private int speedAmountIncr;
+
+    // For holding the bubbles' images
+    private List<Image> vitalityBubbles;
+    private List<Image> magicBubbles;
+    private List<Image> strBubbles;
+    private List<Image> speedBubbles;
 
     // A dead character's stats. Okay, so if an ally dies, we can't display their stats because they're dead.
     // But we need to display something in their place, so we display a "dead" character's stats
@@ -74,8 +87,8 @@ public class CharDetailedMenuController : MonoBehaviour
         strAmountIncr = 0;
         speedAmountIncr = 0;
 
-    // Make the dead ally
-    GameObject deadAllyObj = new GameObject("DeadAllyStats");
+        // Make the dead ally
+        GameObject deadAllyObj = new GameObject("DeadAllyStats");
         deadAlly = deadAllyObj.AddComponent<Stats>();
 
         // Do a lot of validation
@@ -114,6 +127,36 @@ public class CharDetailedMenuController : MonoBehaviour
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "speedNums was not initialized properly, please set it in the editor");
         }
+        if (vitalityBubblesParent == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "vitalityBubblesParent was not initialized properly, please set it in the editor");
+        }
+        if (magicBubblesParent == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "magicBubblesParent was not initialized properly, please set it in the editor");
+        }
+        if (strBubblesParent == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "strBubblesParent was not initialized properly, please set it in the editor");
+        }
+        if (speedBubblesParent == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "speedBubblesParent was not initialized properly, please set it in the editor");
+        }
+        if (emptyBubbleSpr == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "emptyBubbleSpr was not initialized properly, please set it in the editor");
+        }
+        if (fullBubbleSpr == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "fullBubbleSpr was not initialized properly, please set it in the editor");
+        }
         if (pointsText == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
@@ -149,6 +192,33 @@ public class CharDetailedMenuController : MonoBehaviour
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "confirmButt was not initialized properly, please set it in the editor");
         }
+
+        // Create the lists for the bubbles
+        vitalityBubbles = new List<Image>();
+        magicBubbles = new List<Image>();
+        strBubbles = new List<Image>();
+        speedBubbles = new List<Image>();
+        // Get the images on the bubbles and add them to the respective list
+        foreach (Transform bubbleTrans in vitalityBubblesParent)
+        {
+            Image bubbleImg = bubbleTrans.GetComponent<Image>();
+            vitalityBubbles.Add(bubbleImg);
+        }
+        foreach (Transform bubbleTrans in magicBubblesParent)
+        {
+            Image bubbleImg = bubbleTrans.GetComponent<Image>();
+            magicBubbles.Add(bubbleImg);
+        }
+        foreach (Transform bubbleTrans in strBubblesParent)
+        {
+            Image bubbleImg = bubbleTrans.GetComponent<Image>();
+            strBubbles.Add(bubbleImg);
+        }
+        foreach (Transform bubbleTrans in speedBubblesParent)
+        {
+            Image bubbleImg = bubbleTrans.GetComponent<Image>();
+            speedBubbles.Add(bubbleImg);
+        }
     }
 
     /// <summary>
@@ -165,7 +235,10 @@ public class CharDetailedMenuController : MonoBehaviour
             allyStats = alliesStats[allyIndex]; // For quick reference
         // If the index is invalid, we make allyStats be a dead ally
         else
+        {
             allyStats = deadAlly;
+            Debug.Log("This character is dead");
+        }
 
         // Set the normal things for the character stats
         ////TODO Set the characterPortrait
@@ -175,6 +248,16 @@ public class CharDetailedMenuController : MonoBehaviour
         magicNums.text = allyStats.Magic.ToString();
         strNums.text = allyStats.Strength.ToString();
         speedNums.text = allyStats.Speed.ToString();
+
+        // Fill in the appropriate amount of bubbles for each stat
+        //Debug.Log("Updating Vitality Bubbles");
+        UpdateBubbles(vitalityBubbles, allyStats.VitalityBubblesFilled);
+        //Debug.Log("Updating Magic Bubbles");
+        UpdateBubbles(magicBubbles, allyStats.MagicBubblesFilled);
+        //Debug.Log("Updating Strength Bubbles");
+        UpdateBubbles(strBubbles, allyStats.StrBubblesFilled);
+        //Debug.Log("Updating Speed Bubbles");
+        UpdateBubbles(speedBubbles, allyStats.SpeedBubblesFilled);
 
         // Do this just in case
         ResetStatChoices();
@@ -217,7 +300,7 @@ public class CharDetailedMenuController : MonoBehaviour
     {
         Stats allyStats = alliesStats[currentAllyIndex]; // For quick reference
         // Increase the stat
-        IncrementStat(ref vitalityAmountIncr, ref vitalityNums, allyStats.Vitality);
+        IncrementStat(ref vitalityAmountIncr, ref vitalityNums, allyStats.Vitality, allyStats.VitalityBubblesFilled, vitalityBubbles);
     }
     /// <summary>
     /// Gives a plus 1 to magic temporarily
@@ -226,7 +309,7 @@ public class CharDetailedMenuController : MonoBehaviour
     {
         Stats allyStats = alliesStats[currentAllyIndex]; // For quick reference
         // Increase the stat
-        IncrementStat(ref magicAmountIncr, ref magicNums, allyStats.Magic);
+        IncrementStat(ref magicAmountIncr, ref magicNums, allyStats.Magic, allyStats.MagicBubblesFilled, magicBubbles);
     }
     /// <summary>
     /// Gives a plus 1 to strength temporarily
@@ -235,7 +318,7 @@ public class CharDetailedMenuController : MonoBehaviour
     {
         Stats allyStats = alliesStats[currentAllyIndex]; // For quick reference
         // Increase the stat
-        IncrementStat(ref strAmountIncr, ref strNums, allyStats.Strength);
+        IncrementStat(ref strAmountIncr, ref strNums, allyStats.Strength, allyStats.StrBubblesFilled, strBubbles);
     }
     /// <summary>
     /// Gives a plus 1 to speed temporarily
@@ -246,7 +329,7 @@ public class CharDetailedMenuController : MonoBehaviour
         if (allyStats.Speed + speedAmountIncr < allyStats.MaxSpeed)
         {
             // Increase the stat
-            IncrementStat(ref speedAmountIncr, ref speedNums, allyStats.Speed);
+            IncrementStat(ref speedAmountIncr, ref speedNums, allyStats.Speed, allyStats.SpeedBubblesFilled, speedBubbles);
         }
     }
     /// <summary>
@@ -255,7 +338,9 @@ public class CharDetailedMenuController : MonoBehaviour
     /// <param name="statIncrement">The statAmountIncr to increase</param>
     /// <param name="statNumsText">The statNums Text that will have to be updated after the increase</param>
     /// <param name="currentStatValue">The current value of the stat the ally currently has</param>
-    private void IncrementStat(ref int statIncrement, ref Text statNumsText, int currentStatValue)
+    /// <param name="currentBubbleValue">The current amount of bubbles the ally has filled</param>
+    /// <param name="bubbles">The list of bubbles we need to update</param>
+    private void IncrementStat(ref int statIncrement, ref Text statNumsText, int currentStatValue, int currentBubbleAmount, List<Image> bubbles)
     {
         int amountPointsSpent = vitalityAmountIncr + magicAmountIncr + strAmountIncr + speedAmountIncr;
 
@@ -264,7 +349,20 @@ public class CharDetailedMenuController : MonoBehaviour
         {
             // Increase vitality by 1 and display the change
             ++statIncrement;
-            statNumsText.text = (currentStatValue + statIncrement).ToString();
+
+            // Check if this increment makes us reach the desired amount
+            // If it does, we need to update the filled in bubbles to none and update the text
+            if (statIncrement + currentBubbleAmount >= bubbles.Count + 1)
+            {
+                UpdateBubbles(bubbles, 0);
+                statNumsText.text = (currentStatValue + 1).ToString();
+            }
+            // If it doesn't, we need to update the amount of bubbles filled in
+            else
+            {
+                bubbles[currentBubbleAmount - 1 + statIncrement].sprite = fullBubbleSpr;
+            }
+
             // Increase the amount of points we spent and display the change
             ++amountPointsSpent;
             pointsText.text = "Point: " + (amountPointsAvailable - amountPointsSpent).ToString();
@@ -276,7 +374,12 @@ public class CharDetailedMenuController : MonoBehaviour
     /// </summary>
     public void ResetStatChoices()
     {
-        Stats allyStats = alliesStats[currentAllyIndex]; // For quick reference
+        Stats allyStats = null; // For quick reference
+        if (alliesStats.Count > currentAllyIndex && alliesStats[currentAllyIndex] != null)
+            allyStats = alliesStats[currentAllyIndex];
+        else
+            allyStats = deadAlly;
+
         // Give back the points and update that visual
         amountPointsAvailable = allyStats.AmountStatIncreases;
         pointsText.text = "Point: " + allyStats.AmountStatIncreases.ToString();
@@ -289,6 +392,11 @@ public class CharDetailedMenuController : MonoBehaviour
         strNums.text = allyStats.Strength.ToString();
         speedAmountIncr = 0;
         speedNums.text = allyStats.Speed.ToString();
+        // Reset the bubbles
+        UpdateBubbles(vitalityBubbles, allyStats.VitalityBubblesFilled);
+        UpdateBubbles(magicBubbles, allyStats.MagicBubblesFilled);
+        UpdateBubbles(strBubbles, allyStats.StrBubblesFilled);
+        UpdateBubbles(speedBubbles, allyStats.SpeedBubblesFilled);
     }
 
     /// <summary>
@@ -296,25 +404,46 @@ public class CharDetailedMenuController : MonoBehaviour
     /// </summary>
     public void ConfirmStatChoices()
     {
-        int statPointsUsed = vitalityAmountIncr + magicAmountIncr + speedAmountIncr;
+        int statPointsUsed = vitalityAmountIncr + magicAmountIncr + strAmountIncr + speedAmountIncr;
         // If they have made no changes, don't do anything
         if (statPointsUsed == 0)
+        {
+            //Debug.Log("No changes have been made");
             return;
+        }
         // If they have made changes, but haven't used all their stats
         else if (statPointsUsed < amountPointsAvailable)
         {
             ////TODO prompt the user to let them know they have unapplied stats and would like to apply the current ones anyway
+            //Debug.Log("There are unused changes");
         }
         // If they have made changes and used all their stats
         else if (statPointsUsed == amountPointsAvailable)
         {
+            //Debug.Log("Applying changes");
             Stats allyStats = alliesStats[currentAllyIndex]; // For quick reference
 
             // Apply the temporary stats for real
-            allyStats.IncreaseVitality(vitalityAmountIncr);
-            allyStats.IncreaseMagic(magicAmountIncr);
-            allyStats.IncreaseStrength(strAmountIncr);
-            allyStats.IncreaseSpeed(speedAmountIncr);
+            int currentVitBubbleIncrease = vitalityAmountIncr + allyStats.VitalityBubblesFilled;
+            int amountVitForIncrease = vitalityBubbles.Count + 1;
+            allyStats.IncreaseVitality(currentVitBubbleIncrease / amountVitForIncrease);
+            allyStats.VitalityBubblesFilled = currentVitBubbleIncrease % amountVitForIncrease;
+
+            int currentMagBubbleIncrease = magicAmountIncr + allyStats.MagicBubblesFilled;
+            int amountMagForIncrease = magicBubbles.Count + 1;
+            allyStats.IncreaseMagic(currentMagBubbleIncrease / amountMagForIncrease);
+            allyStats.MagicBubblesFilled = currentMagBubbleIncrease % amountMagForIncrease;
+
+            int currentStrBubbleIncrease = strAmountIncr + allyStats.StrBubblesFilled;
+            int amountStrForIncrease = strBubbles.Count + 1;
+            allyStats.IncreaseStrength(currentStrBubbleIncrease / amountStrForIncrease);
+            allyStats.StrBubblesFilled = currentStrBubbleIncrease % amountStrForIncrease;
+
+            int currentSpdBubbleIncrease = speedAmountIncr + allyStats.SpeedBubblesFilled;
+            int amountSpdForIncrease = speedBubbles.Count + 1;
+            allyStats.IncreaseSpeed(currentSpdBubbleIncrease / amountSpdForIncrease);
+            allyStats.SpeedBubblesFilled = currentSpdBubbleIncrease % amountSpdForIncrease;
+
 
             // We want to hide all the things we had displayed for increasing stats
             LevelUpUISetActive(false);
@@ -349,5 +478,31 @@ public class CharDetailedMenuController : MonoBehaviour
         speedIncrButt.gameObject.SetActive(onOff);
         resetButt.gameObject.SetActive(onOff);
         confirmButt.gameObject.SetActive(onOff);
+    }
+
+    /// <summary>
+    /// Correctly emptys and fills in bubbles contained in the passed in list
+    /// </summary>
+    /// <param name="bubbles">List<Image> that contains the bubbles to be updated</param>
+    /// <param name="amountToBeFilled">int that is the amount of bubbles that must be filled in the list</param>
+    private void UpdateBubbles(List<Image> bubbles, int amountToBeFilled)
+    {
+        //Debug.Log("Amount to be filed " + amountToBeFilled);
+        // Fill in the appropriate amount of bubbles
+        for (int i = 0; i < bubbles.Count; ++i)
+        {
+            // If the bubble is to be filled, filled it
+            if (i < amountToBeFilled)
+            {
+                //Debug.Log("Filling bubble");
+                bubbles[i].sprite = fullBubbleSpr;
+            }
+            // If it is not supposed to be filled, empty it
+            else
+            {
+                //Debug.Log("Emptying bubble");
+                bubbles[i].sprite = emptyBubbleSpr;
+            }
+        }
     }
 }

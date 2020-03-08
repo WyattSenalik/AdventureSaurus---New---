@@ -15,9 +15,10 @@ public class Skill : MonoBehaviour
     protected bool healing = false;
     protected List<Health> enemiesHP;
     [SerializeField] private int cooldown = 1;
-    [SerializeField] protected int damage = 0;
+    protected int damage = 0;
     protected Animator anime = null;//damage to deal, amount to heal ,and amount to buff
     protected SpriteRenderer sprRendRef = null;
+    protected Stats statsRef = null;
 
     protected void Awake()
     {
@@ -65,6 +66,11 @@ public class Skill : MonoBehaviour
         {
             Debug.Log("Could not find MoveAttack attached to " + this.name);
         }
+        statsRef = this.GetComponent<Stats>();
+        if (statsRef == null)
+        {
+            Debug.Log("Could not find Stats attached to " + this.name);
+        }
     }
 
 
@@ -74,7 +80,7 @@ public class Skill : MonoBehaviour
     /// <param name="attackNodesPos">Grid position of the node at the center of the skill</param>
     virtual public void StartSkill(Vector2Int attackNodePos)
     {
-        Debug.Log("StartAttack not implemented");
+        // Debug.Log("StartAttack not implemented");
     }
 
     /// <summary>

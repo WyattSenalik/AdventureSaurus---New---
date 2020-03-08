@@ -23,6 +23,9 @@ public class BasicAttack : Skill
     /// <param name="attackNodesPos">The position of the node that will be attacked</param>
     override public void StartSkill(Vector2Int attackNodePos)
     {
+        // Get the damage
+        damage = statsRef.Strength;
+
         // We have to set the enemy to attack, we just need to validate a bit first
         Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
         if (nodeToAttack != null)

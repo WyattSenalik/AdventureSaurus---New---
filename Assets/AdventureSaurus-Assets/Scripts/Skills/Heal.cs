@@ -13,6 +13,9 @@ public class Heal : Skill
 
     public override void StartSkill(Vector2Int attackNodePos)
     {
+        // Get the damage
+        damage = statsRef.Magic;
+
         Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
         if (nodeToAttack != null)
         {

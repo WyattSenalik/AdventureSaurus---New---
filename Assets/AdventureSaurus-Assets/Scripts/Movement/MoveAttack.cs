@@ -15,11 +15,6 @@ public class MoveAttack : MonoBehaviour
     {
         get { return attackRange; }
     }
-    private int dmgToDeal;  // How much damage this character's attack should deal
-    public int DmgToDeal
-    {
-        set { dmgToDeal = value; }
-    }
     [SerializeField] private CharacterType whatAmI = CharacterType.None;    // What kind of character is this script attached to?
     public CharacterType WhatAmI
     {

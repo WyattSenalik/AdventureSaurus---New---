@@ -18,6 +18,9 @@ public class ThreeSixtySwing : Skill
     /// <param name="attackNodePos">The point the player used to start the skill. Dictates direction of animations.</param>
     override public void StartSkill(Vector2Int attackNodePos)
     {
+        // Get the damage
+        damage = statsRef.Strength;
+
         Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
         
 
