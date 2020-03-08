@@ -563,10 +563,7 @@ public class MoveAttackController : MonoBehaviour
             }
             return true;    // Was a valid spot to move
         }
-        else
-        {
-            return false;   // Was an invalid node
-        }
+        return false;   // Was an invalid node
     }
 
     /// <summary>

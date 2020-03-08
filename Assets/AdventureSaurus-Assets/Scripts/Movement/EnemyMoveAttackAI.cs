@@ -109,6 +109,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// </summary>
     public void StartTakeTurn()
     {
+        Debug.Log("Starting the enemy AI");
         Initialize();    // Refind all the allies, set enemyIndex to 0, and remove any dead enemies from the list
         StartNextEnemy();    // Start from the first enemy
     }
@@ -132,6 +133,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
             // If the enemy does not exist, do not try to move it
             if (currentEnemy != null)
             {
+                Debug.Log("Begin " + currentEnemy.name + "'s turn");
                 // See if the current enemy will be active
                 curEnemyActive = false;
                 Node enemyNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
@@ -154,6 +156,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
                     }
                 }
 
+                Debug.Log("Will " + currentEnemy.name + " be active? " + curEnemyActive);
                 if (curEnemyActive)
                 {
                     //Debug.Log("Following " + currentEnemy.name);
@@ -175,11 +178,20 @@ public class EnemyMoveAttackAI : MonoBehaviour
         }
         else
         {
+            Debug.Log("All enemies done");
             turnSysRef.StartPlayerTurn();
         }
 
         duringEnemyTurn = false;
         yield return null;
+    }
+
+    /// <summary>
+    /// Starts a coroutine of nextEnemy
+    /// </summary>
+    public void StartNextEnemy()
+    {
+        StartCoroutine(NextEnemy());
     }
 
     /// <summary>
@@ -207,7 +219,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
 
         // Get the node this character should try to attack and the node this character should move to
         curAttackNodePos = FindDesiredAttackNodePos();
-        Debug.Log("Found node to attack at " + curAttackNodePos);
+        //Debug.Log("Found node to attack at " + curAttackNodePos);
         Node desiredNode = FindDesiredMovementNode();
         // If the node returns null, it means we cannot do anything with this enemy
         if (desiredNode == null)
@@ -365,7 +377,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
                     Node currentTestNode = allyAttackNodes[j];
                     int currentTestNodeDist = Mathf.Abs(currentTestNode.position.x - currentEnemyNode.position.x) +
                         Mathf.Abs(currentTestNode.position.y - currentEnemyNode.position.y);
-                    Debug.Log("Testing node at " + currentTestNode.position + ", which is " + currentTestNodeDist + " away from me at " + currentEnemyNode.position);
+                    //Debug.Log("Testing node at " + currentTestNode.position + ", which is " + currentTestNodeDist + " away from me at " + currentEnemyNode.position);
                     if (currentTestNodeDist < closestAttackFromNodeDist)
                     {
                         // Debug.Log(currentEnemy.name + " single node occupying at j in FindDesiredMovementode: " + allyAttackNodes[j].occupying);
@@ -375,12 +387,12 @@ public class EnemyMoveAttackAI : MonoBehaviour
                             // Set the new closest node to attack
                             closestAttackFromNode = currentTestNode;
                             closestAttackFromNodeDist = currentTestNodeDist;
-                            Debug.Log("Found closer node to move to " + closestAttackFromNode.position + " in order to attack " + nodeToAttack.position);
+                            //Debug.Log("Found closer node to move to " + closestAttackFromNode.position + " in order to attack " + nodeToAttack.position);
                         }
                     }
                 }
             }
-            Debug.Log("Found final node to move to " + closestAttackFromNode.position + " in order to attack " + nodeToAttack.position);
+            //Debug.Log("Found final node to move to " + closestAttackFromNode.position + " in order to attack " + nodeToAttack.position);
             return closestAttackFromNode;
         }
         // If there is no ally in range to attack
@@ -637,14 +649,6 @@ public class EnemyMoveAttackAI : MonoBehaviour
         }
 
         return goalNode;
-    }
-
-    /// <summary>
-    /// Starts a coroutine of nextEnemy
-    /// </summary>
-    public void StartNextEnemy()
-    {
-        StartCoroutine(NextEnemy());
     }
 
     /// <summary>

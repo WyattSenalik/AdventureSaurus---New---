@@ -221,6 +221,8 @@ public class Health : MonoBehaviour
     /// </summary>
     private void Die()
     {
+        //Debug.Log("Dead enemy");
+        enMAAIRef.EnemiesList.Remove(this.GetComponent<MoveAttack>());
         animRef.SetBool("Dead", true);
     }
 
@@ -267,8 +269,6 @@ public class Health : MonoBehaviour
         // last action and the enemy that died was high up in the list
         if (whatAmI == CharacterType.Enemy)
         {
-            //Debug.Log("Dead enemy");
-            enMAAIRef.EnemiesList.Remove(this.GetComponent<MoveAttack>());
             mAGUIContRef.AllowSelect();
             turnSysRef.IsPlayerDone();
         }
