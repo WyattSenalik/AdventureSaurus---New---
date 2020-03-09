@@ -625,7 +625,7 @@ public class MoveAttackController : MonoBehaviour
             testNode.H = xDist * xDist + yDist * yDist;
             testNode.F = testNode.G + testNode.H;
             // For testing, creates text at nodes displaying their F value
-            ShowTextAtNode(testNode, testNode.F.ToString());
+            //ShowTextAtNode(testNode, testNode.F.ToString());
 
             // If the node is already in the inProgressNodes
             if (inProgressNodes.Contains(testNode))
