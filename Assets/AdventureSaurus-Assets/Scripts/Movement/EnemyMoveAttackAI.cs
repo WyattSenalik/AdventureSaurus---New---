@@ -156,7 +156,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
                     }
                 }
 
-                Debug.Log("Will " + currentEnemy.name + " be active? " + curEnemyActive);
+                //Debug.Log("Will " + currentEnemy.name + " be active? " + curEnemyActive);
                 if (curEnemyActive)
                 {
                     //Debug.Log("Following " + currentEnemy.name);
@@ -624,6 +624,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // null, we should have broken from this function long ago. It may be the case that the closestAttackFromNode is incorrect,
         // if that is the case, check the loop that finds this node above. Or this may be a Pathing bug in the MoveAttackController
         // script.
+        Debug.Log(currentEnemy.name + " is trying to go to " + closestAttackFromNode.position);
         if (!mAContRef.Pathing(startNode, closestAttackFromNode, CharacterType.Enemy))
         {
             mAContRef.ResetPathing();

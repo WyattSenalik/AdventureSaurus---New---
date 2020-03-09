@@ -90,7 +90,7 @@
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\Stats.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\TransitionScripts\MenuToGame.cs" />
     <Compile Include="Assets\AdventureSaurus-Assets\Scripts\TurnSystem.cs" />
-    <None Include="Assets\AdventureSaurus-Assets\Texts\license.txt" />
+    <None Include="Assets\Resources\license.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Unity Projects (Local)/AdventureSaurus - new - Copy/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

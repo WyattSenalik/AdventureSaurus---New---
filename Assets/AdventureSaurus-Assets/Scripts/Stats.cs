@@ -308,7 +308,7 @@ public class Stats : MonoBehaviour
             return 0;
         }
         // Do the calculation
-        return (Mathf.RoundToInt((vitality + strength + magic) / 7.0f) + 1) * baseXPToGive;
+        return (((vitality + strength + magic) / 3) + 1) * baseXPToGive;
     }
 
     // The following 4 functions are for increasing stats upon a level up

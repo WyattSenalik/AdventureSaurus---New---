@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MoveAttackController : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class MoveAttackController : MonoBehaviour
     [SerializeField] private string visualSortingLayer = "Default"; // The sorting layer that the tiles will be put on
     [SerializeField] private Material tileMaterial = null;  // The material that will be applied to the sprite renderer of the tiles
 
+    // Only for testing. This is a list of the spawned canvas objects that display numbers on the nodes
+    private List<GameObject> visualTests;
 
     /// <summary>
     /// We have to wait for characters to set all their references first, so we go in start
@@ -55,6 +58,8 @@ public class MoveAttackController : MonoBehaviour
                 mARef.gameObject.SetActive(false);
             }*/
         }
+
+        visualTests = new List<GameObject>();
     }
 
 
@@ -467,6 +472,11 @@ public class MoveAttackController : MonoBehaviour
     /// </summary>
     public void ResetPathing()
     {
+        // For testing only
+        foreach (GameObject obj in visualTests)
+            Destroy(obj);
+        visualTests.Clear();
+
         foreach (List<Node> row in grid)
         {
             foreach (Node node in row)
@@ -607,9 +617,12 @@ public class MoveAttackController : MonoBehaviour
             }
 
             // Set the g, h, and f values
-            testNode.G = currentNode.G + 1;
-            testNode.H = (int)Mathf.Pow(Mathf.Abs(testPos.x - endPos.x), 2) + (int)Mathf.Pow(Mathf.Abs(testPos.y - endPos.y), 2);
+            testNode.G = currentNode.G - 1;
+            int xDist = Mathf.Abs(testPos.x - endPos.x);
+            int yDist = Mathf.Abs(testPos.y - endPos.y);
+            testNode.H = (int)Mathf.Sqrt(xDist * xDist + yDist * yDist);
             testNode.F = testNode.G + testNode.H;
+            ShowTextAtNode(testNode, testNode.F.ToString());
 
             // If the node is already in the inProgressNodes
             if (inProgressNodes.Contains(testNode))
@@ -852,4 +865,40 @@ public class MoveAttackController : MonoBehaviour
         }
     }
     // End Pathing Functions
+
+    /// <summary>
+    /// This is used for testing only. It spawns a text object at the nodes location
+    /// </summary>
+    /// <param name="node">The node to spawn the text at</param>
+    /// <param name="textToWrite">The text to write at the node</param>
+    private void ShowTextAtNode(Node node, string textToWrite)
+    {
+        GameObject visualComp = new GameObject("VisualComp: " + textToWrite);
+        RectTransform rectTransRef = visualComp.AddComponent<RectTransform>();
+        rectTransRef.position = Vector3.zero;
+        rectTransRef.localScale = Vector3.one;
+        rectTransRef.sizeDelta = Vector2.one;
+        Canvas canRef = visualComp.AddComponent<Canvas>();
+        canRef.renderMode = RenderMode.WorldSpace;
+        canRef.worldCamera = Camera.main;
+        canRef.sortingLayerName = "Canvas";
+        visualComp.AddComponent<CanvasScaler>();
+        visualComp.AddComponent<GraphicRaycaster>();
+        GameObject textComp = new GameObject("Text");
+        RectTransform textRectTrans = textComp.AddComponent<RectTransform>();
+        textComp.transform.SetParent(visualComp.transform);
+        textRectTrans.localPosition = Vector3.zero;
+        textRectTrans.localScale = new Vector3(0.001f, 0.001f, 0.001f);
+        textRectTrans.sizeDelta = new Vector2(1000f, 1000f);
+        textComp.AddComponent<CanvasRenderer>();
+        Text textRef = textComp.AddComponent<Text>();
+        textRef.text = textToWrite;
+        textRef.fontSize = 300;
+        textRef.font = Resources.Load<Font>("dpcomic");
+        textRef.alignment = TextAnchor.MiddleCenter;
+        textRef.color = new Color(255, 255, 0);
+        canRef.transform.position = new Vector3(node.position.x, node.position.y, 0);
+
+        visualTests.Add(visualComp);
+    }
 }
