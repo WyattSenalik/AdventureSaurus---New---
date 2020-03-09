@@ -9,6 +9,8 @@ public class DeathCheck : MonoBehaviour
     public Transform player3;
 
     // Update is called once per frame
+
+   
     void Update()
     {
         if(player1==null && player2==null && player3==null)
@@ -16,4 +18,5 @@ public class DeathCheck : MonoBehaviour
             SceneManager.LoadScene("GameOver");
         }
     }
+    
 }

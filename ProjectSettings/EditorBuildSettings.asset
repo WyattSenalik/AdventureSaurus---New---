@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/AdventureSaurus-Assets/Scenes/GameOver.unity
     guid: 8f0b49527b6790542ae259f7563d2d31
+  - enabled: 1
+    path: Assets/AdventureSaurus-Assets/Scenes/TestArea.unity
+    guid: c713c405e85f72442b1c8657e569fded
   m_configObjects: {}

@@ -51,7 +51,7 @@ public class TurnSystem : MonoBehaviour
         foreach(Transform potAlly in CharcterTeam)
         {
             MoveAttack potAllyMA = potAlly.GetComponent<MoveAttack>();
-            if(potAllyMA == null)
+            if (potAllyMA == null)
             {
                 Debug.Log("There is a non character object in " + CharcterTeam.name);
             }
@@ -59,9 +59,12 @@ public class TurnSystem : MonoBehaviour
             {
                 potAllyMA.ResetMyTurn();
             }
-        }
 
-        mAGUIContRef.AllowSelect();
+
+       
+        }
+        
+            mAGUIContRef.AllowSelect();
         camFocusPlayer();
     }
 
