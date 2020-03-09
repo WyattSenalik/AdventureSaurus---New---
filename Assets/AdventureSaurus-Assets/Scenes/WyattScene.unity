@@ -4294,6 +4294,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &171662387
 GameObject:
   m_ObjectHideFlags: 0
@@ -12221,6 +12223,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &477734288
 GameObject:
   m_ObjectHideFlags: 0
@@ -17439,6 +17443,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &713227768
 GameObject:
   m_ObjectHideFlags: 0
@@ -23386,6 +23392,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &983947435
 GameObject:
   m_ObjectHideFlags: 0
@@ -24396,6 +24404,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &1022380879
 GameObject:
   m_ObjectHideFlags: 0
@@ -34681,6 +34691,7 @@ GameObject:
   - component: {fileID: 1333461271}
   - component: {fileID: 1333461270}
   - component: {fileID: 1333461269}
+  - component: {fileID: 1333461277}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: Enemy
@@ -34824,7 +34835,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 6223651300205610701, guid: 5501f40068b45284cb29524528354ffd,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -34892,6 +34903,21 @@ MonoBehaviour:
   transSpeed: 3
   transition: 0
   rangeVisualParent: {fileID: 0}
+--- !u!114 &1333461277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333461267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c59a6d0640a83498e588d505cc2569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &1334016183
 GameObject:
   m_ObjectHideFlags: 0
@@ -37276,6 +37302,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &1459480214
 GameObject:
   m_ObjectHideFlags: 0
@@ -40208,6 +40236,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &1585500598
 GameObject:
   m_ObjectHideFlags: 0
@@ -42560,6 +42590,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &1713904334
 GameObject:
   m_ObjectHideFlags: 0
@@ -42832,6 +42864,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &1716066637
 GameObject:
   m_ObjectHideFlags: 0
@@ -43299,6 +43333,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &1738060918
 GameObject:
   m_ObjectHideFlags: 0
@@ -45848,6 +45884,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  partSysObj: {fileID: 268481424134831414, guid: b58cad01280ac4e4cb1d6ba3e5918fcf,
+    type: 3}
 --- !u!1 &1842210418
 GameObject:
   m_ObjectHideFlags: 0

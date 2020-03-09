@@ -668,6 +668,10 @@ public class EnemyMoveAttackAI : MonoBehaviour
             // Make sure its not already there
             if (!enemiesMA.Contains(enemy))
                 enemiesMA.Add(enemy);
+
+            Rainbow rainbowRef = enemy.GetComponent<Rainbow>();
+            if (rainbowRef != null)
+                rainbowRef.StartFlashing();
         }
     }
 

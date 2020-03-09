@@ -7,10 +7,14 @@ public enum ColorMain { RED, GREEN, BLUE };
 public class Rainbow : MonoBehaviour
 {
     [SerializeField] private float speed = 3f;
+    [SerializeField] private GameObject partSysObj = null;
     private SpriteRenderer sprRendRef;
     private Color curCol;
     private ColorMain colToChange;
     private bool shouldIncrease;
+    private GameObject myPartSys;
+    private bool hasSpawned;
+    private bool firstTime;
 
     private void Awake()
     {
@@ -20,16 +24,23 @@ public class Rainbow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        hasSpawned = false;
+        firstTime = true;
         curCol = sprRendRef.color;
         colToChange = ColorMain.RED;
-        StartCoroutine(StarPowerUpdate());
     }
 
-    private void OnEnable()
+    public void StartFlashing()
     {
         curCol = sprRendRef.color;
         colToChange = ColorMain.RED;
         StartCoroutine(StarPowerUpdate());
+        if (!hasSpawned)
+        {
+            Debug.Log("Hello from " + this.name);
+            myPartSys = Instantiate(partSysObj);
+            hasSpawned = true;
+        }
     }
 
     private IEnumerator StarPowerUpdate()
@@ -67,6 +78,10 @@ public class Rainbow : MonoBehaviour
                 yield return null;
             }
             sprRendRef.color = curCol;
+            ParticleSystem tempPartSys = myPartSys.GetComponent<ParticleSystem>();
+            ParticleSystem.MainModule tempMain = tempPartSys.main;
+            tempMain.startColor = curCol;
+            partSysObj.transform.position = this.transform.position;
             yield return null;
         }
     }
