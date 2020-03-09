@@ -636,7 +636,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
 
         // If our pathing was successful, we need to see where this enemy would stop along this path
         Node goalNode = startNode; // Start the goal node as the startNode
-        // Iterate over the nodes, once we finish the goal node will be the one the enemy would stop at
+        // Iterate over the nodes, once we finish, the goal node will be the one the enemy would stop at
         for (int i = 0; i < currentEnemy.MoveRange - moveRangeDecrement; ++i)
         {
             if (goalNode.whereToGo == null)
