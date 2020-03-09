@@ -81,6 +81,7 @@ public class Rainbow : MonoBehaviour
             ParticleSystem tempPartSys = myPartSys.GetComponent<ParticleSystem>();
             ParticleSystem.MainModule tempMain = tempPartSys.main;
             tempMain.startColor = curCol;
+            tempMain.
             partSysObj.transform.position = this.transform.position;
             yield return null;
         }
