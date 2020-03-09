@@ -102,6 +102,7 @@ public class Room : MonoBehaviour
     /// <param name="allyWhoExited">The enemy who just exited the room (died)</param>
     private void CalmRoom(MoveAttack allyWhoExited)
     {
+        Debug.Log("Calming the room");
         // We want to turn the room off
         currentLightIntensity = 0f;
         // Change the intensity of this room
@@ -176,8 +177,8 @@ public class Room : MonoBehaviour
         if (mARef.WhatAmI == CharacterType.Ally)
         {
             alliesInRoom.Remove(mARef);
-            // If it was the last ally and that ally is not moving (they died)
-            if (alliesInRoom.Count == 0 && !mARef.transition)
+            // If it was the last ally and that ally dead
+            if (alliesInRoom.Count == 0 && mARef.GetComponent<Health>().CurHP == 0)
                 CalmRoom(mARef);
         }
         // If it was an enemy and the room is active

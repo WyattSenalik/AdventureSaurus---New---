@@ -14,7 +14,6 @@ public class Rainbow : MonoBehaviour
     private bool shouldIncrease;
     private GameObject myPartSys;
     private bool hasSpawned;
-    private bool firstTime;
 
     private void Awake()
     {
@@ -25,7 +24,6 @@ public class Rainbow : MonoBehaviour
     void Start()
     {
         hasSpawned = false;
-        firstTime = true;
         curCol = sprRendRef.color;
         colToChange = ColorMain.RED;
     }
@@ -39,6 +37,7 @@ public class Rainbow : MonoBehaviour
         {
             Debug.Log("Hello from " + this.name);
             myPartSys = Instantiate(partSysObj);
+            myPartSys.transform.SetParent(this.transform);
             hasSpawned = true;
         }
     }
@@ -78,11 +77,11 @@ public class Rainbow : MonoBehaviour
                 yield return null;
             }
             sprRendRef.color = curCol;
+
             ParticleSystem tempPartSys = myPartSys.GetComponent<ParticleSystem>();
             ParticleSystem.MainModule tempMain = tempPartSys.main;
             tempMain.startColor = curCol;
-            tempMain.
-            partSysObj.transform.position = this.transform.position;
+            myPartSys.transform.localPosition = Vector3.zero;
             yield return null;
         }
     }
