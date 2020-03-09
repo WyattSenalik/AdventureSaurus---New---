@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/AdventureSaurus-Assets/Scenes/NewMelbyScene.unity
     guid: 6d1a5da0609e5c445b2eab0f32f1f02d
+  - enabled: 1
+    path: Assets/AdventureSaurus-Assets/Scenes/GameOver.unity
+    guid: 8f0b49527b6790542ae259f7563d2d31
   m_configObjects: {}

@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -991,7 +991,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &42872092
 Animator:
   serializedVersion: 3
@@ -1079,7 +1078,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 1099523296}
   nameText: {fileID: 529355344}
   attackText: {fileID: 421518634}
@@ -2262,7 +2262,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &106108527
 Animator:
   serializedVersion: 3
@@ -2350,7 +2349,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 154634064}
   nameText: {fileID: 924891861}
   attackText: {fileID: 185700726}
@@ -3166,7 +3166,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &125074763
 Animator:
   serializedVersion: 3
@@ -3254,7 +3253,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 68541423}
   nameText: {fileID: 691670053}
   attackText: {fileID: 1538848421}
@@ -4016,7 +4016,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &183267419
 Animator:
   serializedVersion: 3
@@ -4104,7 +4103,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 475547404}
   nameText: {fileID: 1127828537}
   attackText: {fileID: 160320574}
@@ -7690,7 +7690,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &387679570
 Animator:
   serializedVersion: 3
@@ -7778,7 +7777,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 1919345710}
   nameText: {fileID: 1309951669}
   attackText: {fileID: 456944023}
@@ -10945,7 +10945,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &532752635
 Animator:
   serializedVersion: 3
@@ -11032,8 +11031,9 @@ MonoBehaviour:
   magic: 0
   speed: 7
   defense: 2
-  vitality: 100
-  xpToGive: 0
+  vitality: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 2023308891}
   nameText: {fileID: 951343768}
   attackText: {fileID: 1939588838}
@@ -11955,7 +11955,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &573820716
 Animator:
   serializedVersion: 3
@@ -12043,7 +12042,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 1743599923}
   nameText: {fileID: 1475721968}
   attackText: {fileID: 219150952}
@@ -13154,7 +13154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &660780043
 Animator:
   serializedVersion: 3
@@ -13242,7 +13241,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 1084094180}
   nameText: {fileID: 2013600043}
   attackText: {fileID: 92014045}
@@ -15336,7 +15336,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &785679753
 Animator:
   serializedVersion: 3
@@ -15424,7 +15423,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 43848127}
   nameText: {fileID: 843944274}
   attackText: {fileID: 508452397}
@@ -16771,6 +16771,7 @@ GameObject:
   - component: {fileID: 833728371}
   - component: {fileID: 833728369}
   - component: {fileID: 833728374}
+  - component: {fileID: 833728375}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -16804,7 +16805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16198c1a4a73d504dbea5adf3b71866c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endTurnButtonObj: {fileID: 1491932444}
+  buttonsToTurnOff: []
   areSelected1: 0
   areSelected2: 0
   areSelected3: 0
@@ -16912,6 +16913,21 @@ MonoBehaviour:
   - {fileID: 916405656}
   pauseMenuElements:
   - {fileID: 880014504}
+--- !u!114 &833728375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833728366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d148b0e31463af47be6983dd67405f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1: {fileID: 532752631}
+  player2: {fileID: 1129813836}
+  player3: {fileID: 1378449673}
 --- !u!1 &837053292
 GameObject:
   m_ObjectHideFlags: 0
@@ -17660,7 +17676,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &860851885
 Animator:
   serializedVersion: 3
@@ -17748,7 +17763,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 73843867}
   nameText: {fileID: 930226393}
   attackText: {fileID: 1444210811}
@@ -21354,7 +21370,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1066367895
 Animator:
   serializedVersion: 3
@@ -21442,7 +21457,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 1487893406}
   nameText: {fileID: 1166954801}
   attackText: {fileID: 2131027757}
@@ -22939,7 +22955,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1129813840
 Animator:
   serializedVersion: 3
@@ -23026,8 +23041,9 @@ MonoBehaviour:
   magic: 0
   speed: 3
   defense: 2
-  vitality: 3
-  xpToGive: 0
+  vitality: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 1168528386}
   nameText: {fileID: 1786817600}
   attackText: {fileID: 1375787559}
@@ -25253,7 +25269,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1237294666
 Animator:
   serializedVersion: 3
@@ -25341,7 +25356,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 316028404}
   nameText: {fileID: 1296632515}
   attackText: {fileID: 2004690478}
@@ -31499,7 +31515,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1338131447
 Animator:
   serializedVersion: 3
@@ -31587,7 +31602,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 1594189725}
   nameText: {fileID: 1820570417}
   attackText: {fileID: 1477709351}
@@ -31887,7 +31903,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1345014651
 Animator:
   serializedVersion: 3
@@ -31975,7 +31990,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 1773905765}
   nameText: {fileID: 1956526304}
   attackText: {fileID: 1492075324}
@@ -32525,7 +32541,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1375932091
 Animator:
   serializedVersion: 3
@@ -32613,7 +32628,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 1726738798}
   nameText: {fileID: 2132495746}
   attackText: {fileID: 825310085}
@@ -32904,7 +32920,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1378449677
 Animator:
   serializedVersion: 3
@@ -32991,8 +33006,9 @@ MonoBehaviour:
   magic: 0
   speed: 3
   defense: 2
-  vitality: 3
-  xpToGive: 0
+  vitality: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 108886292}
   nameText: {fileID: 209899106}
   attackText: {fileID: 1006550877}
@@ -33247,7 +33263,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1417425963
 Animator:
   serializedVersion: 3
@@ -33335,7 +33350,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 1101361009}
   nameText: {fileID: 1819921329}
   attackText: {fileID: 2035320966}
@@ -33550,7 +33566,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1419559084
 Animator:
   serializedVersion: 3
@@ -33638,7 +33653,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 191644222}
   nameText: {fileID: 1822656189}
   attackText: {fileID: 707785454}
@@ -35700,7 +35716,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1497709836
 Animator:
   serializedVersion: 3
@@ -35788,7 +35803,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 493213830}
   nameText: {fileID: 373236942}
   attackText: {fileID: 2014587120}
@@ -36178,7 +36194,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1522791865
 Animator:
   serializedVersion: 3
@@ -36266,7 +36281,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 962261997}
   nameText: {fileID: 1965664290}
   attackText: {fileID: 1632419101}
@@ -44960,7 +44976,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &1967982986
 Animator:
   serializedVersion: 3
@@ -45048,7 +45063,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 1986380687}
   nameText: {fileID: 1458643132}
   attackText: {fileID: 1464257396}
@@ -46360,7 +46376,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &2014396237
 Animator:
   serializedVersion: 3
@@ -46448,7 +46463,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 944986383}
   nameText: {fileID: 2074205889}
   attackText: {fileID: 2022766784}
@@ -47388,7 +47404,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &2051412377
 Animator:
   serializedVersion: 3
@@ -47476,7 +47491,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 533885437}
   nameText: {fileID: 228797361}
   attackText: {fileID: 1879646621}
@@ -47964,7 +47980,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  damage: 1
 --- !u!95 &2070595538
 Animator:
   serializedVersion: 3
@@ -48052,7 +48067,8 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  xpToGive: 1
+  baseXPToGive: 0
+  levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 838387672}
   nameText: {fileID: 353232046}
   attackText: {fileID: 804757493}
