@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -24605,9 +24605,9 @@ MonoBehaviour:
   charName: Ray Attack of the Clones
   strength: 1
   magic: 1
-  speed: 3
+  speed: 7
   defense: 2
-  vitality: 3
+  vitality: 25
   baseXPToGive: 1
   levelUpButton: {fileID: 350118884}
   statsDisplay: {fileID: 718598690}
@@ -45268,7 +45268,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1833383472}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
