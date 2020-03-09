@@ -503,7 +503,7 @@ public class MoveAttackController : MonoBehaviour
     public bool Pathing(Node startNode, Node endNode, CharacterType requesterType, bool shouldCare=true)
     {
         ResetPathing();
-        //Debug.Log("Looking to go to node at " + endNode.position + " from node at " + startNode.position);
+        Debug.Log("Looking to go to node at " + endNode.position + " from node at " + startNode.position);
 
         if (endNode == null)
             return false;
@@ -517,7 +517,7 @@ public class MoveAttackController : MonoBehaviour
         {
             List<Node> inProgressNodes = new List<Node>();  // The nodes that are being tested
             List<Node> testedNodes = new List<Node>();
-            inProgressNodes.Add(startNode);   // We start with the one we want to reach
+            inProgressNodes.Add(endNode);   // We start with the one we want to reach
 
             // While we are still testing nodes
             while (inProgressNodes.Count != 0)
@@ -535,9 +535,10 @@ public class MoveAttackController : MonoBehaviour
                 inProgressNodes.Remove(currentNode);
                 testedNodes.Add(currentNode);
 
-                // Check if this node is the endNode
-                if (currentNode.position == endNode.position)
+                // Check if this node is the startNode
+                if (currentNode.position == startNode.position)
                 {
+                    /*
                     //Debug.Log("Found Path");
                     // Find the path
                     Node prevPathNode = currentNode;
@@ -548,7 +549,9 @@ public class MoveAttackController : MonoBehaviour
                         prevPathNode = curPathNode;
                         curPathNode = curPathNode.parent;
                     }
-                    break;
+                    */
+                    // We found the path, so return that it was a success
+                    return true;
                 }
 
                 // Generate children
@@ -557,23 +560,22 @@ public class MoveAttackController : MonoBehaviour
 
                 // Check above node
                 Vector2Int testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y + 1);
-                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, endNode.position, requesterType, shouldCare);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.position, requesterType, shouldCare);
 
                 // Check left node
                 testPos = new Vector2Int(inProgNodePos.x - 1, inProgNodePos.y);
-                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, endNode.position, requesterType, shouldCare);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.position, requesterType, shouldCare);
 
                 // Check right node
                 testPos = new Vector2Int(inProgNodePos.x + 1, inProgNodePos.y);
-                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, endNode.position, requesterType, shouldCare);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.position, requesterType, shouldCare);
 
                 // Check down node
                 testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y - 1);
-                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, endNode.position, requesterType, shouldCare);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.position, requesterType, shouldCare);
             }
-            return true;    // Was a valid spot to move
         }
-        return false;   // Was an invalid node
+        return false;   // Was an invalid node, or we could not reach that node
     }
 
     /// <summary>
@@ -607,8 +609,8 @@ public class MoveAttackController : MonoBehaviour
 
             if (testNode != currentNode)
             {
-                // The new node's parent is the current node
-                testNode.parent = currentNode;
+                // The new node's whereToGo is the current node
+                testNode.whereToGo = currentNode;
             }
             else
             {
@@ -617,11 +619,12 @@ public class MoveAttackController : MonoBehaviour
             }
 
             // Set the g, h, and f values
-            testNode.G = currentNode.G - 1;
+            testNode.G = currentNode.G + 1;
             int xDist = Mathf.Abs(testPos.x - endPos.x);
             int yDist = Mathf.Abs(testPos.y - endPos.y);
-            testNode.H = (int)Mathf.Sqrt(xDist * xDist + yDist * yDist);
+            testNode.H = xDist * xDist + yDist * yDist;
             testNode.F = testNode.G + testNode.H;
+            // For testing, creates text at nodes displaying their F value
             ShowTextAtNode(testNode, testNode.F.ToString());
 
             // If the node is already in the inProgressNodes
