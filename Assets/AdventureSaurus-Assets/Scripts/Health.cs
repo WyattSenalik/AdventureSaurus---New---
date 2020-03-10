@@ -111,8 +111,9 @@ public class Health : MonoBehaviour
     /// <param name="startPos">The localPosition of the redHealthBar before calling this function</param>
     /// <param name="targetPos">The localPosition the redHealthBar needs to get to</param>
     /// <param name="speed">scalar for how fast the health bar moves. Defaults to 1</param>
+    /// <param name="healing">If the health is being healed (true) or damage is being taken (false)</param>
     /// <returns>Returns an IEnumerator</returns>
-    private IEnumerator UpdateHealth(Vector3 startScale, Vector3 targetScale, Vector3 startPos, Vector3 targetPos, float speed=1f)
+    private IEnumerator UpdateHealth(Vector3 startScale, Vector3 targetScale, Vector3 startPos, Vector3 targetPos, bool healing, float speed = 1f)
     {
         while (Vector3.Distance(redHealthBar.transform.localPosition, targetPos) > 0.01f)
         {
@@ -132,8 +133,11 @@ public class Health : MonoBehaviour
         if (curHP == 0)
             Die();
         // If the character is not going to begin dying, give the appropriate authority control again
+        else if (!healing)
+            GiveBackControlDamage();
+        // If the character is healing, return control to the appropriate authority
         else
-            GiveBackControl();
+            GiveBackControlHeal();
 
         yield return null;
     }
@@ -173,7 +177,7 @@ public class Health : MonoBehaviour
             // Update the health bar
             // If the character died, we call it will be called in the update health coroutine so that their hp goes down before they die
             // If the character didn't die, we return control to the proper authority
-            StartCoroutine(UpdateHealth(startScale, targetScale, startPos, targetPos));
+            StartCoroutine(UpdateHealth(startScale, targetScale, startPos, targetPos, false));
         }
     }
 
@@ -211,7 +215,7 @@ public class Health : MonoBehaviour
         {
             Vector3 startScale = Vector3.zero, targetScale = Vector3.zero, startPos = Vector3.zero, targetPos = Vector3.zero;
             CalculateHealthBar(ref startScale, ref targetScale, ref startPos, ref targetPos);
-            StartCoroutine(UpdateHealth(startScale, targetScale, startPos, targetPos));
+            StartCoroutine(UpdateHealth(startScale, targetScale, startPos, targetPos, true));
         }
         return true;
     }
@@ -245,7 +249,7 @@ public class Health : MonoBehaviour
         myKiller.GainExperience(myStats.KillReward(myKiller));
 
         // Give either the user or the ai control of their stuff
-        GiveBackControl();
+        GiveBackControlDamage();
 
         //Debug.Log(this.gameObject.name + " has died");
         Destroy(graveyard);
@@ -256,7 +260,7 @@ public class Health : MonoBehaviour
     /// Gives conrol back to the appropriate authority, either the enemy AI or the user. Called from UpdateHealth if the 
     /// character won't die. Called from Ascend if the character will die
     /// </summary>
-    private void GiveBackControl()
+    private void GiveBackControlDamage()
     {
         // If the character is an ally, that means an enemy killed it, so we have to tell the enemy AI script to move the next enemy
         if (whatAmI == CharacterType.Ally)
@@ -267,10 +271,28 @@ public class Health : MonoBehaviour
         // If the character is an enemy, that means an ally killed it, so we have to allow the user to select again
         // If this character is an enemy we need to remove it from the enemies list before giving back control, in the case it is the player's
         // last action and the enemy that died was high up in the list
-        if (whatAmI == CharacterType.Enemy)
+        else if (whatAmI == CharacterType.Enemy)
         {
             mAGUIContRef.AllowSelect();
             turnSysRef.IsPlayerDone();
+        }
+    }
+
+    /// <summary>
+    /// Gives conrol back to the appropriate authority, either the enemy AI or the user. Called from UpdateHealth if the character was healing
+    /// </summary>
+    private void GiveBackControlHeal()
+    {
+        // If the character is an ally, we return control to allies
+        if (whatAmI == CharacterType.Ally)
+        {
+            mAGUIContRef.AllowSelect();
+            turnSysRef.IsPlayerDone();
+        }
+        // If the character is an enemy, we return control to those enemies
+        else if (whatAmI == CharacterType.Enemy)
+        {
+            enMAAIRef.StartNextEnemy();
         }
     }
 }

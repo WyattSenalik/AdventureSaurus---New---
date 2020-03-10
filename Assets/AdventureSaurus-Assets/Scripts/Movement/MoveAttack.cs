@@ -36,7 +36,7 @@ public class MoveAttack : MonoBehaviour
 
 
     // For actual movement calculations/animations
-    [SerializeField] private float transSpeed = 4;  // Speed the character moves to transition from one tile to another
+    [SerializeField] private float transSpeed = 3;  // Speed the character moves to transition from one tile to another
     private SpriteRenderer sprRendRef;  // Reference to the spriteRenderer attached to this character
     private Animator animRef;   // Reference to the animator attached to this character
     private MoveAttackGUIController mAGUIContRef;   // Reference to the moveAttackGUIController
