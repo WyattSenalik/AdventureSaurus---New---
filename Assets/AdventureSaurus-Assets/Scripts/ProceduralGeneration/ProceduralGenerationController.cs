@@ -8,6 +8,7 @@ public class ProceduralGenerationController : MonoBehaviour
     private GenerateRooms genRoomsRef = null;
     private GenerateWalls wallsGenRef = null;
 
+    // Set references
     private void Awake()
     {
         GameObject procGenContObj = this.gameObject;
