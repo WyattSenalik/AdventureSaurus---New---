@@ -6,8 +6,20 @@ using UnityEngine.Experimental.Rendering.LWRP;
 public class Room : MonoBehaviour
 {
     [SerializeField] private List<Light2D> broadcastLights = null;  // A list of the lights that this room is broadcasting to other rooms
+    public List<Light2D> BroadcastLights
+    {
+        get { return broadcastLights; }
+    }
     [SerializeField] private List<Light2D> receiveLights = null;    // A list of the lights that are shining into this room
+    public List<Light2D> ReceiveLights
+    {
+        get { return receiveLights; }
+    }
     [SerializeField] private List<Room> adjacentRooms = null;   // A list of room adjacent to this one
+    public List<Room> AdjacentRooms
+    {
+        get { return adjacentRooms; }
+    }
     private Light2D roomLight = null;    // The light that will illuminate the room
     private EnemyMoveAttackAI enMAAIRef;    // Reference to the EnemyMoveAttackAI script
     private List<MoveAttack> alliesInRoom;  // The characters currently in the room
@@ -15,6 +27,12 @@ public class Room : MonoBehaviour
     private bool isRoomActive;  // If the room is on or off
     private float currentLightIntensity;    // The current light level of the room
     private bool clear; // If all enemies in the room have been defeated
+    private int roomWeight; // Represents how far the room is away from the starting room
+    public int RoomWeight
+    {
+        get { return roomWeight; }
+        set { roomWeight = value; }
+    }
 
     // Set References
     // Awake is called before Start
@@ -36,6 +54,15 @@ public class Room : MonoBehaviour
         roomLight = this.GetComponent<Light2D>();
         if (roomLight == null)
             Debug.Log("Could not find Light attached to " + this.name);
+
+        // Initialize my lists that will be set from Procedural Generation
+        // only if I do not set them in editor
+        if (broadcastLights == null)
+            broadcastLights = new List<Light2D>();
+        if (receiveLights == null)
+            receiveLights = new List<Light2D>();
+        if (adjacentRooms == null)
+            adjacentRooms = new List<Room>();
     }
 
     // Initialize variables

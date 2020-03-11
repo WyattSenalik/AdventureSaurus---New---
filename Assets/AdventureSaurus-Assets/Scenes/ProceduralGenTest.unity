@@ -120,6 +120,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &353794015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 353794016}
+  - component: {fileID: 353794017}
+  m_Layer: 0
+  m_Name: TempGameController
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &353794016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353794015}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &353794017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353794015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8694874cd00b1ef48b132bcf4c446e39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charParent: {fileID: 1431827292}
+  aggroRange: 16
 --- !u!1 &639230956
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +248,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1431827291
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1431827292}
+  m_Layer: 0
+  m_Name: TempCharParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1431827292
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431827291}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1915396101
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,9 +287,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1915396103}
+  - component: {fileID: 1915396104}
   - component: {fileID: 1915396102}
+  - component: {fileID: 1915396105}
   m_Layer: 0
-  m_Name: GenerationController
+  m_Name: ProceduralGenerationController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,14 +309,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ac8835c75b76344da8575b7f30c1133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowerLeftBound: {x: 0, y: 0}
-  upperRightBound: {x: 100, y: 100}
-  minRoomSize: {x: 10, y: 10}
-  maxRoomSize: {x: 20, y: 20}
-  amountRoomsToSpawn: 7
-  minSpaceBetweenRooms: 8
   roomPrefab: {fileID: 6226981127771142951, guid: 73f8c1df84d9c494b962cf046f48b6a3,
     type: 3}
+  bleedLightPrefab: {fileID: 3888360970156444938, guid: 3f862ed9f92651e4da1d68e60d61f02d,
+    type: 3}
+  lowerLeftBound: {x: -10000, y: -10000}
+  upperRightBound: {x: 10000, y: 10000}
+  minRoomSize: {x: 10, y: 10}
+  maxRoomSize: {x: 20, y: 20}
+  hallwayWidthRange: {x: 5, y: 5}
+  hallwayLengthRange: {x: 8, y: 10}
+  hallwayOffsetFromEdge: 2
+  amountRoomsToSpawn: 10
+  minSpaceBetweenRooms: 1
+  chanceToSpawnBranch: 3
 --- !u!4 &1915396103
 Transform:
   m_ObjectHideFlags: 0
@@ -254,3 +337,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1915396104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915396101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44a39019051cbe4993b3773ee902974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1915396105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915396101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a4971955f57afc44b8bf9eeb8e0bae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wallPrefab: {fileID: 908112855204680109, guid: edb3079cb7e3e144fa69fb4281c1e89d,
+    type: 3}
