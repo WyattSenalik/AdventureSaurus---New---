@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    // Start is called before the first frame update
-   
+    [SerializeField] List<Item> items;
+    [SerializeField] Transform itemParent;
+    [SerializeField] ItemSlot[] itemSlots;
+
+    private void OnValidate()
+    {
+        if(itemParent != null)
+        {
+            itemSlots = itemParent.GetComponentsInChildren<ItemSlot>();
+        }
+    }
+
 }
