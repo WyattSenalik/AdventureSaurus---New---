@@ -6,5 +6,15 @@ using UnityEngine.UI;
 public class ItemSlot : MonoBehaviour
 {
     private Item item;
+
+
     private Image image;
+
+    private void OnValidate()
+    {
+        if(image == null)
+        {
+            image = GetComponent<Image>();
+        }
+    }
 }
