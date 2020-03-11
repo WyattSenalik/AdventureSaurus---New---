@@ -13,7 +13,13 @@ public class CamFollow : MonoBehaviour
     public Transform player3;
     //Enemy to follow
     public Transform enemy1;
-   
+    //List of allies
+    /*
+    [SerializeField] private Transform charParent = null;
+    public List<Transform> Allies;
+    private PauseMenuController AllyList;
+    */
+    //
 
     //Camera variables//
     public float smoothTime = 0.3f;
@@ -53,7 +59,23 @@ public class CamFollow : MonoBehaviour
     // Called before the first frame update
     private void Start()
     {
+        //
         amFollowing = false;
+        //
+        /*
+        Allies = new List<Transform>();
+        foreach (Transform charTrans in charParent)
+        {
+            MoveAttack charMA = charTrans.GetComponent<MoveAttack>();
+            if (charMA != null && charMA.WhatAmI == CharacterType.Ally)
+            {
+                Stats allyStatsRef = charMA.GetComponent<Stats>();
+                alliesStats.Add(charMA.GetComponent<Stats>());
+            }
+        }
+
+            Debug.Log(Allies[0]);
+            */
     }
     /// End Wyatt added
 
