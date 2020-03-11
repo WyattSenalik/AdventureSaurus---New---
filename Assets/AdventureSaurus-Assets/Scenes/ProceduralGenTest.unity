@@ -313,8 +313,8 @@ MonoBehaviour:
     type: 3}
   bleedLightPrefab: {fileID: 3888360970156444938, guid: 3f862ed9f92651e4da1d68e60d61f02d,
     type: 3}
-  lowerLeftBound: {x: -10000, y: -10000}
-  upperRightBound: {x: 10000, y: 10000}
+  lowerLeftBound: {x: -50, y: -50}
+  upperRightBound: {x: 50, y: 50}
   minRoomSize: {x: 10, y: 10}
   maxRoomSize: {x: 20, y: 20}
   hallwayWidthRange: {x: 5, y: 5}
