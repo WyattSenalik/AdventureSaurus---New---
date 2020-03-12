@@ -26,16 +26,13 @@ public class GenerateRooms : MonoBehaviour
     [SerializeField] private int chanceToSpawnBranch = 5; // The chance to not update what the previous room is, so that another room attached to the prevRoom
 
     private Transform roomParent; // The parent of all rooms and hallways
-    public Transform RoomParent
-    {
-        get { return roomParent; }
-    }
     private Transform bleedLightsParent; // The parent of all bleed lights
 
     /// <summary>
     /// Spawns and places normal rooms in valid locations such that no rooms will overlap
     /// </summary>
-    public void SpawnHallwaysAndRooms()
+    /// <returns>Transform roomParent</returns>
+    public Transform SpawnHallwaysAndRooms()
     {
         // Make sure there is enough space to spawn the rooms
         int maxRoomWidth = maxRoomSize.x + minSpaceBetweenRooms * 2;
@@ -306,7 +303,7 @@ public class GenerateRooms : MonoBehaviour
                     if (prevRoomIndex < 0)
                     {
                         Debug.Log("Cannot create anymore rooms");
-                        return;
+                        return roomParent;
                     }
                     // Otherwise, the room is valid, so we can set the prevRoom info to that room
                     else
@@ -332,33 +329,8 @@ public class GenerateRooms : MonoBehaviour
             }
         }
 
-        // Iterate to create the correct number of rooms
-        /*for (int curAmountRooms = 0; curAmountRooms < amountRoomsToSpawn; ++curAmountRooms)
-        {
-            // Get the size of the current room
-            int xSize = Random.Range(minRoomSize.x, maxRoomSize.x);
-            int ySize = Random.Range(minRoomSize.y, maxRoomSize.y);
-            Vector2Int curRoomSize = new Vector2Int(xSize, ySize);
-            // Iterate until we find a valid position for the room
-            Vector2Int potPos = Vector2Int.zero;
-            int counter = 0;
-            do
-            {
-                int xPos = Random.Range(lowerLeftBound.x, upperRightBound.x + 1);
-                int yPos = Random.Range(lowerLeftBound.y, upperRightBound.y + 1);
-                potPos = new Vector2Int(xPos, yPos);
-
-                if (++counter > breakOutLimit)
-                {
-                    Debug.Log("Had to break");
-                    break;
-                }
-            } while (!IsRoomValid(potPos, curRoomSize));
-            // Once we break from the loop, we know the room is valid, so spawn it
-            Transform newRoomTrans = Instantiate(roomPrefab, new Vector3(potPos.x, potPos.y), Quaternion.identity, roomParent).transform;
-            newRoomTrans.localScale = new Vector3(curRoomSize.x, curRoomSize.y);
-        }
-        */
+        // Return the parent of the rooms
+        return roomParent;
     }
 
     /// <summary>
