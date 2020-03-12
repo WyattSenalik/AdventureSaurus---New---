@@ -73,11 +73,7 @@ public class GenerateTiles : MonoBehaviour
             Debug.Log("farRightInnerCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
         if (stairTile == null)
             Debug.Log("stairTile was not set correctly in GenerateStairs attached to " + this.name);
-    }
 
-    // Called before the first frame
-    private void Start()
-    {
         dinoBonePos = new List<Vector2Int>();
     }
 

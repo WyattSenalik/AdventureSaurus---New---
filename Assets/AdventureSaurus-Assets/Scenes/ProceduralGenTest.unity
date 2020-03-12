@@ -315,14 +315,14 @@ MonoBehaviour:
     type: 3}
   bleedLightPrefab: {fileID: 3888360970156444938, guid: 3f862ed9f92651e4da1d68e60d61f02d,
     type: 3}
-  lowerLeftBound: {x: -100, y: -100}
-  upperRightBound: {x: 100, y: 100}
+  lowerLeftBound: {x: -500, y: -500}
+  upperRightBound: {x: 500, y: 500}
   minRoomSize: {x: 9, y: 9}
   maxRoomSize: {x: 13, y: 13}
   hallwayWidthRange: {x: 5, y: 5}
   hallwayLengthRange: {x: 8, y: 10}
   hallwayOffsetFromEdge: 2
-  amountRoomsToSpawn: 10
+  amountRoomsToSpawn: 5
   minSpaceBetweenRooms: 1
   chanceToSpawnBranch: 2
 --- !u!4 &1915396103
