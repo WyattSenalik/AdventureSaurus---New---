@@ -393,7 +393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileMapPrefab: {fileID: 4783568868112808690, guid: 523ee7f33ef4a8e4693eb5b18c0fe5ef,
     type: 3}
-  dinoBonesChance: 50
+  dinoBonesChance: 40
   singleFloorTiles:
   - {fileID: 11400000, guid: e31c5f43f4bf1b3428e93e20bcb728b6, type: 2}
   - {fileID: 11400000, guid: 8b05c82ffe5361645b3af3bcc515614e, type: 2}

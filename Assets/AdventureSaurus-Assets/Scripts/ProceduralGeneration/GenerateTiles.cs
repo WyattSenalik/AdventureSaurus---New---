@@ -34,8 +34,6 @@ public class GenerateTiles : MonoBehaviour
 
     // Reference to the tile map
     private Tilemap tileMapRef;
-    // Tile positions we will try to spawn the dino bones at
-    private List<Vector2Int> dinoBonePos;
 
     // Called before start
     private void Awake()
@@ -73,12 +71,20 @@ public class GenerateTiles : MonoBehaviour
             Debug.Log("farRightInnerCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
         if (stairTile == null)
             Debug.Log("stairTile was not set correctly in GenerateStairs attached to " + this.name);
-
-        dinoBonePos = new List<Vector2Int>();
     }
 
+    /// <summary>
+    /// Places tiles down at rooms that are children of roomParent, walls that are children of wallParent, and stairs at the
+    /// position of stairsTrans. Also randomly places dinosaur bones in the rooms.
+    /// </summary>
+    /// <param name="roomParent">The parent of all the rooms (position and size)</param>
+    /// <param name="wallParent">The parent of all the walls (position)</param>
+    /// <param name="stairsTrans">Transform of the stairs (position)</param>
     public void SpawnTileMap(Transform roomParent, Transform wallParent, Transform stairsTrans)
     {
+        // Initilize the list of potential position to spawn the dinosaur bones
+        List<Vector2Int> dinoBonePos = new List<Vector2Int>();
+
         // Create the tilemap
         GameObject tileMapObj = Instantiate(tileMapPrefab, new Vector3(-0.5f, -0.5f, 0), Quaternion.identity);
         tileMapObj.name = "Grid";
