@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4916,6 +4916,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7317466224410539732, guid: e8cfe4e1f96c7c141ba3bc432b5c890d,
+        type: 3}
+      propertyPath: transSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7317466224410539721, guid: e8cfe4e1f96c7c141ba3bc432b5c890d,
         type: 3}
       propertyPath: charName
@@ -6257,6 +6262,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7317466224410539732, guid: e8cfe4e1f96c7c141ba3bc432b5c890d,
+        type: 3}
+      propertyPath: transSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7317466224410539721, guid: e8cfe4e1f96c7c141ba3bc432b5c890d,
         type: 3}
       propertyPath: charName
@@ -7534,6 +7544,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7317466224410539732, guid: e8cfe4e1f96c7c141ba3bc432b5c890d,
+        type: 3}
+      propertyPath: transSpeed
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7317466224410539721, guid: e8cfe4e1f96c7c141ba3bc432b5c890d,
         type: 3}
@@ -10249,8 +10264,6 @@ MonoBehaviour:
   roomParent: {fileID: 0}
   wallParent: {fileID: 0}
   stairsTrans: {fileID: 0}
-  tilemapRef: {fileID: 0}
-  fireTrans: {fileID: 0}
   charParent: {fileID: 0}
 --- !u!114 &1915396105
 MonoBehaviour:

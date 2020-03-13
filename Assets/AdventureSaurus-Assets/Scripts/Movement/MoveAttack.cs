@@ -211,14 +211,14 @@ public class MoveAttack : MonoBehaviour
             if (!doneTransX)
             {
                 // While this is left of the node it wants to get to
-                if (currentNode.whereToGo.position.x - this.gameObject.transform.position.x > 0.1f)
+                if (currentNode.whereToGo.position.x - this.gameObject.transform.position.x > 0.03f)
                 {
                     animRef.SetInteger("MoveState", 1);
                     sprRendRef.flipX = false;
                     this.gameObject.transform.position += Vector3.right * transSpeed * Time.deltaTime;
                 }
                 // While this is right of the node it wants to get to
-                else if (this.gameObject.transform.position.x - currentNode.whereToGo.position.x > 0.1f)
+                else if (this.gameObject.transform.position.x - currentNode.whereToGo.position.x > 0.03f)
                 {
                     animRef.SetInteger("MoveState", 1);
                     sprRendRef.flipX = true;
@@ -236,14 +236,14 @@ public class MoveAttack : MonoBehaviour
             if (!doneTransY)
             {
                 // While the node this wants to get to is above where this is
-                if (currentNode.whereToGo.position.y - this.gameObject.transform.position.y > 0.1f)
+                if (currentNode.whereToGo.position.y - this.gameObject.transform.position.y > 0.03f)
                 {
                     sprRendRef.flipX = false;
                     animRef.SetInteger("MoveState", 2);
                     this.gameObject.transform.position += Vector3.up * transSpeed * Time.deltaTime;
                 }
                 // While the node this wants to get to is below where this is
-                else if (this.gameObject.transform.position.y - currentNode.whereToGo.position.y > 0.1f)
+                else if (this.gameObject.transform.position.y - currentNode.whereToGo.position.y > 0.03f)
                 {
                     sprRendRef.flipX = false;
                     animRef.SetInteger("MoveState", 0);

@@ -330,8 +330,9 @@ public class Room : MonoBehaviour
                 return adjRoom;
             }
         }
-        // If we don't find it, something went wrong
-        Debug.Log("Could not find adjacent room with " + ally.name + " in it");
+        // If we don't find it, something went wrong, or the game just started
+        if (ally.transition)
+            Debug.Log("Could not find adjacent room with " + ally.name + " in it");
         return null;
     }
 }

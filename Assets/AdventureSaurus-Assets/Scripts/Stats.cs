@@ -130,7 +130,10 @@ public class Stats : MonoBehaviour
     {
         mARef = this.GetComponent<MoveAttack>();
         if (mARef == null)
-            Debug.Log("Could not find MoveAttack attached to " + this.name);
+        {
+            if (this.name != "DeadAllyStats")
+                Debug.Log("Could not find MoveAttack attached to " + this.name);
+        }
         else
         {
             mARef.MoveRange = speed;
@@ -138,7 +141,10 @@ public class Stats : MonoBehaviour
 
         hpRef = this.GetComponent<Health>();
         if (hpRef == null)
-            Debug.Log("Could not find Health attached to " + this.name);
+        {
+            if (this.name != "DeadAllyStats")
+                Debug.Log("Could not find Health attached to " + this.name);
+        }
         else
         {
             hpRef.MaxHP = vitality;
