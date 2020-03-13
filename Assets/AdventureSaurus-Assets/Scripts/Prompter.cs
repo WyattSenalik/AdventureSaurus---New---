@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Prompter : MonoBehaviour
 {
-    [SerializeField] private Transform charParent = null;   // Parent of all the characters
+    private Transform charParent;   // Parent of all the characters
     [SerializeField] private GameObject[] uIElementsToTurnOff = null;   // The UI elements that will be turned off by the pause
     private bool[] uIElementsActiveStatus;  // Holds if each element of uIElementsToTurnOff was on or off before the game was paused
     [SerializeField] private GameObject[] pauseMenuElements = null;     // The things we want to turn on when the game is paused
@@ -57,6 +57,32 @@ public class Prompter : MonoBehaviour
                 Debug.Log("Could not find TurnSystem attached to " + gameController.name);
             scriptsToTurnOff.Add(turnSysRef);
         }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        prevTime = Time.timeScale;
+        isPaused = false;
+
+        // Initialize whether the uIElementsToTurnOff are active or not
+        uIElementsActiveStatus = new bool[uIElementsToTurnOff.Length];
+        for (int i = 0; i < uIElementsToTurnOff.Length; ++i)
+        {
+            uIElementsActiveStatus[i] = uIElementsToTurnOff[i].activeSelf;
+        }
+    }
+
+    /// <summary>
+    /// Called from Procedural Generation after everything is created.
+    /// Gets the allies and enemies from the character parent
+    /// </summary>
+    /// <param name="charPar">Parent of all characters</param>
+    public void Initialize(Transform charPar)
+    {
+        // Set the transform of the character parent
+        charParent = charPar;
+
         // Get the scripts on the characters
         allyMARefs = new List<MoveAttack>();
         enemyMARefs = new List<MoveAttack>();
@@ -75,20 +101,6 @@ public class Prompter : MonoBehaviour
             else
                 Debug.Log(child.name + " is having an identity crisis");
             scriptsToTurnOff.Add(mARef);
-        }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        prevTime = Time.timeScale;
-        isPaused = false;
-
-        // Initialize whether the uIElementsToTurnOff are active or not
-        uIElementsActiveStatus = new bool[uIElementsToTurnOff.Length];
-        for (int i = 0; i < uIElementsToTurnOff.Length; ++i)
-        {
-            uIElementsActiveStatus[i] = uIElementsToTurnOff[i].activeSelf;
         }
     }
 

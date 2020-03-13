@@ -9,7 +9,7 @@ public enum TurnState {GAMESTOP, PLAYERTURN, ENEMYTURN }//the states the game ca
 public class TurnSystem : MonoBehaviour
 {
     private TurnState state;
-    [SerializeField] Transform CharcterTeam = null;
+    Transform CharcterTeam;
     [SerializeField] GameObject endTurnButtObj = null;
     private EnemyMoveAttackAI enMAAIRef;
     private MoveAttackGUIController mAGUIContRef;
@@ -37,6 +37,15 @@ public class TurnSystem : MonoBehaviour
     void Start()
     {
         state = TurnState.GAMESTOP;//code between GAMESTOP and PLAYERTURN is for setup
+    }
+
+    /// <summary>
+    /// Called from Procedural Generation after everything is created
+    /// </summary>
+    /// <param name="charParent">Transform that is the parent of all characters</param>
+    public void Initialize(Transform charParent)
+    {
+        CharcterTeam = charParent;
     }
 
     /// <summary>

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.LWRP;
 
+public enum RoomType { NORMAL, HALLWAY, START, END, SAFE}
+
 public class Room : MonoBehaviour
 {
     [SerializeField] private List<Light2D> broadcastLights = null;  // A list of the lights that this room is broadcasting to other rooms
@@ -32,6 +34,12 @@ public class Room : MonoBehaviour
     {
         get { return roomWeight; }
         set { roomWeight = value; }
+    }
+    private RoomType myRoomType; // What kind of room this is
+    public RoomType MyRoomType
+    {
+        set { myRoomType = value; }
+        get { return myRoomType; }
     }
 
     // Set References
@@ -63,15 +71,12 @@ public class Room : MonoBehaviour
             receiveLights = new List<Light2D>();
         if (adjacentRooms == null)
             adjacentRooms = new List<Room>();
-    }
 
-    // Initialize variables
-    private void Start()
-    {
-        roomLight.intensity = 0;
-        currentLightIntensity = 0;
+        // Initialize variables
         alliesInRoom = new List<MoveAttack>();
         enemiesInRoom = new List<MoveAttack>();
+        roomLight.intensity = 0;
+        currentLightIntensity = 0;
         isRoomActive = false;
         clear = true;
     }

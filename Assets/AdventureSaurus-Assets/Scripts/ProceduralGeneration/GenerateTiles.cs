@@ -80,7 +80,8 @@ public class GenerateTiles : MonoBehaviour
     /// <param name="roomParent">The parent of all the rooms (position and size)</param>
     /// <param name="wallParent">The parent of all the walls (position)</param>
     /// <param name="stairsTrans">Transform of the stairs (position)</param>
-    public void SpawnTileMap(Transform roomParent, Transform wallParent, Transform stairsTrans)
+    /// <returns>Returns the newly created Tilemap</returns>
+    public Tilemap SpawnTileMap(Transform roomParent, Transform wallParent, Transform stairsTrans)
     {
         // Initilize the list of potential position to spawn the dinosaur bones
         List<Vector2Int> dinoBonePos = new List<Vector2Int>();
@@ -223,11 +224,17 @@ public class GenerateTiles : MonoBehaviour
         // Add the stairs to the tilemap
         AddTile(stairsTrans.position, stairTile);
 
+        // Add the fireplace
+
+
         // Iterate over the tiles we said we would spawn dino bones at and try to spawn dino bones
         foreach (Vector2Int tilePos in dinoBonePos)
         {
             AttemptPlaceDinoBones(tilePos);
         }
+
+        // Give the tilemap
+        return tileMapRef;
     }
 
     /// <summary>

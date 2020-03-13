@@ -15,10 +15,18 @@ public class GenerateStairs : MonoBehaviour
             Debug.Log("stairsPrefab was not set correctly in GenerateStairs attached to " + this.name);
     }
 
+    /// <summary>
+    /// Creates stairs somewhere in the last room
+    /// </summary>
+    /// <param name="roomParent">Parent of all the rooms</param>
+    /// <returns>The transform of the stairs</returns>
     public Transform SpawnStairs(Transform roomParent)
     {
         // We assume the rooms are sorted by weight, so the last room is the room with the highest weight
         Transform lastRoom = roomParent.GetChild(roomParent.childCount - 1);
+        // We also set that room as the last room here
+        Room lastRoomScriptRef = lastRoom.GetComponent<Room>();
+        lastRoomScriptRef.MyRoomType = RoomType.END;
 
         // We need to pick a spot in the room to spawn the stairs
         // That spot needs to be in the room, not on the walls

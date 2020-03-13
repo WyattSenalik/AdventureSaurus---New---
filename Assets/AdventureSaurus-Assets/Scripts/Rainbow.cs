@@ -35,7 +35,7 @@ public class Rainbow : MonoBehaviour
         StartCoroutine(StarPowerUpdate());
         if (!hasSpawned)
         {
-            Debug.Log("Hello from " + this.name);
+            //Debug.Log("Hello from " + this.name);
             myPartSys = Instantiate(partSysObj);
             myPartSys.transform.SetParent(this.transform);
             hasSpawned = true;

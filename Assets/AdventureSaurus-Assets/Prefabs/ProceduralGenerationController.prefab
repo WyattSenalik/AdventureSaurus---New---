@@ -1,0 +1,216 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2517454408926826133
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2517454408926826135}
+  - component: {fileID: 2517454408926826136}
+  - component: {fileID: 2517454408926826134}
+  - component: {fileID: 2517454408926826137}
+  - component: {fileID: 2517454408926826138}
+  - component: {fileID: 2517454408926826139}
+  - component: {fileID: 2517454408926826140}
+  - component: {fileID: 2517454408926826141}
+  m_Layer: 0
+  m_Name: ProceduralGenerationController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2517454408926826135
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517454408926826133}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2517454408926826136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517454408926826133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44a39019051cbe4993b3773ee902974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldGenerate: 1
+  allyTempParent: {fileID: 0}
+  roomParent: {fileID: 0}
+  wallParent: {fileID: 0}
+  stairsTrans: {fileID: 0}
+  tilemapRef: {fileID: 0}
+  fireTrans: {fileID: 0}
+  charParent: {fileID: 0}
+--- !u!114 &2517454408926826134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517454408926826133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac8835c75b76344da8575b7f30c1133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomPrefab: {fileID: 6226981127771142951, guid: 73f8c1df84d9c494b962cf046f48b6a3,
+    type: 3}
+  bleedLightPrefab: {fileID: 3888360970156444938, guid: 3f862ed9f92651e4da1d68e60d61f02d,
+    type: 3}
+  lowerLeftBound: {x: -500, y: -500}
+  upperRightBound: {x: 500, y: 500}
+  minRoomSize: {x: 9, y: 9}
+  maxRoomSize: {x: 13, y: 13}
+  hallwayWidthRange: {x: 5, y: 5}
+  hallwayLengthRange: {x: 8, y: 10}
+  hallwayOffsetFromEdge: 2
+  amountRoomsToSpawn: 6
+  minSpaceBetweenRooms: 1
+  chanceToSpawnBranch: 2
+--- !u!114 &2517454408926826137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517454408926826133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a4971955f57afc44b8bf9eeb8e0bae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wallPrefab: {fileID: 908112855204680109, guid: edb3079cb7e3e144fa69fb4281c1e89d,
+    type: 3}
+--- !u!114 &2517454408926826138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517454408926826133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cdc4b5e8b7bd2345b0d802f30978b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stairsPrefab: {fileID: 4041283491387904142, guid: 86b972068da24f445bd83b665dfbce4b,
+    type: 3}
+--- !u!114 &2517454408926826139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517454408926826133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b188e8209acf22c42b7b8a04a55710ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileMapPrefab: {fileID: 4783568868112808690, guid: 523ee7f33ef4a8e4693eb5b18c0fe5ef,
+    type: 3}
+  dinoBonesChance: 50
+  singleFloorTiles:
+  - {fileID: 11400000, guid: e31c5f43f4bf1b3428e93e20bcb728b6, type: 2}
+  - {fileID: 11400000, guid: 8b05c82ffe5361645b3af3bcc515614e, type: 2}
+  - {fileID: 11400000, guid: 9b8e1ec37fa577346b73f5c6ca462a17, type: 2}
+  twoTileDinoBones:
+  - {fileID: 11400000, guid: bf82c237d817d7f40897f79d20917212, type: 2}
+  - {fileID: 11400000, guid: 867bc6836ae8acd4eae015d09d251651, type: 2}
+  - {fileID: 11400000, guid: 25d59e8133c4fb142be3aac26b56ebb4, type: 2}
+  - {fileID: 11400000, guid: 12de1a1e28b025e4bb468559af17f0e6, type: 2}
+  closeWallTiles:
+  - {fileID: 11400000, guid: 322f3ef3883d28e40b6a208f624dfc0a, type: 2}
+  - {fileID: 11400000, guid: a7c405300c32837428220e3c6950d08b, type: 2}
+  - {fileID: 11400000, guid: b75a6e6e76fe2cd40a33514254077632, type: 2}
+  farWallTiles:
+  - {fileID: 11400000, guid: c266325237774ce4ba07d336f5e9e130, type: 2}
+  - {fileID: 11400000, guid: caca3c7bb77e6dc4bae381adc0a3cf22, type: 2}
+  - {fileID: 11400000, guid: 066129dffb0215a4bace05197515a500, type: 2}
+  leftWallTiles:
+  - {fileID: 11400000, guid: 4e2f7e1145cdb6d4fb650b38712415d0, type: 2}
+  - {fileID: 11400000, guid: dc45ee34380f49f4cb37e2421a770454, type: 2}
+  - {fileID: 11400000, guid: b253ebd65d410c64e9de09603cd9ac91, type: 2}
+  rightWallTiles:
+  - {fileID: 11400000, guid: fd93bd4f38dead04ba1a5be0934cc39a, type: 2}
+  - {fileID: 11400000, guid: 8fce30e004454d847b00b92a9d15c487, type: 2}
+  - {fileID: 11400000, guid: ca748a760e417a44eb901687f5d807a4, type: 2}
+  closeLeftOuterCornerWallTile: {fileID: 11400000, guid: e8b96a45fd1b3594f80a2be564302b8b,
+    type: 2}
+  closeRightOuterCornerWallTile: {fileID: 11400000, guid: 1a0fb94fb11fac04081c8f98d6cfd291,
+    type: 2}
+  farLeftOuterCornerWallTile: {fileID: 11400000, guid: 02c91162b3da40c4e9b1ffabcb564eb5,
+    type: 2}
+  farRightOuterCornerWallTile: {fileID: 11400000, guid: 4fe91c59b588cba4aa1680c72844466a,
+    type: 2}
+  closeLeftInnerCornerWallTile: {fileID: 11400000, guid: 70e879227bcb12d43b770fa4ac5ad74f,
+    type: 2}
+  closeRightInnerCornerWallTile: {fileID: 11400000, guid: 906dadebb0a555a4ca6012e569d4517e,
+    type: 2}
+  farLeftInnerCornerWallTile: {fileID: 11400000, guid: 4175b5eec20833c4db3faf387682bf34,
+    type: 2}
+  farRightInnerCornerWallTile: {fileID: 11400000, guid: 2b94f4a54662450449c0ae8fdd89570d,
+    type: 2}
+  stairTile: {fileID: 11400000, guid: b2a04c9c196dcf948bc776e01cd71675, type: 2}
+--- !u!114 &2517454408926826140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517454408926826133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94755ae0b79068d4bb9888b3f50c9cfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firePitPrefab: {fileID: 7426554432366633556, guid: 03a4a6aaa7c2b3f40ae6c4c2d96809dc,
+    type: 3}
+  emptyFirePit:
+  - {fileID: 11400000, guid: 924b87049fa511b48998d8295cf8c63a, type: 2}
+  - {fileID: 11400000, guid: df81d6e0f48939945a3ce933977f225d, type: 2}
+  - {fileID: 11400000, guid: 1e778ebb5d059414caee9af8c6adf87b, type: 2}
+  - {fileID: 11400000, guid: a5061b8b9d058eb448ccea31f135373e, type: 2}
+  - {fileID: 11400000, guid: 15befa95445383643bed1826cf0e626b, type: 2}
+  - {fileID: 11400000, guid: 9b1069d6a6b64ae4d993c5313b2c2142, type: 2}
+  - {fileID: 11400000, guid: d5d3e190585ffe94882d85c494788655, type: 2}
+  - {fileID: 11400000, guid: 9d3cbbc7091b176409618cc00a97ee64, type: 2}
+  - {fileID: 11400000, guid: 02e484c27fd14f04aa28aacc71e20f0c, type: 2}
+  activeFirePit:
+  - {fileID: 11400000, guid: dda43d31314731a4a895b8a6d6d63bba, type: 2}
+  - {fileID: 11400000, guid: 144bfa87d849ace4e9cc641bb041047e, type: 2}
+  - {fileID: 11400000, guid: 3487dfbc7b792414e99f52985769069e, type: 2}
+  - {fileID: 11400000, guid: fccb2b74be692f849b7ccf5ee77db5a4, type: 2}
+  - {fileID: 11400000, guid: b111a6976e1e25f41a00c66326d84b7f, type: 2}
+  - {fileID: 11400000, guid: 52bf0c926ab7ab34aafabcf6427fab19, type: 2}
+  - {fileID: 11400000, guid: 6fdecdf9ea9611a4dafafe8042cdf168, type: 2}
+  - {fileID: 11400000, guid: 258d23a2b3375e0409a78709c7073531, type: 2}
+  - {fileID: 11400000, guid: 91a443ef06a98874f9f6d3db8a2cf72d, type: 2}
+--- !u!114 &2517454408926826141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517454408926826133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70620e2501051e49be2cf09be07fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

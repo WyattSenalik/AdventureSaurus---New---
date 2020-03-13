@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class MoveAttackController : MonoBehaviour
 {
-    [SerializeField] private Vector2Int gridTopLeft = new Vector2Int(0, 0); // Top-Left coordinates of the grid
-    [SerializeField] private Vector2Int gridBotRight = new Vector2Int(0, 0);    // Bottom-Right coordinates of the grid
+    private Vector2Int gridTopLeft; // Top-Left coordinates of the grid
+    private Vector2Int gridBotRight;    // Bottom-Right coordinates of the grid
     public Vector2Int GridTopLeft
     {
         get { return gridTopLeft; }
@@ -15,8 +15,8 @@ public class MoveAttackController : MonoBehaviour
     {
         get { return gridBotRight; }
     }
-    [SerializeField] private Transform wallParent = null;   // Parent of all wall objects
-    [SerializeField] private Transform charParent = null;   // Parent of all character (ally and enemy) objects
+    private Transform wallParent = null;   // Parent of all wall objects
+    private Transform charParent;   // Parent of all character (ally and enemy) objects
     private List<MoveAttack> allyMA;    // References to all the allies MoveAttack scripts
     private List<MoveAttack> enemyMA;   // References to all the allies MoveAttack script
     private List<List<Node>> grid;  // The movement grid the characters are situated on\
@@ -31,13 +31,24 @@ public class MoveAttackController : MonoBehaviour
     private List<GameObject> visualTests;
 
     /// <summary>
-    /// We have to wait for characters to set all their references first, so we go in start
+    /// We have to wait for characters to set all their references first, so we go in start. Or we used to
+    /// This now gets called from the procedural generation controller for setting up
     /// </summary>
-    private void Start()
+    /// <param name="roomParent">Transform that is the parent of all rooms</param>
+    /// <param name="wallPar">Transform that is the parent of all walls</param>
+    /// <param name="charPar">Transform that is the parent of all characters</param>
+    public void Initialize(Transform roomParent, Transform wallPar, Transform charPar)
     {
-        // Create the grid, and find where all the walls and characters are on it
+        // Get the bounds of the grid
+        gridTopLeft = FindTopLeftPosition(roomParent);
+        gridBotRight = FindBotRightPosition(roomParent);
+        // Create the grid
         CreateGrid();
+        // Set the wall parent and find the walls
+        wallParent = wallPar;
         FindWalls();
+        // Set the character parent and find the characters
+        charParent = charPar;
         FindCharacters();
         // Create the visual tiles for each character based on their starting moveRange and attackRange
         foreach (Transform charTrans in charParent)
@@ -404,27 +415,6 @@ public class MoveAttackController : MonoBehaviour
         int rowIndex = pos.y - gridBotRight.y;
         int colIndex = pos.x - gridTopLeft.x;
         return grid[rowIndex][colIndex];
-        
-
-        
-        // Iterate over every row
-        /*
-        foreach (List<Node> row in grid)
-        {
-            // Iterate over each node in that row
-            foreach (Node node in row)
-            {
-                // If we find a node with the desired position
-                if (node.position == pos)
-                {
-                    return node;
-                }
-            }
-        }
-        // If we found no node with the desired position
-        return null;
-        */
-        
     }
 
     /// <summary>
@@ -503,7 +493,7 @@ public class MoveAttackController : MonoBehaviour
     public bool Pathing(Node startNode, Node endNode, CharacterType requesterType, bool shouldCare=true)
     {
         ResetPathing();
-        Debug.Log("Looking to go to node at " + endNode.position + " from node at " + startNode.position);
+        //Debug.Log("Looking to go to node at " + endNode.position + " from node at " + startNode.position);
 
         if (endNode == null)
             return false;
@@ -903,5 +893,57 @@ public class MoveAttackController : MonoBehaviour
         canRef.transform.position = new Vector3(node.position.x, node.position.y, 0);
 
         visualTests.Add(visualComp);
+    }
+
+    /// <summary>
+    /// Finds the bottom right most position of a room
+    /// </summary>
+    /// <returns>Vector2Int that is the bottom right most position</returns>
+    public Vector2Int FindBotRightPosition(Transform roomParent)
+    {
+        Vector2Int mostBotRightRoomPos = Vector2Int.zero;
+        foreach (Transform curRoom in roomParent)
+        {
+            Vector2Int botRightRoomPos = new Vector2Int(Mathf.RoundToInt(curRoom.position.x + (curRoom.localScale.x - 1) / 2f),
+                Mathf.RoundToInt(curRoom.position.y - (curRoom.localScale.y - 1) / 2f));
+            // If the current room is more right
+            if (botRightRoomPos.x > mostBotRightRoomPos.x)
+            {
+                mostBotRightRoomPos.x = botRightRoomPos.x;
+            }
+            // If the current room is more bot
+            if (botRightRoomPos.y < mostBotRightRoomPos.y)
+            {
+                mostBotRightRoomPos.y = botRightRoomPos.y;
+            }
+        }
+
+        return mostBotRightRoomPos;
+    }
+
+    /// <summary>
+    /// Finds the top left most position of a room
+    /// </summary>
+    /// <returns>Vector2Int that is the top left most position</returns>
+    public Vector2Int FindTopLeftPosition(Transform roomParent)
+    {
+        Vector2Int mostTopLeftRoomPos = Vector2Int.zero;
+        foreach (Transform curRoom in roomParent)
+        {
+            Vector2Int topLeftRoomPos = new Vector2Int(Mathf.RoundToInt(curRoom.position.x - (curRoom.localScale.x - 1) / 2f),
+                Mathf.RoundToInt(curRoom.position.y + (curRoom.localScale.y - 1) / 2f));
+            // If the current room is more left
+            if (topLeftRoomPos.x < mostTopLeftRoomPos.x)
+            {
+                mostTopLeftRoomPos.x = topLeftRoomPos.x;
+            }
+            // If the current room is more top
+            if (topLeftRoomPos.y > mostTopLeftRoomPos.y)
+            {
+                mostTopLeftRoomPos.y = topLeftRoomPos.y;
+            }
+        }
+
+        return mostTopLeftRoomPos;
     }
 }

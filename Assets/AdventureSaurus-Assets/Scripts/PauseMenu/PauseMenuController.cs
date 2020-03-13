@@ -12,7 +12,7 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private GameObject charDetailedMenuObj = null;
 
     // References for the team menu
-    [SerializeField] private Transform charParent = null;
+    private Transform charParent = null;
     // The text that displays the character's names
     [SerializeField] private Text[] alliesNameText = null;
     // The stats of each of the allies [0] = ally1, [1] = ally2, [2] = ally3
@@ -40,19 +40,6 @@ public class PauseMenuController : MonoBehaviour
             if (charDetMenuContRef == null)
             {
                 Debug.Log("Could not find CharDetailedMenuController attached to " + gameController.name);
-            }
-        }
-
-        // We make the list here so that other scripts can access it in Start
-        alliesStats = new List<Stats>();
-        // Get the allies Stats (assumes there are three)
-        foreach (Transform charTrans in charParent)
-        {
-            MoveAttack charMA = charTrans.GetComponent<MoveAttack>();
-            if (charMA != null && charMA.WhatAmI == CharacterType.Ally)
-            {
-                Stats allyStatsRef = charMA.GetComponent<Stats>();
-                alliesStats.Add(charMA.GetComponent<Stats>());
             }
         }
     }
@@ -83,13 +70,6 @@ public class PauseMenuController : MonoBehaviour
                 "charDetailedMenuObj was not initialized properly, please set it in the editor");
         }
 
-        // Character Parent validation
-        if (charParent == null)
-        {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
-                "charParent was not initialized properly, please set it in the editor");
-        }
-
         // Ally Name Text validation
         if (alliesNameText == null)
         {
@@ -102,17 +82,6 @@ public class PauseMenuController : MonoBehaviour
                 "There should be 3 elements in alliesNameText");
         }
 
-        // Ally Stats validation
-        if (alliesStats == null)
-        {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
-                "alliesStats was not initialized properly, please set it in the editor");
-        }
-        else if (alliesStats.Count != 3)
-        {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
-                "3 allies were not found. Instead " + alliesStats.Count + " allies were found.");
-        }
 
         // Experience Bars validation
         if (allyXPBars == null)
@@ -124,6 +93,48 @@ public class PauseMenuController : MonoBehaviour
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "There should be 3 elements in allyXPBars");
+        }
+    }
+
+    /// <summary>
+    /// Called from Procedural Generation after everything is created.
+    /// Sets the character parent and gets the stats attached to all allies
+    /// </summary>
+    /// <param name="charPar">Transform that is the parent of all the characters</param>
+    public void Initialize(Transform charPar)
+    {
+        // Set the character parent
+        charParent = charPar;
+
+        // We make the list here so that other scripts can access it in Start
+        alliesStats = new List<Stats>();
+        // Get the allies Stats (assumes there are three)
+        foreach (Transform charTrans in charParent)
+        {
+            MoveAttack charMA = charTrans.GetComponent<MoveAttack>();
+            if (charMA != null && charMA.WhatAmI == CharacterType.Ally)
+            {
+                Stats allyStatsRef = charMA.GetComponent<Stats>();
+                alliesStats.Add(charMA.GetComponent<Stats>());
+            }
+        }
+
+        // Character Parent validation
+        if (charParent == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "charParent was not initialized properly");
+        }
+        // Ally Stats validation
+        if (alliesStats == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "alliesStats was not initialized properly");
+        }
+        else if (alliesStats.Count != 3)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "3 allies were not found. Instead " + alliesStats.Count + " allies were found.");
         }
     }
 

@@ -74,9 +74,10 @@ public class GenerateRooms : MonoBehaviour
         fRoomTrans.localScale = new Vector3(fRoomSize.x, fRoomSize.y, 1);
         fRoomTrans.name = "Room 0";
 
-        // Get its Room script and set its weight to 0
+        // Get its Room script and set its weight to 0, as well as make it not a hallway
         Room fRoomScriptRef = fRoomTrans.GetComponent<Room>();
         fRoomScriptRef.RoomWeight = 0;
+        fRoomScriptRef.MyRoomType = RoomType.START;
 
         // Set the last room info to be that of the first room
         Vector2 prevRoomSize = fRoomSize;
@@ -230,6 +231,9 @@ public class GenerateRooms : MonoBehaviour
                     // Update the weights of each room to be 1 plus their previous room
                     hallwayScriptRef.RoomWeight = prevRoomScriptRef.RoomWeight + 1;
                     newRoomScriptRef.RoomWeight = hallwayScriptRef.RoomWeight + 1;
+                    // Set the new hallway to be a hallway and the new room to not be a hallway
+                    hallwayScriptRef.MyRoomType = RoomType.HALLWAY;
+                    newRoomScriptRef.MyRoomType = RoomType.NORMAL;
 
                     // Spawn the lights at the join locations with the proper angles
                     // For between the prev room and hallway

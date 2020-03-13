@@ -183,15 +183,16 @@ public class MoveAttackGUIController : MonoBehaviour
         // Update ally camera
         if (charSelected.WhatAmI == CharacterType.Ally)
         {
-            if (charSelected.name == "Ally (1)")
+            if (camFollowRef.Allies.Count >= 0 && charSelected.transform == camFollowRef.Allies[0])
             {
                 areSelected1 = true;
+
             }
-            else if (charSelected.name == "Ally (2)")
+            else if (camFollowRef.Allies.Count >= 1 && charSelected.transform == camFollowRef.Allies[1])
             {
                 areSelected2 = true;
             }
-            else if (charSelected.name == "Ally (3)")
+            else if (camFollowRef.Allies.Count >= 2 && charSelected.transform == camFollowRef.Allies[2])
             {
                 areSelected3 = true;
             }

@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class CharDetailedMenuController : MonoBehaviour
 {
-    // References
-    private PauseMenuController pauseMenuContRef;
-
     // The stats of all 3 character. [0] = Ally 1, [1] = Ally 2, [2] = Ally 3 (this is true for all the ally lists)
     private List<Stats> alliesStats; // We are going to steal this list from PauseMenuController
     private int currentAllyIndex; // The ally we are currently viewing by index
@@ -58,6 +55,7 @@ public class CharDetailedMenuController : MonoBehaviour
     // This is shown when the user tries to submit their changes without using all their points
     [SerializeField] private GameObject unappliedChangesPrompt = null;
 
+    /*
     // Set references
     private void Awake()
     {
@@ -67,19 +65,14 @@ public class CharDetailedMenuController : MonoBehaviour
             Debug.Log("Could not find any GameObject with the tag GameController");
         else
         {
-            pauseMenuContRef = gameController.GetComponent<PauseMenuController>();
-            if (pauseMenuContRef == null)
-            {
-                Debug.Log("Could not find PauseMenuController attached to " + gameController.name);
-            }
+            
         }
     }
+    */
 
     // Start is called before the first frame update
     void Start()
     {
-        // Get the alliesStats
-        alliesStats = pauseMenuContRef.AlliesStats;
         // Make it so we are viewing the first enemy at first
         currentAllyIndex = 0;
 
@@ -227,6 +220,17 @@ public class CharDetailedMenuController : MonoBehaviour
             Image bubbleImg = bubbleTrans.GetComponent<Image>();
             speedBubbles.Add(bubbleImg);
         }
+    }
+
+    /// <summary>
+    /// Called from ProceduralGenerationController.
+    /// Sets the allies stats
+    /// </summary>
+    /// <param name="allyStats">What to set alliesStats to</param>
+    public void Initialize(List<Stats> allyStats)
+    {
+        // Get the alliesStats
+        alliesStats = allyStats;
     }
 
     /// <summary>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CharacterType { None, Wall, Ally, Enemy};
+public enum CharacterType { None, Wall, Ally, Enemy, Interactable};
 
 public class Node
 {

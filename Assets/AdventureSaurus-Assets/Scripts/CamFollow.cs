@@ -6,19 +6,19 @@ public class CamFollow : MonoBehaviour
 {
     //Allows access to player and enemy values//
     //Character 1
-    public Transform player1;
+    private Transform player1;
     //Character 2
-    public Transform player2;
+    private Transform player2;
     //Character 3
-    public Transform player3;
+    private Transform player3;
     //Enemy to follow
-    public Transform enemy1;
+    private Transform enemy1;
     //List of allies
-    /*
-    [SerializeField] private Transform charParent = null;
+    
+    //[SerializeField] private Transform charParent = null;
     public List<Transform> Allies;
-    private PauseMenuController AllyList;
-    */
+    //private PauseMenuController AllyList;
+    
     //
 
     //Camera variables//
@@ -29,16 +29,16 @@ public class CamFollow : MonoBehaviour
     //
 
     //bools checking for who cam is on
-    public bool isOnPlayer1;
-    public bool isOnPlayer2;
-    public bool isOnPlayer3;
-    public bool isOnEnemy;
+    private bool isOnPlayer1;
+    private bool isOnPlayer2;
+    private bool isOnPlayer3;
+    private bool isOnEnemy;
     //
 
     //allows access to TurnSystem
-    public TurnSystem turn;
-    public MoveAttackGUIController control;
-    public EnemyMoveAttackAI whoIsEnemy;
+    private TurnSystem turn;
+    private MoveAttackGUIController control;
+    private EnemyMoveAttackAI whoIsEnemy;
 
     /// Wyatt added
     // Stuff for getting the camera to follow each enemy
@@ -51,6 +51,20 @@ public class CamFollow : MonoBehaviour
 
     void Awake()
     {
+        // Get references
+        GameObject gameContObj = GameObject.FindWithTag("GameController");
+        if (gameContObj == null)
+            Debug.Log("Could not find any object with the tag GameController");
+        turn = gameContObj.GetComponent<TurnSystem>();
+        if (turn == null)
+            Debug.Log("There was no PlaceAllies attached to " + gameContObj.name);
+        control = gameContObj.GetComponent<MoveAttackGUIController>();
+        if (control == null)
+            Debug.Log("There was no MoveAttackGUIController attached to " + gameContObj.name);
+        whoIsEnemy = gameContObj.GetComponent<EnemyMoveAttackAI>();
+        if (whoIsEnemy == null)
+            Debug.Log("There was no EnemyMoveAttackAI attached to " + gameContObj.name);
+
         //defaults camera to player position
         player1Cam();
     }
@@ -78,6 +92,35 @@ public class CamFollow : MonoBehaviour
             */
     }
     /// End Wyatt added
+
+
+    /// <summary>
+    /// Called from Procedural Generation after everything is created.
+    /// Gets the allies from the character parent
+    /// </summary>
+    /// <param name="charParent">Parent of all characters</param>
+    public void Initialize(Transform charParent)
+    {
+        // Initializes the list of allies and finds them
+        Allies = new List<Transform>();
+        foreach (Transform charTrans in charParent)
+        {
+            MoveAttack charMA = charTrans.GetComponent<MoveAttack>();
+            if (charMA != null && charMA.WhatAmI == CharacterType.Ally)
+            {
+                Allies.Add(charTrans);
+            }
+        }
+        if (Allies.Count >= 1)
+            player1 = Allies[0];
+        if (Allies.Count >= 2)
+            player2 = Allies[1];
+        if (Allies.Count >= 3)
+            player3 = Allies[2];
+
+        //defaults camera to player position
+        player1Cam();
+    }
 
     void FixedUpdate()
     {

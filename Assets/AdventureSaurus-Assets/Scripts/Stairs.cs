@@ -4,47 +4,76 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Stairs : MonoBehaviour
 {
-    
-    // Start is called before the first frame update
-    public Transform player1;
-    public Transform player2;
-    public Transform player3;
-    public Transform stair;
+    // Name of scene to transition to
+    [SerializeField] private string sceneToGoTo = "Title Screen";
+
+    // List of players
+    private List<Transform> players;
+    public List<Transform> Players
+    {
+        set { players = value; }
+    }
+    // Transform of the stairs (to hold position)
+    private Transform stair;
+    // If a character is currently on the stairs
     private bool touchedOnce;
-    private string whoIsOn;
-    public Prompter prompter;
+    // The transform of the character on the stairs
+    private Transform whoIsOn;
+    // A reference to the prompter script to ask the player if they would like to advance
+    private Prompter prompter;
 
 
-
+    // Called before start
     private void Awake()
     {
+        // Initialize the array of players
+        players = new List<Transform>();
         touchedOnce = false;
     }
 
+    /// <summary>
+    /// Called from Procedural Generation after everything is created.
+    /// Gets the allies from the character parent
+    /// </summary>
+    /// <param name="charParent">Parent of all characters</param>
+    /// <param name="stairsTrans">Transform of the stairs</param>
+    /// <param name="prompterRef">Reference to the prompter</param>
+    public void Initialize(Transform charParent, Transform stairsTrans, Prompter prompterRef)
+    {
+        // Set the stairs transform
+        stair = stairsTrans;
+        // Initialize the array of players
+        players = new List<Transform>();
+        // Iterate over the characters to get the allies
+        foreach (Transform character in charParent)
+        {
+            MoveAttack mARef = character.GetComponent<MoveAttack>();
+            if (mARef != null && mARef.WhatAmI == CharacterType.Ally)
+            {
+                players.Add(character);
+            }
+        }
+        // Set the prompter
+        prompter = prompterRef;
+    }
+
+    // Called once per frame
     private void Update()
     {
         touchStairs();
-        if (player1 != null && whoIsOn == player1.name)
-        {
-            if (player1.transform.position != stair.transform.position )
+        // Iterate over the players
+        foreach (Transform player in players)
+        { 
+            // If it exists and 
+            if (player != null && whoIsOn == player)
             {
-                touchedOnce = false;
+                if (player.transform.position != stair.transform.position)
+                {
+                    touchedOnce = false;
+                }
             }
         }
-        else if(player2 != null && whoIsOn == player2.name)
-        {
-            if (player2.transform.position != stair.transform.position)
-            {
-                touchedOnce = false;
-            }
-        }
-        else if(player3 != null && whoIsOn == player3.name)
-        {
-            if (player3.transform.position != stair.transform.position)
-            {
-                touchedOnce = false;
-            }
-        }
+        
     }
 
    
@@ -52,23 +81,15 @@ public class Stairs : MonoBehaviour
     {
         if (touchedOnce == false)
         {
-            if (player1 != null && player1.transform.position == stair.transform.position)
+            foreach (Transform player in players)
             {
-                prompt();
-                touchedOnce = true;
-                whoIsOn = player1.name;
-            }
-            else if (player2 != null && player2.transform.position == stair.transform.position)
-            {
-                prompt();
-                touchedOnce = true;
-                whoIsOn = player2.name;
-            }
-            else if (player3 != null && player3.transform.position == stair.transform.position)
-            {
-                prompt();
-                touchedOnce = true;
-                whoIsOn = player3.name;
+                if (player != null && player.position == stair.transform.position)
+                {
+                    prompt();
+                    touchedOnce = true;
+                    whoIsOn = player;
+                    return;
+                }
             }
         }
     }
@@ -83,7 +104,7 @@ public class Stairs : MonoBehaviour
     public void yes()
     {
 
-        SceneManager.LoadScene("Title Screen");
+        SceneManager.LoadScene(sceneToGoTo);
         prompter.PromptGame();
     }
     public void no()
