@@ -116,6 +116,12 @@ public class ProceduralGenerationController : MonoBehaviour
                 // Spawn the rooms, hallways, and lights
                 // Also get a reference to the parent of the rooms
                 roomParent = genRoomsRef.SpawnHallwaysAndRooms();
+                // Sort all the lights in the room so that they correspond to the correct adjacent room
+                foreach (Transform curRoomTrans in roomParent)
+                {
+                    Room curRoomScript = curRoomTrans.GetComponent<Room>();
+                    curRoomScript.SortAdjacentRooms();
+                }
 
                 // Spawn the wall transforms
                 wallParent = wallsGenRef.SpawnWallTransforms(roomParent);

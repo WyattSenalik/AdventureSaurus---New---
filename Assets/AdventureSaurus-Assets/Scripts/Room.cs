@@ -87,7 +87,8 @@ public class Room : MonoBehaviour
     /// <param name="allyWhoEntered">MoveAttack script attached to the ally who entered the room</param>
     private void TriggerRoom(MoveAttack allyWhoEntered)
     {
-        Room otherRoom = GetAdjacentRoomByAlly(allyWhoEntered); // The room the character just came from
+        // The room the character just came from
+        Room otherRoom = GetAdjacentRoomByAlly(allyWhoEntered);
 
         // Since we just walked into the room, we want to turn it on
         currentLightIntensity = 1f;
@@ -255,6 +256,8 @@ public class Room : MonoBehaviour
             }
             // Set the value
             enterRoom.broadcastLights[i].intensity = actualIntensity;
+            //Debug.Log("Target intensity for " + enterRoom.broadcastLights[i].name + " is " + targetIntensity);
+            //Debug.Log("Actual intensity of " + enterRoom.broadcastLights[i].name + " is " + actualIntensity);
         }
     }
 
@@ -334,5 +337,40 @@ public class Room : MonoBehaviour
         if (ally.transition)
             Debug.Log("Could not find adjacent room with " + ally.name + " in it");
         return null;
+    }
+
+    /// <summary>
+    /// Sorts the adjacent rooms based on the lists broadcastLights and receiveLights (both correspond to two halves of the same circle)
+    /// </summary>
+    public void SortAdjacentRooms()
+    {
+        // Iterate over the broadcast lights to compare each adjacent room to them
+        for (int i = 0; i < broadcastLights.Count; ++i)
+        {
+            // Get the positon of the light
+            Vector3 curLightWorldPos = broadcastLights[i].transform.position;
+            // Closest distance to the light and reference to the room that is the closest
+            float closestDist = float.MaxValue;
+            Room closestRoom = null;
+            int closestIndex = 0;
+            // Iterate over each adjacent room to see which one is the adjacent room corresponding to the light
+            for (int k = i; k < adjacentRooms.Count; ++k)
+            {
+                // Get the position of the current room
+                Vector3 curRoomWorldPos = adjacentRooms[k].transform.position;
+                // Calculate the distance between the room and the current light
+                float curDist = (curLightWorldPos - curRoomWorldPos).magnitude;
+                // If this room is closer to the light than the last
+                if (curDist < closestDist)
+                {
+                    closestDist = curDist;
+                    closestRoom = adjacentRooms[k];
+                    closestIndex = k;
+                }
+            }
+            // Swap the two rooms, as the closer room is closer to the current light, so it is the one that corresponds ot it
+            adjacentRooms[closestIndex] = adjacentRooms[i];
+            adjacentRooms[i] = closestRoom;
+        }
     }
 }
