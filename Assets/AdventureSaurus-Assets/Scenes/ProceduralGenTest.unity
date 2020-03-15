@@ -10230,7 +10230,7 @@ MonoBehaviour:
   hallwayWidthRange: {x: 5, y: 5}
   hallwayLengthRange: {x: 8, y: 10}
   hallwayOffsetFromEdge: 2
-  amountRoomsToSpawn: 6
+  amountRoomsToSpawn: 20
   minSpaceBetweenRooms: 1
   chanceToSpawnBranch: 2
 --- !u!4 &1915396103
