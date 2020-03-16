@@ -10425,9 +10425,9 @@ MonoBehaviour:
     type: 2}
   closeRightInnerCornerWallTile: {fileID: 11400000, guid: 906dadebb0a555a4ca6012e569d4517e,
     type: 2}
-  farLeftInnerCornerWallTile: {fileID: 11400000, guid: 4175b5eec20833c4db3faf387682bf34,
+  farLeftInnerCornerWallTile: {fileID: 11400000, guid: 2b94f4a54662450449c0ae8fdd89570d,
     type: 2}
-  farRightInnerCornerWallTile: {fileID: 11400000, guid: 2b94f4a54662450449c0ae8fdd89570d,
+  farRightInnerCornerWallTile: {fileID: 11400000, guid: 4175b5eec20833c4db3faf387682bf34,
     type: 2}
   stairTile: {fileID: 11400000, guid: b2a04c9c196dcf948bc776e01cd71675, type: 2}
 --- !u!114 &1915396108
