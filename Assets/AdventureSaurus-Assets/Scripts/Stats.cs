@@ -125,9 +125,32 @@ public class Stats : MonoBehaviour
     [SerializeField] private Text healthText = null;    // Reference to the text of the stats display that shows the max health
     [SerializeField] private Text speedText = null; // Reference to the text of the stats display that shows the speed
 
-    // Set references
+    /// <summary>
+    /// Sets references to foreign scripts.
+    /// Called from Awake and from PersistantController
+    /// </summary>
+    public void SetReferences()
+    {
+        GameObject gameController = GameObject.FindWithTag("GameController");
+        // Make sure a GameController exists
+        if (gameController == null)
+            Debug.Log("Could not find any GameObject with the tag GameController");
+        else
+        {
+            mAContRef = gameController.GetComponent<MoveAttackController>();
+            if (mAContRef == null)
+            {
+                Debug.Log("Could not find MoveAttackController attached to " + gameController.name);
+            }
+        }
+    }
+
+    // Called before start
     private void Awake()
     {
+        // These references are attached to foreign objects and will need to be set multiple times [allies only]
+        SetReferences();
+        // These references are attached to this game object, so they will only need to be set once
         mARef = this.GetComponent<MoveAttack>();
         if (mARef == null)
         {
@@ -149,24 +172,12 @@ public class Stats : MonoBehaviour
         {
             hpRef.MaxHP = vitality;
         }
-
-        GameObject gameController = GameObject.FindWithTag("GameController");
-        // Make sure a GameController exists
-        if (gameController == null)
-            Debug.Log("Could not find any GameObject with the tag GameController");
-        else
-        {
-            mAContRef = gameController.GetComponent<MoveAttackController>();
-            if (mAContRef == null)
-            {
-                Debug.Log("Could not find MoveAttackController attached to " + gameController.name);
-            }
-        }
     }
 
     // Inititalize variables
     private void Start()
     {
+        // These will have to be set once, since these we will need to keep the changes associated with them
         // Start the character out at level 1 with no experience
         experience = 0;
         oneLevelExperience = experience;
@@ -194,7 +205,6 @@ public class Stats : MonoBehaviour
     public void Initialize()
     {
         mARef.MoveRange = speed;
-
         hpRef.MaxHP = vitality;
     }
 

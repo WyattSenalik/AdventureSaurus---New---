@@ -34,15 +34,12 @@ public class Health : MonoBehaviour
     // For giving xp
     private Stats myKiller; // Reference to the Stats component of who killed this character
 
-    // Set References
-    private void Awake()
+    /// <summary>
+    /// Set References
+    /// Called from Awake and from PersistantController [allies only]
+    /// </summary>
+    public void SetReferences()
     {
-        animRef = this.gameObject.GetComponent<Animator>();
-        if (animRef == null)
-        {
-            Debug.Log("Could not find Animator attached to " + this.name);
-        }
-
         GameObject gameManagerObj = GameObject.FindWithTag("GameController");
         if (gameManagerObj != null)
         {
@@ -61,7 +58,19 @@ public class Health : MonoBehaviour
         }
         else
             Debug.Log("Could not find any GameObject with the tag GameController");
+    }
 
+    // Called before Start
+    private void Awake()
+    {
+        // These will need to be set a few times [allies only]
+        SetReferences();
+        // These will only need to be set once, since they are attached to this gameobject
+        animRef = this.gameObject.GetComponent<Animator>();
+        if (animRef == null)
+        {
+            Debug.Log("Could not find Animator attached to " + this.name);
+        }
         MoveAttack mARef = this.GetComponent<MoveAttack>();
         if (mARef == null)
         {
@@ -73,10 +82,18 @@ public class Health : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called from Start and from PersistantController [allies only]
+    /// </summary>
+    public void Initialize()
+    {
+        curHP = maxHP; // Needs to be in initialize because maxHP is set in the Awake function of the Stats script
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
-        curHP = maxHP;  // Needs to be in start because maxHP is set in the Awake function of the Stats script
+        Initialize();
     }
 
     /// <summary>

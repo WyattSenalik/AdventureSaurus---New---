@@ -63,14 +63,19 @@ public class EnemyMoveAttackAI : MonoBehaviour
     private void Start()
     {
         enemiesMA = new List<MoveAttack>();
-        Initialize();
     }
 
     /// <summary>
-    /// For setting variables and list each time we start a turn
+    /// For setting variables and list each time we start a turn.
+    /// Called from ProceduralGenerationController
     /// </summary>
-    private void Initialize()
+    /// <param name="characterParent">The parent of all the characters</param>
+    public void Initialize(Transform characterParent = null)
     {
+        // If its not null, set the character parent
+        if (characterParent != null)
+            charParent = characterParent;
+
         alliesMA = new List<MoveAttack>();
         enemyIndex = 0;
         // Iterate over each character to find all the allies

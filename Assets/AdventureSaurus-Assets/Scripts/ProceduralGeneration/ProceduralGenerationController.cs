@@ -7,7 +7,12 @@ public class ProceduralGenerationController : MonoBehaviour
 {
     // Reference to the Transform that will temporarily hold all allies
     [SerializeField] private bool shouldGenerate = true;
-    [SerializeField] private Transform allyTempParent = null;
+    private Transform allyTempParent = null;
+    public Transform AllyTempParent
+    {
+        set { allyTempParent = value; }
+        get { return allyTempParent; }
+    }
 
     // In the case we don't want to generate
     [SerializeField] private Transform roomParent;
@@ -26,6 +31,7 @@ public class ProceduralGenerationController : MonoBehaviour
     private PlaceAllies placeAlliesRef;
 
     // References for initializing things
+    private EnemyMoveAttackAI enMAAIRef;
     private MoveAttackController mAContRef;
     private TurnSystem turnSysRef;
     private Pause pauseRef;
@@ -68,6 +74,9 @@ public class ProceduralGenerationController : MonoBehaviour
         GameObject gameContObj = GameObject.FindWithTag("GameController");
         if (gameContObj == null)
             Debug.Log("Could not find any object with the tag GameController");
+        enMAAIRef = gameContObj.GetComponent<EnemyMoveAttackAI>();
+        if (enMAAIRef == null)
+            Debug.Log("There was no EnemyMoveAttackAI attached to " + gameContObj.name);
         mAContRef = gameContObj.GetComponent<MoveAttackController>();
         if (mAContRef == null)
             Debug.Log("There was no MoveAttackController attached to " + gameContObj.name);
@@ -106,10 +115,14 @@ public class ProceduralGenerationController : MonoBehaviour
 
     }
 
-    // Start is called before the first frame update
-    private void Start()
+    /// <summary>
+    /// Generates the floor using the various generation scripts.
+    /// Called from persistant controller when the time is right
+    /// </summary>
+    public void GenerateFloor()
     {
-        if (genRoomsRef != null && wallsGenRef != null)
+        if (genRoomsRef != null && wallsGenRef != null && stairsGenRef != null && tilesGenRef != null
+            && safeRoomGenRef != null && placeAlliesRef != null)
         {
             if (shouldGenerate)
             {
@@ -148,23 +161,36 @@ public class ProceduralGenerationController : MonoBehaviour
                 placeAlliesRef.PutAlliesInStartRoom(roomParent, charParent);
             }
 
-            // Initialize MoveAttackController
-            mAContRef.Initialize(roomParent, wallParent, charParent);
-            // Initialize TurnSystem
-            turnSysRef.Initialize(charParent);
-            // Initialize Pause
-            pauseRef.Initialize(charParent);
-            // Initalize PauseMenuController
-            pauseMenuContRef.Initialize(charParent);
-            // Initialize CamFollow
-            camFollowRef.Initialize(charParent);
-            // Initialize CharDetailedMenuController
-            charDetMenuContRef.Initialize(pauseMenuContRef.AlliesStats);
-            // Initialize Stairs script
-            stairsScriptRef.Initialize(charParent, stairsTrans, promptRef);
-            // Initialize MapCam script
-            mapCamRef.Initialize(mAContRef.GridTopLeft, mAContRef.GridBotRight);
+            // Initialize scripts
+            InitializeScripts();
         }
+    }
+
+    /// <summary>
+    /// Initializes all the scripts that need to be initialized
+    /// </summary>
+    private void InitializeScripts()
+    {
+        // Initialize EnemyMoveAttackAI
+        enMAAIRef.Initialize(charParent);
+        // Initialize MoveAttackController
+        mAContRef.Initialize(roomParent, wallParent, charParent);
+        // Initialize TurnSystem
+        turnSysRef.Initialize(charParent);
+        // Initialize Pause
+        pauseRef.Initialize(charParent);
+        // Initalize PauseMenuController
+        pauseMenuContRef.Initialize(charParent);
+        // Initialize Prompt
+        promptRef.Initialize(charParent);
+        // Initialize CamFollow
+        camFollowRef.Initialize(charParent);
+        // Initialize CharDetailedMenuController
+        charDetMenuContRef.Initialize(pauseMenuContRef.AlliesStats);
+        // Initialize Stairs script
+        stairsScriptRef.Initialize(charParent, stairsTrans, promptRef);
+        // Initialize MapCam script
+        mapCamRef.Initialize(mAContRef.GridTopLeft, mAContRef.GridBotRight);
     }
 
     /// <summary>

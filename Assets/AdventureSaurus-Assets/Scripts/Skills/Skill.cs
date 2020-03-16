@@ -20,7 +20,11 @@ public class Skill : MonoBehaviour
     protected SpriteRenderer sprRendRef = null;
     protected Stats statsRef = null;
 
-    protected void Awake()
+    /// <summary>
+    /// Sets references to foreign scripts.
+    /// Called from Awake and from PersistantController
+    /// </summary>
+    public void SetReferences()
     {
         GameObject gameControllerObj = GameObject.FindWithTag("GameController");
         if (gameControllerObj == null)
@@ -50,7 +54,13 @@ public class Skill : MonoBehaviour
                 Debug.Log("Could not find EnemyMoveAttackAI attached to " + gameControllerObj.name);
             }
         }
+    }
 
+    protected void Awake()
+    {
+        // These will have to be set multiple times [allies only]
+        SetReferences();
+        // These will only need to be set once, since they are attached to this game object
         sprRendRef = this.GetComponent<SpriteRenderer>();
         if (sprRendRef == null)
         {

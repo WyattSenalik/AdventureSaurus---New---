@@ -13,8 +13,6 @@ public class BasicAttack : Skill
         base.Awake();
         // Set the unique stats for this attack
         skillNum = 0;
-
-        
     }
 
     /// <summary>

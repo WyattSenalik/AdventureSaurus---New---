@@ -271,7 +271,7 @@ public class GenerateRooms : MonoBehaviour
 
                     // Make the chance not to update the prevRoom to instead create a branch
                     // If the room is not a branch
-                    if (Random.Range(0, chanceToSpawnBranch) != 0)
+                    if (Random.Range(0, chanceToSpawnBranch + 12 / amountRoomsToSpawn ) != 0)
                     {
                         // Make the prevRoom the room
                         prevRoomPos = newRoomPos;

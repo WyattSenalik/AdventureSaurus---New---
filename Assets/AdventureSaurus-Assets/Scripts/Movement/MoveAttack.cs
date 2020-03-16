@@ -81,8 +81,11 @@ public class MoveAttack : MonoBehaviour
 
     private Vector2 lastVel;
 
-    // Set references
-    private void Awake()
+    /// <summary>
+    /// Set references
+    /// Called by Awake and called from Persistant Controller [allies only]
+    /// </summary>
+    public void SetReferences()
     {
         GameObject gameControllerObj = GameObject.FindWithTag("GameController");
         if (gameControllerObj == null)
@@ -112,7 +115,14 @@ public class MoveAttack : MonoBehaviour
                 Debug.Log("Could not find TurnSystem attached to " + gameControllerObj.name);
             }
         }
+    }
 
+    // Called before start
+    private void Awake()
+    {
+        // These will have to be set a few times [allies only]
+        SetReferences();
+        // These will only be set once, since they are attached to the same object'
         sprRendRef = this.GetComponent<SpriteRenderer>();
         if (sprRendRef == null)
         {
@@ -135,9 +145,11 @@ public class MoveAttack : MonoBehaviour
         }
     }
 
-    // Called before the first frame
-    // Initialize variables
-    private void Start()
+    /// <summary>
+    /// Initialize variables
+    /// Called from Start and from PersistantController [allies only]
+    /// </summary>
+    public void Initialize()
     {
         currentNode = null;
         transition = false;
@@ -145,6 +157,12 @@ public class MoveAttack : MonoBehaviour
         doneTransY = true;
         hasMoved = false;
         hasAttacked = false;
+    }
+
+    // Called before the first frame
+    private void Start()
+    {
+        Initialize();
     }
 
     /// <summary>

@@ -8,6 +8,8 @@ TagManager:
   - Mama
   - Prompter
   - MapCam
+  - GenerationController
+  - PersistantController
   layers:
   - Default
   - TransparentFX
