@@ -254,6 +254,7 @@ public class MoveAttack : MonoBehaviour
                 {
                     //this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(currentNode.whereToGo.position.x), Mathf.RoundToInt(this.gameObject.transform.position.y), this.gameObject.transform.position.z);
                     doneTransX = true;
+                    lastVel.x = 0;
                 }
             }
 
@@ -283,6 +284,7 @@ public class MoveAttack : MonoBehaviour
                 {
                     //this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(this.gameObject.transform.position.x), Mathf.RoundToInt(currentNode.whereToGo.position.y), this.gameObject.transform.position.z);
                     doneTransY = true;
+                    lastVel.y = 0;
                 }
             }
 
