@@ -6,7 +6,6 @@ using UnityEngine.Tilemaps;
 public class ProceduralGenerationController : MonoBehaviour
 {
     // Reference to the Transform that will temporarily hold all allies
-    [SerializeField] private bool shouldGenerate = true;
     private Transform allyTempParent = null;
     public Transform AllyTempParent
     {
@@ -15,6 +14,7 @@ public class ProceduralGenerationController : MonoBehaviour
     }
 
     // In the case we don't want to generate
+    [SerializeField] private bool shouldGenerate = true;
     [SerializeField] private Transform roomParent;
     [SerializeField] private Transform wallParent;
     [SerializeField] private Transform stairsTrans;
@@ -41,13 +41,14 @@ public class ProceduralGenerationController : MonoBehaviour
     private Prompter promptRef;
     private Stairs stairsScriptRef;
     private MapCam mapCamRef;
+    private DeathCheck deathCheckRef;
 
     // Set references
     private void Awake()
     {
         // Validation on Serialize Fields
-        if (allyTempParent == null)
-            Debug.Log("allyTempParent was not initialized correctly in ProceduralGenerationContoller attached to " + this.name);
+        //if (allyTempParent == null)
+            //Debug.Log("allyTempParent was not initialized correctly in ProceduralGenerationContoller attached to " + this.name);
 
         // Validation on other Procedural Gen Scripts
         GameObject procGenContObj = this.gameObject;
@@ -98,6 +99,9 @@ public class ProceduralGenerationController : MonoBehaviour
         stairsScriptRef = gameContObj.GetComponent<Stairs>();
         if (stairsScriptRef == null)
             Debug.Log("There was no Stairs attached to " + gameContObj.name);
+        deathCheckRef = gameContObj.GetComponent<DeathCheck>();
+        if (deathCheckRef == null)
+            Debug.Log("There was no DeathCheck attached to " + gameContObj.name);
 
         GameObject cameraObj = GameObject.FindWithTag("MainCamera");
         if (cameraObj == null)
@@ -153,14 +157,28 @@ public class ProceduralGenerationController : MonoBehaviour
                 // Make the safe room
                 fireTrans = safeRoomGenRef.SpawnSafeRoom(roomParent, tilemapRef);
 
-                // Create the Character parent and place the allies in it
+                // Create the Character parent
                 charParent = new GameObject("CharacterParent").transform;
                 charParent.position = Vector3.zero;
-                while (allyTempParent.childCount != 0)
-                    allyTempParent.GetChild(0).SetParent(charParent);
-                placeAlliesRef.PutAlliesInStartRoom(roomParent, charParent);
             }
 
+            // Being extra careful
+            int maxIterations = 100;
+            int counter = 0;
+            // Place the allies in the character parent
+            while (allyTempParent.childCount != 0)
+            {
+                allyTempParent.GetChild(0).SetParent(charParent);
+                // Avoid infinite loop
+                if (++counter > maxIterations)
+                {
+                    Debug.Log("Forced a break");
+                    break;
+                }
+            }
+            // Place the allies randomly in the room only if we are supposed to generate
+            if (shouldGenerate)
+                placeAlliesRef.PutAlliesInStartRoom(roomParent, charParent);
             // Initialize scripts
             InitializeScripts();
         }
@@ -191,6 +209,8 @@ public class ProceduralGenerationController : MonoBehaviour
         stairsScriptRef.Initialize(charParent, stairsTrans, promptRef);
         // Initialize MapCam script
         mapCamRef.Initialize(mAContRef.GridTopLeft, mAContRef.GridBotRight);
+        // Iniitlaize DeathCheck script
+        deathCheckRef.Initialize(charParent);
     }
 
     /// <summary>

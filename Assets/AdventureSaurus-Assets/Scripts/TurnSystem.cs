@@ -68,12 +68,8 @@ public class TurnSystem : MonoBehaviour
             {
                 potAllyMA.ResetMyTurn();
             }
-
-
-       
         }
-        
-            mAGUIContRef.AllowSelect();
+        mAGUIContRef.AllowSelect();
         camFocusPlayer();
     }
 

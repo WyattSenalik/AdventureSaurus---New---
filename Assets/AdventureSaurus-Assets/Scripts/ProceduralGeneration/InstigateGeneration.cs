@@ -8,6 +8,29 @@ public class InstigateGeneration : MonoBehaviour
     // We use start to start the generation because we have to wait for references to be set in awake
     private void Start()
     {
+        // Get the persistant controller script
+        PersistantController persistContScript = FindPersistCont();
+        // Start the generation of this floor
+        persistContScript.StartGeneration();
+    }
+
+    /// <summary>
+    /// Called from the yes button of the "next floor" scene
+    /// </summary>
+    public void PrepareNextFloorInstigation()
+    {
+        // Get the persistant controller script
+        PersistantController persistContScript = FindPersistCont();
+        // Prepare the next floor
+        persistContScript.PrepareNextFloor();
+    }
+
+    /// <summary>
+    /// Finds the PersistantController in the scene and returns it
+    /// </summary>
+    /// <returns>PersistantController in the scene</returns>
+    private PersistantController FindPersistCont()
+    {
         // Get the persistant controller
         GameObject persistContRef = GameObject.FindWithTag("PersistantController");
         if (persistContRef == null)
@@ -16,7 +39,7 @@ public class InstigateGeneration : MonoBehaviour
         PersistantController persistContScript = persistContRef.GetComponent<PersistantController>();
         if (persistContScript == null)
             Debug.Log(persistContScript.name + " did not have a PersistantController script attached");
-        // Start the generation of this floor
-        persistContScript.StartGeneration();
+
+        return persistContScript;
     }
 }

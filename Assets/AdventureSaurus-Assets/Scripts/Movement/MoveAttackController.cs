@@ -173,10 +173,10 @@ public class MoveAttackController : MonoBehaviour
             InitializeVisualTiles(mARef);
         }
         // If the character already has the visuals and just needs some of them to be turned on
-        else
-        {
-            SetActiveVisuals(mARef);
-        }
+        //else
+        //{
+        //    SetActiveVisuals(mARef);
+        //}
     }
 
 

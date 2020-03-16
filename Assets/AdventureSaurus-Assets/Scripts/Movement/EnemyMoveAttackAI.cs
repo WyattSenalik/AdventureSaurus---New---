@@ -57,11 +57,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
             if (camFollowRef == null)
                 Debug.Log("There was no CamFollow attached to " + mainCamObj.name);
         }
-    }
 
-    // Start is called before the first frame update
-    private void Start()
-    {
         enemiesMA = new List<MoveAttack>();
     }
 
@@ -114,7 +110,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// </summary>
     public void StartTakeTurn()
     {
-        Debug.Log("Starting the enemy AI");
+        //Debug.Log("Starting the enemy AI");
         Initialize();    // Refind all the allies, set enemyIndex to 0, and remove any dead enemies from the list
         StartNextEnemy();    // Start from the first enemy
     }
@@ -183,7 +179,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         }
         else
         {
-            Debug.Log("All enemies done");
+            //Debug.Log("All enemies done");
             turnSysRef.StartPlayerTurn();
         }
 

@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1239,6 +1239,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 449665925}
         m_MethodName: PrepareNextFloor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 353794021}
+        m_MethodName: DenySelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2605,6 +2616,7 @@ GameObject:
   - component: {fileID: 353794025}
   - component: {fileID: 353794024}
   - component: {fileID: 353794026}
+  - component: {fileID: 353794027}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -2816,6 +2828,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToGoTo: ProceduralGenNextFloor
+--- !u!114 &353794027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353794015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d148b0e31463af47be6983dd67405f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &374735219
 GameObject:
   m_ObjectHideFlags: 0
@@ -3080,7 +3104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tempAllyParent: {fileID: 1431827292}
   nextFloorScene:
-    m_Handle: 0
+    m_Handle: 8
 --- !u!4 &449665926
 Transform:
   m_ObjectHideFlags: 0
@@ -7648,7 +7672,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431827291}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7656,7 +7680,7 @@ Transform:
   - {fileID: 776039148}
   - {fileID: 1427651466}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1486847126
 GameObject:
@@ -7918,7 +7942,7 @@ RectTransform:
   - {fileID: 1907133557}
   - {fileID: 262968527}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9913,7 +9937,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1887745328
 GameObject:
@@ -10287,7 +10311,7 @@ MonoBehaviour:
   hallwayWidthRange: {x: 5, y: 5}
   hallwayLengthRange: {x: 8, y: 10}
   hallwayOffsetFromEdge: 2
-  amountRoomsToSpawn: 3
+  amountRoomsToSpawn: 50
   minSpaceBetweenRooms: 1
   chanceToSpawnBranch: 2
 --- !u!4 &1915396103
@@ -10297,7 +10321,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1915396101}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2517454408926826133
+--- !u!1 &4124259768142400221
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,62 +8,59 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2517454408926826135}
-  - component: {fileID: 2517454408926826136}
-  - component: {fileID: 2517454408926826134}
-  - component: {fileID: 2517454408926826137}
-  - component: {fileID: 2517454408926826138}
-  - component: {fileID: 2517454408926826139}
-  - component: {fileID: 2517454408926826140}
-  - component: {fileID: 2517454408926826141}
+  - component: {fileID: 4124259768142400223}
+  - component: {fileID: 4124259768142400208}
+  - component: {fileID: 4124259768142400222}
+  - component: {fileID: 4124259768142400209}
+  - component: {fileID: 4124259768142400210}
+  - component: {fileID: 4124259768142400211}
+  - component: {fileID: 4124259768142400212}
+  - component: {fileID: 4124259768142400213}
   m_Layer: 0
-  m_Name: ProceduralGenerationController
-  m_TagString: Untagged
+  m_Name: ProceduralGenerationController 1
+  m_TagString: GenerationController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2517454408926826135
+--- !u!4 &4124259768142400223
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2517454408926826133}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 4124259768142400221}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2517454408926826136
+--- !u!114 &4124259768142400208
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2517454408926826133}
+  m_GameObject: {fileID: 4124259768142400221}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e44a39019051cbe4993b3773ee902974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shouldGenerate: 1
-  allyTempParent: {fileID: 0}
   roomParent: {fileID: 0}
   wallParent: {fileID: 0}
   stairsTrans: {fileID: 0}
-  tilemapRef: {fileID: 0}
-  fireTrans: {fileID: 0}
   charParent: {fileID: 0}
---- !u!114 &2517454408926826134
+--- !u!114 &4124259768142400222
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2517454408926826133}
+  m_GameObject: {fileID: 4124259768142400221}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ac8835c75b76344da8575b7f30c1133, type: 3}
@@ -80,16 +77,16 @@ MonoBehaviour:
   hallwayWidthRange: {x: 5, y: 5}
   hallwayLengthRange: {x: 8, y: 10}
   hallwayOffsetFromEdge: 2
-  amountRoomsToSpawn: 6
+  amountRoomsToSpawn: 3
   minSpaceBetweenRooms: 1
   chanceToSpawnBranch: 2
---- !u!114 &2517454408926826137
+--- !u!114 &4124259768142400209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2517454408926826133}
+  m_GameObject: {fileID: 4124259768142400221}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a4971955f57afc44b8bf9eeb8e0bae3, type: 3}
@@ -97,13 +94,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallPrefab: {fileID: 908112855204680109, guid: edb3079cb7e3e144fa69fb4281c1e89d,
     type: 3}
---- !u!114 &2517454408926826138
+--- !u!114 &4124259768142400210
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2517454408926826133}
+  m_GameObject: {fileID: 4124259768142400221}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cdc4b5e8b7bd2345b0d802f30978b4f, type: 3}
@@ -111,13 +108,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stairsPrefab: {fileID: 4041283491387904142, guid: 86b972068da24f445bd83b665dfbce4b,
     type: 3}
---- !u!114 &2517454408926826139
+--- !u!114 &4124259768142400211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2517454408926826133}
+  m_GameObject: {fileID: 4124259768142400221}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b188e8209acf22c42b7b8a04a55710ce, type: 3}
@@ -168,13 +165,13 @@ MonoBehaviour:
   farRightInnerCornerWallTile: {fileID: 11400000, guid: 2b94f4a54662450449c0ae8fdd89570d,
     type: 2}
   stairTile: {fileID: 11400000, guid: b2a04c9c196dcf948bc776e01cd71675, type: 2}
---- !u!114 &2517454408926826140
+--- !u!114 &4124259768142400212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2517454408926826133}
+  m_GameObject: {fileID: 4124259768142400221}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94755ae0b79068d4bb9888b3f50c9cfd, type: 3}
@@ -202,13 +199,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6fdecdf9ea9611a4dafafe8042cdf168, type: 2}
   - {fileID: 11400000, guid: 258d23a2b3375e0409a78709c7073531, type: 2}
   - {fileID: 11400000, guid: 91a443ef06a98874f9f6d3db8a2cf72d, type: 2}
---- !u!114 &2517454408926826141
+--- !u!114 &4124259768142400213
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2517454408926826133}
+  m_GameObject: {fileID: 4124259768142400221}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f70620e2501051e49be2cf09be07fc4d, type: 3}

@@ -99,6 +99,9 @@ public class PersistantController : MonoBehaviour
             Debug.Log(this.name + " did not have a Skill script attached to it");
         // Set the foreign references of the Skill script. We do not re initialize here, since we have no need to
         skillRef.SetReferences();
+
+        // Make it so the ally can move again
+        mARef.ResetMyTurn();
     }
 
     /// <summary>
@@ -120,6 +123,9 @@ public class PersistantController : MonoBehaviour
 
         // Start the generation
         genContScript.GenerateFloor();
+
+        // We need to set the allies references again
+        ReinitializeAllies();
     }
 
     /// <summary>
