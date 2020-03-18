@@ -2762,6 +2762,10 @@ MonoBehaviour:
   - {fileID: 1157882213}
   - {fileID: 100103414}
   - {fileID: 953652646}
+  allyPortraits:
+  - {fileID: 1982380592}
+  - {fileID: 155147480}
+  - {fileID: 23906984}
 --- !u!114 &353794024
 MonoBehaviour:
   m_ObjectHideFlags: 0

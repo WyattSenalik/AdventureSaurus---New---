@@ -117,9 +117,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 73
-        width: 32
-        height: 32
+        y: 70
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,7 +127,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a78e99a5c9c524c4bbc2297b61a06057
+      spriteID: 097a5e4bdb76dec478011806c31c5406
       internalID: -7417950596282149802
       vertices: []
       indices: 
@@ -137,10 +137,10 @@ TextureImporter:
       name: Cyrus_idle_right_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 73
-        width: 32
-        height: 32
+        x: 35
+        y: 70
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -148,7 +148,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a24161ca378e8741b62fecbc18351d7
+      spriteID: 721cc52abda8f2348ad12c314bba1b31
       internalID: -8639431818642560930
       vertices: []
       indices: 
@@ -158,10 +158,10 @@ TextureImporter:
       name: Cyrus_idle_right_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 73
-        width: 32
-        height: 32
+        x: 70
+        y: 70
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,7 +169,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3690a4c8c086456458efd03989343d40
+      spriteID: 6c5db6ef6620bc84d8c59488d15ee95d
       internalID: -5075343754510082413
       vertices: []
       indices: 
@@ -180,9 +180,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 41
-        width: 32
-        height: 32
+        y: 35
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,7 +190,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 274ac79871c790e42b661b6ce871733a
+      spriteID: c872b55e9e215e14b95ecd8160ea10d5
       internalID: -6320867485812536213
       vertices: []
       indices: 
@@ -200,10 +200,10 @@ TextureImporter:
       name: Cyrus_idle_right_4
       rect:
         serializedVersion: 2
-        x: 32
-        y: 41
-        width: 32
-        height: 32
+        x: 35
+        y: 35
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -211,7 +211,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ccf8f5c9e8a988b469f1ca01523705de
+      spriteID: d6dfe52e332066b43abd86351a189f7e
       internalID: -8004859828755285026
       vertices: []
       indices: 
@@ -221,10 +221,10 @@ TextureImporter:
       name: Cyrus_idle_right_5
       rect:
         serializedVersion: 2
-        x: 64
-        y: 41
-        width: 32
-        height: 32
+        x: 70
+        y: 35
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -232,7 +232,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 98cd849d56780b74381c8c2f496fc031
+      spriteID: 05d64a1ecb3f71a40960947e4f23322f
       internalID: 1535255837964225762
       vertices: []
       indices: 
@@ -243,9 +243,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 9
-        width: 32
-        height: 32
+        y: 0
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -253,7 +253,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f04e6892dd0131c4ea53b238d1f9d8ce
+      spriteID: 86c65cc3703765b42a51f19447f2fc4b
       internalID: -85228924515562779
       vertices: []
       indices: 
@@ -263,10 +263,10 @@ TextureImporter:
       name: Cyrus_idle_right_7
       rect:
         serializedVersion: 2
-        x: 32
-        y: 9
-        width: 32
-        height: 32
+        x: 35
+        y: 0
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -274,29 +274,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1c17904f8d5ec145b5d1bedf8b9bd89
+      spriteID: 0e907bc1218f68543a5e860518d374ea
       internalID: 3569011186606379379
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyrus_idle_right_8
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 9
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ce16617c0721c79438ddc6fe2790e273
-      internalID: -7657757307413055917
       vertices: []
       indices: 
       edges: []

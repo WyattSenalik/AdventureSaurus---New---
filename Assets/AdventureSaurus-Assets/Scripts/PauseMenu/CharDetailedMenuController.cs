@@ -253,7 +253,7 @@ public class CharDetailedMenuController : MonoBehaviour
         }
 
         // Set the normal things for the character stats
-        ////TODO Set the characterPortrait
+        characterPortrait.sprite = allyStats.CharacterSprite;
         nameText.text = allyStats.CharacterName;
         lvlText.text = "Lvl " + allyStats.Level.ToString();
         vitalityNums.text = allyStats.Vitality.ToString();

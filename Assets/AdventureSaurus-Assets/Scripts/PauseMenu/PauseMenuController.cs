@@ -23,6 +23,8 @@ public class PauseMenuController : MonoBehaviour
     }
     // The experience bars of each of the allies [0] = ally1, [1] = ally2, [2] = ally3
     [SerializeField] private Slider[] allyXPBars = null;
+    // The portraits of each of the allies [0] = ally1, [1] = ally2, [2] = ally3
+    [SerializeField] private Image[] allyPortraits = null;
 
     // Reference to CharDetailedMenuController script
     private CharDetailedMenuController charDetMenuContRef;
@@ -93,6 +95,18 @@ public class PauseMenuController : MonoBehaviour
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "There should be 3 elements in allyXPBars");
+        }
+
+        // Portrait validation
+        if (allyPortraits == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "allyPortraits was not initialized properly, please set it in the editor");
+        }
+        else if (allyPortraits.Length != 3)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "There should be 3 elements in allyPortraits");
         }
     }
 
@@ -225,6 +239,8 @@ public class PauseMenuController : MonoBehaviour
                 alliesNameText[i].text = alliesStats[i].CharacterName;
                 // Set the sliders to be the allies current xp;
                 allyXPBars[i].value = ((float)alliesStats[i].OneLevelExperience) / alliesStats[i].OneLevelNextLevelThreshold;
+                // Update the portrait of the allies
+                allyPortraits[i].sprite = alliesStats[i].CharacterSprite;
             }
             // If that ally doesn't exist, they dead. Reflect that
             else

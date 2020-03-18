@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: New New Walls_13
+  m_Name: Right_Broken
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: -2657605790021869739, guid: 043ebf8afa1379449bd1f621adeea0c7,
     type: 3}

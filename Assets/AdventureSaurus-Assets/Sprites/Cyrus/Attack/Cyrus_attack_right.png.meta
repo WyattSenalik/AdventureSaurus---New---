@@ -141,9 +141,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 128
-        width: 32
-        height: 32
+        y: 120
+        width: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,7 +151,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 663eb3276f24eef44afdb7e0c12d0dc5
+      spriteID: 008f888a0fc592d4da034f51738b7446
       internalID: 5268404541970267150
       vertices: []
       indices: 
@@ -161,10 +161,10 @@ TextureImporter:
       name: Cyrus_attack_right_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 128
-        width: 32
-        height: 32
+        x: 48
+        y: 120
+        width: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,7 +172,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a5699a183523eb449e03c13b54ca9ec
+      spriteID: 75e98736a4daf664bb1f6b7a2b05b42a
       internalID: 7830254260537327795
       vertices: []
       indices: 
@@ -182,10 +182,10 @@ TextureImporter:
       name: Cyrus_attack_right_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 128
-        width: 32
-        height: 32
+        x: 96
+        y: 120
+        width: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,7 +193,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8c78829fba18d047abc358171e5681d
+      spriteID: 0e2a850755d9c624abb8b65b45555e55
       internalID: 5049967248018914366
       vertices: []
       indices: 
@@ -203,10 +203,10 @@ TextureImporter:
       name: Cyrus_attack_right_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 128
-        width: 32
-        height: 32
+        x: 0
+        y: 80
+        width: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,7 +214,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd1ebb88ba913c941ab351d94422ed6f
+      spriteID: 1065f56a6e67b6a4da5b75f3d208a9d3
       internalID: -7129609836740150051
       vertices: []
       indices: 
@@ -224,10 +224,10 @@ TextureImporter:
       name: Cyrus_attack_right_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 96
-        width: 32
-        height: 32
+        x: 48
+        y: 80
+        width: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -235,7 +235,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 13494d7615830dc44babd3010d91b748
+      spriteID: c72b2a435f473b24d8525cd3e58134e3
       internalID: 6365064676063753523
       vertices: []
       indices: 
@@ -245,10 +245,10 @@ TextureImporter:
       name: Cyrus_attack_right_5
       rect:
         serializedVersion: 2
-        x: 32
-        y: 96
-        width: 32
-        height: 32
+        x: 96
+        y: 80
+        width: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,7 +256,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c87b022bb249a9a4d9e27031f6c75a00
+      spriteID: d4ccfb17019c3c24088456b31eb457fa
       internalID: 3312241152247977224
       vertices: []
       indices: 
@@ -266,10 +266,10 @@ TextureImporter:
       name: Cyrus_attack_right_6
       rect:
         serializedVersion: 2
-        x: 64
-        y: 96
-        width: 32
-        height: 32
+        x: 0
+        y: 40
+        width: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -277,7 +277,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6bc177f80802aa044b02cef8a1ad7dfa
+      spriteID: 3d98ac5384698cf4c926afc6a7369d64
       internalID: -4005297572828699125
       vertices: []
       indices: 
@@ -287,10 +287,10 @@ TextureImporter:
       name: Cyrus_attack_right_7
       rect:
         serializedVersion: 2
-        x: 96
-        y: 96
-        width: 32
-        height: 32
+        x: 48
+        y: 40
+        width: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -298,7 +298,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7161640d1fab154893f6ccf348b11bc
+      spriteID: 9906427033c09c944a039a2eff5dab00
       internalID: -6753399890445790447
       vertices: []
       indices: 
@@ -308,10 +308,10 @@ TextureImporter:
       name: Cyrus_attack_right_8
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
-        width: 32
-        height: 32
+        x: 96
+        y: 40
+        width: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -319,7 +319,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62f04aa51abea14439e3aa7102917a91
+      spriteID: edd859646028527498ad5d7dd7baa173
       internalID: -3406230026405645854
       vertices: []
       indices: 
@@ -329,157 +329,10 @@ TextureImporter:
       name: Cyrus_attack_right_9
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6bddb43840c973a45b73fff6e2194768
-      internalID: -3634390836403814117
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyrus_attack_right_10
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ebd3416dc344efb4e9cd1fe17ef50e8f
-      internalID: 1978765382627206188
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyrus_attack_right_11
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2e210a778661d1a4c9cf1ead204270e1
-      internalID: -7188969399580555753
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyrus_attack_right_12
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 01b4ccb85a6239241822bca7fb72bf79
-      internalID: 4052528458297710622
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyrus_attack_right_13
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a6fcf96e1433a924e9d4cb8054c0bce3
-      internalID: -4997408351496924118
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyrus_attack_right_14
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5fa75d2964709be42acbd2b617d69bfb
-      internalID: -2080105890379100415
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyrus_attack_right_15
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2f49c10e729ea2b4796d3919146b3b3e
-      internalID: 5316274773782997946
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyrus_attack_right_16
-      rect:
-        serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -487,8 +340,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d48a97cd039d835499dc0e094a33acaf
-      internalID: -8232966095572134695
+      spriteID: a151e83cf3b894f41b7b82c9a72fd5dd
+      internalID: -3634390836403814117
       vertices: []
       indices: 
       edges: []

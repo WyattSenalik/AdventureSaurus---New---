@@ -117,9 +117,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 73
-        width: 32
-        height: 32
+        y: 70
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,7 +127,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 19637b5bd1067684296a6ab4defcad02
+      spriteID: 9b851a22e3a56b84490c506900e38441
       internalID: -7085980211452687940
       vertices: []
       indices: 
@@ -137,10 +137,10 @@ TextureImporter:
       name: Cyrus_walk_front_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 73
-        width: 32
-        height: 32
+        x: 35
+        y: 70
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -148,7 +148,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc26ba4b5689a964cbfec8830423e6fd
+      spriteID: 9c7755fe805349c4c931ca679bde4bbf
       internalID: 5495364309178253406
       vertices: []
       indices: 
@@ -158,10 +158,10 @@ TextureImporter:
       name: Cyrus_walk_front_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 73
-        width: 32
-        height: 32
+        x: 70
+        y: 70
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,7 +169,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: decd870a189d51c4a882f81fccd8d5be
+      spriteID: fc4324536bfa0a44484970cff5d8c457
       internalID: -3760866351277233927
       vertices: []
       indices: 
@@ -180,9 +180,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 41
-        width: 32
-        height: 32
+        y: 35
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,7 +190,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f8580c2e978781b44accccd049c40f07
+      spriteID: aa2a89d01fec4094cac2d61ff50124d6
       internalID: -6158162415915047104
       vertices: []
       indices: 
@@ -200,10 +200,10 @@ TextureImporter:
       name: Cyrus_walk_front_4
       rect:
         serializedVersion: 2
-        x: 32
-        y: 41
-        width: 32
-        height: 32
+        x: 35
+        y: 35
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -211,7 +211,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a07d67bd1722a346a1dc552e990d079
+      spriteID: 114eb7ac1d32998479d4e7150a4f14cf
       internalID: -5941156366973053752
       vertices: []
       indices: 
@@ -221,10 +221,10 @@ TextureImporter:
       name: Cyrus_walk_front_5
       rect:
         serializedVersion: 2
-        x: 64
-        y: 41
-        width: 32
-        height: 32
+        x: 70
+        y: 35
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -232,7 +232,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 07dc7bfbb3f25454381b26c03376ab0c
+      spriteID: 8cda95927a6ac4b42b9f3370edb7454a
       internalID: 9123678644235487845
       vertices: []
       indices: 
@@ -243,9 +243,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 9
-        width: 32
-        height: 32
+        y: 0
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -253,7 +253,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a3441a68f7cc714c93086e95473fdd6
+      spriteID: 960c1db3e464d704e90963e7555c819e
       internalID: 4345650215398551090
       vertices: []
       indices: 
@@ -263,10 +263,10 @@ TextureImporter:
       name: Cyrus_walk_front_7
       rect:
         serializedVersion: 2
-        x: 32
-        y: 9
-        width: 32
-        height: 32
+        x: 35
+        y: 0
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -274,29 +274,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d868a01c2c327342bf4a3fed3993b39
+      spriteID: cfd25be352fa83549aa2e29990f767c7
       internalID: 977979284786897741
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyrus_walk_front_8
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 9
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a0eae2979ce2624468f63dd620698822
-      internalID: 3486541742409558113
       vertices: []
       indices: 
       edges: []

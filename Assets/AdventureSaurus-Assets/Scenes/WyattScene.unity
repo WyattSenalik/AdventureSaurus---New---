@@ -1793,6 +1793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -4275,6 +4276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -4626,11 +4628,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Ray
+  charSpr: {fileID: 21300000, guid: 98dcd5131a7f625498d8e6c15cd8eabe, type: 3}
   strength: 1
   magic: 0
-  speed: 3
+  speed: 4
   defense: 2
-  vitality: 3
+  vitality: 2
   baseXPToGive: 0
   levelUpButton: {fileID: 416702223}
   statsDisplay: {fileID: 1486203825}
@@ -7988,6 +7991,10 @@ MonoBehaviour:
   - {fileID: 549097832}
   - {fileID: 916794141}
   - {fileID: 1983201559}
+  allyPortraits:
+  - {fileID: 1315616295}
+  - {fileID: 1571998357}
+  - {fileID: 381988372}
 --- !u!114 &314060245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12191,6 +12198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -17535,6 +17543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -19706,6 +19715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Ray The PhotoCopied
+  charSpr: {fileID: 21300000, guid: 98dcd5131a7f625498d8e6c15cd8eabe, type: 3}
   strength: 1
   magic: 0
   speed: 3
@@ -19934,6 +19944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -21306,6 +21317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -23708,6 +23720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -24853,6 +24866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -33575,6 +33589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -34245,6 +34260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -35447,6 +35463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -36739,6 +36756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -37899,6 +37917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -38535,6 +38554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -40833,6 +40853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -41969,7 +41990,7 @@ GameObject:
   - component: {fileID: 1660040301}
   - component: {fileID: 1660040300}
   m_Layer: 0
-  m_Name: Ally (2)
+  m_Name: Cyrus
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42030,7 +42051,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.09375, y: 1.09375}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -42062,7 +42083,7 @@ Animator:
   m_GameObject: {fileID: 1660040298}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7bc33253a96f1034eb37e13f5edaacff, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0619730cf0d29364093d202666c3508f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -42109,7 +42130,7 @@ SpriteRenderer:
   m_SortingLayerID: 1850459489
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3969967456734249590, guid: 1c9c71fe1821dca4c964873a6626d1d2,
+  m_Sprite: {fileID: -3608411740114924314, guid: c8f8089779a34d5429cbd0baab6874d0,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -42133,12 +42154,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charName: Ray Attack of the Clones
+  charName: Cyrus
+  charSpr: {fileID: 21300000, guid: d69ff30776c798d4997d8b857dc7c981, type: 3}
   strength: 1
-  magic: 1
+  magic: 0
   speed: 3
   defense: 2
-  vitality: 3
+  vitality: 4
   baseXPToGive: 0
   levelUpButton: {fileID: 739283361}
   statsDisplay: {fileID: 921302799}
@@ -43209,6 +43231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -43483,6 +43506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -44027,6 +44051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -46578,6 +46603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2

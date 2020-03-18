@@ -11,13 +11,20 @@ public class Stats : MonoBehaviour
         get { return maxSpeed; }
     }
 
-    // Stats
     // Name of the character
     [SerializeField] private string charName = "Deceased";
     public string CharacterName
     {
         get { return charName; }
     }
+    // Character's portrait picture
+    [SerializeField] private Sprite charSpr = null;
+    public Sprite CharacterSprite
+    {
+        get { return charSpr; }
+    }
+
+    // Stats
     // How much damage this character deals
     [SerializeField] private int strength = 0;
     public int Strength
