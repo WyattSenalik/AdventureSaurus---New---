@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -10095,6 +10095,7 @@ GameObject:
   - component: {fileID: 1915396107}
   - component: {fileID: 1915396108}
   - component: {fileID: 1915396109}
+  - component: {fileID: 1915396110}
   m_Layer: 0
   m_Name: ProceduralGenerationController
   m_TagString: GenerationController
@@ -10290,6 +10291,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70620e2501051e49be2cf09be07fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1915396110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915396101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90736b14daef6d4dbba917e51b0e888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefabs:
+  - {fileID: 7023318322400278096, guid: 8214310a889a2204190db6a9d487c4f3, type: 3}
 --- !u!1 &1916979083
 GameObject:
   m_ObjectHideFlags: 0

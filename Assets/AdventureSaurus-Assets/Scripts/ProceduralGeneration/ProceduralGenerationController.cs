@@ -13,6 +13,14 @@ public class ProceduralGenerationController : MonoBehaviour
         get { return allyTempParent; }
     }
 
+    // The current floor's base difficulty.
+    // TODO set from persistant controller
+    private int curFloorDiff;
+    public int CurrentFloorDifficulty
+    {
+        set { curFloorDiff = value; }
+    }
+
     // In the case we don't want to generate
     [SerializeField] private bool shouldGenerate = true;
     [SerializeField] private Transform roomParent;
@@ -28,6 +36,7 @@ public class ProceduralGenerationController : MonoBehaviour
     private GenerateStairs stairsGenRef;
     private GenerateTiles tilesGenRef;
     private GenerateSafeRoom safeRoomGenRef;
+    private GenerateEnemies enemiesGenRef;
     private PlaceAllies placeAlliesRef;
 
     // References for initializing things
@@ -70,6 +79,9 @@ public class ProceduralGenerationController : MonoBehaviour
         placeAlliesRef = procGenContObj.GetComponent<PlaceAllies>();
         if (placeAlliesRef == null)
             Debug.Log("There was no PlaceAllies attached to " + procGenContObj.name);
+        enemiesGenRef = procGenContObj.GetComponent<GenerateEnemies>();
+        if (enemiesGenRef == null)
+            Debug.Log("There was no GenerateEnemies attached to " + procGenContObj.name);
 
         // Validation on initialization scripts
         GameObject gameContObj = GameObject.FindWithTag("GameController");
@@ -160,6 +172,9 @@ public class ProceduralGenerationController : MonoBehaviour
                 // Create the Character parent
                 charParent = new GameObject("CharacterParent").transform;
                 charParent.position = Vector3.zero;
+
+                // Spawn the enmies
+                enemiesGenRef.SpawnEnemies(charParent, roomParent, curFloorDiff);
             }
 
             // Being extra careful

@@ -41,6 +41,13 @@ public class Room : MonoBehaviour
         set { myRoomType = value; }
         get { return myRoomType; }
     }
+    // The difficulty of the room
+    private int roomDifficulty;
+    public int RoomDifficulty
+    {
+        set { roomDifficulty = value; }
+        get { return roomDifficulty; }
+    }
 
     // Set References
     // Awake is called before Start
