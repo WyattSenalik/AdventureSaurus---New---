@@ -9,8 +9,13 @@ public class PersistantController : MonoBehaviour
     [SerializeField] private Transform tempAllyParent = null;
     // This is the scene that is tested for if it is the newly loaded scene
     [SerializeField] private Scene nextFloorScene;
+    // The amount to tone down the difficulty for the next floor (1 sets the base difficulty of the next floor
+    // to be the hardest difficulty of the last floor. 0 resets the difficulty back to 0)
+    [SerializeField] private float difficultyToner = 0.75f;
     // List of allies, we will want to make these persistant throughout scenes
     private List<GameObject> allies;
+    // The difficult of the next floor
+    private int nextFloorDiff;
 
     // Called before start
     private void Awake()
@@ -22,7 +27,7 @@ public class PersistantController : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         // Initialize the list
         allies = new List<GameObject>();
@@ -36,6 +41,9 @@ public class PersistantController : MonoBehaviour
             // Add the ally to the list
             allies.Add(character.gameObject);
         }
+        //Debug.Log("Finished initializing allies");
+        // Initialize the floor difficulty to 0
+        nextFloorDiff = 0;
         // Start the first floor's generation
         StartGeneration();
     }
@@ -55,6 +63,7 @@ public class PersistantController : MonoBehaviour
     /// </summary>
     private void ReinitializeAllies()
     {
+        //Debug.Log("ReinitializeAllies");
         // Reinitialize each ally
         foreach (GameObject ally in allies)
         {
@@ -109,6 +118,7 @@ public class PersistantController : MonoBehaviour
     /// </summary>
     public void StartGeneration()
     {
+        //Debug.Log("StartGeneration");
         // Get the procedural generation controller
         GameObject genCont = GameObject.FindWithTag("GenerationController");
         if (genCont == null)
@@ -119,13 +129,16 @@ public class PersistantController : MonoBehaviour
             Debug.Log("Could not a ProceduralGenerationController script attached to " + genCont.name);
         // Give the procedural generator the ally temp parent
         genContScript.AllyTempParent = tempAllyParent;
-        // TODO Set the constraints for how to spawn the floor
+        // Set the difficulty of the floor
+        genContScript.CurrentFloorDifficulty = nextFloorDiff;
 
         // Start the generation
         genContScript.GenerateFloor();
 
         // We need to set the allies references again
         ReinitializeAllies();
+
+        //Debug.Log("Finished StartGeneration");
     }
 
     /// <summary>
@@ -140,5 +153,19 @@ public class PersistantController : MonoBehaviour
             allyObj.transform.SetParent(tempAllyParent);
             allyObj.transform.position = Vector3.zero;
         }
+
+
+        // Grab the difficulty of the last room of the last floor and base the difficulty for the next floor off it
+        // First we need the procedural gen controller script
+        // Get the procedural generation controller
+        GameObject genCont = GameObject.FindWithTag("GenerationController");
+        if (genCont == null)
+            Debug.Log("Could not find a gameobject with the tag GenerationController");
+        // Get the procedural generation script attached to it
+        ProceduralGenerationController genContScript = genCont.GetComponent<ProceduralGenerationController>();
+        if (genContScript == null)
+            Debug.Log("Could not a ProceduralGenerationController script attached to " + genCont.name);
+        // Calculate the next floor's difficulty
+        nextFloorDiff = Mathf.RoundToInt(genContScript.GetMostDifficultFloor() * difficultyToner);
     }
 }

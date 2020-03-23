@@ -29,9 +29,15 @@ public class GenerateEnemies : MonoBehaviour
     /// <param name="roomParent">Parent of all the rooms</param>
     public void SpawnEnemies(Transform characterParent, Transform roomParent, int floorBaseDiff)
     {
-        // Assign a difficulty to each room
+        // Be careful of the infinite
+        int maxRoomIterations = roomParent.childCount + 1;
+        int currentRoomIterations = 0;
+
+        // Iterate over each room
         foreach (Transform curRoom in roomParent)
         {
+            /// Step 1: Assign a difficulty to the room
+            ///
             Room curRoomScript = curRoom.GetComponent<Room>();
             // Make sure it has a room script, it should always
             if (curRoomScript == null)
@@ -42,13 +48,13 @@ public class GenerateEnemies : MonoBehaviour
 
             // If its a normal room
             if (curRoomScript.MyRoomType == RoomType.NORMAL)
-                curRoomScript.RoomDifficulty = floorBaseDiff + curRoomScript.RoomWeight;
+                curRoomScript.RoomDifficulty = floorBaseDiff + curRoomScript.RoomWeight * 2;
             // If its a hallway
             else if (curRoomScript.MyRoomType == RoomType.HALLWAY)
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + curRoomScript.RoomWeight) * hallwayScalar);
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + (curRoomScript.RoomWeight * 2)) * hallwayScalar);
             // If its the end
             else if (curRoomScript.MyRoomType == RoomType.END)
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + curRoomScript.RoomWeight) * endScalar);
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + (curRoomScript.RoomWeight * 2)) * endScalar);
             // If its the start or safe room, we don't spawn enemies
             else if (curRoomScript.MyRoomType == RoomType.SAFE || curRoomScript.MyRoomType == RoomType.START)
                 curRoomScript.RoomDifficulty = 0;
@@ -57,6 +63,91 @@ public class GenerateEnemies : MonoBehaviour
             {
                 curRoomScript.RoomDifficulty = 0;
                 Debug.Log("Unkown room type in GenerateEnemies");
+            }
+
+
+            /// Step 2: Get a list of the locations in the room we can spawn the enemy.
+            ///
+            // Get the bounds of the room
+            Vector2Int botLeftFloorSpace = new Vector2Int(Mathf.RoundToInt(curRoom.position.x - (curRoom.localScale.x - 1) / 2f + 1),
+                Mathf.RoundToInt(curRoom.position.y - (curRoom.localScale.y - 1) / 2f + 1));
+            Vector2Int topRightFloorSpace = new Vector2Int(Mathf.RoundToInt(curRoom.position.x + (curRoom.localScale.x - 1) / 2f - 1),
+                Mathf.RoundToInt(curRoom.position.y + (curRoom.localScale.y - 1) / 2f - 1));
+            // Create the list of available spots
+            List<Vector2Int> availSpawnPositions = new List<Vector2Int>();
+            // Iterate over the spots in the room to add them to the available spots list
+            // Each row (y)
+            for (int row = botLeftFloorSpace.y; row <= topRightFloorSpace.y; ++row)
+            {
+                // Each col (x)
+                for (int col = botLeftFloorSpace.x; col <= topRightFloorSpace.x; ++col)
+                {
+                    // Add the current position to the list
+                    availSpawnPositions.Add(new Vector2Int(col, row));
+                }
+            }
+
+            /// Step 3: Create the enemies for the room in compliance with the difficulty
+            /// This algorithm may be edited by adding more steps between 1 and 2 to restrict the 
+            /// difficulty of the enemies spawned and other tweaks
+            /// 
+            // Being extra careful
+            int maxIterations = curRoomScript.RoomDifficulty;
+            int currentIterations = 0;
+            // We start the current difficulty at 0, since there are no enemies currently in the room
+            int currentDifficulty = 0;
+            // Create a new enemy until the currentDifficulty is the room's difficulty
+            while (currentDifficulty < curRoomScript.RoomDifficulty && availSpawnPositions.Count > 0)
+            {
+                /// Step 3a: Pick an enemy from the list of enemies
+                /// 
+                int enemyPrefIndex = Random.Range(0, enemyPrefabs.Length);
+                GameObject enemyPrefToSpawn = enemyPrefabs[enemyPrefIndex];
+
+                /// Step 3b: Pick a spot in the room to spawn the enemy
+                /// 
+                int randPosIndex = Random.Range(0, availSpawnPositions.Count);
+                Vector2Int spawnGridPos = availSpawnPositions[randPosIndex];
+                // Cast the grid position to a world position
+                Vector3 spawnWorldPos = new Vector3(spawnGridPos.x, spawnGridPos.y, 0);
+                // Remove the spot we spawned them at from the availSpawnPositions, so that no enemy may be spawned here again
+                availSpawnPositions.RemoveAt(randPosIndex);
+
+                /// Step 3c: Spawn the enemy
+                /// 
+                GameObject spawnedEnemyObj = Instantiate(enemyPrefToSpawn, characterParent);
+                spawnedEnemyObj.transform.position = spawnWorldPos;
+
+                /// Step 3d: Increment the current difficulty
+                /// 
+                EnemyDifficulty enDiffScriptRef = spawnedEnemyObj.GetComponent<EnemyDifficulty>();
+                // If the enemy for some reason has no EnemyDifficulty script attached to it
+                if (enDiffScriptRef != null)
+                {
+                    // Incase the enemy difficulty was set wrong
+                    if (enDiffScriptRef.Difficulty <= 0)
+                        currentDifficulty += 1;
+                    else
+                        currentDifficulty += enDiffScriptRef.Difficulty;
+                }
+                else
+                    currentDifficulty += 1;
+
+                // Be careful of the inifinite
+                if (++currentIterations > maxIterations)
+                {
+                    Debug.Log("WARNING - POTENTIAL BUG DETECTED - We tried to spawn enemies " + currentIterations + " times");
+                    break;
+                }
+            }
+
+
+            // Beware the infinite
+            if (++currentRoomIterations > maxRoomIterations)
+            {
+                Debug.Log("WARNING - POTENTIAL BUG DETECTED - We tried to spawn enemies in " + currentRoomIterations + " rooms. "
+                    + " There are only " + maxRoomIterations + " rooms");
+                break;
             }
         }
     }

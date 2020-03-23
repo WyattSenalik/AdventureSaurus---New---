@@ -4,7 +4,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class DeathCheck : MonoBehaviour
 {
+    // The list of ally character transforms
     private List<Transform> players;
+    // If initialize has been called in this script yet.
+    // To prevent checking if non existant players are dead
+    private bool hasInitialized;
+
+    // Called 0th, before Start
+    private void Awake()
+    {
+        // Don't check if the players are dead before we know who they are
+        hasInitialized = false;
+    }
 
     /// <summary>
     /// Sets the players list to hold the transforms of the ally characters.
@@ -22,26 +33,32 @@ public class DeathCheck : MonoBehaviour
             if (mARef != null && mARef.WhatAmI == CharacterType.Ally)
                 players.Add(potAlly);
         }
+        // Allow the update function to check if everyone is dead
+        hasInitialized = true;
     }
 
     // Update is called once per frame   
     private void Update()
     {
-        // Assume the player is dead
-        bool gameOver = true;
-        // Prove it wrong
-        foreach (Transform ally in players)
+        // Make sure the list of allies has been set before iterating over it
+        if (hasInitialized)
         {
-            if (ally != null)
+            // Assume the player is dead
+            bool gameOver = true;
+            // Prove it wrong
+            foreach (Transform ally in players)
             {
-                gameOver = false;
-                break;
+                if (ally != null)
+                {
+                    gameOver = false;
+                    break;
+                }
             }
-        }
-        // If all the players are null, load the gameover screen
-        if(gameOver)
-        {
-            SceneManager.LoadScene("GameOver");
+            // If all the players are null, load the gameover screen
+            if (gameOver)
+            {
+                SceneManager.LoadScene("GameOver");
+            }
         }
     }
     

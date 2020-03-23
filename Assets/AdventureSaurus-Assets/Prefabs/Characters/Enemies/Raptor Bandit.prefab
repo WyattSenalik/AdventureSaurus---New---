@@ -208,7 +208,7 @@ MonoBehaviour:
   speed: 2
   defense: 2
   vitality: 1
-  baseXPToGive: 1000
+  baseXPToGive: 1
   levelUpButton: {fileID: 0}
   statsDisplay: {fileID: 7023318324131165896}
   nameText: {fileID: 7023318322509191732}

@@ -137,11 +137,13 @@ public class ProceduralGenerationController : MonoBehaviour
     /// </summary>
     public void GenerateFloor()
     {
+        //Debug.Log("GenerateFloor");
         if (genRoomsRef != null && wallsGenRef != null && stairsGenRef != null && tilesGenRef != null
             && safeRoomGenRef != null && placeAlliesRef != null)
         {
             if (shouldGenerate)
             {
+                //Debug.Log("SpawnHallwaysAndRooms");
                 // Spawn the rooms, hallways, and lights
                 // Also get a reference to the parent of the rooms
                 roomParent = genRoomsRef.SpawnHallwaysAndRooms();
@@ -152,20 +154,25 @@ public class ProceduralGenerationController : MonoBehaviour
                     curRoomScript.SortAdjacentRooms();
                 }
 
+                //Debug.Log("SpawnWallTransforms");
                 // Spawn the wall transforms
                 wallParent = wallsGenRef.SpawnWallTransforms(roomParent);
 
+                //Debug.Log("SortRooms");
                 // Sort those rooms quick, we have to do this after walls, since walls assumes the format is room, hallway, room, hallway, etc.
                 // Everything after this assumes the rooms are sorted by weight
                 if (!SortRooms(roomParent))
                     Debug.Log("Failed to sort");
 
+                //Debug.Log("SpawnStairs");
                 // Spawn the stairs in the last room
                 stairsTrans = stairsGenRef.SpawnStairs(roomParent);
 
+                //Debug.Log("SpawnTileMap");
                 // Create the tiles
                 tilemapRef = tilesGenRef.SpawnTileMap(roomParent, wallParent, stairsTrans);
 
+                //Debug.Log("SpawnSafeRoom");
                 // Make the safe room
                 fireTrans = safeRoomGenRef.SpawnSafeRoom(roomParent, tilemapRef);
 
@@ -173,6 +180,11 @@ public class ProceduralGenerationController : MonoBehaviour
                 charParent = new GameObject("CharacterParent").transform;
                 charParent.position = Vector3.zero;
 
+                //Debug.Log("PlaceAllies");
+                // Place the allies randomly in the start room
+                placeAlliesRef.PutAlliesInStartRoom(roomParent, allyTempParent);
+
+                //Debug.Log("SpawnEnemies");
                 // Spawn the enmies
                 enemiesGenRef.SpawnEnemies(charParent, roomParent, curFloorDiff);
             }
@@ -191,9 +203,8 @@ public class ProceduralGenerationController : MonoBehaviour
                     break;
                 }
             }
-            // Place the allies randomly in the room only if we are supposed to generate
-            if (shouldGenerate)
-                placeAlliesRef.PutAlliesInStartRoom(roomParent, charParent);
+
+            //Debug.Log("InitializeScripts");
             // Initialize scripts
             InitializeScripts();
         }
@@ -292,5 +303,17 @@ public class ProceduralGenerationController : MonoBehaviour
             }
         }
         return true;
+    }
+
+    /// <summary>
+    /// Returns the difficulty of the most difficult floor.
+    /// Called from Persistant Controller when preparing the next floor.
+    /// </summary>
+    /// <returns>int difficulty of the Floor with the hardest difficulty</returns>
+    public int GetMostDifficultFloor()
+    {
+        Transform hardRoomTrans = roomParent.GetChild(roomParent.childCount - 1);
+        Room hardRoomScriptRef = hardRoomTrans.GetComponent<Room>();
+        return hardRoomScriptRef.RoomDifficulty;
     }
 }
