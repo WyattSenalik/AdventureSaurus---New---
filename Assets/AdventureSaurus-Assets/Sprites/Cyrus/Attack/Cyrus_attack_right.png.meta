@@ -133,6 +133,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -141,17 +153,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 120
-        width: 48
-        height: 40
+        y: 288
+        width: 83
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 008f888a0fc592d4da034f51738b7446
+      spriteID: 9471d872ec68b4e46862a43f3bbff37a
       internalID: 5268404541970267150
       vertices: []
       indices: 
@@ -161,18 +173,18 @@ TextureImporter:
       name: Cyrus_attack_right_1
       rect:
         serializedVersion: 2
-        x: 48
-        y: 120
-        width: 48
-        height: 40
+        x: 96
+        y: 288
+        width: 83
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75e98736a4daf664bb1f6b7a2b05b42a
+      spriteID: 006130be1d2e91144b3b8265f7bd6d20
       internalID: 7830254260537327795
       vertices: []
       indices: 
@@ -182,18 +194,18 @@ TextureImporter:
       name: Cyrus_attack_right_2
       rect:
         serializedVersion: 2
-        x: 96
-        y: 120
-        width: 48
-        height: 40
+        x: 192
+        y: 288
+        width: 83
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e2a850755d9c624abb8b65b45555e55
+      spriteID: d12ec80772d2e5545bc5c858183d3456
       internalID: 5049967248018914366
       vertices: []
       indices: 
@@ -204,17 +216,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 80
-        width: 48
-        height: 40
+        y: 192
+        width: 83
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1065f56a6e67b6a4da5b75f3d208a9d3
+      spriteID: ef588ef06a3cf8c4394b460c4ef0bac2
       internalID: -7129609836740150051
       vertices: []
       indices: 
@@ -224,18 +236,18 @@ TextureImporter:
       name: Cyrus_attack_right_4
       rect:
         serializedVersion: 2
-        x: 48
-        y: 80
-        width: 48
-        height: 40
+        x: 96
+        y: 192
+        width: 83
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c72b2a435f473b24d8525cd3e58134e3
+      spriteID: 26765480a1131494782f30237e7dce88
       internalID: 6365064676063753523
       vertices: []
       indices: 
@@ -245,18 +257,18 @@ TextureImporter:
       name: Cyrus_attack_right_5
       rect:
         serializedVersion: 2
-        x: 96
-        y: 80
-        width: 48
-        height: 40
+        x: 192
+        y: 192
+        width: 83
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4ccfb17019c3c24088456b31eb457fa
+      spriteID: b260a2e0322b0564393ad82f92e6c677
       internalID: 3312241152247977224
       vertices: []
       indices: 
@@ -267,17 +279,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 40
-        width: 48
-        height: 40
+        y: 96
+        width: 83
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d98ac5384698cf4c926afc6a7369d64
+      spriteID: e4b4e4618d56bd643aef618ae30e6c89
       internalID: -4005297572828699125
       vertices: []
       indices: 
@@ -287,18 +299,18 @@ TextureImporter:
       name: Cyrus_attack_right_7
       rect:
         serializedVersion: 2
-        x: 48
-        y: 40
-        width: 48
-        height: 40
+        x: 96
+        y: 96
+        width: 83
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9906427033c09c944a039a2eff5dab00
+      spriteID: 43162d401a1bd1d48b5dab49080cb353
       internalID: -6753399890445790447
       vertices: []
       indices: 
@@ -308,18 +320,18 @@ TextureImporter:
       name: Cyrus_attack_right_8
       rect:
         serializedVersion: 2
-        x: 96
-        y: 40
-        width: 48
-        height: 40
+        x: 192
+        y: 96
+        width: 83
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: edd859646028527498ad5d7dd7baa173
+      spriteID: aab19e37f34f3ef46be3027e961a74f1
       internalID: -3406230026405645854
       vertices: []
       indices: 
@@ -331,16 +343,16 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 40
+        width: 83
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a151e83cf3b894f41b7b82c9a72fd5dd
+      spriteID: 1d5f60ceb718ecb40b5a0ea77334fa09
       internalID: -3634390836403814117
       vertices: []
       indices: 

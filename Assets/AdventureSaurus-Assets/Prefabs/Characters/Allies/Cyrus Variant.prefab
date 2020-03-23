@@ -67,6 +67,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8609607881364759086, guid: 2e9ad94e32c03724190f8f63cdf2d571,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3608411740114924314, guid: c8f8089779a34d5429cbd0baab6874d0,
+        type: 3}
     - target: {fileID: 8609607881364759087, guid: 2e9ad94e32c03724190f8f63cdf2d571,
         type: 3}
       propertyPath: charSpr
@@ -88,11 +94,11 @@ PrefabInstance:
       propertyPath: charName
       value: Cyrus
       objectReference: {fileID: 0}
-    - target: {fileID: 8609607881364759086, guid: 2e9ad94e32c03724190f8f63cdf2d571,
+    - target: {fileID: 8609607881364759087, guid: 2e9ad94e32c03724190f8f63cdf2d571,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: sideSpr
       value: 
-      objectReference: {fileID: -3608411740114924314, guid: c8f8089779a34d5429cbd0baab6874d0,
+      objectReference: {fileID: 21300000, guid: f3defa04646cb954188679767f158eff,
         type: 3}
     - target: {fileID: 8609607881364759084, guid: 2e9ad94e32c03724190f8f63cdf2d571,
         type: 3}

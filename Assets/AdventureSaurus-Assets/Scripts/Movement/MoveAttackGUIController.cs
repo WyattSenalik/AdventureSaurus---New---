@@ -7,6 +7,8 @@ public class MoveAttackGUIController : MonoBehaviour
 {
     // Reference to the Buttons of the endTurnButton, character Portraits, etc. These are turned on and off when the user has control
     [SerializeField] private List<Button> buttonsToTurnOff = null;
+    // Refernce to the side hp and exp bars. These are also turned on and off when the user has control
+    [SerializeField] private Image[] imagesToTurnOff = null;
 
     private MoveAttackController mAContRef = null;  // Reference to the MoveAttackController script
     private InputController inpContRef = null;  // Reference to the InputController script
@@ -409,6 +411,21 @@ public class MoveAttackGUIController : MonoBehaviour
         {
             if (butt.enabled)
                 butt.interactable = onOff;
+        }
+        // Switch the images on or off
+        foreach (Image img in imagesToTurnOff)
+        {
+            // If the image is enabled in the hierarchy
+            if (img.enabled)
+            {
+                // If turning on
+                if (onOff)
+                    img.color = new Color(img.color.r, img.color.g, img.color.b, 1);
+                // If turning off
+                else
+                    img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
+            }
+                
         }
     }
 }

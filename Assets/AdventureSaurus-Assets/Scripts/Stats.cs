@@ -23,6 +23,12 @@ public class Stats : MonoBehaviour
     {
         get { return charSpr; }
     }
+    // Charcter's side picture
+    [SerializeField] private Sprite sideSpr = null;
+    public Sprite SideSprte
+    {
+        get { return sideSpr; }
+    }
 
     // Stats
     // How much damage this character deals
@@ -135,6 +141,14 @@ public class Stats : MonoBehaviour
     [SerializeField] private Text defenseText = null;   // Reference to the text of the stats display that shows the defense
     [SerializeField] private Text healthText = null;    // Reference to the text of the stats display that shows the max health
     [SerializeField] private Text speedText = null; // Reference to the text of the stats display that shows the speed
+
+    // Side HUD references
+    // Experience bar on the side. Will be set from PauseMenuController
+    private Slider expSlider;
+    public Slider ExpSlider
+    {
+        set { expSlider = value; }
+    }
 
     /// <summary>
     /// Sets references to foreign scripts.
@@ -288,6 +302,11 @@ public class Stats : MonoBehaviour
             }
             yield return null;
         } while (experience >= nextLevelThreshold); // If the character can still level up more, we will do the loop again
+
+        // Will be null for enemies
+        if (expSlider != null)
+            // Set the side exp bar
+            expSlider.value = ((float)oneLevelExperience) / oneLevelNextLevelThreshold;
 
         yield return null;
     }

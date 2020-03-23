@@ -135,7 +135,9 @@ public class ProceduralGenerationController : MonoBehaviour
     /// Generates the floor using the various generation scripts.
     /// Called from persistant controller when the time is right
     /// </summary>
-    public void GenerateFloor()
+    /// <param name="spawnFire">If we should put a safe room on this floor</param>
+    /// <param name="amountRooms">The amount of rooms to spawn</param>
+    public void GenerateFloor(bool spawnFire, int amountRooms)
     {
         //Debug.Log("GenerateFloor");
         if (genRoomsRef != null && wallsGenRef != null && stairsGenRef != null && tilesGenRef != null
@@ -146,6 +148,7 @@ public class ProceduralGenerationController : MonoBehaviour
                 //Debug.Log("SpawnHallwaysAndRooms");
                 // Spawn the rooms, hallways, and lights
                 // Also get a reference to the parent of the rooms
+                genRoomsRef.AmountRoomsToSpawn = amountRooms;
                 roomParent = genRoomsRef.SpawnHallwaysAndRooms();
                 // Sort all the lights in the room so that they correspond to the correct adjacent room
                 foreach (Transform curRoomTrans in roomParent)
@@ -173,8 +176,11 @@ public class ProceduralGenerationController : MonoBehaviour
                 tilemapRef = tilesGenRef.SpawnTileMap(roomParent, wallParent, stairsTrans);
 
                 //Debug.Log("SpawnSafeRoom");
-                // Make the safe room
-                fireTrans = safeRoomGenRef.SpawnSafeRoom(roomParent, tilemapRef);
+                // Make the safe room if we should have one
+                if (spawnFire)
+                {
+                    fireTrans = safeRoomGenRef.SpawnSafeRoom(roomParent, tilemapRef);
+                }
 
                 // Create the Character parent
                 charParent = new GameObject("CharacterParent").transform;

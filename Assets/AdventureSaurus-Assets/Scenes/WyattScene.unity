@@ -8027,6 +8027,7 @@ MonoBehaviour:
   speedIncrButt: {fileID: 893576985}
   resetButt: {fileID: 1052649673}
   confirmButt: {fileID: 149390855}
+  levelUpButtons: []
   unappliedChangesPrompt: {fileID: 18087203}
 --- !u!114 &314060246
 MonoBehaviour:
@@ -19793,7 +19794,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783841600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 7, z: 0}
+  m_LocalPosition: {x: 2, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1855929167}
@@ -41999,10 +42000,10 @@ GameObject:
   - component: {fileID: 1660040306}
   - component: {fileID: 1660040305}
   - component: {fileID: 1660040304}
-  - component: {fileID: 1660040303}
   - component: {fileID: 1660040302}
   - component: {fileID: 1660040301}
   - component: {fileID: 1660040300}
+  - component: {fileID: 1660040303}
   m_Layer: 0
   m_Name: Cyrus
   m_TagString: Player
@@ -42066,7 +42067,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.09375, y: 1.09375}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 1.09375, y: 1.09375}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -42150,7 +42151,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.09375, y: 1.09375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
@@ -8,6 +9,13 @@ public class Health : MonoBehaviour
     [SerializeField] private Transform redHealthBar = null;     // The transform that holds the sprite of the health
     [SerializeField] private Transform frameHealthBar = null;   // The transform that holds the sprite of the outline of the health
     [SerializeField] private float redBarOffset = 0.0625f;      // The offset for the red health bar to be at
+    // The side health bar info. Will be set from pause menu
+    private Slider sideSlider;
+    public Slider SideSlider
+    {
+        set { sideSlider = value; }
+    }
+
     private int maxHP;  // Maximum health of the character
     public int MaxHP
     {
@@ -145,6 +153,10 @@ public class Health : MonoBehaviour
 
         redHealthBar.transform.localPosition = targetPos;
         redHealthBar.transform.localScale = targetScale;
+
+        // Will be null for enemies
+        if (sideSlider != null)
+            sideSlider.value = ((float)curHP) / maxHP;
 
         // If the character died. We call it here so that health goes down first
         if (curHP == 0)

@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 8609607881364759080, guid: 2e9ad94e32c03724190f8f63cdf2d571,
         type: 3}
       propertyPath: m_Name
-      value: Ray
+      value: Ray Variant
       objectReference: {fileID: 0}
     - target: {fileID: 8609607881364759081, guid: 2e9ad94e32c03724190f8f63cdf2d571,
         type: 3}
@@ -83,5 +83,11 @@ PrefabInstance:
       propertyPath: vitality
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8609607881364759087, guid: 2e9ad94e32c03724190f8f63cdf2d571,
+        type: 3}
+      propertyPath: sideSpr
+      value: 
+      objectReference: {fileID: 21300000, guid: b97e150c1414591499353b3c27782125,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e9ad94e32c03724190f8f63cdf2d571, type: 3}

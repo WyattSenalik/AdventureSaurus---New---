@@ -9,13 +9,28 @@ public class PersistantController : MonoBehaviour
     [SerializeField] private Transform tempAllyParent = null;
     // This is the scene that is tested for if it is the newly loaded scene
     [SerializeField] private Scene nextFloorScene;
+
+    // List of allies, we will want to make these persistant throughout scenes
+    private List<GameObject> allies;
+
     // The amount to tone down the difficulty for the next floor (1 sets the base difficulty of the next floor
     // to be the hardest difficulty of the last floor. 0 resets the difficulty back to 0)
     [SerializeField] private float difficultyToner = 0.75f;
-    // List of allies, we will want to make these persistant throughout scenes
-    private List<GameObject> allies;
-    // The difficult of the next floor
+    // The difficulty of the next floor
     private int nextFloorDiff;
+    // The amount of rooms the next floor will have.
+    // Starts out as the beginning number of floors.
+    [SerializeField] private int nextFloorRoomAm = 5;
+    // The amount of floors until the amount of rooms increases
+    [SerializeField] private int floorsUntilRoomAmInc = 3;
+    // The max amount of rooms
+    [SerializeField] private int maxRooms = 9;
+    // Whether the next floor should have a campfire
+    private bool shouldHaveCamfire;
+    // The amount of floors that must be progressed until a fireplace will spawn
+    [SerializeField] private int floorsUntilFire = 2;
+    // What floor we are on
+    private int nextFloorNum;
 
     // Called before start
     private void Awake()
@@ -42,8 +57,11 @@ public class PersistantController : MonoBehaviour
             allies.Add(character.gameObject);
         }
         //Debug.Log("Finished initializing allies");
+        // Initialize the starting floors stuff
         // Initialize the floor difficulty to 0
         nextFloorDiff = 0;
+        shouldHaveCamfire = false;
+        nextFloorNum = 1;
         // Start the first floor's generation
         StartGeneration();
     }
@@ -133,7 +151,7 @@ public class PersistantController : MonoBehaviour
         genContScript.CurrentFloorDifficulty = nextFloorDiff;
 
         // Start the generation
-        genContScript.GenerateFloor();
+        genContScript.GenerateFloor(shouldHaveCamfire, nextFloorRoomAm);
 
         // We need to set the allies references again
         ReinitializeAllies();
@@ -150,12 +168,14 @@ public class PersistantController : MonoBehaviour
         // Make sure ally be a child of the tempAllyParent and move them to the origin
         foreach (GameObject allyObj in allies)
         {
+            if (allyObj == null)
+                continue;
             allyObj.transform.SetParent(tempAllyParent);
             allyObj.transform.position = Vector3.zero;
         }
 
 
-        // Grab the difficulty of the last room of the last floor and base the difficulty for the next floor off it
+        // Calculate the stuff for the next floor
         // First we need the procedural gen controller script
         // Get the procedural generation controller
         GameObject genCont = GameObject.FindWithTag("GenerationController");
@@ -165,7 +185,19 @@ public class PersistantController : MonoBehaviour
         ProceduralGenerationController genContScript = genCont.GetComponent<ProceduralGenerationController>();
         if (genContScript == null)
             Debug.Log("Could not a ProceduralGenerationController script attached to " + genCont.name);
+
+        // Grab the difficulty of the last room of the last floor and base the difficulty for the next floor off it
         // Calculate the next floor's difficulty
         nextFloorDiff = Mathf.RoundToInt(genContScript.GetMostDifficultFloor() * difficultyToner);
+
+        // Update what floor this is
+        ++nextFloorNum;
+
+        // Test if we should increment the amount of rooms
+        if (nextFloorRoomAm < maxRooms && nextFloorNum % floorsUntilRoomAmInc == 0)
+            ++nextFloorRoomAm;
+
+        // Test if the current floor should have a campfire
+        shouldHaveCamfire = nextFloorNum % floorsUntilFire == 0;
     }
 }

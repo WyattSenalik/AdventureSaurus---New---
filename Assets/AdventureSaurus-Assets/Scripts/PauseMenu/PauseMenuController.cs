@@ -26,6 +26,15 @@ public class PauseMenuController : MonoBehaviour
     // The portraits of each of the allies [0] = ally1, [1] = ally2, [2] = ally3
     [SerializeField] private Image[] allyPortraits = null;
 
+    // References for the side HUD
+    // Portraits on the side
+    [SerializeField] private Image[] sidePortraits = null;
+    // Health bars on the side
+    [SerializeField] private Slider[] sideHPBars = null;
+    // Exp bars on the side
+    [SerializeField] private Slider[] sideExpBars = null;
+
+
     // Reference to CharDetailedMenuController script
     private CharDetailedMenuController charDetMenuContRef;
 
@@ -108,6 +117,41 @@ public class PauseMenuController : MonoBehaviour
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "There should be 3 elements in allyPortraits");
         }
+
+        // Side HUD validation
+        // Side portrait validation
+        if (sidePortraits == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "sidePortraits was not initialized properly, please set it in the editor");
+        }
+        else if (sidePortraits.Length != 3)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "There should be 3 elements in sidePortraits");
+        }
+        // Side hp bars validation
+        if (sideHPBars == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "sideHPBars was not initialized properly, please set it in the editor");
+        }
+        else if (sideHPBars.Length != 3)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "There should be 3 elements in sideHPBars");
+        }
+        // Side exp bars validation
+        if (sideExpBars == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "sideExpBars was not initialized properly, please set it in the editor");
+        }
+        else if (sideExpBars.Length != 3)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "There should be 3 elements in sideExpBars");
+        }
     }
 
     /// <summary>
@@ -119,6 +163,12 @@ public class PauseMenuController : MonoBehaviour
     {
         // Set the character parent
         charParent = charPar;
+        // Character Parent validation
+        if (charParent == null)
+        {
+            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+                "charParent was not initialized properly");
+        }
 
         // We make the list here so that other scripts can access it in Start
         alliesStats = new List<Stats>();
@@ -133,12 +183,28 @@ public class PauseMenuController : MonoBehaviour
             }
         }
 
-        // Character Parent validation
-        if (charParent == null)
+        // Set the character side picture for each ally
+        // Also give the character's health script the side slider
+        for (int i = 0; i < 3; ++i)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
-                "charParent was not initialized properly");
+            // If there is an ally at this point in the list
+            if (i < alliesStats.Count)
+            {
+                // Change the side picture
+                sidePortraits[i].sprite = alliesStats[i].SideSprte;
+                // Set the side health bar
+                Health hpScriptRef = alliesStats[i].GetComponent<Health>();
+                hpScriptRef.SideSlider = sideHPBars[i];
+                // Set the side exp bar
+                alliesStats[i].ExpSlider = sideExpBars[i];
+            }
+            // If there is not ally at this point, they dead
+            else
+            {
+                // TODO
+            }
         }
+
         // Ally Stats validation
         if (alliesStats == null)
         {
@@ -147,7 +213,7 @@ public class PauseMenuController : MonoBehaviour
         }
         else if (alliesStats.Count != 3)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("POTENTIAL ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "3 allies were not found. Instead " + alliesStats.Count + " allies were found.");
         }
     }

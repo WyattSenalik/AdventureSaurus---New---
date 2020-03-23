@@ -21,7 +21,11 @@ public class GenerateRooms : MonoBehaviour
     [SerializeField] private Vector2Int hallwayWidthRange = new Vector2Int(3, 5); // The amount of walls this hallway breaks down to connect to a room
     [SerializeField] private Vector2Int hallwayLengthRange = new Vector2Int(8, 10); // The amount of tiles between the prev room and the next room
     [SerializeField] private int hallwayOffsetFromEdge = 2; // The distance from the edge of the room a hallway must be
-    [SerializeField] private int amountRoomsToSpawn = 1; // The amount of rooms to spawn
+    private int amountRoomsToSpawn; // The amount of rooms to spawn
+    public int AmountRoomsToSpawn
+    {
+        set { amountRoomsToSpawn = value; }
+    }
     [SerializeField] private int minSpaceBetweenRooms = 0; // The distance two rooms must be apart in any one direction
     [SerializeField] private int chanceToSpawnBranch = 5; // The chance to not update what the previous room is, so that another room attached to the prevRoom
 
