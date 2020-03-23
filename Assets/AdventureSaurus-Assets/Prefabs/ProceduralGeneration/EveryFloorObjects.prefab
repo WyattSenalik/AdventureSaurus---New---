@@ -781,6 +781,10 @@ MonoBehaviour:
   speedIncrButt: {fileID: 1885554832179923969}
   resetButt: {fileID: 1885554833331476128}
   confirmButt: {fileID: 1885554832094352385}
+  levelUpButtons:
+  - {fileID: 1885554831705798465}
+  - {fileID: 1885554831761044714}
+  - {fileID: 1885554832886100467}
   unappliedChangesPrompt: {fileID: 1885554831563005117}
 --- !u!114 &1885554831325360188
 MonoBehaviour:

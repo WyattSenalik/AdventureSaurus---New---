@@ -84,6 +84,10 @@ public class Stats : MonoBehaviour
     private bool isLevelingUp;
     // Reference to this allies level up button. Null always for enemies
     [SerializeField] private GameObject levelUpButton = null;
+    public GameObject LevelUpButton
+    {
+        set { levelUpButton = value; }
+    }
     // The amount of stat increases that this character has left
     private int amountStatIncreases;
     public int AmountStatIncreases

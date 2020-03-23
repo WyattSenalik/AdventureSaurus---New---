@@ -35,6 +35,9 @@ public class CharDetailedMenuController : MonoBehaviour
     [SerializeField] private Button resetButt = null;
     [SerializeField] private Button confirmButt = null;
 
+    // The level up buttons (for allies 1, 2, and 3 in order)
+    [SerializeField] private GameObject[] levelUpButtons = null;
+
     // For keeping track of how many points the player is putting into each stat upon a level up
     private int amountPointsAvailable;
     private int vitalityAmountIncr;
@@ -54,21 +57,6 @@ public class CharDetailedMenuController : MonoBehaviour
 
     // This is shown when the user tries to submit their changes without using all their points
     [SerializeField] private GameObject unappliedChangesPrompt = null;
-
-    /*
-    // Set references
-    private void Awake()
-    {
-        GameObject gameController = GameObject.FindWithTag("GameController");
-        // Make sure a GameController exists
-        if (gameController == null)
-            Debug.Log("Could not find any GameObject with the tag GameController");
-        else
-        {
-            
-        }
-    }
-    */
 
     // Start is called before the first frame update
     void Start()
@@ -90,107 +78,117 @@ public class CharDetailedMenuController : MonoBehaviour
         // Do a lot of validation
         if (characterPortrait == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "characterPortrait was not initialized properly, please set it in the editor");
         }
         if (nameText == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "nameText was not initialized properly, please set it in the editor");
         }
         if (lvlText == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "lvlText was not initialized properly, please set it in the editor");
         }
         if (vitalityNums == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "vitalityNums was not initialized properly, please set it in the editor");
         }
         if (magicNums == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "magicNums was not initialized properly, please set it in the editor");
         }
         if (strNums == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "strNums was not initialized properly, please set it in the editor");
         }
         if (speedNums == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "speedNums was not initialized properly, please set it in the editor");
         }
         if (vitalityBubblesParent == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "vitalityBubblesParent was not initialized properly, please set it in the editor");
         }
         if (magicBubblesParent == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "magicBubblesParent was not initialized properly, please set it in the editor");
         }
         if (strBubblesParent == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "strBubblesParent was not initialized properly, please set it in the editor");
         }
         if (speedBubblesParent == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "speedBubblesParent was not initialized properly, please set it in the editor");
         }
         if (emptyBubbleSpr == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "emptyBubbleSpr was not initialized properly, please set it in the editor");
         }
         if (fullBubbleSpr == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "fullBubbleSpr was not initialized properly, please set it in the editor");
         }
         if (pointsText == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "pointsText was not initialized properly, please set it in the editor");
         }
         if (vitalityIncrButt == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "vitalityIncrButt was not initialized properly, please set it in the editor");
         }
         if (magicIncrButt == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "magicIncrButt was not initialized properly, please set it in the editor");
         }
         if (strIncrButt == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "strIncrButt was not initialized properly, please set it in the editor");
         }
         if (speedIncrButt == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "speedIncrButt was not initialized properly, please set it in the editor");
         }
         if (resetButt == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "resetButt was not initialized properly, please set it in the editor");
         }
         if (confirmButt == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "confirmButt was not initialized properly, please set it in the editor");
+        }
+        if (levelUpButtons == null)
+        {
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
+                "levelUpButtons was not initialized properly, please set it in the editor");
+        }
+        if (levelUpButtons.Length != 3)
+        {
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
+                "levelUpButtons was not initialized properly. It must have 3 values. Please set it correctly in the editor");
         }
         if (unappliedChangesPrompt == null)
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "unappliedChangesPrompt was not initialized properly, please set it in the editor");
         }
 
@@ -231,6 +229,12 @@ public class CharDetailedMenuController : MonoBehaviour
     {
         // Get the alliesStats
         alliesStats = allyStats;
+
+        // Set the level up buttons for the characters
+        for (int i = 0; i < alliesStats.Count; ++i)
+        {
+            alliesStats[i].LevelUpButton = levelUpButtons[i];
+        }
     }
 
     /// <summary>
@@ -457,7 +461,7 @@ public class CharDetailedMenuController : MonoBehaviour
         // Any other scenario is an error
         else
         {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "in ConfirmStatChoices. The user either tried to apply negative stats, or tried to apply more stats than possible." +
                 " Double click this for more context");
         }
