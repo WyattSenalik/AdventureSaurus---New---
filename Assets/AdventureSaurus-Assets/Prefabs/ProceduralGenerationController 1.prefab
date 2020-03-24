@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4124259768142400211}
   - component: {fileID: 4124259768142400212}
   - component: {fileID: 4124259768142400213}
+  - component: {fileID: 4275482918598169136}
   m_Layer: 0
   m_Name: ProceduralGenerationController 1
   m_TagString: GenerationController
@@ -49,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44a39019051cbe4993b3773ee902974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shouldGenerate: 1
+  shouldGenerate: 0
   roomParent: {fileID: 0}
   wallParent: {fileID: 0}
   stairsTrans: {fileID: 0}
@@ -77,7 +78,6 @@ MonoBehaviour:
   hallwayWidthRange: {x: 5, y: 5}
   hallwayLengthRange: {x: 8, y: 10}
   hallwayOffsetFromEdge: 2
-  amountRoomsToSpawn: 3
   minSpaceBetweenRooms: 1
   chanceToSpawnBranch: 2
 --- !u!114 &4124259768142400209
@@ -211,3 +211,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70620e2501051e49be2cf09be07fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4275482918598169136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124259768142400221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90736b14daef6d4dbba917e51b0e888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefabs: []
+  hallwayScalar: 0.5
+  endScalar: 1.2
