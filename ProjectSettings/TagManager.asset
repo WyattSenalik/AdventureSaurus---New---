@@ -10,6 +10,7 @@ TagManager:
   - MapCam
   - GenerationController
   - PersistantController
+  - SkillHolder
   layers:
   - Default
   - TransparentFX

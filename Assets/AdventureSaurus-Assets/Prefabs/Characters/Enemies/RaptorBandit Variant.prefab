@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1619338888803041910
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2098535882787079963, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_Name
+      value: RaptorBandit Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: charName
+      value: Raptor Bandit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6223651300205610701, guid: 5501f40068b45284cb29524528354ffd,
+        type: 3}
+    - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079967, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 2ab912b0fc945a44abffaeceea09c7f2, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6405350bdbfbbc34b804d573219cc889, type: 3}

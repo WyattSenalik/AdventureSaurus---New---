@@ -24,6 +24,7 @@ public class Rainbow : MonoBehaviour
     void Start()
     {
         hasSpawned = false;
+        sprRendRef.color = new Color(0, 1, 1);
         curCol = sprRendRef.color;
         colToChange = ColorMain.RED;
     }

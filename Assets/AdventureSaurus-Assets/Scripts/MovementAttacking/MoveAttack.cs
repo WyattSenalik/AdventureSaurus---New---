@@ -64,6 +64,11 @@ public class MoveAttack : MonoBehaviour
     // For attacking
     private Health enemyHP; // Reference to the health script attached to the enemy I start attacking
     private Skill skillRef; // Reference to the skill script attached to this character
+    // For changing the character's skill in CharacterSkill
+    public Skill SkillRef
+    {
+        set { skillRef = value; }
+    }
 
     // For enemy movement AI
     private EnemyMoveAttackAI enMAAIRef;    // Reference to the EnemyMoveAttackAI script
@@ -132,11 +137,6 @@ public class MoveAttack : MonoBehaviour
         if (animRef == null)
         {
             Debug.Log("Could not find Animator attached to " + this.name);
-        }
-        skillRef = this.GetComponent<Skill>();
-        if (skillRef == null)
-        {
-            Debug.Log("Could not find Skill attached to " + this.name);
         }
         statsRef = this.GetComponent<Stats>();
         if (statsRef == null)
@@ -354,63 +354,13 @@ public class MoveAttack : MonoBehaviour
     /// <param name="attackNodePos">The grid position of the center of the attack</param>
     public void StartAttack(Vector2Int attackNodePos)
     {
-        // We have attacked
-        hasAttacked = true;
+        if (skillRef != null)
+        {
+            // We have attacked
+            hasAttacked = true;
 
-        skillRef.StartSkill(attackNodePos);
-        /*
-        // We have to set the enemy to attack, we just need to validate a bit first
-        Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
-        if (nodeToAttack != null)
-        {
-            MoveAttack charToAttack = mAContRef.GetCharacterMAByNode(nodeToAttack);
-            if (charToAttack != null)
-            {
-                // Actually set the reference to the enemy HP
-                enemyHP = charToAttack.GetComponent<Health>();
-                if (enemyHP == null)
-                    Debug.Log("Enemy to attack does not have a Health script attached to it");
-            }
-            else
-                Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
+            skillRef.StartSkill(attackNodePos);
         }
-        // This occurs when an enemy isn't close enough to an ally to attack. Call end attack and don't start playing an animation
-        else
-        {
-            //Debug.Log("Node to attack does not exist");
-            EndAttack();
-            return;
-        }
-
-        int attackDirection = -1;
-        // If I am below the node I am striking, I should attack up
-        if (attackNodePos.y - this.transform.position.y > 0)
-        {
-            sprRendRef.flipX = false;
-            attackDirection = 1;
-        }
-        // If I am right the node I am striking, I should attack left
-        if (this.transform.position.x - attackNodePos.x > 0)
-        {
-            sprRendRef.flipX = true;
-            attackDirection = 2;
-        }
-        // If I am left the node I am striking, I should attack right
-        if (attackNodePos.x - this.transform.position.x > 0)
-        {
-            sprRendRef.flipX = false;
-            attackDirection = 3;
-        }
-        // If I am above the node I am striking, I should attack down
-        if (this.transform.position.y - attackNodePos.y > 0)
-        {
-            sprRendRef.flipX = false;
-            attackDirection = 4;
-        }
-
-        //Debug.Log("Start Attack");
-        animRef.SetInteger("AttackDirection", attackDirection);
-        */
     }
 
     /// <summary>
@@ -418,39 +368,10 @@ public class MoveAttack : MonoBehaviour
     /// </summary>
     public void EndAttack()
     {
-        skillRef.EndSkill();
-        /*
-        //Debug.Log("Finished Attacking");
-
-        // Validate that we have an enemy to attack
-        if (enemyHP != null)
+        if (skillRef != null)
         {
-            // Start attacking animation
-            animRef.SetInteger("AttackDirection", -animRef.GetInteger("AttackDirection"));
-            // Deal the damage and get rid of our reference to the enemyHP
-            enemyHP.TakeDamage(dmgToDeal);
-            enemyHP = null;
+            skillRef.EndSkill();
         }
-        // If we have no enemy to attack, give back control to the proper authority
-        else
-        {
-            // We should not attack anything, so set attack animation to 0
-            animRef.SetInteger("AttackDirection", 0);
-
-            //Debug.Log("There was no enemy to attack");
-            // If this character is an enemy, have the next enemy attack
-            if (whatAmI == CharacterType.Enemy)
-            {
-                enMAAIRef.StartNextEnemy();
-            }
-            // If this character is an ally, give back control to the user
-            if (whatAmI == CharacterType.Ally)
-            {
-                mAGUIContRef.AllowSelect();
-                turnSysRef.IsPlayerDone();
-            }
-        }
-        */
     }
 
     /// <summary>
