@@ -42,7 +42,7 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     public bool addItem(Item item)
     {
-        if (isFull())
+        if (IsFull())
             return false;
         items.Add(item);
         refreshUI();
