@@ -24,7 +24,12 @@ public class MoveAttackGUIController : MonoBehaviour
     // For CamFollow
     private CamFollow camFollowRef;
     public bool areSelected1,areSelected2,areSelected3;
-    
+
+    // Events
+    // Event for when a character is selected
+    public delegate void CharacterSelect(MoveAttack charMARef);
+    public static event CharacterSelect OnCharacterSelect;
+
     // Set references
     private void Awake()
     {
@@ -209,6 +214,9 @@ public class MoveAttackGUIController : MonoBehaviour
             camFollowRef.FollowEnemy(charSelected.transform);
         }
 
+        // Call the character selected event
+        if (OnCharacterSelect != null)
+            OnCharacterSelect(charSelected);
         /*
         // If the character has already moved, we dont really want to keep them selected, so deselect them
         if (charSelected.WhatAmI == CharacterType.Ally && charSelected.HasMoved && charSelected.HasAttacked)

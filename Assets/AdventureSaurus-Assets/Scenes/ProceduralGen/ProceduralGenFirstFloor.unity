@@ -120,12 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!224 &74787408 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1885554833038922947, guid: 70da1097b1dafad4a9fb162e686f4084,
-    type: 3}
-  m_PrefabInstance: {fileID: 1885554831511062486}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &449665924
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,18 +245,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8129528713394114394, guid: e9255b6a8fa73744dac62b3850185792,
     type: 3}
   m_PrefabInstance: {fileID: 456140657}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &976947105 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1885554832198332935, guid: 70da1097b1dafad4a9fb162e686f4084,
-    type: 3}
-  m_PrefabInstance: {fileID: 1885554831511062486}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &1079744847 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1885554832532744489, guid: 70da1097b1dafad4a9fb162e686f4084,
-    type: 3}
-  m_PrefabInstance: {fileID: 1885554831511062486}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1122760987
 PrefabInstance:
@@ -584,21 +566,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1885554831325360178, guid: 70da1097b1dafad4a9fb162e686f4084,
+    - target: {fileID: 7976364540032945923, guid: 70da1097b1dafad4a9fb162e686f4084,
         type: 3}
-      propertyPath: buttonTransforms.Array.data[3]
-      value: 
-      objectReference: {fileID: 1079744847}
-    - target: {fileID: 1885554831325360178, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: buttonTransforms.Array.data[4]
-      value: 
-      objectReference: {fileID: 976947105}
-    - target: {fileID: 1885554831325360178, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: buttonTransforms.Array.data[5]
-      value: 
-      objectReference: {fileID: 74787408}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8937746285076730561, guid: 70da1097b1dafad4a9fb162e686f4084,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

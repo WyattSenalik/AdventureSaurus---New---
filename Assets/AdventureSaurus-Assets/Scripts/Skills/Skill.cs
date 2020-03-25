@@ -4,20 +4,39 @@ using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
-
-    protected TurnSystem turnSysRef;//need turn system to call isPlayerDone after using Skill
+    // Reference to game controller scripts
+    // Need turn system to call isPlayerDone after using Skill
+    protected TurnSystem turnSysRef;
     protected MoveAttackGUIController mAGUIContRef;
-    protected MoveAttack maRef;// reference to the selected character's MoveAttack script
     protected MoveAttackController mAContRef;
     protected EnemyMoveAttackAI enMAAIRef;
+
+    // Reference to the selected character's MoveAttack script
+    protected MoveAttack maRef;
+    // The skill's unique number
     protected int skillNum = -1;
+    // If this skill hits diagonals
     protected bool diagnols = false;
+    // If this skill heals
     protected bool healing = false;
+    // A list of the enemies that will take damage from this skill
+    // Or a list of the allyies that will be healed from this skill
     protected List<Health> enemiesHP;
-    [SerializeField] private int cooldown = 1;
+    // The cooldown of the skill
+    private int cooldown = 0;
+    // The amount of turns progressed towards the cooldown
+    protected int cooldownTimer;
+    public int CooldownTimer
+    {
+        get { return cooldownTimer; }
+    }
+    // The amount of damage this skill does / the amount this skill heals
     protected int damage = 0;
+    // The animator attached to this character
     protected Animator anime = null;//damage to deal, amount to heal ,and amount to buff
+    // The spriterenderer attached to this cahracter
     protected SpriteRenderer sprRendRef = null;
+    // Stats attached to this character
     protected Stats statsRef = null;
 
     /// <summary>
@@ -56,6 +75,7 @@ public class Skill : MonoBehaviour
         }
     }
 
+    // Called before start
     protected void Awake()
     {
         // These will have to be set multiple times [allies only]
@@ -81,6 +101,12 @@ public class Skill : MonoBehaviour
         {
             Debug.Log("Could not find Stats attached to " + this.name);
         }
+    }
+
+    // Initialize some variables
+    private void Start()
+    {
+        cooldownTimer = 0;
     }
 
 
@@ -147,4 +173,13 @@ public class Skill : MonoBehaviour
         anime.SetInteger("AttackDirection", -anime.GetInteger("AttackDirection"));
         anime.SetInteger("SkillNum", -1);
     }
+
+    /// <summary>
+    /// Makes the skill go on cooldown
+    /// </summary>
+   protected void GoOnCooldown()
+   {
+        // Sets cooldown timer to cooldown. When cooldown timer reaches 0, we can use the skill again
+        cooldownTimer = cooldown;
+   }
 }

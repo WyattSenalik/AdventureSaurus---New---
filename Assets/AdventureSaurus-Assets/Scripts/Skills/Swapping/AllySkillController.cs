@@ -9,8 +9,20 @@ public class AllySkillController : CharacterSkills
 {
     // The skills this ally current has available to them to use
     private List<Skill> availableSkills;
+    public Skill SpecialSkill
+    {
+        get {
+            if (availableSkills.Count >= 2)
+                return availableSkills[1];
+            return null;
+        }
+    }
     // If the special skill is currently active
     private bool specialActive;
+    public bool SpecialActive
+    {
+        get { return specialActive; }
+    }
 
     // Called before the first frame
     private void Start()
