@@ -13,6 +13,10 @@ public class MoveAttackGUIController : MonoBehaviour
     private MoveAttackController mAContRef = null;  // Reference to the MoveAttackController script
     private InputController inpContRef = null;  // Reference to the InputController script
     private MoveAttack charSelected;    // A reference to the selected character's MoveAttack script 
+    public MoveAttack CharSelectedMA
+    {
+        get { return charSelected; }
+    }
 
     private bool canSelect; // If the user can select things right now
     private Node nodeToAttack;  // Used with MoveAndAttack to keep track of who we should be attacking

@@ -8,12 +8,17 @@ public class SkillHolder : MonoBehaviour
     // All of the skills obtainable in the game
     [SerializeField] private string[] skillNames = { "BasicAttack", "Heal", "Smite", "ThreeSixtySwing" };
 
+    public const byte BASIC_ATTACK = 0;
+    public const byte HEAL = 1;
+    public const byte SMITE = 2;
+    public const byte THREE_SIXTY_SWING = 3;
+
     /// <summary>
     /// Bestoys a skill upon an ally
     /// </summary>
     /// <param name="chosenChara">The ally chosen to get the skill</param>
     /// <param name="skillIndex">The index of the skill</param>
-    public Skill GiveSkill(AllySkillController chosenChara, int skillIndex)
+    public Skill GiveSkill(AllySkillController chosenChara, byte skillIndex)
     {
         if (skillIndex >= skillNames.Length)
         {

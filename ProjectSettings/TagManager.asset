@@ -11,6 +11,7 @@ TagManager:
   - GenerationController
   - PersistantController
   - SkillHolder
+  - Canvas
   layers:
   - Default
   - TransparentFX

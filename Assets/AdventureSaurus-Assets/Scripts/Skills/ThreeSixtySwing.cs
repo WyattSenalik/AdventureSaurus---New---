@@ -40,7 +40,7 @@ public class ThreeSixtySwing : Skill
             areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.up + Vector2Int.left));
             areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.up + Vector2Int.right));
             areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.down + Vector2Int.left));
-            areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.up + Vector2Int.right));
+            areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.down + Vector2Int.right));
 
             MoveAttack charToAttack;
             int HPindex = 0;
