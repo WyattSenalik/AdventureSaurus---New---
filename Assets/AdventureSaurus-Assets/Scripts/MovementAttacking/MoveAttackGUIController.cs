@@ -295,6 +295,10 @@ public class MoveAttackGUIController : MonoBehaviour
             charSelected.MyStats.DisplayStats(false);
             charSelected = null;
         }
+
+        // Call the character selected event
+        if (OnCharacterSelect != null)
+            OnCharacterSelect(charSelected);
     }
 
     /// <summary>

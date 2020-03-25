@@ -9,8 +9,7 @@ public class ThreeSixtySwing : Skill
         base.Awake();
         skillNum = 360;
         diagnols = true;
-        //damage = 1;
-
+        cooldown = 2;
     }
     /// <summary>
     /// Starts the animation for 360. Also gets refences to the enemies that got hit by skill.!!MAy need arltering since skill activation might be different.
@@ -19,7 +18,7 @@ public class ThreeSixtySwing : Skill
     override public void StartSkill(Vector2Int attackNodePos)
     {
         // Get the damage
-        damage = statsRef.Strength;
+        damage = statsRef.Magic;
 
         Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
         
@@ -63,8 +62,6 @@ public class ThreeSixtySwing : Skill
 
             }
             StartSkillAnimation(attackNodePos);
-
-
         }
         else
         {
@@ -79,17 +76,24 @@ public class ThreeSixtySwing : Skill
     /// </summary>
     public override void EndSkill()
     {
+        //Debug.Log("360 End Skill");
         if (enemiesHP != null)
         {
+            //Debug.Log("EndAnimation");
             // End the skills animation
             EndSkillAnimation();
 
+            //Debug.Log("Deal damage");
             // Deal the damage and get rid of our reference to the enemyHP
             for (int i = 0; i < enemiesHP.Count; i++)
             {
-                enemiesHP[i].TakeDamage(damage, this.GetComponent<Stats>());
-                enemiesHP[i] = null;
+                if (enemiesHP[i] != null)
+                {
+                    enemiesHP[i].TakeDamage(damage, this.GetComponent<Stats>());
+                    enemiesHP[i] = null;
+                }
             }
+            //Debug.Log("Finished doing damage");
         }
         else
         {

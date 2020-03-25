@@ -368,8 +368,10 @@ public class MoveAttack : MonoBehaviour
     /// </summary>
     public void EndAttack()
     {
+        //Debug.Log("Ending attack1");
         if (skillRef != null)
         {
+            //Debug.Log("End skill " + skillRef.SkillNum);
             skillRef.EndSkill();
         }
     }

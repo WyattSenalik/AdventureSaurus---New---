@@ -109,8 +109,9 @@ public class AllySkillController : CharacterSkills
     /// <summary>
     /// Activates this characters basic attack
     /// </summary>
-    private void DeactivateSkill()
+    public void DeactivateSkill()
     {
         ChangeSkill(0);
+        specialActive = false;
     }
 }

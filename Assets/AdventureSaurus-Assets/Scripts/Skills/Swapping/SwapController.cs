@@ -49,11 +49,14 @@ public class SwapController : MonoBehaviour
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButton;
     }
 
-    // Update the button when we select a new character
+    /// <summary>
+    /// Update the button when we select a new character
+    /// </summary>
+    /// <param name="charMARef">The currently selected character</param>
     private void UpdateSkillButton(MoveAttack charMARef)
     {
-        // If that character is an enemy, just set the button to default and disable it
-        if (charMARef.WhatAmI == CharacterType.Enemy)
+        // If there is no character selected or that character is an enemy, just set the button to default and disable it
+        if (charMARef == null || charMARef.WhatAmI == CharacterType.Enemy)
         {
             swapButt.interactable = false;
             // TODO Hide cooldown

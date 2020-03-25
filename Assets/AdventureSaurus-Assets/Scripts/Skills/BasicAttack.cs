@@ -64,6 +64,21 @@ public class BasicAttack : Skill
             EndSkillAnimation();
             // Deal the damage and get rid of our reference to the enemyHP
             enemiesHP[0].TakeDamage(damage, this.GetComponent<Stats>());
+
+
+            // Reduce the special skill's cooldown by 1
+            // If this is an ally
+            if (maRef.WhatAmI == CharacterType.Ally)
+            {
+                // Get the AllySkillController
+                AllySkillController allySkillContRef = maRef.GetComponent<AllySkillController>();
+                if (allySkillContRef == null)
+                {
+                    Debug.Log("There is no AllySkillController attached to " + this.name);
+                }
+                // Increment the cooldown of special skill
+                allySkillContRef.SpecialSkill.IncrementCooldown();
+            }
         }
         // If we have no enemy to attack, give back control to the proper authority
         else

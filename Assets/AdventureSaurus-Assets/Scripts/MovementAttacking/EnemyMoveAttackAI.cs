@@ -401,46 +401,49 @@ public class EnemyMoveAttackAI : MonoBehaviour
         {
             Debug.Log(currentEnemy.name + " can't attack an ally this turn");
             // If we have no ally to attack, we need to find the closest ally to me and move as close to them as possible
-            Node closestAllyNode = FindAllyOutOfRange();
+            Node[] closeNodes = FindAllyOutOfRange();
+            Node closestAllyNode = closeNodes[0];
+            Node closestAttackFromNode = closeNodes[1];
             // If there are no closest allies, we just should move in place
             if (closestAllyNode == null)
             {
                 return currentEnemyNode;
             }
 
-            // We want to get a list of the nodes that we can attack from arround the ally
-            List<Node> potAttackFromNodes = mAContRef.GetNodesDistFromNode(closestAllyNode, currentEnemy.AttackRange);
-            // We remove the nodes that already have something occupying them
-            for (int i = 0; i < potAttackFromNodes.Count; ++i)
-            {
-                if (potAttackFromNodes[i].occupying != CharacterType.None)
-                {
-                    potAttackFromNodes.RemoveAt(i);
-                    --i;
-                }
-            }
+            /// We now do this in FindAllyOutOfRange
+            //// We want to get a list of the nodes that we can attack from arround the ally
+            //List<Node> potAttackFromNodes = mAContRef.GetNodesDistFromNode(closestAllyNode, currentEnemy.AttackRange);
+            //// We remove the nodes that already have something occupying them
+            //for (int i = 0; i < potAttackFromNodes.Count; ++i)
+            //{
+            //    if (potAttackFromNodes[i].occupying != CharacterType.None)
+            //    {
+            //        potAttackFromNodes.RemoveAt(i);
+            //        --i;
+            //    }
+            //}
 
-            // Determine the closest node out of those nodes
-            Node closestAttackFromNode = null;
-            if (potAttackFromNodes.Count > 0)
-            {
-                // Assume the first node is the closest
-                closestAttackFromNode = potAttackFromNodes[0];
-                int closestDist = Mathf.Abs(closestAttackFromNode.position.x - currentEnemyNode.position.x) +
-                    Mathf.Abs(closestAttackFromNode.position.y - currentEnemyNode.position.y);
-                for (int i = 1; i < potAttackFromNodes.Count; ++i)
-                {
-                    // Determine the distance from the current node
-                    int currentDist = Mathf.Abs(potAttackFromNodes[i].position.x - currentEnemyNode.position.x) +
-                        Mathf.Abs(potAttackFromNodes[i].position.y - currentEnemyNode.position.y);
-                    // If we find a node that is closer than the closestAttackNode, save it as the new closest
-                    if (currentDist < closestDist)
-                    {
-                        closestAttackFromNode = potAttackFromNodes[i];
-                        closestDist = currentDist;
-                    }
-                }
-            }
+            //// Determine the closest node out of those nodes
+            //Node closestAttackFromNode = null;
+            //if (potAttackFromNodes.Count > 0)
+            //{
+            //    // Assume the first node is the closest
+            //    closestAttackFromNode = potAttackFromNodes[0];
+            //    int closestDist = Mathf.Abs(closestAttackFromNode.position.x - currentEnemyNode.position.x) +
+            //        Mathf.Abs(closestAttackFromNode.position.y - currentEnemyNode.position.y);
+            //    for (int i = 1; i < potAttackFromNodes.Count; ++i)
+            //    {
+            //        // Determine the distance from the current node
+            //        int currentDist = Mathf.Abs(potAttackFromNodes[i].position.x - currentEnemyNode.position.x) +
+            //            Mathf.Abs(potAttackFromNodes[i].position.y - currentEnemyNode.position.y);
+            //        // If we find a node that is closer than the closestAttackNode, save it as the new closest
+            //        if (currentDist < closestDist)
+            //        {
+            //            closestAttackFromNode = potAttackFromNodes[i];
+            //            closestDist = currentDist;
+            //        }
+            //    }
+            //}
 
             // Test if we got a node or not
             // If we did not get a node, we have a problem. FindAllyOutOfRange should have only given us an ally with an opening to attack,
@@ -560,8 +563,8 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// <summary>
     /// Finds the closest ally to the current enemy
     /// </summary>
-    /// <returns>Returns the node that the closest ally is on</returns>
-    private Node FindAllyOutOfRange()
+    /// <returns>Returns the node that the closest ally is on [0]. Also returns the closest node to attack that ally from [1]</returns>
+    private Node[] FindAllyOutOfRange()
     {
         // Get the node the current enemy is at
         Node startNode = mAContRef.GetNodeByWorldPosition(currentEnemy.transform.position);
@@ -570,7 +573,11 @@ public class EnemyMoveAttackAI : MonoBehaviour
         // If they are, we just return null
         Node closestAllyNode = null; // The node of the closest ally
         // The closest allies distance from the currentEnemy
-        int closestAllyDist = (mAContRef.GridTopLeft.y - mAContRef.GridBotRight.y) + (mAContRef.GridBotRight.x - mAContRef.GridTopLeft.x) + 2;
+        int closestAllyDist = int.MaxValue;
+        // The closest ally in terms of Node.F
+        int closestF = int.MaxValue;
+        // Closest node to attack the closest ally from
+        Node closestAttackNode = null;
         for (int i = 0; i < alliesMA.Count; ++i)
         {
             MoveAttack curAlly = alliesMA[i];
@@ -598,16 +605,23 @@ public class EnemyMoveAttackAI : MonoBehaviour
                         // See if there is a path to there for enemies
                         if (mAContRef.Pathing(startNode, allyAttackNodes[j], CharacterType.Enemy))
                         {
-                            mAContRef.ResetPathing();
-                            closestAllyNode = curAllyNode;
-                            closestAllyDist = curAllyDist;
+                            // See if the F value is lower
+                            if (closestF > startNode.F)
+                            {
+                                closestF = startNode.F;
+                                mAContRef.ResetPathing();
+                                closestAllyNode = curAllyNode;
+                                closestAllyDist = curAllyDist;
+                                closestAttackNode = allyAttackNodes[j];
+                            }
                         }
                     }
                 }
             }
         }
+        Node[] rtnList = { closestAllyNode, closestAttackNode };
         // Returns null if the closestAlly node was not found
-        return closestAllyNode;
+        return rtnList;
     }
 
     /// <summary>

@@ -15,6 +15,10 @@ public class Skill : MonoBehaviour
     protected MoveAttack maRef;
     // The skill's unique number
     protected int skillNum = -1;
+    public int SkillNum
+    {
+        get { return skillNum; }
+    }
     // If this skill hits diagonals
     protected bool diagnols = false;
     // If this skill heals
@@ -23,7 +27,7 @@ public class Skill : MonoBehaviour
     // Or a list of the allyies that will be healed from this skill
     protected List<Health> enemiesHP;
     // The cooldown of the skill
-    private int cooldown = 0;
+    protected int cooldown = 0;
     // The amount of turns progressed towards the cooldown
     protected int cooldownTimer;
     public int CooldownTimer
@@ -116,7 +120,7 @@ public class Skill : MonoBehaviour
     /// <param name="attackNodesPos">Grid position of the node at the center of the skill</param>
     virtual public void StartSkill(Vector2Int attackNodePos)
     {
-        // Debug.Log("StartAttack not implemented");
+        Debug.Log("StartAttack not implemented");
     }
 
     /// <summary>
@@ -172,14 +176,47 @@ public class Skill : MonoBehaviour
     {
         anime.SetInteger("AttackDirection", -anime.GetInteger("AttackDirection"));
         anime.SetInteger("SkillNum", -1);
+
+        // Also puts the skill on cooldown
+        GoOnCooldown();
     }
 
     /// <summary>
-    /// Makes the skill go on cooldown
+    /// Makes the skill go on cooldown.
     /// </summary>
-   protected void GoOnCooldown()
-   {
-        // Sets cooldown timer to cooldown. When cooldown timer reaches 0, we can use the skill again
-        cooldownTimer = cooldown;
-   }
+    protected void GoOnCooldown()
+    {
+        if (cooldown != 0)
+        {
+            // Sets cooldown timer to cooldown. When cooldown timer reaches 0, we can use the skill again
+            cooldownTimer = cooldown;
+
+            // If the current character is an ally, we also want them to reset their skill to basic attack
+            if (maRef.WhatAmI == CharacterType.Ally)
+            {
+                // Get the ally skill controller
+                AllySkillController allyskillContRef = maRef.GetComponent<AllySkillController>();
+                if (allyskillContRef == null)
+                {
+                    Debug.Log("No AllySkillController was attached to " + maRef.name);
+                    return;
+                }
+
+                // De activate the special skill (if it was one)
+                allyskillContRef.DeactivateSkill();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Increments the cooldown 1 closer to being off cooldown.
+    /// Called from BasicAttack.EndSkill and TODO
+    /// </summary>
+    public void IncrementCooldown()
+    {
+        Debug.Log("Increment Cooldown");
+        // 0 is refreshed so lower the cooldown timer
+        if (--cooldownTimer < 0)
+            cooldownTimer = 0;
+    }
 }

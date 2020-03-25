@@ -87,7 +87,7 @@ AnimatorStateMachine:
     m_Position: {x: 160, y: 360, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3746117329010146831}
-    m_Position: {x: 420, y: 360, z: 0}
+    m_Position: {x: 410, y: 360, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8359215211765553840}
     m_Position: {x: 690, y: 360, z: 0}
@@ -159,9 +159,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: AttackDirection
-    m_EventTreshold: 1
+    m_EventTreshold: 0
   - m_ConditionMode: 7
     m_ConditionEvent: SkillNum
     m_EventTreshold: 0
@@ -367,6 +367,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: AttackDirection
     m_EventTreshold: 4
+  - m_ConditionMode: 6
+    m_ConditionEvent: SkillNum
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3746117329010146831}
   m_Solo: 0
@@ -500,10 +503,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: AttackDirection
-    m_EventTreshold: 1
-  - m_ConditionMode: 4
-    m_ConditionEvent: AttackDirection
-    m_EventTreshold: 4
+    m_EventTreshold: 0
   - m_ConditionMode: 7
     m_ConditionEvent: SkillNum
     m_EventTreshold: 0
@@ -635,6 +635,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: AttackDirection
     m_EventTreshold: 1
+  - m_ConditionMode: 6
+    m_ConditionEvent: SkillNum
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8359215211765553840}
   m_Solo: 0
@@ -976,9 +979,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: AttackDirection
-    m_EventTreshold: 4
+    m_EventTreshold: 0
   - m_ConditionMode: 7
     m_ConditionEvent: SkillNum
     m_EventTreshold: 0
@@ -1059,6 +1062,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: AttackDirection
     m_EventTreshold: 4
+  - m_ConditionMode: 6
+    m_ConditionEvent: SkillNum
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7041068442000729561}
   m_Solo: 0
@@ -1084,6 +1090,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: AttackDirection
     m_EventTreshold: 1
+  - m_ConditionMode: 6
+    m_ConditionEvent: SkillNum
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8359215211765553840}
   m_Solo: 0
@@ -1348,6 +1357,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: AttackDirection
     m_EventTreshold: 4
+  - m_ConditionMode: 6
+    m_ConditionEvent: SkillNum
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3746117329010146831}
   m_Solo: 0
@@ -1724,6 +1736,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: AttackDirection
     m_EventTreshold: 4
+  - m_ConditionMode: 6
+    m_ConditionEvent: SkillNum
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7041068442000729561}
   m_Solo: 0
