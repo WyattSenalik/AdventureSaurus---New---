@@ -8,19 +8,19 @@ public class ItemSlot : MonoBehaviour
     
     [SerializeField] Image image;
 
-    private Item item;
-    public Item _item {
-        get { return item; }
+    private Item Item;
+    public Item item {
+        get { return Item; }
         set {
-            item = value;
+            Item = value;
 
-            if(item == null)
+            if(Item == null)
             {
                 image.enabled = false;
             }
             else
             {
-                image.sprite = item.Icon;
+                image.sprite = Item.Icon;
                 image.enabled = true;
             }
         }
