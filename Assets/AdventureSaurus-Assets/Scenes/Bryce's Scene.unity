@@ -354,7 +354,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14671196}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -367,7 +367,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1066,7 +1066,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 36982312}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1079,7 +1079,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1464,9 +1464,10 @@ GameObject:
   m_Component:
   - component: {fileID: 68381744}
   - component: {fileID: 68381743}
+  - component: {fileID: 68381745}
   m_Layer: 0
   m_Name: MapCam
-  m_TagString: Untagged
+  m_TagString: MapCam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1526,8 +1527,20 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &68381745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68381742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bd4ecc477e4a5c47ab1769fac0bc245, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &71183834
 GameObject:
   m_ObjectHideFlags: 0
@@ -2245,9 +2258,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2073719022}
-  - {fileID: 632204201}
-  - {fileID: 1548973284}
   - {fileID: 606514786}
   - {fileID: 1675062633}
   - {fileID: 680251981}
@@ -2271,7 +2281,7 @@ Transform:
   - {fileID: 1160080763}
   - {fileID: 1166479358}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &122637997
 GameObject:
@@ -2567,7 +2577,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 130351875}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -2580,7 +2590,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2809,7 +2819,7 @@ Transform:
   - {fileID: 1917220956}
   - {fileID: 1620863492}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &137053694
 Rigidbody2D:
@@ -2953,6 +2963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -3389,7 +3400,7 @@ Transform:
   m_Children:
   - {fileID: 1608952502}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &160594502
 GameObject:
@@ -3668,7 +3679,7 @@ Transform:
   - {fileID: 103327572}
   - {fileID: 1975708709}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 22
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &169399870
 Rigidbody2D:
@@ -3812,6 +3823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -5652,7 +5664,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &261298156
 GameObject:
@@ -6711,7 +6723,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 311357191}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -6724,7 +6736,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7167,7 +7179,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 695327162}
+      - m_Target: {fileID: 2129405659}
         m_MethodName: yes
         m_Mode: 1
         m_Arguments:
@@ -10065,7 +10077,7 @@ Transform:
   - {fileID: 1273335813}
   - {fileID: 264155024}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 15
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &469706716
 Rigidbody2D:
@@ -10209,6 +10221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -11477,7 +11490,7 @@ Transform:
   - {fileID: 1942934082}
   - {fileID: 1385304633}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &514779889
 GameObject:
@@ -11628,7 +11641,7 @@ Transform:
   - {fileID: 617791409}
   - {fileID: 1145387064}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 10
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &522974058
 Rigidbody2D:
@@ -11772,6 +11785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -13104,7 +13118,7 @@ Transform:
   - {fileID: 1617856479}
   - {fileID: 977404803}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 19
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &581915568
 Rigidbody2D:
@@ -13248,6 +13262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -14229,7 +14244,7 @@ Transform:
   - {fileID: 501746337}
   - {fileID: 1406221158}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &606514787
 Rigidbody2D:
@@ -14373,6 +14388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -15101,7 +15117,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 623245759}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -15114,7 +15130,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15371,14 +15387,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632204200}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 3, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.2678156, y: -1.9762177, z: -1229.5234}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1365110915}
   - {fileID: 1506153098}
   - {fileID: 125704579}
-  m_Father: {fileID: 118960599}
+  m_Father: {fileID: 1821006479}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &632204202
@@ -15523,6 +15539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Ray Attack of the Clones
+  charSpr: {fileID: 0}
   strength: 1
   magic: 1
   speed: 3
@@ -17097,7 +17114,7 @@ Transform:
   - {fileID: 1537182301}
   - {fileID: 1969376170}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &680251982
 Rigidbody2D:
@@ -17241,6 +17258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -17719,7 +17737,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 695327163}
-  - component: {fileID: 695327162}
   m_Layer: 0
   m_Name: ExitStairs
   m_TagString: Untagged
@@ -17727,23 +17744,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &695327162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695327161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5258049b3bc3ee4cb858150e9630b0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player1: {fileID: 2073719022}
-  player2: {fileID: 632204201}
-  player3: {fileID: 1548973284}
-  stair: {fileID: 695327163}
-  prompter: {fileID: 2129405649}
 --- !u!4 &695327163
 Transform:
   m_ObjectHideFlags: 0
@@ -17756,7 +17756,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &697964215
 GameObject:
@@ -17883,7 +17883,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701766198}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -17896,7 +17896,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20977,7 +20977,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 852422562}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -20990,7 +20990,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21060,7 +21060,7 @@ Transform:
   - {fileID: 374901115}
   - {fileID: 666611239}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 13
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &855225118
 Rigidbody2D:
@@ -21204,6 +21204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -21715,7 +21716,7 @@ Transform:
   - {fileID: 621101475}
   - {fileID: 74935024}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 9
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &885729486
 Rigidbody2D:
@@ -21859,6 +21860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -22157,7 +22159,7 @@ Transform:
   - {fileID: 1878642686}
   - {fileID: 1145000961}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 21
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &897240286
 Rigidbody2D:
@@ -22301,6 +22303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -22973,7 +22976,7 @@ Transform:
   - {fileID: 950328236}
   - {fileID: 1023656042}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 16
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &924977794
 Rigidbody2D:
@@ -23117,6 +23120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -23568,7 +23572,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 942859913}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -23581,7 +23585,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -24516,7 +24520,7 @@ Transform:
   - {fileID: 946069300}
   - {fileID: 61130781}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 18
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &982869351
 Rigidbody2D:
@@ -24660,6 +24664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -25451,7 +25456,7 @@ Transform:
   - {fileID: 2066187770}
   - {fileID: 1365448546}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1023656041
 GameObject:
@@ -25676,7 +25681,7 @@ Transform:
   - {fileID: 1045116363}
   - {fileID: 2032848950}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1030204881
 Rigidbody2D:
@@ -25820,6 +25825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -27493,7 +27499,7 @@ Transform:
   - {fileID: 2094204958}
   - {fileID: 1963042814}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 20
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1101072794
 Rigidbody2D:
@@ -27637,6 +27643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -28217,7 +28224,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1144093110}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -28230,7 +28237,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -28968,7 +28975,7 @@ Transform:
   - {fileID: 1184030500}
   - {fileID: 356159752}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 23
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1160080764
 Rigidbody2D:
@@ -29112,6 +29119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -29375,7 +29383,7 @@ Transform:
   - {fileID: 1722296517}
   - {fileID: 316880854}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 24
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1166479359
 Rigidbody2D:
@@ -29519,6 +29527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -30424,7 +30433,7 @@ Transform:
   - {fileID: 450013107}
   - {fileID: 891367144}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 8
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1194213928
 Rigidbody2D:
@@ -30568,6 +30577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -32048,7 +32058,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265675534}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -32061,7 +32071,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -33774,7 +33784,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1326722894}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -33787,7 +33797,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -34621,7 +34631,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364140636}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -34634,7 +34644,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -35362,7 +35372,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -36089,7 +36099,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430299791}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -36102,7 +36112,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -36469,7 +36479,7 @@ Transform:
   - {fileID: 2049020846}
   - {fileID: 961982282}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1449013496
 GameObject:
@@ -37493,7 +37503,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1508230816}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -37506,7 +37516,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -37616,6 +37626,80 @@ RectTransform:
   m_AnchoredPosition: {x: -43.3, y: 250}
   m_SizeDelta: {x: 1900, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &1515196097
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6680243050433678731, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_Name
+      value: Persistant Controller
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678729, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.924058
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678729, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.806533
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678729, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678729, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678729, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678729, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678729, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678729, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678729, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678729, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678729, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680243050433678730, guid: 18f39209231b567439eeb9846456404d,
+        type: 3}
+      propertyPath: tempAllyParent
+      value: 
+      objectReference: {fileID: 1821006479}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 18f39209231b567439eeb9846456404d, type: 3}
 --- !u!1 &1517383032
 GameObject:
   m_ObjectHideFlags: 0
@@ -38580,14 +38664,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548973283}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 3, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.2678156, y: -1.9762177, z: -1229.5234}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 94848946}
   - {fileID: 1036601122}
   - {fileID: 1958386735}
-  m_Father: {fileID: 118960599}
+  m_Father: {fileID: 1821006479}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1548973285
@@ -38732,6 +38816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Ray The PhotoCopied
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 3
@@ -39614,7 +39699,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 695327162}
+      - m_Target: {fileID: 2129405659}
         m_MethodName: no
         m_Mode: 1
         m_Arguments:
@@ -45062,7 +45147,7 @@ Transform:
   - {fileID: 43452878}
   - {fileID: 742957956}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1675062634
 Rigidbody2D:
@@ -45206,6 +45291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -46846,6 +46932,100 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1744226158}
   m_CullTransparentMesh: 0
+--- !u!1001 &1747771156
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4124259768142400221, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_Name
+      value: ProceduralGenerationController 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400223, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.951085
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400223, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.8198435
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400223, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400223, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400223, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400223, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400223, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400223, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400223, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400223, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400223, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400208, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: shouldGenerate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124259768142400208, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: roomParent
+      value: 
+      objectReference: {fileID: 1440294634}
+    - target: {fileID: 4124259768142400208, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: wallParent
+      value: 
+      objectReference: {fileID: 513935297}
+    - target: {fileID: 4124259768142400208, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: stairsTrans
+      value: 
+      objectReference: {fileID: 695327163}
+    - target: {fileID: 4124259768142400208, guid: 114ae0f80624f1d43a71df526f18d048,
+        type: 3}
+      propertyPath: charParent
+      value: 
+      objectReference: {fileID: 118960599}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 114ae0f80624f1d43a71df526f18d048, type: 3}
 --- !u!1 &1752184900
 GameObject:
   m_ObjectHideFlags: 0
@@ -47589,7 +47769,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794220151}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -47602,7 +47782,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -48093,6 +48273,39 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1821006478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1821006479}
+  m_Layer: 0
+  m_Name: Temp Ally Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1821006479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821006478}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.2678156, y: 4.9762177, z: 1229.5234}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2073719022}
+  - {fileID: 632204201}
+  - {fileID: 1548973284}
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1824607436
 GameObject:
   m_ObjectHideFlags: 0
@@ -48403,7 +48616,7 @@ Transform:
   - {fileID: 94645651}
   - {fileID: 708539137}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 11
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1832377141
 Rigidbody2D:
@@ -48547,6 +48760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -48928,7 +49142,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851174147}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -48941,7 +49155,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -49584,7 +49798,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1881955306}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -49597,7 +49811,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -49777,7 +49991,7 @@ Transform:
   - {fileID: 723072606}
   - {fileID: 1276330214}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 14
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1894529818
 Rigidbody2D:
@@ -49921,6 +50135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -52723,7 +52938,7 @@ Transform:
   - {fileID: 330437383}
   - {fileID: 1521173235}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 12
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &2005925026
 Rigidbody2D:
@@ -52867,6 +53082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -52981,7 +53197,7 @@ Transform:
   - {fileID: 1700706203}
   - {fileID: 1983883810}
   m_Father: {fileID: 118960599}
-  m_RootOrder: 17
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &2007214868
 Rigidbody2D:
@@ -53125,6 +53341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Raptor Bandit
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 2
@@ -53215,7 +53432,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008447538}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -53228,7 +53445,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -53654,6 +53871,7 @@ GameObject:
   - component: {fileID: 2031846700}
   - component: {fileID: 2031846702}
   - component: {fileID: 2031846701}
+  - component: {fileID: 2031846703}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -53719,6 +53937,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2031846699}
   m_CullTransparentMesh: 0
+--- !u!114 &2031846703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031846699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc502b763bfed24180f42708b3017fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - {fileID: 11400000, guid: 55b6680792d35e447beb848a53c560c8, type: 2}
+  itemParent: {fileID: 1692121816}
+  itemSlots:
+  - {fileID: 1390084931}
+  - {fileID: 623245763}
+  - {fileID: 1508230820}
+  - {fileID: 1144093114}
+  - {fileID: 2105009254}
+  - {fileID: 311357195}
+  - {fileID: 1881955310}
+  - {fileID: 130351879}
+  - {fileID: 1326722898}
+  - {fileID: 942859917}
+  - {fileID: 852422566}
+  - {fileID: 1794220155}
+  - {fileID: 1851174151}
+  - {fileID: 36982316}
+  - {fileID: 2008447542}
+  - {fileID: 1364140640}
+  - {fileID: 701766202}
+  - {fileID: 1430299795}
+  - {fileID: 14671200}
+  - {fileID: 1265675538}
 --- !u!1 &2031976716
 GameObject:
   m_ObjectHideFlags: 0
@@ -55200,14 +55454,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2073719021}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 3, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.2678156, y: -1.9762177, z: -1229.5234}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2011384749}
   - {fileID: 1670429409}
   - {fileID: 1365334200}
-  m_Father: {fileID: 118960599}
+  m_Father: {fileID: 1821006479}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &2073719023
@@ -55352,6 +55606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charName: OG Ray
+  charSpr: {fileID: 0}
   strength: 1
   magic: 0
   speed: 3
@@ -56526,7 +56781,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105009250}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -56539,7 +56794,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -57215,7 +57470,7 @@ RectTransform:
   - {fileID: 797855775}
   - {fileID: 204445289}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -57314,19 +57569,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc730ecff318544bb93e1ac1432ade6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: {fileID: 2073719022}
-  player2: {fileID: 632204201}
-  player3: {fileID: 1548973284}
-  enemy1: {fileID: 0}
+  Allies: []
   smoothTime: 0.3
   cameraDistance: 30
-  isOnPlayer1: 0
-  isOnPlayer2: 0
-  isOnPlayer3: 0
-  isOnEnemy: 0
-  turn: {fileID: 2129405655}
-  control: {fileID: 2129405654}
-  whoIsEnemy: {fileID: 2129405653}
 --- !u!20 &2127648523
 Camera:
   m_ObjectHideFlags: 0
@@ -57405,7 +57650,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2128366177
 GameObject:
@@ -57500,6 +57745,7 @@ GameObject:
   - component: {fileID: 2129405649}
   - component: {fileID: 2129405651}
   - component: {fileID: 2129405650}
+  - component: {fileID: 2129405659}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -57519,7 +57765,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76493ff401736dd4bb7fde5567c6fe0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charParent: {fileID: 118960599}
   uIElementsToTurnOff:
   - {fileID: 1734947088}
   - {fileID: 1061870089}
@@ -57560,6 +57805,7 @@ MonoBehaviour:
   speedIncrButt: {fileID: 1735855560}
   resetButt: {fileID: 1990211477}
   confirmButt: {fileID: 204098175}
+  levelUpButtons: []
   unappliedChangesPrompt: {fileID: 0}
 --- !u!114 &2129405651
 MonoBehaviour:
@@ -57577,7 +57823,6 @@ MonoBehaviour:
   teamMenuObj: {fileID: 414120826}
   inventoryMenuObj: {fileID: 1754185345}
   charDetailedMenuObj: {fileID: 340869219}
-  charParent: {fileID: 118960599}
   alliesNameText:
   - {fileID: 2047190471}
   - {fileID: 1182091433}
@@ -57586,6 +57831,7 @@ MonoBehaviour:
   - {fileID: 2098731158}
   - {fileID: 1555947315}
   - {fileID: 1114693841}
+  allyPortraits: []
 --- !u!114 &2129405652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57598,7 +57844,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e2f77fd050f7347bcbd39ce32291bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charParent: {fileID: 118960599}
   uIElementsToTurnOff:
   - {fileID: 1734947088}
   - {fileID: 1061870089}
@@ -57656,7 +57901,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6a91c244970a1b41b90e94653f04d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharcterTeam: {fileID: 118960599}
   endTurnButtObj: {fileID: 1734947088}
   enemyTurn: 0
   playerTurn: 0
@@ -57684,10 +57928,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6725793bf0e01a44ca4275ed884a3d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridTopLeft: {x: -26, y: 25}
-  gridBotRight: {x: 4, y: -3}
-  wallParent: {fileID: 513935297}
-  charParent: {fileID: 118960599}
   moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
   attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
   visualSortingLayer: VisualTile
@@ -57704,8 +57944,21 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2129405659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129405648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5258049b3bc3ee4cb858150e9630b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneToGoTo: Title Screen
 --- !u!1 &2130175611
 GameObject:
   m_ObjectHideFlags: 0
