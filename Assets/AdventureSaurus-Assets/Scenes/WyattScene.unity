@@ -2083,6 +2083,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 821470870810363242, guid: e11294f02a2030d42ba490f163ce88e9,
+        type: 3}
+      propertyPath: vitality
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e11294f02a2030d42ba490f163ce88e9, type: 3}
 --- !u!4 &508837455 stripped
@@ -2307,6 +2312,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 821470870810363242, guid: e11294f02a2030d42ba490f163ce88e9,
+        type: 3}
+      propertyPath: vitality
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e11294f02a2030d42ba490f163ce88e9, type: 3}
@@ -3099,6 +3109,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 821470870810363242, guid: e11294f02a2030d42ba490f163ce88e9,
+        type: 3}
+      propertyPath: vitality
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e11294f02a2030d42ba490f163ce88e9, type: 3}
@@ -8243,6 +8258,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 821470870810363242, guid: e11294f02a2030d42ba490f163ce88e9,
+        type: 3}
+      propertyPath: vitality
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e11294f02a2030d42ba490f163ce88e9, type: 3}
 --- !u!4 &1229100912 stripped
@@ -8616,6 +8636,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 821470870810363242, guid: e11294f02a2030d42ba490f163ce88e9,
+        type: 3}
+      propertyPath: vitality
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e11294f02a2030d42ba490f163ce88e9, type: 3}
