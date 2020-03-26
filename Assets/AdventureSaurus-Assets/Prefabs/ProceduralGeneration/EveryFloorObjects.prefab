@@ -719,8 +719,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _endTurnButt: {fileID: 1885554832063714003}
-  enemyTurn: 0
-  playerTurn: 0
 --- !u!114 &1885554831325360179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,24 +731,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16198c1a4a73d504dbea5adf3b71866c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonsToTurnOff:
+  _buttonsToTurnOff:
   - {fileID: 1885554832063714003}
+  - {fileID: 1885554833038922944}
   - {fileID: 1885554832532744406}
   - {fileID: 1885554832198332932}
-  - {fileID: 1885554833038922944}
-  - {fileID: 1885554831705798479}
-  - {fileID: 1885554831761044712}
-  - {fileID: 1885554832886100465}
-  imagesToTurnOff:
+  _imagesToTurnOff:
   - {fileID: 2446195845121252859}
   - {fileID: 4578292875630433740}
   - {fileID: 6397079503378872566}
   - {fileID: 4259297026757863974}
   - {fileID: 4292833747458765588}
   - {fileID: 8710173002709572717}
-  areSelected1: 0
-  areSelected2: 0
-  areSelected3: 0
 --- !u!114 &1885554831325360178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,14 +755,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b718a32954b1f304ba8ba427f9259735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTransforms:
-  - {fileID: 1885554832063714002}
-  - {fileID: 1885554832303467011}
-  - {fileID: 6782400713890190413}
-  - {fileID: 1885554832532744489}
-  - {fileID: 1885554832198332935}
-  - {fileID: 1885554833038922947}
-  canvasRef: {fileID: 1885554832455133382}
+  _buttonTransforms: []
+  _canvasRef: {fileID: 0}
 --- !u!114 &1885554831325360177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -783,31 +769,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda884c42b9c12a49a63920ee25713f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapMenuObj: {fileID: 1885554833305244105}
-  teamMenuObj: {fileID: 1885554832314268856}
-  inventoryMenuObj: {fileID: 1885554833319153392}
-  charDetailedMenuObj: {fileID: 1885554832472032862}
-  alliesNameText:
+  _mapMenuObj: {fileID: 1885554833305244105}
+  _teamMenuObj: {fileID: 1885554832314268856}
+  _inventoryMenuObj: {fileID: 1885554833319153392}
+  _charDetailedMenuObj: {fileID: 1885554832472032862}
+  _alliesNameText:
   - {fileID: 1885554833240549614}
   - {fileID: 1885554831313492666}
   - {fileID: 1885554831252667814}
-  allyXPBars:
+  _allyXPBars:
   - {fileID: 1885554832668812979}
   - {fileID: 1885554831587439392}
   - {fileID: 1885554831908311664}
-  allyPortraits:
+  _allyPortraits:
   - {fileID: 1885554832951328230}
   - {fileID: 1885554831658212110}
   - {fileID: 1885554831529201022}
-  sidePortraits:
+  _sidePortraits:
   - {fileID: 1885554832532744407}
   - {fileID: 1885554832198332933}
   - {fileID: 1885554833038922945}
-  sideHPBars:
+  _sideHPBars:
   - {fileID: 4134921940105926955}
   - {fileID: 6435880883141821492}
   - {fileID: 5077811907820165210}
-  sideExpBars:
+  _sideExpBars:
   - {fileID: 5226737748506702327}
   - {fileID: 323976054411690029}
   - {fileID: 4698210769368341638}
@@ -4803,9 +4789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc730ecff318544bb93e1ac1432ade6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Allies: []
-  smoothTime: 0.3
-  cameraDistance: 30
+  _smoothTime: 0.3
 --- !u!114 &1885554832147014695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5202,12 +5186,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1885554832147014694}
-        m_MethodName: player2Cam
-        m_Mode: 1
+        m_MethodName: FollowAlly
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6350,8 +6334,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1885554832147014694}
-        m_MethodName: player1Cam
-        m_Mode: 1
+        m_MethodName: FollowAlly
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9058,12 +9042,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1885554832147014694}
-        m_MethodName: player3Cam
-        m_Mode: 1
+        m_MethodName: FollowAlly
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -11951,7 +11935,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 6510444766142496191}
   m_OnClick:
     m_PersistentCalls:

@@ -6,88 +6,72 @@ using UnityEngine.UI;
 public class PauseMenuController : MonoBehaviour
 {
     // References to the different menus
-    [SerializeField] private GameObject mapMenuObj = null;
-    [SerializeField] private GameObject teamMenuObj = null;
-    [SerializeField] private GameObject inventoryMenuObj = null;
-    [SerializeField] private GameObject charDetailedMenuObj = null;
+    [SerializeField] private GameObject _mapMenuObj = null;
+    [SerializeField] private GameObject _teamMenuObj = null;
+    [SerializeField] private GameObject _inventoryMenuObj = null;
+    [SerializeField] private GameObject _charDetailedMenuObj = null;
 
     // References for the team menu
-    private Transform charParent = null;
+    private Transform _charParent = null;
     // The text that displays the character's names
-    [SerializeField] private Text[] alliesNameText = null;
+    [SerializeField] private Text[] _alliesNameText = null;
     // The stats of each of the allies [0] = ally1, [1] = ally2, [2] = ally3
-    private List<Stats> alliesStats;
+    private List<Stats> _alliesStats;
     public List<Stats> AlliesStats
     {
-        get { return alliesStats; }
+        get { return _alliesStats; }
     }
     // The experience bars of each of the allies [0] = ally1, [1] = ally2, [2] = ally3
-    [SerializeField] private Slider[] allyXPBars = null;
+    [SerializeField] private Slider[] _allyXPBars = null;
     // The portraits of each of the allies [0] = ally1, [1] = ally2, [2] = ally3
-    [SerializeField] private Image[] allyPortraits = null;
+    [SerializeField] private Image[] _allyPortraits = null;
 
     // References for the side HUD
     // Portraits on the side
-    [SerializeField] private Image[] sidePortraits = null;
+    [SerializeField] private Image[] _sidePortraits = null;
     // Health bars on the side
-    [SerializeField] private Slider[] sideHPBars = null;
+    [SerializeField] private Slider[] _sideHPBars = null;
     // Exp bars on the side
-    [SerializeField] private Slider[] sideExpBars = null;
+    [SerializeField] private Slider[] _sideExpBars = null;
 
-
-    // Reference to CharDetailedMenuController script
-    private CharDetailedMenuController charDetMenuContRef;
-
-    // Set References
-    private void Awake()
-    {
-        GameObject gameController = GameObject.FindWithTag("GameController");
-        // Make sure a GameController exists
-        if (gameController == null)
-            Debug.Log("Could not find any GameObject with the tag GameController");
-        else
-        {
-            charDetMenuContRef = gameController.GetComponent<CharDetailedMenuController>();
-            if (charDetMenuContRef == null)
-            {
-                Debug.Log("Could not find CharDetailedMenuController attached to " + gameController.name);
-            }
-        }
-    }
+    // Events
+    // For when the character detailed menu is shown
+    public delegate void CharDetailedMenuShown(int index);
+    public static event CharDetailedMenuShown OnCharDetailedMenuShown;
 
     // Start is called before the first frame update
     void Start()
     {
         // We're going to do some validation here
         // Menus validation
-        if (mapMenuObj == null)
+        if (_mapMenuObj == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "mapMenuObj was not initialized properly, please set it in the editor");
         }
-        if (teamMenuObj == null)
+        if (_teamMenuObj == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "teamMenuObj was not initialized properly, please set it in the editor");
         }
-        if (inventoryMenuObj == null)
+        if (_inventoryMenuObj == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "inventoryMenuObj was not initialized properly, please set it in the editor");
         }
-        if (charDetailedMenuObj == null)
+        if (_charDetailedMenuObj == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "charDetailedMenuObj was not initialized properly, please set it in the editor");
         }
 
         // Ally Name Text validation
-        if (alliesNameText == null)
+        if (_alliesNameText == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "alliesNameText was not initialized properly, please set it in the editor");
         }
-        else if (alliesNameText.Length != 3)
+        else if (_alliesNameText.Length != 3)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "There should be 3 elements in alliesNameText");
@@ -95,24 +79,24 @@ public class PauseMenuController : MonoBehaviour
 
 
         // Experience Bars validation
-        if (allyXPBars == null)
+        if (_allyXPBars == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "allyXPBars was not initialized properly, please set it in the editor");
         }
-        else if (allyXPBars.Length != 3)
+        else if (_allyXPBars.Length != 3)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "There should be 3 elements in allyXPBars");
         }
 
         // Portrait validation
-        if (allyPortraits == null)
+        if (_allyPortraits == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "allyPortraits was not initialized properly, please set it in the editor");
         }
-        else if (allyPortraits.Length != 3)
+        else if (_allyPortraits.Length != 3)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "There should be 3 elements in allyPortraits");
@@ -120,34 +104,34 @@ public class PauseMenuController : MonoBehaviour
 
         // Side HUD validation
         // Side portrait validation
-        if (sidePortraits == null)
+        if (_sidePortraits == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "sidePortraits was not initialized properly, please set it in the editor");
         }
-        else if (sidePortraits.Length != 3)
+        else if (_sidePortraits.Length != 3)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "There should be 3 elements in sidePortraits");
         }
         // Side hp bars validation
-        if (sideHPBars == null)
+        if (_sideHPBars == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "sideHPBars was not initialized properly, please set it in the editor");
         }
-        else if (sideHPBars.Length != 3)
+        else if (_sideHPBars.Length != 3)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "There should be 3 elements in sideHPBars");
         }
         // Side exp bars validation
-        if (sideExpBars == null)
+        if (_sideExpBars == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "sideExpBars was not initialized properly, please set it in the editor");
         }
-        else if (sideExpBars.Length != 3)
+        else if (_sideExpBars.Length != 3)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "There should be 3 elements in sideExpBars");
@@ -162,24 +146,24 @@ public class PauseMenuController : MonoBehaviour
     public void Initialize(Transform charPar)
     {
         // Set the character parent
-        charParent = charPar;
+        _charParent = charPar;
         // Character Parent validation
-        if (charParent == null)
+        if (_charParent == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "charParent was not initialized properly");
         }
 
         // We make the list here so that other scripts can access it in Start
-        alliesStats = new List<Stats>();
+        _alliesStats = new List<Stats>();
         // Get the allies Stats (assumes there are three)
-        foreach (Transform charTrans in charParent)
+        foreach (Transform charTrans in _charParent)
         {
             MoveAttack charMA = charTrans.GetComponent<MoveAttack>();
             if (charMA != null && charMA.WhatAmI == CharacterType.Ally)
             {
                 Stats allyStatsRef = charMA.GetComponent<Stats>();
-                alliesStats.Add(charMA.GetComponent<Stats>());
+                _alliesStats.Add(charMA.GetComponent<Stats>());
             }
         }
 
@@ -188,15 +172,15 @@ public class PauseMenuController : MonoBehaviour
         for (int i = 0; i < 3; ++i)
         {
             // If there is an ally at this point in the list
-            if (i < alliesStats.Count)
+            if (i < _alliesStats.Count)
             {
                 // Change the side picture
-                sidePortraits[i].sprite = alliesStats[i].SideSprte;
+                _sidePortraits[i].sprite = _alliesStats[i].SideSprte;
                 // Set the side health bar
-                Health hpScriptRef = alliesStats[i].GetComponent<Health>();
-                hpScriptRef.SideSlider = sideHPBars[i];
+                Health hpScriptRef = _alliesStats[i].GetComponent<Health>();
+                hpScriptRef.SideSlider = _sideHPBars[i];
                 // Set the side exp bar
-                alliesStats[i].ExpSlider = sideExpBars[i];
+                _alliesStats[i].ExpSlider = _sideExpBars[i];
             }
             // If there is not ally at this point, they dead
             else
@@ -206,15 +190,15 @@ public class PauseMenuController : MonoBehaviour
         }
 
         // Ally Stats validation
-        if (alliesStats == null)
+        if (_alliesStats == null)
         {
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "alliesStats was not initialized properly");
         }
-        else if (alliesStats.Count != 3)
+        else if (_alliesStats.Count != 3)
         {
             Debug.Log("POTENTIAL ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
-                "3 allies were not found. Instead " + alliesStats.Count + " allies were found.");
+                "3 allies were not found. Instead " + _alliesStats.Count + " allies were found.");
         }
     }
 
@@ -224,10 +208,10 @@ public class PauseMenuController : MonoBehaviour
     public void ShowMapMenu()
     {
         // Turn off other menus, turn on this one
-        mapMenuObj.SetActive(true);
-        teamMenuObj.SetActive(false);
-        inventoryMenuObj.SetActive(false);
-        charDetailedMenuObj.SetActive(false);
+        _mapMenuObj.SetActive(true);
+        _teamMenuObj.SetActive(false);
+        _inventoryMenuObj.SetActive(false);
+        _charDetailedMenuObj.SetActive(false);
     }
 
     /// <summary>
@@ -236,10 +220,10 @@ public class PauseMenuController : MonoBehaviour
     public void ShowTeamMenu()
     {
         // Turn off other menus, turn on this one
-        mapMenuObj.SetActive(false);
-        teamMenuObj.SetActive(true);
-        inventoryMenuObj.SetActive(false);
-        charDetailedMenuObj.SetActive(false);
+        _mapMenuObj.SetActive(false);
+        _teamMenuObj.SetActive(true);
+        _inventoryMenuObj.SetActive(false);
+        _charDetailedMenuObj.SetActive(false);
 
         UpdateValues();
     }
@@ -250,10 +234,10 @@ public class PauseMenuController : MonoBehaviour
     public void ShowInventoryMenu()
     {
         // Turn off other menus, turn on this one
-        mapMenuObj.SetActive(false);
-        teamMenuObj.SetActive(false);
-        inventoryMenuObj.SetActive(true);
-        charDetailedMenuObj.SetActive(false);
+        _mapMenuObj.SetActive(false);
+        _teamMenuObj.SetActive(false);
+        _inventoryMenuObj.SetActive(true);
+        _charDetailedMenuObj.SetActive(false);
     }
 
     /// <summary>
@@ -263,12 +247,14 @@ public class PauseMenuController : MonoBehaviour
     public void ShowCharDetailedMenu(int allyIndex)
     {
         // Turn off other menus, turn on this one
-        mapMenuObj.SetActive(false);
-        teamMenuObj.SetActive(false);
-        inventoryMenuObj.SetActive(false);
-        charDetailedMenuObj.SetActive(true);
+        _mapMenuObj.SetActive(false);
+        _teamMenuObj.SetActive(false);
+        _inventoryMenuObj.SetActive(false);
+        _charDetailedMenuObj.SetActive(true);
 
-        charDetMenuContRef.DisplayCharacterDetails(allyIndex);
+        // Call the event for showing the character detailed menu
+        if (OnCharDetailedMenuShown != null)
+            OnCharDetailedMenuShown(allyIndex);
     }
 
     /// <summary>
@@ -276,12 +262,12 @@ public class PauseMenuController : MonoBehaviour
     /// Overloaded to take allyStats so that pressing the levelUp button takes us to the correct character
     /// </summary>
     /// <param name="allyStats">The stats of the ally we want to show</param>
-    public void ShowCharDetailedMenu(Stats allyStats)
+    private void ShowCharDetailedMenu(Stats allyStats)
     {
         // Convert the allyStats to an index and pass that index into the overloaded function
-        for (int i = 0; i < alliesStats.Count; ++i)
+        for (int i = 0; i < _alliesStats.Count; ++i)
         {
-            if (alliesStats[i] == allyStats)
+            if (_alliesStats[i] == allyStats)
             {
                 ShowCharDetailedMenu(i);
                 break;
@@ -299,22 +285,22 @@ public class PauseMenuController : MonoBehaviour
         for (int i = 0; i < 3; ++i)
         {
             // If that ally exists in the list
-            if (i < alliesStats.Count && alliesStats[i] != null)
+            if (i < _alliesStats.Count && _alliesStats[i] != null)
             {
                 // Update the names of the allies
-                alliesNameText[i].text = alliesStats[i].CharacterName;
+                _alliesNameText[i].text = _alliesStats[i].CharacterName;
                 // Set the sliders to be the allies current xp;
-                allyXPBars[i].value = ((float)alliesStats[i].OneLevelExperience) / alliesStats[i].OneLevelNextLevelThreshold;
+                _allyXPBars[i].value = ((float)_alliesStats[i].OneLevelExperience) / _alliesStats[i].OneLevelNextLevelThreshold;
                 // Update the portrait of the allies
-                allyPortraits[i].sprite = alliesStats[i].CharacterSprite;
+                _allyPortraits[i].sprite = _alliesStats[i].CharacterSprite;
             }
             // If that ally doesn't exist, they dead. Reflect that
             else
             {
                 // Update the names of the allies
-                alliesNameText[i].text = "Deceased";
+                _alliesNameText[i].text = "Deceased";
                 // Set the sliders to be the allies current xp;
-                allyXPBars[i].value = 0;
+                _allyXPBars[i].value = 0;
             }
         }
     }

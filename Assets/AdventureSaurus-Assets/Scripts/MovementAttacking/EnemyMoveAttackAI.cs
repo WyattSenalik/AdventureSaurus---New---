@@ -12,8 +12,6 @@ public class EnemyMoveAttackAI : MonoBehaviour
 
     // Reference to the MoveAttackController script
     private MoveAttackController _mAContRef;
-    // Reference to the CamFollow script
-    private CamFollow _camFollowRef;
 
     // List of all allies' MoveAttack scripts
     private List<MoveAttack> _alliesMA;
@@ -77,17 +75,6 @@ public class EnemyMoveAttackAI : MonoBehaviour
             // Make sure we verify we actually found a MoveAttackController
             if (_mAContRef == null)
                 Debug.Log("There was no MoveAttackController attached to " + gameController.name);
-        }
-
-        GameObject mainCamObj = GameObject.FindWithTag("MainCamera");
-        if (mainCamObj == null)
-            Debug.Log("Could not find any GameObject  with the tag MainCamera");
-        else
-        {
-            _camFollowRef = mainCamObj.GetComponent<CamFollow>();
-            // Make sure we verify we actually found a MoveAttackController
-            if (_camFollowRef == null)
-                Debug.Log("There was no CamFollow attached to " + mainCamObj.name);
         }
 
         _enemiesMA = new List<MoveAttack>();
@@ -289,6 +276,10 @@ public class EnemyMoveAttackAI : MonoBehaviour
         EndSingleTurn();
     }
 
+    /// <summary>
+    /// Ends a single enemies turn. Makes it so that enemy has both moved and attacked,
+    /// then increments the enemy index.
+    /// </summary>
     private void EndSingleTurn()
     {
         _currentEnemy.HasMoved = true;

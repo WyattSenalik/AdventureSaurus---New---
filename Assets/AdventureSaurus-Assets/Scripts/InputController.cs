@@ -6,14 +6,14 @@ using UnityEngine.UI;
 public class InputController : MonoBehaviour
 {
     // Buttons that if the player clicks on, we shouldn't return the gridpoint
-    [SerializeField] private RectTransform[] buttonTransforms = null;
-    [SerializeField] private Canvas canvasRef = null;
-    private bool canInput;  // Whether input will be excepted or not
+    [SerializeField] private RectTransform[] _buttonTransforms = null;
+    [SerializeField] private Canvas _canvasRef = null;
+    private bool _canInput;  // Whether input will be excepted or not
 
     // Initialize variables
     private void Start()
     {
-        canInput = true;
+        _canInput = true;
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class InputController : MonoBehaviour
         Vector3 pos = Input.mousePosition;
 
         // If we can input and did not click a button
-        if (canInput && !WasButtonClick(pos))
+        if (_canInput && !WasButtonClick(pos))
             return Input.GetMouseButtonDown(0);
         return false;
     }
@@ -38,7 +38,7 @@ public class InputController : MonoBehaviour
     /// <returns>The grid position of where a select command occured</returns>
     public Vector2Int SelectToGridPoint()
     {
-        if (canInput)
+        if (_canInput)
         {
             Vector3 pos = Input.mousePosition;
 
@@ -58,7 +58,7 @@ public class InputController : MonoBehaviour
     /// <returns>Zoom amount. Positive is in. Negative is out</returns>
     public float ZoomCommand()
     {
-        if (canInput)
+        if (_canInput)
         {
             return -Input.GetAxis("Mouse ScrollWheel");
         }
@@ -70,7 +70,7 @@ public class InputController : MonoBehaviour
     /// </summary>
     public void AllowInput()
     {
-        canInput = true;
+        _canInput = true;
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public class InputController : MonoBehaviour
     /// </summary>
     public void DenyInput()
     {
-        canInput = false;
+        _canInput = false;
     }
 
     /// <summary>
@@ -92,24 +92,24 @@ public class InputController : MonoBehaviour
         Vector2 canvasPos = Camera.main.ScreenToViewportPoint(clickPos);
         // Make sure we did not click where a button is
         // Iterate over each button
-        foreach (RectTransform buttRectTrans in buttonTransforms)
+        foreach (RectTransform buttRectTrans in _buttonTransforms)
         {
             // Get the center
             float centerX = buttRectTrans.anchoredPosition.x;
             float centerY = buttRectTrans.anchoredPosition.y;
             // Go over the parents as they help determine the center
             RectTransform curRectTrans = buttRectTrans.parent.GetComponent<RectTransform>();
-            while (curRectTrans.gameObject != canvasRef.gameObject)
+            while (curRectTrans.gameObject != _canvasRef.gameObject)
             {
                 centerX += curRectTrans.anchoredPosition.x;
                 centerY += curRectTrans.anchoredPosition.y;
                 curRectTrans = curRectTrans.parent.GetComponent<RectTransform>();
             }
             // Calculate the bounds of the button
-            float left = (centerX - buttRectTrans.rect.width * 0.5f * buttRectTrans.localScale.x) * canvasRef.scaleFactor / canvasRef.pixelRect.xMax;
-            float right = (centerX + buttRectTrans.rect.width * 0.5f * buttRectTrans.localScale.x) * canvasRef.scaleFactor / canvasRef.pixelRect.xMax;
-            float bot = (centerY - buttRectTrans.rect.height * 0.5f * buttRectTrans.localScale.y) * canvasRef.scaleFactor / canvasRef.pixelRect.yMax;
-            float top = (centerY + buttRectTrans.rect.height * 0.5f * buttRectTrans.localScale.y) * canvasRef.scaleFactor / canvasRef.pixelRect.yMax;
+            float left = (centerX - buttRectTrans.rect.width * 0.5f * buttRectTrans.localScale.x) * _canvasRef.scaleFactor / _canvasRef.pixelRect.xMax;
+            float right = (centerX + buttRectTrans.rect.width * 0.5f * buttRectTrans.localScale.x) * _canvasRef.scaleFactor / _canvasRef.pixelRect.xMax;
+            float bot = (centerY - buttRectTrans.rect.height * 0.5f * buttRectTrans.localScale.y) * _canvasRef.scaleFactor / _canvasRef.pixelRect.yMax;
+            float top = (centerY + buttRectTrans.rect.height * 0.5f * buttRectTrans.localScale.y) * _canvasRef.scaleFactor / _canvasRef.pixelRect.yMax;
 
             // Get the bottom left and top right rectangle positions
             //Debug.Log(buttRectTrans.name + " has position (" + ((left + right) / 2) + ", " + ((bot + top) / 2) + ")");

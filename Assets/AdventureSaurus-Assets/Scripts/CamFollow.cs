@@ -10,6 +10,8 @@ public class CamFollow : MonoBehaviour
 
     // Parent of all the character
     private Transform _charParent;
+    // All allies
+    private List<Transform> _allies;
 
     // The transform of the character to follow
     private Transform _charToFollow;
@@ -71,8 +73,16 @@ public class CamFollow : MonoBehaviour
         // Set the character parent
         _charParent = charParent;
 
-        // Follow the first ally
-        FollowFirstAlly();
+        _allies = new List<Transform>();
+        // Get the allies
+        foreach (Transform charTrans in _charParent)
+        {
+            MoveAttack charMA = charTrans.GetComponent<MoveAttack>();
+            if (charMA != null && charMA.WhatAmI == CharacterType.Ally)
+            {
+                _allies.Add(charTrans);
+            }
+        }
     }
 
     // Move the camera to the correct positions
@@ -144,14 +154,28 @@ public class CamFollow : MonoBehaviour
     private void FollowFirstAlly()
     {
         // Find the first enemy and follow it
-        foreach (Transform charTrans in _charParent)
+        foreach (Transform charTrans in _allies)
         {
-            MoveAttack charMA = charTrans.GetComponent<MoveAttack>();
-            if (charMA != null && charMA.WhatAmI == CharacterType.Ally)
+            if (charTrans != null)
             {
                 _charToFollow = charTrans;
                 break;
             }
         }
+    }
+
+    /// <summary>
+    /// Sets the camera on the ally with the given index.
+    /// Called from the side GUI Buttons
+    /// </summary>
+    /// <param name="allyIndex">Index of the ally to follow</param>
+    public void FollowAlly(int allyIndex)
+    {
+        // It is not the enemy's turn
+        _isOnEnemy = false;
+        _panFinished = true;
+
+        if (allyIndex < _allies.Count && _allies[allyIndex] != null)
+            _charToFollow = _allies[allyIndex];
     }
 }

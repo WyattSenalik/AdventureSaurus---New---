@@ -58,8 +58,25 @@ public class CharDetailedMenuController : MonoBehaviour
     // This is shown when the user tries to submit their changes without using all their points
     [SerializeField] private GameObject unappliedChangesPrompt = null;
 
+
+    // Called when the gameobject is toggled active
+    // Subscribe to events
+    private void OnEnable()
+    {
+        // When the character clicks to display the charcter detailed menu, update the details and diaply them
+        PauseMenuController.OnCharDetailedMenuShown += DisplayCharacterDetails;
+    }
+
+    // Called when the gameobject is toggled active
+    // Unsubscribe form events
+    private void OnDisable()
+    {
+        // When the character clicks to display the charcter detailed menu, update the details and diaply them
+        PauseMenuController.OnCharDetailedMenuShown -= DisplayCharacterDetails;
+    }
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         // Make it so we are viewing the first enemy at first
         currentAllyIndex = 0;
@@ -241,7 +258,7 @@ public class CharDetailedMenuController : MonoBehaviour
     /// Shows the details of the ally with the given index
     /// </summary>
     /// <param name="allyIndex">Index of the ally to be displayed</param>
-    public void DisplayCharacterDetails(int allyIndex)
+    private void DisplayCharacterDetails(int allyIndex)
     {
         currentAllyIndex = allyIndex; // This is the new ally we are viewing
 
