@@ -150,6 +150,11 @@ public class Stats : MonoBehaviour
         set { expSlider = value; }
     }
 
+    // Events
+    // When magic is increased
+    public delegate void MagicIncrease();
+    public static event MagicIncrease OnMagicIncrease;
+
     /// <summary>
     /// Sets references to foreign scripts.
     /// Called from Awake and from PersistantController
@@ -384,6 +389,10 @@ public class Stats : MonoBehaviour
         if (amountToIncr == 0)
             return;
         magic += amountToIncr; // Increase the literal stat
+
+        // Call the magic increase event
+        if (OnMagicIncrease != null)
+            OnMagicIncrease();
     }
     /// <summary>
     /// Increases strength and MoveAttack.damageToDeal

@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!114 &2405104091533311736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25,6 +24,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4affe79ba018c5a4db18dcad6db019cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7403486460727856957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6744302857436448857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e598aae522701b4f9f419722a71c0e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillToGain: 3
+  grimoirePages: 0300000000000000
 --- !u!1001 &6964332898006183718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35,7 +48,7 @@ PrefabInstance:
     - target: {fileID: 4413198228147627903, guid: 1bd44685ffcc8c243baaf88a3eb96f1f,
         type: 3}
       propertyPath: m_Name
-      value: BaseAlly1 Variant
+      value: BaseAlly Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4413198228147627902, guid: 1bd44685ffcc8c243baaf88a3eb96f1f,
         type: 3}

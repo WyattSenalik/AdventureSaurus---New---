@@ -77,7 +77,8 @@ public class BasicAttack : Skill
                     Debug.Log("There is no AllySkillController attached to " + this.name);
                 }
                 // Increment the cooldown of special skill
-                allySkillContRef.SpecialSkill.IncrementCooldown();
+                if (allySkillContRef.SpecialSkill != null)
+                    allySkillContRef.SpecialSkill.IncrementCooldownTimer();
             }
         }
         // If we have no enemy to attack, give back control to the proper authority

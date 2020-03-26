@@ -24,8 +24,9 @@ public class AllySkillController : CharacterSkills
         get { return specialActive; }
     }
 
-    // Called before the first frame
-    private void Start()
+    // Initializes skill
+    // Called from MoveAttackController
+    public void Initialize()
     {
         // Initialize the list
         availableSkills = new List<Skill>();
@@ -33,11 +34,12 @@ public class AllySkillController : CharacterSkills
         availableSkills.Add(this.GetComponent<BasicAttack>());
         // Set the default first skill to basic attack
         SetSkill(availableSkills[0]);
+        availableSkills[0].EquipSkill();
         specialActive = false;
 
 
         // Giving all allies this for testing
-        AcquireSkill(SkillHolder.THREE_SIXTY_SWING);
+        //AcquireSkill(SkillHolder.THREE_SIXTY_SWING);
     }
 
     /// <summary>
@@ -94,6 +96,7 @@ public class AllySkillController : CharacterSkills
 
         // Change the skill
         SetSkill(availableSkills[curIndex]);
+        availableSkills[curIndex].EquipSkill();
     }
 
     /// <summary>

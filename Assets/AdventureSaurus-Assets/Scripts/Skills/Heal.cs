@@ -9,13 +9,11 @@ public class Heal : Skill
         base.Awake();
         skillNum = 1334;//spells heel in numbers upside down
         healing = true;
+        cooldown = 6;
     }
 
     public override void StartSkill(Vector2Int attackNodePos)
     {
-        // Get the damage
-        damage = statsRef.Magic;
-
         Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
         if (nodeToAttack != null)
         {

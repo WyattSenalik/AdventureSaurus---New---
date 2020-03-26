@@ -10,10 +10,11 @@ public class MoveAttack : MonoBehaviour
         get { return moveRange; }
         set { moveRange = value; }
     }
-    [SerializeField] private int attackRange = 1;   // How many tiles away this character can attack
+    private int attackRange;   // How many tiles away this character can attack
     public int AttackRange
     {
         get { return attackRange; }
+        set { attackRange = value; }
     }
     [SerializeField] private CharacterType whatAmI = CharacterType.None;    // What kind of character is this script attached to?
     public CharacterType WhatAmI

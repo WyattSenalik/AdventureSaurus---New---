@@ -35,7 +35,9 @@ public class Skill : MonoBehaviour
         get { return cooldownTimer; }
     }
     // The amount of damage this skill does / the amount this skill heals
-    protected int damage = 0;
+    protected int damage = 1;
+    // The distance this skill can cover
+    protected int range = 1;
     // The animator attached to this character
     protected Animator anime = null;//damage to deal, amount to heal ,and amount to buff
     // The spriterenderer attached to this cahracter
@@ -212,11 +214,47 @@ public class Skill : MonoBehaviour
     /// Increments the cooldown 1 closer to being off cooldown.
     /// Called from BasicAttack.EndSkill and TODO
     /// </summary>
-    public void IncrementCooldown()
+    public void IncrementCooldownTimer()
     {
-        Debug.Log("Increment Cooldown");
         // 0 is refreshed so lower the cooldown timer
         if (--cooldownTimer < 0)
             cooldownTimer = 0;
+    }
+
+    /// <summary>
+    /// Decrements cooldown by 1 so that it takes 1 less turn to get the skill back
+    /// </summary>
+    public void UpgradeCooldown()
+    {
+        // Make the cooldown lower
+        --cooldown;
+        // Also increment the timer
+        IncrementCooldownTimer();
+    }
+
+    /// <summary>
+    /// Increases the damage of the skill by 1
+    /// </summary>
+    public void UpgradeDamage()
+    {
+        ++damage;
+    }
+
+    /// <summary>
+    /// Increases the range of the skill by 1
+    /// </summary>
+    public void UpgradeRange()
+    {
+        ++range;
+    }
+
+    /// <summary>
+    /// Sets the attack range of MoveAttack
+    /// Called when the skill is equipped
+    /// </summary>
+    public void EquipSkill()
+    {
+        // Set the range
+        maRef.AttackRange = range;
     }
 }

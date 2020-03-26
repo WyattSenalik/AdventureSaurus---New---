@@ -5,11 +5,17 @@ using UnityEngine;
 public class Smite : Skill
 {
     [SerializeField] GameObject smiteEffect;
+
+    private new void Awake()
+    {
+        base.Awake();
+        skillNum = 1;
+        cooldown = 4;
+        range = 2;
+    }
+
     public override void StartSkill(Vector2Int attackNodePos)
     {
-        // Get the damage
-        damage = statsRef.Magic;
-
         Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
         if (nodeToAttack != null)
         {

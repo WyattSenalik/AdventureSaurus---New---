@@ -59,6 +59,29 @@ public class MoveAttackController : MonoBehaviour
                 Debug.Log(charTrans.name + " does not have a MoveAttack script attached to it");
                 continue;
             }
+            // Before we create visual tiles, we need to initialize the allySkillController or enemySkillController
+            if (mARef.WhatAmI == CharacterType.Ally)
+            {
+                AllySkillController allySkillContRef = charTrans.GetComponent<AllySkillController>();
+                if (allySkillContRef == null)
+                {
+                    Debug.Log(charTrans.name + " does not have a AllySkillController script attached to it");
+                    continue;
+                }
+                allySkillContRef.Initialize();
+            }
+            else if (mARef.WhatAmI == CharacterType.Enemy)
+            {
+                EnemySkillController enSkillContRef = charTrans.GetComponent<EnemySkillController>();
+                if (enSkillContRef == null)
+                {
+                    Debug.Log(charTrans.name + " does not have a EnemySkillController script attached to it");
+                    continue;
+                }
+                enSkillContRef.Initialize();
+            }
+
+
             // Create the visual tiles ahead of time
             CreateVisualTiles(mARef);
 

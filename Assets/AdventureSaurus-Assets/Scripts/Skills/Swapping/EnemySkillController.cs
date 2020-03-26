@@ -6,10 +6,13 @@ using UnityEngine;
 // Attached to every enemy
 public class EnemySkillController : CharacterSkills
 {
-    // Start is called before the first frame update
-    private void Start()
+    // Initialzies skill
+    // Called from MoveAttackController
+    public void Initialize()
     {
         // We want to set the enemies skill to the one skill they have
-        SetSkill(this.GetComponent<Skill>());
+        Skill mySkill = this.GetComponent<Skill>();
+        SetSkill(mySkill);
+        mySkill.EquipSkill();
     }
 }

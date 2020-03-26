@@ -9,7 +9,7 @@ public class ThreeSixtySwing : Skill
         base.Awake();
         skillNum = 360;
         diagnols = true;
-        cooldown = 2;
+        cooldown = 4;
     }
     /// <summary>
     /// Starts the animation for 360. Also gets refences to the enemies that got hit by skill.!!MAy need arltering since skill activation might be different.
@@ -17,9 +17,6 @@ public class ThreeSixtySwing : Skill
     /// <param name="attackNodePos">The point the player used to start the skill. Dictates direction of animations.</param>
     override public void StartSkill(Vector2Int attackNodePos)
     {
-        // Get the damage
-        damage = statsRef.Magic;
-
         Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
         
 
