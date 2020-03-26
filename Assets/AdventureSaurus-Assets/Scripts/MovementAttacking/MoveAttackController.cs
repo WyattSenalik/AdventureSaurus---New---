@@ -1,34 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MoveAttackController : MonoBehaviour
 {
-    private Vector2Int gridTopLeft; // Top-Left coordinates of the grid
-    private Vector2Int gridBotRight;    // Bottom-Right coordinates of the grid
+    // Top-Left coordinates of the grid
+    private Vector2Int _gridTopLeft;
     public Vector2Int GridTopLeft
     {
-        get { return gridTopLeft; }
+        get { return _gridTopLeft; }
     }
+    // Bottom-Right coordinates of the grid
+    private Vector2Int _gridBotRight;
     public Vector2Int GridBotRight
     {
-        get { return gridBotRight; }
+        get { return _gridBotRight; }
     }
-    private Transform wallParent = null;   // Parent of all wall objects
-    private Transform charParent;   // Parent of all character (ally and enemy) objects
-    private List<MoveAttack> allyMA;    // References to all the allies MoveAttack scripts
-    private List<MoveAttack> enemyMA;   // References to all the allies MoveAttack script
-    private List<List<Node>> grid;  // The movement grid the characters are situated on\
+    // Parent of all wall objects
+    private Transform _wallParent;
+    // Parent of all character (ally and enemy) objects
+    private Transform _charParent;
+    // References to all the allies MoveAttack scripts
+    private List<MoveAttack> _allyMA;
+    // References to all the allies MoveAttack script
+    private List<MoveAttack> _enemyMA;
+    // The movement grid the characters are situated on
+    private List<List<Node>> _grid;
 
     // For creating the visuals of move/attack tiles
-    [SerializeField] private Sprite moveTileSprite = null;      // The sprite that will be put on the visual move tile
-    [SerializeField] private Sprite attackTileSprite = null;    // The sprite that will be put on the visual attack tile
-    [SerializeField] private string visualSortingLayer = "Default"; // The sorting layer that the tiles will be put on
-    [SerializeField] private Material tileMaterial = null;  // The material that will be applied to the sprite renderer of the tiles
+    // The sprite that will be put on the visual move tile
+    [SerializeField] private Sprite _moveTileSprite = null;
+    // The sprite that will be put on the visual attack tile
+    [SerializeField] private Sprite _attackTileSprite = null;
+    // The sorting layer that the tiles will be put on
+    [SerializeField] private string _visualSortingLayer = "VisualTile";
+    // The material that will be applied to the sprite renderer of the tiles
+    [SerializeField] private Material _tileMaterial = null;
 
     // Only for testing. This is a list of the spawned canvas objects that display numbers on the nodes
-    private List<GameObject> visualTests;
+    private List<GameObject> _visualTests;
 
     /// <summary>
     /// We have to wait for characters to set all their references first, so we go in start. Or we used to
@@ -40,18 +50,18 @@ public class MoveAttackController : MonoBehaviour
     public void Initialize(Transform roomParent, Transform wallPar, Transform charPar)
     {
         // Get the bounds of the grid
-        gridTopLeft = FindTopLeftPosition(roomParent);
-        gridBotRight = FindBotRightPosition(roomParent);
+        _gridTopLeft = FindTopLeftPosition(roomParent);
+        _gridBotRight = FindBotRightPosition(roomParent);
         // Create the grid
         CreateGrid();
         // Set the wall parent and find the walls
-        wallParent = wallPar;
+        _wallParent = wallPar;
         FindWalls();
         // Set the character parent and find the characters
-        charParent = charPar;
+        _charParent = charPar;
         FindCharacters();
         // Create the visual tiles for each character based on their starting moveRange and attackRange
-        foreach (Transform charTrans in charParent)
+        foreach (Transform charTrans in _charParent)
         {
             MoveAttack mARef = charTrans.GetComponent<MoveAttack>();
             if (mARef == null)
@@ -93,7 +103,7 @@ public class MoveAttackController : MonoBehaviour
             }*/
         }
 
-        visualTests = new List<GameObject>();
+        _visualTests = new List<GameObject>();
     }
 
 
@@ -104,14 +114,14 @@ public class MoveAttackController : MonoBehaviour
     /// </summary>
     private void CreateGrid()
     {
-        grid = new List<List<Node>>();  // Initialize the grid to be an empty list of empty lists of nodes
+        _grid = new List<List<Node>>();  // Initialize the grid to be an empty list of empty lists of nodes
         // Iterate to create rows of the grid
-        for (int i = gridBotRight.y; i <= gridTopLeft.y; ++i)
+        for (int i = _gridBotRight.y; i <= _gridTopLeft.y; ++i)
         {
             List<Node> row = new List<Node>();  // Create the next row
-            grid.Add(row);  // Add the new row
+            _grid.Add(row);  // Add the new row
             // Iterate to create nodes in each row
-            for (int j = gridTopLeft.x; j <= gridBotRight.x; ++j)
+            for (int j = _gridTopLeft.x; j <= _gridBotRight.x; ++j)
             {
                 row.Add(new Node(new Vector2Int(j, i)));    // Add the node to the row
             }
@@ -123,7 +133,7 @@ public class MoveAttackController : MonoBehaviour
     /// </summary>
     private void FindWalls()
     {
-        foreach (Transform wall in wallParent)
+        foreach (Transform wall in _wallParent)
         {
             UpdateGrid(wall, CharacterType.Wall);
         }
@@ -135,11 +145,11 @@ public class MoveAttackController : MonoBehaviour
     private void FindCharacters()
     {
         // Initialize the lists
-        allyMA = new List<MoveAttack>();
-        enemyMA = new List<MoveAttack>();
+        _allyMA = new List<MoveAttack>();
+        _enemyMA = new List<MoveAttack>();
 
         // Iterate over all characters
-        foreach (Transform character in charParent)
+        foreach (Transform character in _charParent)
         {
             MoveAttack charMA = character.GetComponent<MoveAttack>();
             // If the character has no MoveAttack script
@@ -152,9 +162,9 @@ public class MoveAttackController : MonoBehaviour
 
             // Add the characters to their proper list
             if (charMA.WhatAmI == CharacterType.Ally)
-                allyMA.Add(charMA);
+                _allyMA.Add(charMA);
             else if (charMA.WhatAmI == CharacterType.Enemy)
-                enemyMA.Add(charMA);
+                _enemyMA.Add(charMA);
         }
     }
 
@@ -277,13 +287,13 @@ public class MoveAttackController : MonoBehaviour
         // Make a move tile and attack tile at the location
         if (isMoveTile)
         {
-            SpawnVisualTile(moveTileParent, new Vector2(x, y), moveTileSprite, 1);
-            SpawnVisualTile(attackTileParent, new Vector2(x, y), attackTileSprite, 0);
+            SpawnVisualTile(moveTileParent, new Vector2(x, y), _moveTileSprite, 1);
+            SpawnVisualTile(attackTileParent, new Vector2(x, y), _attackTileSprite, 0);
         }
         // Make only an attack tile at the location
         else
         {
-            SpawnVisualTile(attackTileParent, new Vector2(x, y), attackTileSprite, 0);
+            SpawnVisualTile(attackTileParent, new Vector2(x, y), _attackTileSprite, 0);
         }
     }
     
@@ -304,9 +314,9 @@ public class MoveAttackController : MonoBehaviour
         // Attach a sprite renderer to the object, put the correct sprite on it, place it in the correct sorting layer, and give it an order
         SpriteRenderer sprRend = newTile.AddComponent<SpriteRenderer>();
         sprRend.sprite = sprToUse;
-        sprRend.sortingLayerName = visualSortingLayer;
+        sprRend.sortingLayerName = _visualSortingLayer;
         sprRend.sortingOrder = orderOnLayer;
-        sprRend.material = tileMaterial;
+        sprRend.material = _tileMaterial;
 
         sprRend.color = new Color(sprRend.color.r, sprRend.color.g, sprRend.color.b, 0.6f);
     }
@@ -406,7 +416,7 @@ public class MoveAttackController : MonoBehaviour
     public void RecalculateAllMovementAttackTiles()
     {
         // Iterate over each character
-        foreach (Transform character in charParent)
+        foreach (Transform character in _charParent)
         {
             // Try to get that character's MoveAttack script
             MoveAttack mARef = character.GetComponent<MoveAttack>();
@@ -432,12 +442,12 @@ public class MoveAttackController : MonoBehaviour
     public Node GetNodeAtPosition(Vector2Int pos)
     {
         // Make sure its not out of bounds
-        if (pos.x < gridTopLeft.x || pos.x > gridBotRight.x || pos.y < gridBotRight.y || pos.y > gridTopLeft.y)
+        if (pos.x < _gridTopLeft.x || pos.x > _gridBotRight.x || pos.y < _gridBotRight.y || pos.y > _gridTopLeft.y)
             return null;
 
-        int rowIndex = pos.y - gridBotRight.y;
-        int colIndex = pos.x - gridTopLeft.x;
-        return grid[rowIndex][colIndex];
+        int rowIndex = pos.y - _gridBotRight.y;
+        int colIndex = pos.x - _gridTopLeft.x;
+        return _grid[rowIndex][colIndex];
     }
 
     /// <summary>
@@ -463,7 +473,7 @@ public class MoveAttackController : MonoBehaviour
         {
             return null;
         }
-        foreach (Transform character in charParent)
+        foreach (Transform character in _charParent)
         {
             // Convert the character's position to grid point
             Vector2Int charGridPos = new Vector2Int(Mathf.RoundToInt(character.position.x), Mathf.RoundToInt(character.position.y));
@@ -486,11 +496,11 @@ public class MoveAttackController : MonoBehaviour
     public void ResetPathing()
     {
         // For testing only
-        foreach (GameObject obj in visualTests)
+        foreach (GameObject obj in _visualTests)
             Destroy(obj);
-        visualTests.Clear();
+        _visualTests.Clear();
 
-        foreach (List<Node> row in grid)
+        foreach (List<Node> row in _grid)
         {
             foreach (Node node in row)
             {
@@ -915,7 +925,7 @@ public class MoveAttackController : MonoBehaviour
         textRef.color = new Color(255, 255, 0);
         canRef.transform.position = new Vector3(node.position.x, node.position.y, 0);
 
-        visualTests.Add(visualComp);
+        _visualTests.Add(visualComp);
     }
 
     /// <summary>

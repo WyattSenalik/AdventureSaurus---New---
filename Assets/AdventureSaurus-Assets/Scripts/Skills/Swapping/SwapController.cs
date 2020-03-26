@@ -40,6 +40,7 @@ public class SwapController : MonoBehaviour
     private void OnEnable()
     {
         MoveAttackGUIController.OnCharacterSelect += UpdateSkillButton;
+        MoveAttackGUIController.OnCharacterDeselect += UpdateSkillButton;
     }
 
     // Called when this gameobject is disabled
@@ -47,6 +48,7 @@ public class SwapController : MonoBehaviour
     private void OnDisable()
     {
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButton;
+        MoveAttackGUIController.OnCharacterDeselect -= UpdateSkillButton;
     }
 
     /// <summary>

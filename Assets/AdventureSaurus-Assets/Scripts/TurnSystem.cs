@@ -1,42 +1,47 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public enum TurnState {GAMESTOP, PLAYERTURN, ENEMYTURN }//the states the game can be in
 
-
 public class TurnSystem : MonoBehaviour
 {
-    private TurnState state;
-    Transform CharcterTeam;
-    [SerializeField] GameObject endTurnButtObj = null;
-    private EnemyMoveAttackAI enMAAIRef;
-    private MoveAttackGUIController mAGUIContRef;
-    public bool enemyTurn, playerTurn;
-    private void Awake()
-    {
-        GameObject gameController = GameObject.FindWithTag("GameController");
-        if (gameController == null)
-            Debug.Log("Could not find any GameObject with the tag GameController");
-        else
-        {
-            enMAAIRef = gameController.GetComponent<EnemyMoveAttackAI>();
-            if (enMAAIRef == null)
-            {
-                Debug.Log("Could not find EnemyMoveAttackAI attached to " + gameController.name);
-            }
-            mAGUIContRef = gameController.GetComponent<MoveAttackGUIController>();
-            if (mAGUIContRef == null)
-            {
-                Debug.Log("Could not find MoveAttackGUIController attached to " + gameController.name);
-            }
-        }
+    // Reference to the endturn button so that we can turn it off when needed
+    [SerializeField] Button _endTurnButt = null;
+    // The current state of the game
+    private TurnState _state;
+    public TurnState State {
+        get { return _state; }
     }
-    // Start is called before the first frame update
-    void Start()
+    // The parent of all the characters on the floor
+    private Transform _characterTeam;
+
+    // Eventsa
+    // For when it is the enemy's turn
+    public delegate void BeginEnemyTurn();
+    public static event BeginEnemyTurn OnBeginEnemyTurn;
+    // For when it is the player's turn
+    public delegate void BeginPlayerTurn();
+    public static event BeginPlayerTurn OnBeginPlayerTurn;
+
+    // Called when gameobject is toggled on
+    // Subscribe to events
+    private void OnEnable()
     {
-        state = TurnState.GAMESTOP;//code between GAMESTOP and PLAYERTURN is for setup
+        // When the enemy's turn ends, start the player's turn
+        EnemyMoveAttackAI.OnEnemyTurnEnd += StartPlayerTurn;
+    }
+
+    // Called when gameobject is toggled off
+    // Unsubscribe to events
+    private void OnDisable()
+    {
+        EnemyMoveAttackAI.OnEnemyTurnEnd -= StartPlayerTurn;
+    }
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        _state = TurnState.GAMESTOP;//code between GAMESTOP and PLAYERTURN is for setup
     }
 
     /// <summary>
@@ -45,52 +50,48 @@ public class TurnSystem : MonoBehaviour
     /// <param name="charParent">Transform that is the parent of all characters</param>
     public void Initialize(Transform charParent)
     {
-        CharcterTeam = charParent;
+        _characterTeam = charParent;
     }
 
     /// <summary>
-    /// Called from EnemyMoveAttackAI after all enemies have moved
+    /// Called by the OnEnemyTurnEnd event from EnemyMoveAttackAI after all enemies have moved.
+    /// Starts Players Turn, Enables player to control characters
     /// </summary>
-    /// 
-    public void StartPlayerTurn()//starts Players Turn, Enables player to control characters
+    public void StartPlayerTurn()
     {
-        endTurnButtObj.GetComponent<Button>().interactable = true;
-        state = TurnState.PLAYERTURN;
+        _endTurnButt.interactable = true;
+        _state = TurnState.PLAYERTURN;
         // We reset the turns of all characters
-        foreach(Transform potAlly in CharcterTeam)
+        foreach(Transform potAlly in _characterTeam)
         {
             MoveAttack potAllyMA = potAlly.GetComponent<MoveAttack>();
             if (potAllyMA == null)
             {
-                Debug.Log("There is a non character object in " + CharcterTeam.name);
+                Debug.Log("There is a non character object in " + _characterTeam.name);
             }
             else
             {
                 potAllyMA.ResetMyTurn();
             }
         }
-        mAGUIContRef.AllowSelect();
-        camFocusPlayer();
-    }
 
-    public void camFocusPlayer()
-    {
-        playerTurn = true;
-        enemyTurn = false;
+        // Call the event that the player's turn has begun
+        if (OnBeginPlayerTurn != null)
+            OnBeginPlayerTurn();
     }
 
     /// <summary>
-    /// 
+    /// Starts Enemies Turn, Starts their AI
     /// </summary>
-    void StartEnemyTurn()//starts Enemies Turn, Starts their AI
+    private void StartEnemyTurn()
     {
-        endTurnButtObj.GetComponent<Button>().interactable = false;
-        foreach (Transform potEnemy in CharcterTeam)
+        _endTurnButt.interactable = false;
+        foreach (Transform potEnemy in _characterTeam)
         {
             MoveAttack potEnemyMA = potEnemy.GetComponent<MoveAttack>();
             if (potEnemyMA == null)
             {
-                Debug.Log("There is a non character object in " + CharcterTeam.name);
+                Debug.Log("There is a non character object in " + _characterTeam.name);
             }
             else
             {
@@ -100,9 +101,11 @@ public class TurnSystem : MonoBehaviour
                 }
             }
         }
-        mAGUIContRef.DenySelect();
-        state = TurnState.ENEMYTURN;
-        enMAAIRef.StartTakeTurn(); 
+        _state = TurnState.ENEMYTURN;
+
+        // Start the enemy's turn
+        if (OnBeginEnemyTurn != null)
+            OnBeginEnemyTurn();
     }
     /// <summary>
     /// Called from 
@@ -110,7 +113,7 @@ public class TurnSystem : MonoBehaviour
     public void IsPlayerDone()//checks if player has done everything that they can do with thier characters
     {
         bool areDone = true;
-        foreach (Transform player in CharcterTeam)
+        foreach (Transform player in _characterTeam)
         {
             MoveAttack ma = player.GetComponent<MoveAttack>();
             if(ma == null)
@@ -138,7 +141,7 @@ public class TurnSystem : MonoBehaviour
     public void IsEnemyDone()//gets called each time an enemy is done taking actions
     {
         bool areDone = true;//Starts true to assume the player is done but if any have actions left sets it to false
-        foreach (Transform player in CharcterTeam)
+        foreach (Transform player in _characterTeam)
         {
             MoveAttack ma = player.GetComponent<MoveAttack>();
             if (ma == null)
@@ -168,20 +171,12 @@ public class TurnSystem : MonoBehaviour
 
     public void SetToGameStop()//sets state to GameStop which will be used for pausing or cutscenes
     {
-        state = TurnState.GAMESTOP;
-    }
-
-    public void camFocusEnemy()
-    {
-        playerTurn = false;
-        enemyTurn = true;
+        _state = TurnState.GAMESTOP;
     }
 
     public void EndPlayerTurn()
     {
-        mAGUIContRef.DenySelect();//disables some user's input
         StartEnemyTurn();
-        camFocusEnemy();
     }
     
 }

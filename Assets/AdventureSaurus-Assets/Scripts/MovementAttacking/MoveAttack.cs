@@ -326,7 +326,7 @@ public class MoveAttack : MonoBehaviour
     /// </summary>
     private void EndMove()
     {
-        //Debug.Log("Finished Moving");
+        Debug.Log("Finished Moving");
         currentNode.occupying = whatAmI;    // Set the node I am ending on to occupied with my type
         animRef.SetInteger("MoveState", -2);
         transition = false;
@@ -359,7 +359,6 @@ public class MoveAttack : MonoBehaviour
         {
             // We have attacked
             hasAttacked = true;
-
             skillRef.StartSkill(attackNodePos);
         }
     }

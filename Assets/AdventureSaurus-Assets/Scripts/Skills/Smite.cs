@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Smite : Skill
 {
-    [SerializeField] GameObject smiteEffect;
+    [SerializeField] private GameObject smiteEffect = null;
 
     private new void Awake()
     {
