@@ -141,16 +141,19 @@ public class CamFollow : MonoBehaviour
         {
             Vector3 targetPosition = player1.TransformPoint(new Vector3(0, 0, -10));
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+            
         }
         if (player2 != null && isOnPlayer2 == true)
         {
             Vector3 targetPosition = player2.TransformPoint(new Vector3(0, 0, -10));
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+            
         }
         if (player3 != null && isOnPlayer3 == true)
         {
             Vector3 targetPosition = player3.TransformPoint(new Vector3(0, 0, -10));
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+           
         }
 
      
