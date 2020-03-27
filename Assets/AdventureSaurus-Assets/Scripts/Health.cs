@@ -266,7 +266,7 @@ public class Health : MonoBehaviour
     {
         // Since this is done, we need to let other character move to where this just was
         Node myNode = mAContRef.GetNodeByWorldPosition(this.transform.position);
-        myNode.occupying = CharacterType.None;
+        myNode.Occupying = CharacterType.None;
         // We need to move this character out from the character's parent before we recalculate the visuals, or this will be included in those calculaiton
         GameObject graveyard = new GameObject("Graveyard");
         this.transform.parent = graveyard.transform;

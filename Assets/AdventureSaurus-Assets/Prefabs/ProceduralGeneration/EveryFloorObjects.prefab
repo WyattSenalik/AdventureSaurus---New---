@@ -755,8 +755,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b718a32954b1f304ba8ba427f9259735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttonTransforms: []
-  _canvasRef: {fileID: 0}
+  _buttonTransforms:
+  - {fileID: 1885554832303467011}
+  - {fileID: 1885554832063714002}
+  - {fileID: 6782400713890190413}
+  - {fileID: 1885554832532744489}
+  - {fileID: 1885554831705798478}
+  - {fileID: 1885554832198332935}
+  - {fileID: 1885554831761044715}
+  - {fileID: 1885554833038922947}
+  - {fileID: 1885554832886100464}
+  _canvasRef: {fileID: 1885554832455133382}
 --- !u!114 &1885554831325360177
 MonoBehaviour:
   m_ObjectHideFlags: 0

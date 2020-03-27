@@ -178,7 +178,7 @@ public class MoveAttackController : MonoBehaviour
         // Get the node at the position of occupant
         Node occupantNode = GetNodeAtPosition(new Vector2Int(Mathf.RoundToInt(occupant.position.x), Mathf.RoundToInt(occupant.position.y)));
         // Set that node to be occupied
-        occupantNode.occupying = charType;
+        occupantNode.Occupying = charType;
     }
     // End Grid Functions
 
@@ -341,11 +341,11 @@ public class MoveAttackController : MonoBehaviour
                     continue;
                 }
                 // If the node is the same node as the one we are searching for, turn it on and break from this for
-                if (tilesNode.position == moveNode.position)
+                if (tilesNode.Position == moveNode.Position)
                 {
                     // If the node is empty we want it to be more highlighted, signifying we can move there
                     SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
-                    if (tilesNode.occupying == CharacterType.None)
+                    if (tilesNode.Occupying == CharacterType.None)
                         tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
                     else
                         tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
@@ -374,12 +374,12 @@ public class MoveAttackController : MonoBehaviour
                     continue;
                 }
                 // If the node is the same node as the one we are searching for, turn it on and break from this for
-                if (tilesNode.position == attackNode.position)
+                if (tilesNode.Position == attackNode.Position)
                 {
                     // If the node is contains an enemy/ally (depending on the character's team) we want it to be more highlighted, signifying we can attack it
                     SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
-                    if (tilesNode.occupying == CharacterType.Ally && mARef.WhatAmI == CharacterType.Enemy ||
-                        tilesNode.occupying == CharacterType.Enemy && mARef.WhatAmI == CharacterType.Ally)
+                    if (tilesNode.Occupying == CharacterType.Ally && mARef.WhatAmI == CharacterType.Enemy ||
+                        tilesNode.Occupying == CharacterType.Enemy && mARef.WhatAmI == CharacterType.Ally)
                         tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
                     else
                         tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
@@ -478,7 +478,7 @@ public class MoveAttackController : MonoBehaviour
             // Convert the character's position to grid point
             Vector2Int charGridPos = new Vector2Int(Mathf.RoundToInt(character.position.x), Mathf.RoundToInt(character.position.y));
             // If the character's position on the grid is the same as the testNode's position
-            if (charGridPos == testNode.position)
+            if (charGridPos == testNode.Position)
             {
                 return character.GetComponent<MoveAttack>();
             }
@@ -504,11 +504,10 @@ public class MoveAttackController : MonoBehaviour
         {
             foreach (Node node in row)
             {
-                node.whereToGo = null;
+                node.WhereToGo = null;
                 node.G = 0;
                 node.H = 0;
                 node.F = 0;
-                node.parent = null;
             }
         }
     }
@@ -533,10 +532,10 @@ public class MoveAttackController : MonoBehaviour
 
         // Make the last nodes' end node be itself
         // We do this before so that enemies can walk in place. Don't question it
-        endNode.whereToGo = endNode;
+        endNode.WhereToGo = endNode;
 
         // Make sure the node I want to go to is not occupied
-        if (!shouldCare || endNode.occupying == CharacterType.None)
+        if (!shouldCare || endNode.Occupying == CharacterType.None)
         {
             List<Node> inProgressNodes = new List<Node>();  // The nodes that are being tested
             List<Node> testedNodes = new List<Node>();
@@ -559,7 +558,7 @@ public class MoveAttackController : MonoBehaviour
                 testedNodes.Add(currentNode);
 
                 // Check if this node is the startNode
-                if (currentNode.position == startNode.position)
+                if (currentNode.Position == startNode.Position)
                 {
                     /*
                     //Debug.Log("Found Path");
@@ -578,24 +577,24 @@ public class MoveAttackController : MonoBehaviour
                 }
 
                 // Generate children
-                Vector2Int inProgNodePos = currentNode.position; // For quick reference
+                Vector2Int inProgNodePos = currentNode.Position; // For quick reference
                 //Debug.Log("Generating children of node at " + inProgNodePos);
 
                 // Check above node
                 Vector2Int testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y + 1);
-                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.position, requesterType, shouldCare);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.Position, requesterType, shouldCare);
 
                 // Check left node
                 testPos = new Vector2Int(inProgNodePos.x - 1, inProgNodePos.y);
-                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.position, requesterType, shouldCare);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.Position, requesterType, shouldCare);
 
                 // Check right node
                 testPos = new Vector2Int(inProgNodePos.x + 1, inProgNodePos.y);
-                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.position, requesterType, shouldCare);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.Position, requesterType, shouldCare);
 
                 // Check down node
                 testPos = new Vector2Int(inProgNodePos.x, inProgNodePos.y - 1);
-                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.position, requesterType, shouldCare);
+                PathingTestNode(testPos, inProgressNodes, testedNodes, currentNode, startNode.Position, requesterType, shouldCare);
             }
         }
         return false;   // Was an invalid node, or we could not reach that node
@@ -622,7 +621,7 @@ public class MoveAttackController : MonoBehaviour
 
         // If the node I am trying to go to is not occupied or is occupied by someone on my team
         // or if the node is occupied by someone, but I don't care and its the last node
-        if (testNode.occupying == CharacterType.None || testNode.occupying == requestType || (testPos == endPos && !shouldCare))
+        if (testNode.Occupying == CharacterType.None || testNode.Occupying == requestType || (testPos == endPos && !shouldCare))
         {
             // Make sure this node is not already on the tested list
             if (testedNodes.Contains(testNode))
@@ -633,7 +632,7 @@ public class MoveAttackController : MonoBehaviour
             if (testNode != currentNode)
             {
                 // The new node's whereToGo is the current node
-                testNode.whereToGo = currentNode;
+                testNode.WhereToGo = currentNode;
             }
             else
             {
@@ -648,7 +647,7 @@ public class MoveAttackController : MonoBehaviour
             testNode.H = xDist * xDist + yDist * yDist;
             testNode.F = testNode.G + testNode.H;
             // For testing, creates text at nodes displaying their F value
-            //ShowTextAtNode(testNode, testNode.F.ToString());
+            ShowTextAtNode(testNode, testNode.F.ToString());
 
             // If the node is already in the inProgressNodes
             if (inProgressNodes.Contains(testNode))
@@ -687,7 +686,7 @@ public class MoveAttackController : MonoBehaviour
                 if (currentNodes[i] == null)
                     continue;
 
-                Vector2Int curNodePos = currentNodes[i].position;
+                Vector2Int curNodePos = currentNodes[i].Position;
                 // Check above node
                 Vector2Int testPos = new Vector2Int(curNodePos.x, curNodePos.y + 1);
                 ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
@@ -728,13 +727,13 @@ public class MoveAttackController : MonoBehaviour
         if (testNode != null)
         {
             // If the node is not occupied, I can move there
-            if (testNode.occupying == CharacterType.None)
+            if (testNode.Occupying == CharacterType.None)
             {
                 validNodes.Add(testNode);
                 currentNodes.Add(testNode);
             }
             // If it is occupied by someone on my team, I can't move there, but I can move past there
-            else if (testNode.occupying == requestType)
+            else if (testNode.Occupying == requestType)
             {
                 currentNodes.Add(testNode);
             }
@@ -770,7 +769,7 @@ public class MoveAttackController : MonoBehaviour
                 if (currentNodes[i] == null)
                     continue;
 
-                Vector2Int curNodePos = currentNodes[i].position;
+                Vector2Int curNodePos = currentNodes[i].Position;
                 // Check above node
                 Vector2Int testPos = new Vector2Int(curNodePos.x, curNodePos.y + 1);
                 ValidAttackTestNode(testPos, validNodes, currentNodes, requesterType);
@@ -847,7 +846,7 @@ public class MoveAttackController : MonoBehaviour
                 if (currentNodes[i] == null)
                     continue;
 
-                Vector2Int curNodePos = currentNodes[i].position;
+                Vector2Int curNodePos = currentNodes[i].Position;
                 // Check above node
                 Vector2Int testPos = new Vector2Int(curNodePos.x, curNodePos.y + 1);
                 ValidDistTestNode(testPos, validNodes, currentNodes);
@@ -923,7 +922,7 @@ public class MoveAttackController : MonoBehaviour
         textRef.font = Resources.Load<Font>("dpcomic");
         textRef.alignment = TextAnchor.MiddleCenter;
         textRef.color = new Color(255, 255, 0);
-        canRef.transform.position = new Vector3(node.position.x, node.position.y, 0);
+        canRef.transform.position = new Vector3(node.Position.x, node.Position.y, 0);
 
         _visualTests.Add(visualComp);
     }

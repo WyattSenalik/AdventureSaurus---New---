@@ -122,8 +122,8 @@ public class MoveAttackGUIController : MonoBehaviour
                 }
                 // If the selected node contains an ally, deselect the current selected character, and select the new character
                 // Or if the selected node contains an enemy and we have an enemy selected
-                else if (selectedNode.occupying == CharacterType.Ally ||
-                    (selectedNode.occupying == CharacterType.Enemy && _charSelected.WhatAmI == CharacterType.Enemy))
+                else if (selectedNode.Occupying == CharacterType.Ally ||
+                    (selectedNode.Occupying == CharacterType.Enemy && _charSelected.WhatAmI == CharacterType.Enemy))
                 {
                     if (mARef == null)
                         Debug.Log("There was no MoveAttack script associated with this node, yet it was occupied by an Ally");
@@ -215,7 +215,7 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         MoveAttack charAtNode = _mAContRef.GetCharacterMAByNode(selNode);
         // If the current character can move there
-        if (_charSelected.MoveTiles.Contains(selNode) && selNode.occupying == CharacterType.None)
+        if (_charSelected.MoveTiles.Contains(selNode) && selNode.Occupying == CharacterType.None)
         {
             //Debug.Log("AttemptMove");
             ToggleSelect(false);    // Make it so that the player cannot select whilst something is moving
@@ -254,10 +254,10 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         // If the current character can attack there
         MoveAttack charToAttack = _mAContRef.GetCharacterMAByNode(selNode);
-        if (_charSelected.AttackTiles.Contains(selNode) && selNode.occupying == CharacterType.Enemy && charToAttack != null && charToAttack.gameObject.activeInHierarchy)
+        if (_charSelected.AttackTiles.Contains(selNode) && selNode.Occupying == CharacterType.Enemy && charToAttack != null && charToAttack.gameObject.activeInHierarchy)
         {
             ToggleSelect(false);    // Make it so that the player cannot select whilst something is attacking
-            _charSelected.StartAttack(selNode.position); // Start the attack
+            _charSelected.StartAttack(selNode.Position); // Start the attack
             return true;
         }
         return false;
@@ -307,7 +307,7 @@ public class MoveAttackGUIController : MonoBehaviour
             if (_nodeToAttack != null)
             {
                 ToggleSelect(false);    // Make it so that the player cannot select whilst something is attacking
-                _charSelected.StartAttack(_nodeToAttack.position);
+                _charSelected.StartAttack(_nodeToAttack.Position);
                 // Unselect and untarget everything that we saved for this move attack
                 _nodeToAttack = null;
                 Deselect();
@@ -356,20 +356,20 @@ public class MoveAttackGUIController : MonoBehaviour
         foreach (Node testNode in potNodes)
         {
             // We haven't done pathing, so we can't compare Fs, so we will just calculate it by actual distance
-            int testNodeDist = Mathf.Abs(testNode.position.x - charSelectedNode.position.x) +
-                Mathf.Abs(testNode.position.y - charSelectedNode.position.y);
+            int testNodeDist = Mathf.Abs(testNode.Position.x - charSelectedNode.Position.x) +
+                Mathf.Abs(testNode.Position.y - charSelectedNode.Position.y);
             if (nodeToMoveTo != null)
-                Debug.Log("Seeing if node at " + testNode.position + " is closer than " + nodeToMoveTo.position + "from " + charSelectedNode.position);
+                Debug.Log("Seeing if node at " + testNode.Position + " is closer than " + nodeToMoveTo.Position + "from " + charSelectedNode.Position);
             else
-                Debug.Log("Seeing if node at " + testNode.position + " is closer than null from " + charSelectedNode.position);
+                Debug.Log("Seeing if node at " + testNode.Position + " is closer than null from " + charSelectedNode.Position);
             // If the ally can move there or is already there and that node is closer than the closer than the current nodeToMoveTo
             if ((_charSelected.MoveTiles.Contains(testNode) || testNode == charSelectedNode) && testNodeDist < distToMoveNode)
             {
                 if (nodeToMoveTo != null)
-                    Debug.Log("It was! Node at " + testNode.position + " was closer than " + nodeToMoveTo.position + " from " + charSelectedNode.position + " by " +
+                    Debug.Log("It was! Node at " + testNode.Position + " was closer than " + nodeToMoveTo.Position + " from " + charSelectedNode.Position + " by " +
                         testNodeDist + " compared to " + distToMoveNode);
                 else
-                    Debug.Log("It was! Node at " + testNode.position + " was closer than null from " + charSelectedNode.position + " by " +
+                    Debug.Log("It was! Node at " + testNode.Position + " was closer than null from " + charSelectedNode.Position + " by " +
                         testNodeDist + " compared to " + distToMoveNode);
                 nodeToMoveTo = testNode;
                 distToMoveNode = testNodeDist;

@@ -52,6 +52,12 @@ public class ProceduralGenerationController : MonoBehaviour
     private MapCam mapCamRef;
     private DeathCheck deathCheckRef;
 
+    // Events
+    // When we finsh generating the floor
+    // For when we need to initialize scripts after generating
+    public delegate void FinishGeneration();
+
+
     // Set references
     private void Awake()
     {

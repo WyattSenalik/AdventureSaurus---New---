@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3157148349857912690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9084426930260393326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f67eb36b25d9ae468911583fc365bb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7137397737423043189
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11,6 +23,47 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpinoBandit Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079967, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 8c59058e6fb5ca04aa054c813531478f, type: 2}
+    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: charName
+      value: Spino Bandit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: magic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: vitality
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 172329594365854014, guid: 0e64bd84fc456684f91cd2898ffd1096,
+        type: 3}
+    - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.09375
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.09375
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2098535882787079962, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
@@ -67,47 +120,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: charName
-      value: Spino Bandit
-      objectReference: {fileID: 0}
-    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: magic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: vitality
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 172329594365854014, guid: 0e64bd84fc456684f91cd2898ffd1096,
-        type: 3}
-    - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1.09375
-      objectReference: {fileID: 0}
-    - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1.09375
-      objectReference: {fileID: 0}
-    - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2098535882787079967, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 8c59058e6fb5ca04aa054c813531478f, type: 2}
     - target: {fileID: 2098535882787079938, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -130,3 +142,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6405350bdbfbbc34b804d573219cc889, type: 3}
+--- !u!1 &9084426930260393326 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2098535882787079963, guid: 6405350bdbfbbc34b804d573219cc889,
+    type: 3}
+  m_PrefabInstance: {fileID: 7137397737423043189}
+  m_PrefabAsset: {fileID: 0}

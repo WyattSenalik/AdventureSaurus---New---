@@ -120,6 +120,24 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &114581064 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1885554831325360137, guid: 70da1097b1dafad4a9fb162e686f4084,
+    type: 3}
+  m_PrefabInstance: {fileID: 1885554831511062486}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &114581076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114581064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040940912a258784ba908cae13b5d194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &449665924
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,7 +171,7 @@ MonoBehaviour:
   nextFloorScene:
     m_Handle: 8
   difficultyToner: 0.75
-  nextFloorRoomAm: 5
+  nextFloorRoomAm: 3
   floorsUntilRoomAmInc: 3
   maxRooms: 9
   floorsUntilFire: 2
@@ -248,6 +266,11 @@ PrefabInstance:
       propertyPath: speed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8129528713394114396, guid: e9255b6a8fa73744dac62b3850185792,
+        type: 3}
+      propertyPath: vitality
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9255b6a8fa73744dac62b3850185792, type: 3}
 --- !u!4 &456140658 stripped
@@ -332,6 +355,11 @@ PrefabInstance:
         type: 3}
       propertyPath: speed
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6395254385892751024, guid: 4278b658950a1194d85a7b00a6d114c3,
+        type: 3}
+      propertyPath: vitality
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4278b658950a1194d85a7b00a6d114c3, type: 3}
@@ -450,6 +478,11 @@ PrefabInstance:
         type: 3}
       propertyPath: speed
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6395254385892751024, guid: 4278b658950a1194d85a7b00a6d114c3,
+        type: 3}
+      propertyPath: vitality
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4278b658950a1194d85a7b00a6d114c3, type: 3}
@@ -571,21 +604,6 @@ PrefabInstance:
       propertyPath: charParent
       value: 
       objectReference: {fileID: 1431827292}
-    - target: {fileID: 1885554832884344792, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: enemyPrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1885554832884344792, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: hallwayScalar
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1885554832884344792, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: endScalar
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7976364540032945923, guid: 70da1097b1dafad4a9fb162e686f4084,
         type: 3}
       propertyPath: m_IsActive
@@ -630,6 +648,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 7.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885554831325360178, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70da1097b1dafad4a9fb162e686f4084, type: 3}

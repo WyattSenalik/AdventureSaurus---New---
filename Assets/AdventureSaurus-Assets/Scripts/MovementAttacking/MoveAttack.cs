@@ -87,6 +87,14 @@ public class MoveAttack : MonoBehaviour
 
     private Vector2 lastVel;
 
+    // Events
+    // When a character finishes moving
+    public delegate void CharacterFinishedMoving();
+    public static event CharacterFinishedMoving OnCharacterFinishedMoving;
+    // When a character finishes attacking/doing its action
+    public delegate void CharacterFinishedAction();
+    public static event CharacterFinishedAction OnCharacterFinishedAction;
+
     /// <summary>
     /// Set references
     /// Called by Awake and called from Persistant Controller [allies only]
@@ -227,13 +235,13 @@ public class MoveAttack : MonoBehaviour
     private void Move()
     {
         // If the currentNode exists
-        if (currentNode.whereToGo != null)
+        if (currentNode.WhereToGo != null)
         {
             // If not finished moving in the x
             if (!doneTransX)
             {
                 // While this is left of the node it wants to get to
-                if (currentNode.whereToGo.position.x - this.gameObject.transform.position.x > 0.03f && lastVel.x <= 0)
+                if (currentNode.WhereToGo.Position.x - this.gameObject.transform.position.x > 0.03f && lastVel.x <= 0)
                 {
                     animRef.SetInteger("MoveState", 1);
                     sprRendRef.flipX = false;
@@ -242,7 +250,7 @@ public class MoveAttack : MonoBehaviour
                     //this.gameObject.transform.position += Vector3.right * transSpeed * Time.deltaTime;
                 }
                 // While this is right of the node it wants to get to
-                else if (this.gameObject.transform.position.x - currentNode.whereToGo.position.x > 0.03f && lastVel.x >= 0)
+                else if (this.gameObject.transform.position.x - currentNode.WhereToGo.Position.x > 0.03f && lastVel.x >= 0)
                 {
                     animRef.SetInteger("MoveState", 1);
                     sprRendRef.flipX = true;
@@ -263,7 +271,7 @@ public class MoveAttack : MonoBehaviour
             if (!doneTransY)
             {
                 // While the node this wants to get to is above where this is
-                if (currentNode.whereToGo.position.y - this.gameObject.transform.position.y > 0.03f && lastVel.y >= 0)
+                if (currentNode.WhereToGo.Position.y - this.gameObject.transform.position.y > 0.03f && lastVel.y >= 0)
                 {
                     sprRendRef.flipX = false;
                     animRef.SetInteger("MoveState", 2);
@@ -272,7 +280,7 @@ public class MoveAttack : MonoBehaviour
                     //this.gameObject.transform.position += Vector3.up * transSpeed * Time.deltaTime;
                 }
                 // While the node this wants to get to is below where this is
-                else if (this.gameObject.transform.position.y - currentNode.whereToGo.position.y > 0.03f && lastVel.y <= 0)
+                else if (this.gameObject.transform.position.y - currentNode.WhereToGo.Position.y > 0.03f && lastVel.y <= 0)
                 {
                     sprRendRef.flipX = false;
                     animRef.SetInteger("MoveState", 0);
@@ -293,9 +301,9 @@ public class MoveAttack : MonoBehaviour
             if (doneTransX && doneTransY)
             {
                 // If that node is the last node, stop moving
-                if (currentNode.whereToGo == currentNode)
+                if (currentNode.WhereToGo == currentNode)
                 { 
-                    this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(currentNode.whereToGo.position.x), Mathf.RoundToInt(currentNode.whereToGo.position.y), this.gameObject.transform.position.z);
+                    this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(currentNode.WhereToGo.Position.x), Mathf.RoundToInt(currentNode.WhereToGo.Position.y), this.gameObject.transform.position.z);
                     EndMove();
                 }
                 // Otherwise, find the next node
@@ -304,10 +312,10 @@ public class MoveAttack : MonoBehaviour
                     // If there is no character still at the node I just came from, make it have no character on it, so that others can pass through it
                     if (mAContRef.GetCharacterMAByNode(currentNode) == null)
                     {
-                        currentNode.occupying = CharacterType.None;
+                        currentNode.Occupying = CharacterType.None;
                     }
                     //animRef.SetInteger("MoveState", -1);
-                    currentNode = currentNode.whereToGo;
+                    currentNode = currentNode.WhereToGo;
                     doneTransX = false;
                     doneTransY = false;
                 }
@@ -327,12 +335,13 @@ public class MoveAttack : MonoBehaviour
     private void EndMove()
     {
         Debug.Log("Finished Moving");
-        currentNode.occupying = whatAmI;    // Set the node I am ending on to occupied with my type
+        currentNode.Occupying = whatAmI;    // Set the node I am ending on to occupied with my type
         animRef.SetInteger("MoveState", -2);
         transition = false;
         currentNode = null;
         hasMoved = true;
-        moveRange = 0;  // This character cannot attack again until the next turn, so their moveRange is now 0
+        // This character cannot attack again until the next turn, so their moveRange is now 0
+        moveRange = 0;
         //Debug.Log("Reached destination");
 
         // If the character is an ally, then we have to allow the user to select again
@@ -342,11 +351,15 @@ public class MoveAttack : MonoBehaviour
             // We need to recalculate the move and attack tiles
             mAGUIContRef.AllowSelect();
         }
-        // If the character is an enemy, they need to attempt to attack now
-        else if (whatAmI == CharacterType.Enemy)
-        {
-            enMAAIRef.AttemptAttack();
-        }
+        //// If the character is an enemy, they need to attempt to attack now
+        //else if (whatAmI == CharacterType.Enemy)
+        //{
+        //    enMAAIRef.AttemptAttack();
+        //}
+
+        // Call the event for when a character finished moving
+        if (OnCharacterFinishedMoving != null)
+            OnCharacterFinishedMoving();
     }
 
     /// <summary>
@@ -374,6 +387,10 @@ public class MoveAttack : MonoBehaviour
             //Debug.Log("End skill " + skillRef.SkillNum);
             skillRef.EndSkill();
         }
+
+        // Call the event for finishing the action
+        if (OnCharacterFinishedAction != null)
+            OnCharacterFinishedAction();
     }
 
     /// <summary>
