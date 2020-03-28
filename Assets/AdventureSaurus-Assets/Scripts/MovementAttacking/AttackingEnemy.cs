@@ -11,8 +11,8 @@ public class AttackingEnemy : SingleEnemy
     /// <returns>Node that this enemy should move to</returns>
     override protected Node FindTileToMoveTo()
     {
-        Debug.Log("------------------------------------------");
-        Debug.Log("Start Node " + StandingNode.Position);
+        //Debug.Log("------------------------------------------");
+        //Debug.Log("Start Node " + StandingNode.Position);
         // 1) Get closest ally node with ana attackable node
         Node closestAllyNode = null;
         int closestAllyF = int.MaxValue;
@@ -28,37 +28,43 @@ public class AttackingEnemy : SingleEnemy
             {
                 // Path to that ally
                 MAContRef.Pathing(StandingNode, charNode, CharacterType.Enemy, false);
-                Vector2Int printPos = new Vector2Int(int.MaxValue, int.MaxValue);
-                if (closestAllyNode != null)
-                    printPos = closestAllyNode.Position;
-                Debug.Log(charNode.Position + " with " + charNode.F + " is being compared with " + printPos + " with " + closestAllyF);
+
+                // FOR TESTING
+                //Vector2Int printPos = new Vector2Int(int.MaxValue, int.MaxValue);
+                //if (closestAllyNode != null)
+                //    printPos = closestAllyNode.Position;
+                //Debug.Log(charNode.Position + " with " + charNode.F + " is being compared with " + printPos + " with " + closestAllyF);
+
                 // If it is closer than the currently closest ally
                 if (closestAllyF > charNode.F)
                 {
                     int charFVal = charNode.F;
-                    Debug.Log("It was closer in distance");
+                    //Debug.Log("It was closer in distance");
 
                     // 2) Get the closest node this enemy could attack that ally from
+                    // We know that is enemy is closer in walking distance, but we don't know if they have any openings to attack
+                    // So we test to see if we can find any openings to attack
                     // Get the potential nodes to attack from
                     List<Node> potAttackNodes = MAContRef.GetNodesDistFromNode(charNode, MARef.AttackRange);
                     // Figure out which is closest to the standing positions
-                    Debug.Log("The attack nodes are at ");
+                    //Debug.Log("The attack nodes are at ");
                     foreach (Node curAdjNode in potAttackNodes)
                     {
-                        Debug.Log(curAdjNode.Position);
+                        //Debug.Log(curAdjNode.Position);
                         // If the node is not occupied by someone other than this enemy
+                        // since if this enemy is standing next to an ally, obvious that ally is the closest
                         MoveAttack curAdjEnemyMARef = MAContRef.GetCharacterMAByNode(curAdjNode);
                         if (curAdjNode.Occupying == CharacterType.None || curAdjEnemyMARef == MARef)
                         {
-                            // Path there, if succesful keep testing
-                            // We say we don't care because we have already checked if someone was there
-                            // And if there is someone there, it would be this enemy
+                            // Path there, if succesful, then see if it is closer than the current attackfrom node
+                            // We say we don't care if we can get there (shouldCare=false) because we have already 
+                            // checked if someone was there and if there is someone there, it would be this enemy
                             if (MAContRef.Pathing(StandingNode, curAdjNode, CharacterType.Enemy, false))
                             {
-                                // If it is closer than the last one
+                                // If it is closer than the closest attack from node
                                 if (closestAttackF > curAdjNode.F)
                                 {
-                                    Debug.Log("It was closer and could be attacked");
+                                    //Debug.Log("It was closer and could be attacked");
                                     // It is the new closest enemy node
                                     closestAllyNode = charNode;
                                     closestAllyF = charFVal;
@@ -73,37 +79,79 @@ public class AttackingEnemy : SingleEnemy
                 }
             }
         }
-        // If there is no closestAlly, return the current Node
-        if (closestAllyNode == null)
+        // If there is no closest attack from node, return the current Node
+        if (closestAttackNode == null)
         {
-            //Debug.Log("There was no closest Ally");
+            //Debug.Log("There was no closest Ally with an opening to attack");
             return StandingNode;
         }
         //Debug.Log("The closest ally is at " + closestAllyNode.Position);
 
-        
 
+        // This short find a tile to move to replaced the other way, which was faster, but much more complex
+        // We are going to use the enemy's move tiles, so we need to recalculate those
+        MARef.CalcMoveTiles();
+
+        // Short cut. If we path to the node and some of our nodes have f values, we move to the closest one of those
+        // Path to the attack node to create f values
+        MAContRef.Pathing(StandingNode, closestAttackNode, CharacterType.Enemy, false);
+        Node closestNode = null;
+        int closestShortF = int.MinValue;
+        // Iterate over the possible tiles to move to
+        foreach (Node moveTile in MARef.MoveTiles)
+        {
+            // If its been set (isn't 0) and is closer (greater F)
+            if (moveTile.F != 0 && closestShortF < moveTile.F)
+            {
+                closestNode = moveTile;
+                closestShortF = moveTile.F;
+            }
+        }
+
+        // If the short cut didn't work, do it the long way
+        if (closestNode == null)
+        {
+            closestNode = StandingNode;
+            int closestF = int.MaxValue;
+            // Iterate over the possible tiles to move to
+            foreach (Node moveTile in MARef.MoveTiles)
+            {
+                // Path from that move tile to the closest attack node
+                // If successful, check if its closer than the closestNode
+                if (MAContRef.Pathing(moveTile, closestAttackNode, CharacterType.Enemy))
+                {
+                    // It its closer, its the new closestNode
+                    if (closestF > closestAttackNode.F)
+                    {
+                        closestNode = moveTile;
+                        closestF = closestAttackNode.F;
+                    }
+                }
+            }
+        }
+        // Its the endtile
+        return closestNode;
+
+
+
+        /* This way is faster, but less correct, and more complex
+       
         //Debug.Log("Closest attack node is at " + closestAttackNode.Position);
         // 3) Create a path to the closest attack node
-        // Path to that node
+        // Path to the node
         MAContRef.Pathing(StandingNode, closestAttackNode, CharacterType.Enemy);
+        // This list will hold the nodes in our path
         List<Node> currentPath = new List<Node>();
-        // Follow the path to build it
+        // Follow the created path to build the list
         Node curPNode = StandingNode;
-        int infiniteProtect = 1000;
-        int curInfIncr = 0;
         while (curPNode.WhereToGo != curPNode)
         {
             currentPath.Add(curPNode);
             curPNode = curPNode.WhereToGo;
-            if (++curInfIncr > infiniteProtect)
-            {
-                Debug.Log("Had to break from an infinite");
-                break;
-            }
         }
         // Add the last node
         currentPath.Add(curPNode);
+
         //string printPath = "Path = ";
         //foreach (Node curNode in currentPath)
         //    printPath += curNode.Position + " -> ";
@@ -119,23 +167,27 @@ public class AttackingEnemy : SingleEnemy
             // Assume we should not repeat step 4
             shouldRepeatStep4 = false;
 
-            // If we can move farther than the path
+            // If we can move farther than the path, get the last node in the path
             if (MARef.MoveRange >= currentPath.Count)
                 endUpIndex = currentPath.Count - 1;
+            // Otherwise get how far we can move in the path
             else
                 endUpIndex = MARef.MoveRange;
 
+            // Get that node
             endUpNode = currentPath[endUpIndex];
             // If it is occupied, we have some backtracking to do
             while (endUpNode.Occupying != CharacterType.None)
             {
                 // Backtrack 1 tile along the path
-                // Make sure we can, if we can't backtrack any more, just return the standing node
-                if (endUpIndex - 1 <= 0)
+                // Make sure we can, if we can't backtrack any more, just return the standing node,
+                // since we can't move otherwise
+                if (endUpIndex - 1 < 0)
                     return StandingNode;
+                // Get the backtrack node by getting the node 1 before the backtrack node
                 Node backTrackNode = currentPath[endUpIndex - 1];
 
-                // Probe the 4 adjacent tiles, minus the 2 tiles on the path already
+                // Probe the 4 adjacent tiles to that node, minus the 2 tiles on the path already
                 List<Node> probeNodes = MAContRef.GetNodesDistFromNode(backTrackNode, 1);
                 for (int i = 0; i < probeNodes.Count; ++i)
                 {
@@ -146,16 +198,25 @@ public class AttackingEnemy : SingleEnemy
                     }
                 }
 
-                // 3 Cases for the remaining 2 tiles: Both are occupied. 1 is not occupied. Neither are occupied
-                // Make sure we only have 2
-                if (probeNodes.Count != 2)
+                // 3 Cases for the remaining tiles: all are occupied; at least 1 is not occupied; multiple are not occupied
+
+                // Case 1: All are occupied
+                // Assume they are all occupied
+                bool allOcc = true;
+                // Try to prove the assumption wrong
+                foreach (Node singleProbe in probeNodes)
                 {
-                    Debug.Log("WARNING - BUG DETECTED - Probe Nodes does not contain 2 nodes");
+                    if (singleProbe.Occupying == CharacterType.None)
+                    {
+                        allOcc = false;
+                        break;
+                    }
                 }
-                // Case 1: Both are occupied
-                else if (probeNodes[0].Occupying != CharacterType.None && probeNodes[1].Occupying != CharacterType.None)
+                // If they are all occupied
+                if (allOcc)
                 {
-                    // If the backtrack node is free, that is the node to move to
+                    // If the backtrack node is free, that is the node to move to,
+                    // so set that as the end node and break
                     if (backTrackNode.Occupying == CharacterType.None)
                     {
                         endUpNode = backTrackNode;
@@ -169,23 +230,31 @@ public class AttackingEnemy : SingleEnemy
                     }
                 }
                 // Case 2: at least 1 is unoccupied
-                else if (probeNodes[0].Occupying == CharacterType.None || probeNodes[1].Occupying == CharacterType.None)
+                // Create a list of the free nodex
+                List<Node> freeNodes = new List<Node>();
+                // Add all the free nodes to that list
+                foreach (Node singleProbe in probeNodes)
                 {
-                    // Assumed the first probe is unoccupied and then try to prove it wrong
-                    Node unoccupiedNode = probeNodes[0];
-                    if (probeNodes[0].Occupying != CharacterType.None)
-                        unoccupiedNode = probeNodes[1];
+                    if (singleProbe.Occupying == CharacterType.None)
+                    {
+                        freeNodes.Add(singleProbe);
+                    }
+                }
+                // If at least one is free
+                if (freeNodes.Count > 0)
+                {
+                    Node unoccupiedNode = freeNodes[0];
 
-                    // Case 2a: Both are unoccupied
-                    if (probeNodes[0].Occupying == CharacterType.None && probeNodes[1].Occupying == CharacterType.None)
+                    // Case 2a: Multiple are free, we need to chose one
+                    if (freeNodes.Count > 1)
                     {
                         // Find the closer node to the attackNode
-                        Node closerProbeNode = probeNodes[0];
+                        Node closerProbeNode = freeNodes[0];
                         int closerProbeF = int.MaxValue;
                         // Iterate to find the closest
                         foreach (Node singleProbe in probeNodes)
                         {
-                            // Path to get Fs
+                            // Path from the probe to the end node to get Fs
                             if (MAContRef.Pathing(singleProbe, closestAttackNode, CharacterType.Enemy))
                             {
                                 // If the current probe is closer
@@ -196,6 +265,7 @@ public class AttackingEnemy : SingleEnemy
                                 }
                             }
                         }
+                        // The node we want to add to the path is the closer probe
                         unoccupiedNode = closerProbeNode;
                     }
 
@@ -210,37 +280,33 @@ public class AttackingEnemy : SingleEnemy
                     MAContRef.Pathing(unoccupiedNode, closestAttackNode, CharacterType.Enemy);
                     // Add the nodes from the pathing to the path current path list
                     Node curPathNode = unoccupiedNode;
-                    int infiniteLoopProtection = 1999;
-                    int curInfInc = 0;
                     while (curPathNode.WhereToGo != curPathNode)
                     {
                         currentPath.Add(curPathNode);
                         curPathNode = curPathNode.WhereToGo;
-
-                        if (++curInfInc > infiniteLoopProtection)
-                        {
-                            Debug.Log("Had to break from an infinite");
-                            break;
-                        }
                     }
                     // Add the last node
                     currentPath.Add(curPathNode);
+
                     // Now we need to re-get the tile this ally would stop at along their path, which is redoing 4)
                     shouldRepeatStep4 = true;
                     // Break out of the current loop so we can repeat step 4
                     break;
                 }
-                else
+                // Just a sanity test
+                if ((!allOcc && freeNodes.Count == 0 ) || (allOcc && freeNodes.Count != 0))
                 {
-                    Debug.Log("WARNING - BUG DETECTED - Unexpected Else was fallen into");
+                    Debug.Log("WARNING - BUG DETECTED - Unexpected If was fallen into");
                 }
             }
             // If the tile is not occupied we're done
-            // We should only repeat this in the case that we had to update the path
         } while (shouldRepeatStep4);
+        // We should only repeat this in the case that we had to update the path.
+        // So if the node we would end up at was occupied and the probed nodes were unoccupied.
 
         //Debug.Log("End Node is at " + endUpNode.Position);
         return endUpNode;
+        */
     }
 
     /// <summary>
@@ -250,6 +316,17 @@ public class AttackingEnemy : SingleEnemy
     /// </summary>
     override protected void AttemptAction()
     {
+        // Recalculate the enemy's move and attack tiles.
+        // We really only want their attack tiles, but those are based on the move tiles
+        // Which are currently out of place since they are what the 
+        MARef.CalcMoveTiles();
+        MARef.CalcAttackTiles();
+        // Get the enemy in range
+        foreach (Node atkNode in MARef.AttackTiles)
+        {
+
+        }
+
         MARef.EndAttack();
     }
 }

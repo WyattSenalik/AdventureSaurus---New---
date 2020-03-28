@@ -675,19 +675,19 @@ public class MoveAttackController : MonoBehaviour
 
                 Vector2Int curNodePos = currentNodes[i].Position;
                 // Check above node
-                Vector2Int testPos = new Vector2Int(curNodePos.x, curNodePos.y + 1);
+                Vector2Int testPos = curNodePos + Vector2Int.up;
                 ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
 
                 // Check left node
-                testPos = new Vector2Int(curNodePos.x - 1, curNodePos.y);
+                testPos = curNodePos + Vector2Int.left;
                 ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
 
                 // Check right node
-                testPos = new Vector2Int(curNodePos.x + 1, curNodePos.y);
+                testPos = curNodePos + Vector2Int.right;
                 ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
 
                 // Check down node
-                testPos = new Vector2Int(curNodePos.x, curNodePos.y - 1);
+                testPos = curNodePos + Vector2Int.down;
                 ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
 
             }
