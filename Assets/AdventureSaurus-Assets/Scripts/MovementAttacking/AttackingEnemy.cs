@@ -113,6 +113,7 @@ public class AttackingEnemy : SingleEnemy
         Node endUpNode = null;
         int endUpIndex = 0;
         bool shouldRepeatStep4 = false;
+        // We will only repeat step 4 in the case that one of the probed tiles is not occupied
         do
         {
             // Assume we should not repeat step 4
