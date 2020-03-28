@@ -10,19 +10,23 @@ public abstract class SingleEnemy : MonoBehaviour
     {
         get { return _mAContRef; }
     }
-
     // MoveAttack script attached to this enemy
     private MoveAttack _mARef;
     protected MoveAttack MARef
     {
         get { return _mARef; }
     }
-
     // The Node this enemy is currently on
     private Node _standingNode;
     protected Node StandingNode
     {
         get { return _standingNode; }
+    }
+    // The parent of all the characters
+    private Transform _charParent;
+    protected Transform CharacterParent
+    {
+        get { return _charParent; }
     }
 
     // Events
@@ -49,6 +53,9 @@ public abstract class SingleEnemy : MonoBehaviour
         _mARef = this.GetComponent<MoveAttack>();
         if (_mARef == null)
             Debug.Log("There is no MoveAttack script attached to " + this.name);
+
+        // TEMPORARAY FIX
+        _charParent = GameObject.Find("CharacterParent").transform;
     }
 
     /// <summary>

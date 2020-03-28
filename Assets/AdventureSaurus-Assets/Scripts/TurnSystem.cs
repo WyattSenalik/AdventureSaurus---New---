@@ -28,14 +28,16 @@ public class TurnSystem : MonoBehaviour
     private void OnEnable()
     {
         // When the enemy's turn ends, start the player's turn
-        EnemyMoveAttackAI.OnEnemyTurnEnd += StartPlayerTurn;
+        EnemyTurnController.OnEndEnemyTurn += StartPlayerTurn;
+        //EnemyMoveAttackAI.OnEnemyTurnEnd += StartPlayerTurn;
     }
 
     // Called when gameobject is toggled off
     // Unsubscribe to events
     private void OnDisable()
     {
-        EnemyMoveAttackAI.OnEnemyTurnEnd -= StartPlayerTurn;
+        EnemyTurnController.OnEndEnemyTurn -= StartPlayerTurn;
+        //EnemyMoveAttackAI.OnEnemyTurnEnd -= StartPlayerTurn;
     }
 
     // Start is called before the first frame update

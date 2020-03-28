@@ -560,18 +560,9 @@ public class MoveAttackController : MonoBehaviour
                 // Check if this node is the startNode
                 if (currentNode.Position == startNode.Position)
                 {
-                    /*
-                    //Debug.Log("Found Path");
-                    // Find the path
-                    Node prevPathNode = currentNode;
-                    Node curPathNode = currentNode.parent;
-                    while (curPathNode != null)
-                    {
-                        curPathNode.whereToGo = prevPathNode;
-                        prevPathNode = curPathNode;
-                        curPathNode = curPathNode.parent;
-                    }
-                    */
+                    // Calculate the A* Values of the end node
+                    CalculateAStarValues(endNode, endNode.Parent, startNode.Position);
+                    //Debug.Log("Finished A* of " + currentNode.Position + " G: " + currentNode.G + " H: " + currentNode.H + " F: " + currentNode.F);
                     // We found the path, so return that it was a success
                     return true;
                 }
@@ -633,6 +624,7 @@ public class MoveAttackController : MonoBehaviour
             {
                 // The new node's whereToGo is the current node
                 testNode.WhereToGo = currentNode;
+                currentNode.Parent = testNode;
             }
             else
             {
@@ -641,13 +633,8 @@ public class MoveAttackController : MonoBehaviour
             }
 
             // Set the g, h, and f values
-            testNode.G = currentNode.G + 1;
-            int xDist = Mathf.Abs(testPos.x - endPos.x);
-            int yDist = Mathf.Abs(testPos.y - endPos.y);
-            testNode.H = xDist * xDist + yDist * yDist;
-            testNode.F = testNode.G + testNode.H;
-            // For testing, creates text at nodes displaying their F value
-            ShowTextAtNode(testNode, testNode.F.ToString());
+            CalculateAStarValues(testNode, currentNode, endPos);
+            //Debug.Log("Finished A* of " + testNode.Position + " G: " + testNode.G + " H: " + testNode.H + " F: " + testNode.F);
 
             // If the node is already in the inProgressNodes
             if (inProgressNodes.Contains(testNode))
@@ -977,5 +964,27 @@ public class MoveAttackController : MonoBehaviour
         }
 
         return mostTopLeftRoomPos;
+    }
+
+    /// <summary>
+    /// Calcualtes the A* Values and sets them
+    /// </summary>
+    /// <param name="testNode">Node to set the values for</param>
+    /// <param name="prevNode">Node that has testNode as its nextNode</param>
+    /// <param name="endPos">End position we are trying to reach</param>
+    private void CalculateAStarValues(Node testNode, Node prevNode, Vector2Int endPos)
+    {
+        // Set the g, h, and f values
+        if (prevNode != null)
+            testNode.G = prevNode.G + 1;
+        else
+            testNode.G = 0;
+        int xDist = Mathf.Abs(testNode.Position.x - endPos.x);
+        int yDist = Mathf.Abs(testNode.Position.y - endPos.y);
+        testNode.H = xDist * xDist + yDist * yDist;
+        testNode.F = testNode.G + testNode.H;
+        //Debug.Log("Calcualting A* of " + testNode.Position + " G: " + testNode.G + " H: " + testNode.H + " F: " + testNode.F);
+        // For testing, creates text at nodes displaying their F value
+        ShowTextAtNode(testNode, testNode.F.ToString());
     }
 }

@@ -19,6 +19,13 @@ public class Node
         get { return _whereToGo; }
         set { _whereToGo = value; }
     }
+    // The node that a unit on this node came from
+    private Node _parent;
+    public Node Parent
+    {
+        get { return _parent; }
+        set { _parent = value; }
+    }
     // What is currently on this tile
     private CharacterType _occupying;
     public CharacterType Occupying
@@ -58,6 +65,7 @@ public class Node
     {
         _position = _pos_;
         _whereToGo = null;
+        _parent = null;
         _occupying = CharacterType.None;
         _g = 0;
         _h = 0;

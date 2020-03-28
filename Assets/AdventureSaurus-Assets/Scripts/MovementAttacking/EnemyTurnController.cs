@@ -11,6 +11,11 @@ public class EnemyTurnController : MonoBehaviour
     // Index of the current enemy
     private int _curEnIndex;
 
+    // Events
+    // When the enemy turn is over
+    public delegate void EndEnemyTurn();
+    public static event EndEnemyTurn OnEndEnemyTurn;
+
     // Called when the gameobject is set to active
     // Subscribe to events
     private void OnEnable()
@@ -41,6 +46,13 @@ public class EnemyTurnController : MonoBehaviour
         {
             // Take the current enemy's turn
             _allEnemies[_curEnIndex].TakeTurn();
+        }
+        // If all the enemies have taken their turn
+        else
+        {
+            // Call the end enemy turn event
+            if (OnEndEnemyTurn != null)
+                OnEndEnemyTurn();
         }
     }
 
