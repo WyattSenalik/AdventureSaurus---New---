@@ -30,6 +30,9 @@ public class MoveAttackGUIController : MonoBehaviour
     // Event for when a character is deslected
     public delegate void CharacterDeselect(MoveAttack charMARef);
     public static event CharacterDeselect OnCharacterDeselect;
+    // Event for when the player is allowed to select again
+    public delegate void PlayerAllowedSelected();
+    public static event PlayerAllowedSelected OnPlayerAllowedSelect;
 
     // Called when the gameobject is toggled on
     // Subscribe to events
@@ -217,15 +220,13 @@ public class MoveAttackGUIController : MonoBehaviour
         // If the current character can move there
         if (_charSelected.MoveTiles.Contains(selNode) && selNode.Occupying == CharacterType.None)
         {
-            //Debug.Log("AttemptMove");
-            ToggleSelect(false);    // Make it so that the player cannot select whilst something is moving
-            // Calculate the pathing
-            _mAContRef.ResetPathing();
+            // Start moving the ally
             Node startNode = _mAContRef.GetNodeByWorldPosition(_charSelected.transform.position);
-            _mAContRef.Pathing(startNode, selNode, _charSelected.WhatAmI);
-            // Start moving the character
-            _charSelected.StartMove();
-            _mAContRef.TurnOffVisuals(_charSelected);
+            DoMove(startNode, selNode);
+
+            // We want the user to be able to select after moving, so
+            // when the ally finishes moving, return control
+            MoveAttack.OnCharacterFinishedMoving += ReturnControlAfterMove;
 
             return true;
         }
@@ -254,13 +255,148 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         // If the current character can attack there
         MoveAttack charToAttack = _mAContRef.GetCharacterMAByNode(selNode);
-        if (_charSelected.AttackTiles.Contains(selNode) && selNode.Occupying == CharacterType.Enemy && charToAttack != null && charToAttack.gameObject.activeInHierarchy)
+        if (_charSelected.AttackTiles.Contains(selNode) && selNode.Occupying == CharacterType.Enemy
+            && charToAttack != null && charToAttack.gameObject.activeInHierarchy)
         {
-            ToggleSelect(false);    // Make it so that the player cannot select whilst something is attacking
-            _charSelected.StartAttack(selNode.Position); // Start the attack
+            // Set the node to attack
+            _nodeToAttack = selNode;
+
+            // Have the ally attack that node
+            DoAttack();
+
+            // When the ally finishes their attack, return control to the user
+            MoveAttack.OnCharacterFinishedAction += ReturnControlAfterAction;
+
             return true;
         }
         return false;
+    }
+
+
+    /// <summary>
+    /// When the user has a ally selected and tries to select an enemy in range
+    /// </summary>
+    /// <param name="selNode">The node that the ally is trying to attack</param>
+    private void AttemptMoveAndAttack(Node selNode)
+    {
+        // Set the node to attack
+        _nodeToAttack = selNode;
+
+        // Find out the node attackRange away from selNode that is closest to the charSelected
+        // Get the viable nodes
+        List<Node> potNodes = _mAContRef.GetNodesDistFromNode(selNode, _charSelected.AttackRange);
+        Node nodeToMoveTo = null; // The node that will be moved to
+        int distToMoveNode = int.MaxValue; // The distance to the closest node
+        Node charSelectedNode = _mAContRef.GetNodeByWorldPosition(_charSelected.transform.position); // Node the ally is on
+        // Cross reference them against the nodes this character can move to until a match is found
+        foreach (Node testNode in potNodes)
+        {
+            // We haven't done pathing, so we can't compare Fs, so we will just calculate it by actual distance
+            int testNodeDist = Mathf.Abs(testNode.Position.x - charSelectedNode.Position.x) +
+                Mathf.Abs(testNode.Position.y - charSelectedNode.Position.y);
+            //if (nodeToMoveTo != null)
+            //    Debug.Log("Seeing if node at " + testNode.Position + " is closer than " + nodeToMoveTo.Position + "from " + charSelectedNode.Position);
+            //else
+            //    Debug.Log("Seeing if node at " + testNode.Position + " is closer than null from " + charSelectedNode.Position);
+            // If the ally can move there or is already there and that node is closer than the closer than the current nodeToMoveTo
+            if ((_charSelected.MoveTiles.Contains(testNode) || testNode == charSelectedNode) && testNodeDist < distToMoveNode)
+            {
+                //if (nodeToMoveTo != null)
+                //    Debug.Log("It was! Node at " + testNode.Position + " was closer than " + nodeToMoveTo.Position + " from " + charSelectedNode.Position + " by " +
+                //        testNodeDist + " compared to " + distToMoveNode);
+                //else
+                //    Debug.Log("It was! Node at " + testNode.Position + " was closer than null from " + charSelectedNode.Position + " by " +
+                //        testNodeDist + " compared to " + distToMoveNode);
+                nodeToMoveTo = testNode;
+                distToMoveNode = testNodeDist;
+            }
+        }
+
+        // Just make sure that the node exists
+        if (nodeToMoveTo == null)
+        {
+            Debug.Log("Big trouble in MoveAttackGUIController. There was an enemy in range, but no valid tiles to attack them from");
+            Deselect();
+            return;
+        }
+
+        // Move the character
+        DoMove(charSelectedNode, nodeToMoveTo);
+
+        // When the ally finished moving, attack
+        MoveAttack.OnCharacterFinishedMoving += BeginAttackAfterMove;
+    }
+
+    /// <summary>
+    /// Begins the selected ally moving
+    /// </summary>
+    /// <param name="startNode">Node to start moving from</param>
+    /// <param name="endNode">Node to move to</param>
+    private void DoMove(Node startNode, Node endNode)
+    {
+        // Make it so that the player cannot select whilst something is moving
+        ToggleSelect(false);
+        // Calculate the pathing
+        _mAContRef.Pathing(startNode, endNode, _charSelected.WhatAmI);
+        // Start moving the character
+        _charSelected.StartMove();
+        _mAContRef.TurnOffVisuals(_charSelected);
+    }
+
+    /// <summary>
+    /// Begins the selected ally attacking
+    /// </summary>
+    private void DoAttack()
+    {
+        // Make it so that the player cannot select whilst something is attacking
+        ToggleSelect(false);
+        // Start the attack
+        _charSelected.StartAttack(_nodeToAttack.Position);
+        // Unselect and untarget everything that we saved for this move attack
+        _nodeToAttack = null;
+        Deselect();
+    }
+
+    /// <summary>
+    /// Begins the selected character's attack after they move
+    /// Called by OnCharacterFinishedMoving event in MoveAttack
+    /// </summary>
+    private void BeginAttackAfterMove()
+    {
+        // Remove itself from the OnCharacterFinishedMoving event
+        MoveAttack.OnCharacterFinishedMoving -= BeginAttackAfterMove;
+
+        // Do the attack
+        DoAttack();
+
+        // When the ally finishes their attack, return control to the user
+        MoveAttack.OnCharacterFinishedAction += ReturnControlAfterAction;
+    }
+
+    /// <summary>
+    /// Returns control to the user after an ally finishes its action
+    /// Called by OnCharacterFinishedAction event in MoveAttack
+    /// </summary>
+    private void ReturnControlAfterAction()
+    {
+        // Remove itself from the OnCharacterFinishedAction event
+        MoveAttack.OnCharacterFinishedAction -= ReturnControlAfterAction;
+
+        ToggleSelect(true);
+        AllowSelect();
+    }
+
+    /// <summary>
+    /// Returns control to the user after an ally finishes moving
+    /// Called by OnCharacterFinishedMoving event in MoveAttack
+    /// </summary>
+    private void ReturnControlAfterMove()
+    {
+        // Remove itself from the OnCharacterFinishedMoving event
+        MoveAttack.OnCharacterFinishedMoving -= ReturnControlAfterMove;
+
+        ToggleSelect(true);
+        AllowSelect();
     }
 
     /// <summary>
@@ -291,108 +427,40 @@ public class MoveAttackGUIController : MonoBehaviour
     }
 
     /// <summary>
-    /// Called from TurnSystem.OnBeginPlayerTurn event.
-    /// Called from MoveAttack by Allies after they finish moving.
     /// Allows the user to select again and recalculates all the visual tiles, since they have now changed
+    /// Called by the TurnSystem.OnBeginPlayerTurn event
+    /// Called when an ally stops moving (and they wont be taking action) or their action ends
     /// </summary>
-    public void AllowSelect()
+    private void AllowSelect()
     {
-        // Recalculate all the moveattack tiles for the characters
-        _mAContRef.RecalculateAllMovementAttackTiles();
+        Debug.Log("AllowSelect");
+        // Call the event for when the player is allowed to select
+        if (OnPlayerAllowedSelect != null)
+            OnPlayerAllowedSelect();
 
+        // Allow them to hit buttons
+        ToggleSelect(true);
         // If the user still has someone selected, show their new active visuals
         if (_charSelected != null)
         {
-            // If the character just moved, and now must start attacking someone
-            if (_nodeToAttack != null)
-            {
-                ToggleSelect(false);    // Make it so that the player cannot select whilst something is attacking
-                _charSelected.StartAttack(_nodeToAttack.Position);
-                // Unselect and untarget everything that we saved for this move attack
-                _nodeToAttack = null;
-                Deselect();
-            }
-            // If the character isn't supposed to attack someone, show their visuals
-            else
-            {
-                ToggleSelect(true);
-                _mAContRef.SetActiveVisuals(_charSelected);
-            }
-        }
-        else
-        {
-            ToggleSelect(true);
+            _mAContRef.TurnOffVisuals(_charSelected);
+            _mAContRef.SetActiveVisuals(_charSelected);
         }
     }
 
     /// <summary>
-    /// Called from TurnSystem. Gets rid of the user's ability to interact with their characters while it is not their turn
+    /// Gets rid of the user's ability to interact with their characters while it is not their turn.
+    /// Called by the TurnSystem.OnBeginEnemyTurn event
     /// </summary>
-    public void DenySelect()
+    private void DenySelect()
     {
-        ToggleSelect(false);    // Don't let the user select anything
-        Deselect(); // Deselect anything that was selected
+        Debug.Log("DenySelect");
+        // Don't let the user select anything
+        ToggleSelect(false);
+        // Deselect anything that was selected
+        Deselect();
         // To be safe, reset any held references
         _nodeToAttack = null;
-    }
-
-
-    /// <summary>
-    /// When the user has a ally selected and tries to select an enemy in range
-    /// </summary>
-    /// <param name="selNode">The node that the ally is trying to attack</param>
-    private void AttemptMoveAndAttack(Node selNode)
-    {
-        // Set the node to attack
-        _nodeToAttack = selNode;
-
-        // Find out the node attackRange away from selNode that is closest to the charSelected
-        // Get the viable nodes
-        List<Node> potNodes = _mAContRef.GetNodesDistFromNode(selNode, _charSelected.AttackRange);
-        Node nodeToMoveTo = null; // The node that will be moved to
-        int distToMoveNode = int.MaxValue; // The distance to the closest node
-        Node charSelectedNode = _mAContRef.GetNodeByWorldPosition(_charSelected.transform.position); // Node the ally is on
-        // Cross reference them against the nodes this character can move to until a match is found
-        foreach (Node testNode in potNodes)
-        {
-            // We haven't done pathing, so we can't compare Fs, so we will just calculate it by actual distance
-            int testNodeDist = Mathf.Abs(testNode.Position.x - charSelectedNode.Position.x) +
-                Mathf.Abs(testNode.Position.y - charSelectedNode.Position.y);
-            if (nodeToMoveTo != null)
-                Debug.Log("Seeing if node at " + testNode.Position + " is closer than " + nodeToMoveTo.Position + "from " + charSelectedNode.Position);
-            else
-                Debug.Log("Seeing if node at " + testNode.Position + " is closer than null from " + charSelectedNode.Position);
-            // If the ally can move there or is already there and that node is closer than the closer than the current nodeToMoveTo
-            if ((_charSelected.MoveTiles.Contains(testNode) || testNode == charSelectedNode) && testNodeDist < distToMoveNode)
-            {
-                if (nodeToMoveTo != null)
-                    Debug.Log("It was! Node at " + testNode.Position + " was closer than " + nodeToMoveTo.Position + " from " + charSelectedNode.Position + " by " +
-                        testNodeDist + " compared to " + distToMoveNode);
-                else
-                    Debug.Log("It was! Node at " + testNode.Position + " was closer than null from " + charSelectedNode.Position + " by " +
-                        testNodeDist + " compared to " + distToMoveNode);
-                nodeToMoveTo = testNode;
-                distToMoveNode = testNodeDist;
-            }
-        }
-
-        // Just make sure that the node exists
-        if (nodeToMoveTo == null)
-        {
-            Debug.Log("Big trouble in MoveAttackGUIController. There was an enemy in range, but no valid tiles to attack them from");
-            Deselect();
-            return;
-        }
-
-        ToggleSelect(false);    // Make it so that the player cannot select whilst something is moving
-        // Calculate the pathing
-        _mAContRef.ResetPathing();
-        _mAContRef.Pathing(charSelectedNode, nodeToMoveTo, _charSelected.WhatAmI);
-        // Start moving the character
-        _charSelected.StartMove();
-        _mAContRef.TurnOffVisuals(_charSelected);
-
-        // The attack will be started in AllowSelect, so that we don't attack until we actually reach the tile we were going to
     }
 
     /// <summary>

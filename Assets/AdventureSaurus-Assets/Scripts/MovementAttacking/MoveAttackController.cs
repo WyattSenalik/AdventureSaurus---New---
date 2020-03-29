@@ -40,6 +40,22 @@ public class MoveAttackController : MonoBehaviour
     // Only for testing. This is a list of the spawned canvas objects that display numbers on the nodes
     private List<GameObject> _visualTests;
 
+
+    // Called when the gameobject is toggled on
+    // Subscribe to events
+    private void OnEnable()
+    {
+        // When the player is allowed to select, recalculate the allies' move and attack tiles
+        MoveAttackGUIController.OnPlayerAllowedSelect += RecalculateAllyMoveAttackTiles;
+    }
+
+    // Called when the gameobject is toggled off
+    // Unsubscribe to events
+    private void OnDisable()
+    {
+        MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllyMoveAttackTiles;
+    }
+
     /// <summary>
     /// We have to wait for characters to set all their references first, so we go in start. Or we used to
     /// This now gets called from the procedural generation controller for setting up
@@ -410,23 +426,22 @@ public class MoveAttackController : MonoBehaviour
     }
 
     /// <summary>
-    /// Recalculates move and attack nodes for all characters
-    /// [Called at the start of the player's turn and (after an ally character moves or an enemy character dies)] = When Player gets control back
+    /// Recalculates the move attack tiles for allies.
+    /// Called on the 
     /// </summary>
-    public void RecalculateAllMovementAttackTiles()
+    private void RecalculateAllyMoveAttackTiles()
     {
         // Iterate over each character
         foreach (Transform character in _charParent)
         {
             // Try to get that character's MoveAttack script
             MoveAttack mARef = character.GetComponent<MoveAttack>();
-            // Make sure it exists
-            if (mARef == null)
+            // Only recalculate if it exists and is an ally
+            if (mARef != null && mARef.WhatAmI == CharacterType.Ally)
             {
-                continue;
+                mARef.CalcMoveTiles();
+                mARef.CalcAttackTiles();
             }
-            mARef.CalcMoveTiles();
-            mARef.CalcAttackTiles();
         }
     }
     // End Visual Tile Functions
@@ -985,6 +1000,6 @@ public class MoveAttackController : MonoBehaviour
         testNode.F = testNode.G + testNode.H;
         //Debug.Log("Calcualting A* of " + testNode.Position + " G: " + testNode.G + " H: " + testNode.H + " F: " + testNode.F);
         // For testing, creates text at nodes displaying their F value
-        ShowTextAtNode(testNode, testNode.F.ToString());
+        //ShowTextAtNode(testNode, testNode.F.ToString());
     }
 }

@@ -140,6 +140,10 @@ public class Health : MonoBehaviour
     /// <returns>Returns an IEnumerator</returns>
     private IEnumerator UpdateHealth(Vector3 startScale, Vector3 targetScale, Vector3 startPos, Vector3 targetPos, bool healing, float speed = 1f)
     {
+        // Signal MoveAttack that a character's health bar is currently being updated.
+        // We will remove it here after this ends or in Ascend if the damage is fatal
+        MoveAttack.AddOngoingAction();
+
         while (Vector3.Distance(redHealthBar.transform.localPosition, targetPos) > 0.01f)
         {
             Vector3 posIncrement = targetPos - startPos;
@@ -161,12 +165,9 @@ public class Health : MonoBehaviour
         // If the character died. We call it here so that health goes down first
         if (curHP == 0)
             Die();
-        // If the character is not going to begin dying, give the appropriate authority control again
-        else if (!healing)
-            GiveBackControlDamage();
-        // If the character is healing, return control to the appropriate authority
+        // Signal MoveAttack that a character's health bar is finished being updated
         else
-            GiveBackControlHeal();
+            MoveAttack.RemoveOngoingAction();
 
         yield return null;
     }
@@ -277,51 +278,11 @@ public class Health : MonoBehaviour
         Stats myStats = this.GetComponent<Stats>();
         myKiller.GainExperience(myStats.KillReward(myKiller));
 
-        // Give either the user or the ai control of their stuff
-        GiveBackControlDamage();
+        // Remove the ongoing action to signal we are done
+        MoveAttack.RemoveOngoingAction();
 
         //Debug.Log(this.gameObject.name + " has died");
         Destroy(graveyard);
         Destroy(this.gameObject);
-    }
-
-    /// <summary>
-    /// Gives conrol back to the appropriate authority, either the enemy AI or the user. Called from UpdateHealth if the 
-    /// character won't die. Called from Ascend if the character will die
-    /// </summary>
-    private void GiveBackControlDamage()
-    {
-        // If the character is an ally, that means an enemy killed it, so we have to tell the enemy AI script to move the next enemy
-        if (whatAmI == CharacterType.Ally)
-        {
-            enMAAIRef.StartNextEnemy();
-            //Debug.Log("Dead ally");
-        }
-        // If the character is an enemy, that means an ally killed it, so we have to allow the user to select again
-        // If this character is an enemy we need to remove it from the enemies list before giving back control, in the case it is the player's
-        // last action and the enemy that died was high up in the list
-        else if (whatAmI == CharacterType.Enemy)
-        {
-            mAGUIContRef.AllowSelect();
-            turnSysRef.IsPlayerDone();
-        }
-    }
-
-    /// <summary>
-    /// Gives conrol back to the appropriate authority, either the enemy AI or the user. Called from UpdateHealth if the character was healing
-    /// </summary>
-    private void GiveBackControlHeal()
-    {
-        // If the character is an ally, we return control to allies
-        if (whatAmI == CharacterType.Ally)
-        {
-            mAGUIContRef.AllowSelect();
-            turnSysRef.IsPlayerDone();
-        }
-        // If the character is an enemy, we return control to those enemies
-        else if (whatAmI == CharacterType.Enemy)
-        {
-            enMAAIRef.StartNextEnemy();
-        }
     }
 }

@@ -86,19 +86,6 @@ public class BasicAttack : Skill
         {
             // We should not attack anything, so set attack animation to 0
             anime.SetInteger("AttackDirection", 0);
-
-            //Debug.Log("There was no enemy to attack");
-            // If this character is an enemy, have the next enemy attack
-            if (maRef.WhatAmI == CharacterType.Enemy)
-            {
-                enMAAIRef.StartNextEnemy();
-            }
-            // If this character is an ally, give back control to the user
-            else if (maRef.WhatAmI == CharacterType.Ally)
-            {
-                mAGUIContRef.AllowSelect();
-                turnSysRef.IsPlayerDone();
-            }
         }
     }
 }

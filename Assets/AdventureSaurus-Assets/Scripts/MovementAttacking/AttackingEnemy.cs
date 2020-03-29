@@ -89,46 +89,38 @@ public class AttackingEnemy : SingleEnemy
 
 
         // This short find a tile to move to replaced the other way, which was faster, but much more complex
-        // We are going to use the enemy's move tiles, so we need to recalculate those
-        MARef.CalcMoveTiles();
 
-        // Short cut. If we path to the node and some of our nodes have f values, we move to the closest one of those
-        // Path to the attack node to create f values
-        MAContRef.Pathing(StandingNode, closestAttackNode, CharacterType.Enemy, false);
-        Node closestNode = null;
-        int closestShortF = int.MinValue;
+        // Short cut. If the closest attack node is one of the moveTiles, just return it
         // Iterate over the possible tiles to move to
         foreach (Node moveTile in MARef.MoveTiles)
         {
-            // If its been set (isn't 0) and is closer (greater F)
-            if (moveTile.F != 0 && closestShortF < moveTile.F)
+            // If its a part of the movetiles
+            if (moveTile == closestAttackNode)
             {
-                closestNode = moveTile;
-                closestShortF = moveTile.F;
+                return closestAttackNode;
             }
         }
 
-        // If the short cut didn't work, do it the long way
-        if (closestNode == null)
+
+        // If the shortcut didn't work do it the long way
+        Node closestNode = StandingNode;
+        int closestF = int.MaxValue;
+        // Iterate over the possible tiles to move to
+        foreach (Node moveTile in MARef.MoveTiles)
         {
-            closestNode = StandingNode;
-            int closestF = int.MaxValue;
-            // Iterate over the possible tiles to move to
-            foreach (Node moveTile in MARef.MoveTiles)
+            // Path from that move tile to the closest attack node
+            // If successful, check if its closer than the closestNode
+            if (MAContRef.Pathing(moveTile, closestAttackNode, CharacterType.Enemy))
             {
-                // Path from that move tile to the closest attack node
-                // If successful, check if its closer than the closestNode
-                if (MAContRef.Pathing(moveTile, closestAttackNode, CharacterType.Enemy))
+                // It its closer, its the new closestNode
+                if (closestF > closestAttackNode.F)
                 {
-                    // It its closer, its the new closestNode
-                    if (closestF > closestAttackNode.F)
-                    {
-                        closestNode = moveTile;
-                        closestF = closestAttackNode.F;
-                    }
+                    closestNode = moveTile;
+                    closestF = closestAttackNode.F;
                 }
             }
         }
+
         // Its the endtile
         return closestNode;
 
@@ -321,12 +313,23 @@ public class AttackingEnemy : SingleEnemy
         // Which are currently out of place since they are what the 
         MARef.CalcMoveTiles();
         MARef.CalcAttackTiles();
-        // Get the enemy in range
+        Vector2Int nodeToAttack = new Vector2Int(int.MaxValue, int.MaxValue);
+        // Try to find an ally in range
         foreach (Node atkNode in MARef.AttackTiles)
         {
-
+            MoveAttack potAlly = MAContRef.GetCharacterMAByNode(atkNode);
+            // If we found an ally at that tile
+            if (potAlly != null && potAlly.WhatAmI == CharacterType.Ally)
+            {
+                nodeToAttack = atkNode.Position;
+                break;
+            }
         }
-
-        MARef.EndAttack();
+        // If there is no node to attack, just end the attack
+        if (nodeToAttack.x == int.MaxValue && nodeToAttack.y == int.MaxValue)
+            MARef.EndAttack();
+        // If there is a node being attacked, start the attack
+        else
+            MARef.StartAttack(nodeToAttack);
     }
 }

@@ -60,7 +60,7 @@ public class Heal : Skill
             // If this character is an ally, give back control to the user
             else if (maRef.WhatAmI == CharacterType.Ally)
             {
-                mAGUIContRef.AllowSelect();
+                //mAGUIContRef.AllowSelect();
                 turnSysRef.IsPlayerDone();
             }
         }

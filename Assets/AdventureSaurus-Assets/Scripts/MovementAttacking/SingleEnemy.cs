@@ -65,6 +65,9 @@ public abstract class SingleEnemy : MonoBehaviour
     {
         // Get the node this enemy is standing on
         _standingNode = _mAContRef.GetNodeByWorldPosition(this.transform.position);
+        // We are going to use the enemy's move tiles, so we need to recalculate those, 
+        // since other characters have probably moved on their turn
+        MARef.CalcMoveTiles();
         // Find the tile the enemy should move to
         Node nodeToMoveTo = FindTileToMoveTo();
         // Make sure we have a place to move
@@ -128,9 +131,8 @@ public abstract class SingleEnemy : MonoBehaviour
         // Remove itself from the finished
         MoveAttack.OnCharacterFinishedAction -= BeginEndTurn;
 
-        // Call the finish enemy turn event
-        if (OnSingleEnemyFinish != null)
-            OnSingleEnemyFinish();
+        // See if we should be waiting until health is being decreased, or something else is holding up taking the next enemy's turn
+        OnSingleEnemyFinish();
     }
 
     /// <summary>

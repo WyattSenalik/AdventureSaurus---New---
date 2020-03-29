@@ -52,7 +52,10 @@ public class EnemyTurnController : MonoBehaviour
         {
             // Call the end enemy turn event
             if (OnEndEnemyTurn != null)
+            {
+                Debug.Log("OnEndEnemyTurn");
                 OnEndEnemyTurn();
+            }
         }
     }
 
@@ -62,6 +65,7 @@ public class EnemyTurnController : MonoBehaviour
     /// </summary>
     private void BeginFirstEnemyTurn()
     {
+        Debug.Log("BeginFirstEnemyTurn");
         // Get all the active enemies
         _allEnemies = new List<SingleEnemy>();
 
@@ -77,7 +81,6 @@ public class EnemyTurnController : MonoBehaviour
             SingleEnemy singEn = character.GetComponent<SingleEnemy>();
             if (singEn == null)
             {
-                //Debug.Log("There was no MoveAttack attached to " + character.name);
                 continue;
             }
 

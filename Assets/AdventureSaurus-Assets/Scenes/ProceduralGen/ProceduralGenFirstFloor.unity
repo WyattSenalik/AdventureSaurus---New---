@@ -269,7 +269,7 @@ PrefabInstance:
     - target: {fileID: 8129528713394114396, guid: e9255b6a8fa73744dac62b3850185792,
         type: 3}
       propertyPath: vitality
-      value: 100
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9255b6a8fa73744dac62b3850185792, type: 3}
@@ -359,7 +359,7 @@ PrefabInstance:
     - target: {fileID: 6395254385892751024, guid: 4278b658950a1194d85a7b00a6d114c3,
         type: 3}
       propertyPath: vitality
-      value: 100
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4278b658950a1194d85a7b00a6d114c3, type: 3}

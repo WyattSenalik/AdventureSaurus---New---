@@ -84,8 +84,20 @@ public class MoveAttack : MonoBehaviour
         get { return statsRef; }
     }
 
-
+    // Which direction this character was moving previously
     private Vector2 lastVel;
+
+    // For the things that happen after using a skill (like lowering health), 
+    // to determine if we should signal the if the character is finished
+    private static List<bool> ongoingActions;
+    public static void AddOngoingAction()
+    {
+        ongoingActions.Add(true);
+    }
+    public static void RemoveOngoingAction()
+    {
+        ongoingActions.RemoveAt(0);
+    }
 
     // Events
     // When a character finishes moving
@@ -166,6 +178,8 @@ public class MoveAttack : MonoBehaviour
         doneTransY = true;
         hasMoved = false;
         hasAttacked = false;
+
+        ongoingActions = new List<bool>();
     }
 
     // Called before the first frame
@@ -344,19 +358,6 @@ public class MoveAttack : MonoBehaviour
         moveRange = 0;
         //Debug.Log("Reached destination");
 
-        // If the character is an ally, then we have to allow the user to select again
-        if (whatAmI == CharacterType.Ally)
-        {
-            // Recalculate move and attack tiles before allowing to select again so that it doesn't look like you can move after moving
-            // We need to recalculate the move and attack tiles
-            mAGUIContRef.AllowSelect();
-        }
-        //// If the character is an enemy, they need to attempt to attack now
-        //else if (whatAmI == CharacterType.Enemy)
-        //{
-        //    enMAAIRef.AttemptAttack();
-        //}
-
         // Call the event for when a character finished moving
         if (OnCharacterFinishedMoving != null)
             OnCharacterFinishedMoving();
@@ -368,10 +369,12 @@ public class MoveAttack : MonoBehaviour
     /// <param name="attackNodePos">The grid position of the center of the attack</param>
     public void StartAttack(Vector2Int attackNodePos)
     {
+        //Debug.Log("Start Attack");
         if (skillRef != null)
         {
             // We have attacked
             hasAttacked = true;
+            //Debug.Log("Start Skill");
             skillRef.StartSkill(attackNodePos);
         }
     }
@@ -388,9 +391,31 @@ public class MoveAttack : MonoBehaviour
             skillRef.EndSkill();
         }
 
+        // Wait until signaling the end of the action subsuquent things (like taking damage or death) are done
+        StartCoroutine(WaitFinishAction());
+    }
+
+    /// <summary>
+    /// Waits on calling the OnCharacterFinishedAction until there are no ongoing things
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    private IEnumerator WaitFinishAction()
+    {
+        // Check if there are any ongoing actions stopping us from finishing this enemy's turn
+        while (true)
+        {
+            // If there are no ongoing actions, break from the loop
+            if (ongoingActions.Count == 0)
+                break;
+
+            yield return null;
+        }
+
         // Call the event for finishing the action
         if (OnCharacterFinishedAction != null)
             OnCharacterFinishedAction();
+
+        yield return null;
     }
 
     /// <summary>
@@ -403,8 +428,8 @@ public class MoveAttack : MonoBehaviour
         myStats.Initialize();
 
         // We need to recalculate the move and attack tiles
-        CalcMoveTiles();
-        CalcAttackTiles();
+        //CalcMoveTiles();
+        //CalcAttackTiles();
 
         hasAttacked = false;
         hasMoved = false;

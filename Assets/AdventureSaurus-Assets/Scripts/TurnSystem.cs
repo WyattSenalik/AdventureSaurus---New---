@@ -61,6 +61,7 @@ public class TurnSystem : MonoBehaviour
     /// </summary>
     public void StartPlayerTurn()
     {
+        Debug.Log("StartPlayerTurn");
         _endTurnButt.interactable = true;
         _state = TurnState.PLAYERTURN;
         // We reset the turns of all characters
@@ -79,7 +80,10 @@ public class TurnSystem : MonoBehaviour
 
         // Call the event that the player's turn has begun
         if (OnBeginPlayerTurn != null)
+        {
+            Debug.Log("OnBeginPlayerTurn");
             OnBeginPlayerTurn();
+        }
     }
 
     /// <summary>
@@ -87,7 +91,9 @@ public class TurnSystem : MonoBehaviour
     /// </summary>
     private void StartEnemyTurn()
     {
-        _endTurnButt.interactable = false;
+        // Assume no enemies are active
+        bool noEnemiesActive = true;
+        // Find all active enemies and reset their turn
         foreach (Transform potEnemy in _characterTeam)
         {
             MoveAttack potEnemyMA = potEnemy.GetComponent<MoveAttack>();
@@ -97,17 +103,32 @@ public class TurnSystem : MonoBehaviour
             }
             else
             {
-                if (potEnemyMA.WhatAmI == CharacterType.Enemy)
+                if (potEnemyMA.WhatAmI == CharacterType.Enemy && potEnemy.gameObject.activeInHierarchy)
                 {
+                    noEnemiesActive = false;
                     potEnemyMA.ResetMyTurn();
                 }
             }
         }
-        _state = TurnState.ENEMYTURN;
 
-        // Start the enemy's turn
-        if (OnBeginEnemyTurn != null)
-            OnBeginEnemyTurn();
+        // If there are active enemies
+        if (!noEnemiesActive)
+        {
+            // Start the enemy's turn 
+            if (OnBeginEnemyTurn != null)
+            {
+                _endTurnButt.interactable = false;
+                _state = TurnState.ENEMYTURN;
+                Debug.Log("OnBeginEnemyTurn");
+                OnBeginEnemyTurn();
+            }
+        }
+        // If there are no active enemies, start the player's turn again
+        else
+        {
+            // Start the player's turn
+            StartPlayerTurn();
+        }
     }
     /// <summary>
     /// Called from 
