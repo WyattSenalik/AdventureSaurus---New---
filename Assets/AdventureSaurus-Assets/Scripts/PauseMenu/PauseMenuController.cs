@@ -39,6 +39,21 @@ public class PauseMenuController : MonoBehaviour
     public delegate void CharDetailedMenuShown(int index);
     public static event CharDetailedMenuShown OnCharDetailedMenuShown;
 
+    // Called when the script is toggled active
+    // Subscribe to events
+    private void OnEnable()
+    {
+        // When the game pauses, update the visualization of the character stats
+        Pause.OnPauseGame += UpdateValues;
+    }
+
+    // Called when the script is toggled off
+    // Unsubscribe from events
+    private void OnDisable()
+    {
+        Pause.OnPauseGame -= UpdateValues;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

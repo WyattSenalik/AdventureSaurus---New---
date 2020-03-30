@@ -107,6 +107,36 @@ public class MoveAttack : MonoBehaviour
     public delegate void CharacterFinishedAction();
     public static event CharacterFinishedAction OnCharacterFinishedAction;
 
+
+
+    // Called when the component is toggled active
+    // Subscribe to events
+    private void OnEnable()
+    {
+        // When the game is paused, disable this script
+        Pause.OnPauseGame += HideScript;
+        // Unsubscribe to the unpause event (since if this is active, the game is unpaused)
+        Pause.OnUnpauseGame -= ShowScript;
+    }
+
+    // Called when the component is toggled inactive
+    // Unsubscribe to events
+    private void OnDisable()
+    {
+        // Unsubscribe to the pause event (since if this is inactive, the game is paused)
+        Pause.OnPauseGame -= HideScript;
+        // When the game is unpaused, re-enable this script
+        Pause.OnUnpauseGame += ShowScript;
+    }
+
+    // Called when the game object is destroyed
+    // Unsubscribe to ALL events
+    private void OnDestroy()
+    {
+        Pause.OnPauseGame -= HideScript;
+        Pause.OnUnpauseGame -= ShowScript;
+    }
+
     /// <summary>
     /// Set references
     /// Called by Awake and called from Persistant Controller [allies only]
@@ -349,10 +379,14 @@ public class MoveAttack : MonoBehaviour
     private void EndMove()
     {
         //Debug.Log("Finished Moving");
-        currentNode.Occupying = whatAmI;    // Set the node I am ending on to occupied with my type
+        // Set the node I am ending on to occupied with my type
+        currentNode.Occupying = whatAmI;
+        // Reset the animator stuff
         animRef.SetInteger("MoveState", -2);
+        // Make it so we are not transitioning between tiles anymore
         transition = false;
         currentNode = null;
+        // We have now moved
         hasMoved = true;
         // This character cannot attack again until the next turn, so their moveRange is now 0
         moveRange = 0;
@@ -433,6 +467,22 @@ public class MoveAttack : MonoBehaviour
 
         hasAttacked = false;
         hasMoved = false;
+    }
+
+    /// <summary>
+    /// Toggles off this script
+    /// </summary>
+    private void HideScript()
+    {
+        this.enabled = false;
+    }
+
+    /// <summary>
+    /// Toggles on this script
+    /// </summary>
+    private void ShowScript()
+    {
+        this.enabled = true;
     }
 }
 

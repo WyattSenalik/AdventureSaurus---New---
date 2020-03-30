@@ -21,6 +21,9 @@ public class BasicAttack : Skill
     /// <param name="attackNodesPos">The position of the node that will be attacked</param>
     override public void StartSkill(Vector2Int attackNodePos)
     {
+        // Initialize the list of targets
+        enemiesHP = new List<Health>();
+
         // Get the damage
         damage = statsRef.Strength;
 
@@ -31,8 +34,7 @@ public class BasicAttack : Skill
             MoveAttack charToAttack = mAContRef.GetCharacterMAByNode(nodeToAttack);
             if (charToAttack != null)
             {
-                // Actually set the reference to the enemy HP
-                enemiesHP = new List<Health>();
+                // Add the one enemy we will be hitting
                 enemiesHP.Add(charToAttack.GetComponent<Health>());
                 if (enemiesHP[0] == null)
                     Debug.Log("Enemy to attack does not have a Health script attached to it");
@@ -58,8 +60,9 @@ public class BasicAttack : Skill
     override public void EndSkill()
     {
         // Validate that we have an enemy to attack
-        if (enemiesHP != null && enemiesHP[0] != null)
+        if (enemiesHP != null && enemiesHP.Count > 0 && enemiesHP[0] != null)
         {
+            //Debug.Log("Ending attack on " + enemiesHP[0].name);
             // End the skills animation
             EndSkillAnimation();
             // Deal the damage and get rid of our reference to the enemyHP
@@ -87,5 +90,9 @@ public class BasicAttack : Skill
             // We should not attack anything, so set attack animation to 0
             anime.SetInteger("AttackDirection", 0);
         }
+
+        // Get rid of the references of the enemies to hit, so that we do not hit them again on accident
+        // after the next time this enemy moves
+        enemiesHP = new List<Health>();
     }
 }

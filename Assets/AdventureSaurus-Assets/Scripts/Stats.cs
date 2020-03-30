@@ -274,7 +274,7 @@ public class Stats : MonoBehaviour
     {
         experience += xpToGain;
         oneLevelExperience += xpToGain;
-        Debug.Log(this.name + " gained " + xpToGain + " XP");
+        //Debug.Log(this.name + " gained " + xpToGain + " XP");
         StartCoroutine(CheckLevelUp());
     }
 

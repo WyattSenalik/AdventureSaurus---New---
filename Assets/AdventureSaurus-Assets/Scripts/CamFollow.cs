@@ -52,6 +52,15 @@ public class CamFollow : MonoBehaviour
         EnemyMoveAttackAI.OnEnemyTurnEnd -= FollowFirstAlly;
     }
 
+    // Called when the gameobject is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        MoveAttackGUIController.OnCharacterSelect -= FollowCharacter;
+        EnemyMoveAttackAI.OnBeginSingleEnemy -= FollowEnemy;
+        EnemyMoveAttackAI.OnEnemyTurnEnd -= FollowFirstAlly;
+    }
+
 
     // Called before the first frame update
     private void Start()

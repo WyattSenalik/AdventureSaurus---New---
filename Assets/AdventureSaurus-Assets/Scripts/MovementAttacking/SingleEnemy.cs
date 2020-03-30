@@ -34,6 +34,14 @@ public abstract class SingleEnemy : MonoBehaviour
     public delegate void SingleEnemyFinish();
     public static event SingleEnemyFinish OnSingleEnemyFinish;
 
+    // Called when the gameobject is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        MoveAttack.OnCharacterFinishedMoving -= BeginAttemptAction;
+        MoveAttack.OnCharacterFinishedAction -= BeginEndTurn;
+    }
+
     // Called before start
     // Set references
     private void Awake()

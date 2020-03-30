@@ -68,10 +68,16 @@ public class CharDetailedMenuController : MonoBehaviour
     }
 
     // Called when the gameobject is toggled active
-    // Unsubscribe form events
+    // Unsubscribe from events
     private void OnDisable()
     {
-        // When the character clicks to display the charcter detailed menu, update the details and diaply them
+        PauseMenuController.OnCharDetailedMenuShown -= DisplayCharacterDetails;
+    }
+
+    // Called when the gameobject is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
         PauseMenuController.OnCharDetailedMenuShown -= DisplayCharacterDetails;
     }
 

@@ -29,7 +29,11 @@ public class TurnSystem : MonoBehaviour
     {
         // When the enemy's turn ends, start the player's turn
         EnemyTurnController.OnEndEnemyTurn += StartPlayerTurn;
-        //EnemyMoveAttackAI.OnEnemyTurnEnd += StartPlayerTurn;
+
+        // When the game is paused, disable this script
+        Pause.OnPauseGame += HideScript;
+        // Unsubscribe to the unpause event (since if this is active, the game is unpaused)
+        Pause.OnUnpauseGame -= ShowScript;
     }
 
     // Called when gameobject is toggled off
@@ -37,7 +41,20 @@ public class TurnSystem : MonoBehaviour
     private void OnDisable()
     {
         EnemyTurnController.OnEndEnemyTurn -= StartPlayerTurn;
-        //EnemyMoveAttackAI.OnEnemyTurnEnd -= StartPlayerTurn;
+
+        // Unsubscribe to the pause event (since if this is inactive, the game is paused)
+        Pause.OnPauseGame -= HideScript;
+        // When the game is unpaused, re-enable this script
+        Pause.OnUnpauseGame += ShowScript;
+    }
+
+    // Called when gameobject is destroyed
+    // Unsubscribe to ALL events
+    private void OnDestroy()
+    {
+        EnemyTurnController.OnEndEnemyTurn -= StartPlayerTurn;
+        Pause.OnPauseGame -= HideScript;
+        Pause.OnUnpauseGame -= ShowScript;
     }
 
     // Start is called before the first frame update
@@ -61,7 +78,7 @@ public class TurnSystem : MonoBehaviour
     /// </summary>
     public void StartPlayerTurn()
     {
-        Debug.Log("StartPlayerTurn");
+        //Debug.Log("StartPlayerTurn");
         _endTurnButt.interactable = true;
         _state = TurnState.PLAYERTURN;
         // We reset the turns of all characters
@@ -81,7 +98,7 @@ public class TurnSystem : MonoBehaviour
         // Call the event that the player's turn has begun
         if (OnBeginPlayerTurn != null)
         {
-            Debug.Log("OnBeginPlayerTurn");
+            //Debug.Log("OnBeginPlayerTurn");
             OnBeginPlayerTurn();
         }
     }
@@ -119,7 +136,7 @@ public class TurnSystem : MonoBehaviour
             {
                 _endTurnButt.interactable = false;
                 _state = TurnState.ENEMYTURN;
-                Debug.Log("OnBeginEnemyTurn");
+                //Debug.Log("OnBeginEnemyTurn");
                 OnBeginEnemyTurn();
             }
         }
@@ -201,5 +218,21 @@ public class TurnSystem : MonoBehaviour
     {
         StartEnemyTurn();
     }
-    
+
+    /// <summary>
+    /// Toggles off this script
+    /// </summary>
+    private void HideScript()
+    {
+        this.enabled = false;
+    }
+
+    /// <summary>
+    /// Toggles on this script
+    /// </summary>
+    private void ShowScript()
+    {
+        this.enabled = true;
+    }
+
 }

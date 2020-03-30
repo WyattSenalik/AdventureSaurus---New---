@@ -315,12 +315,15 @@ public class AttackingEnemy : SingleEnemy
         MARef.CalcAttackTiles();
         Vector2Int nodeToAttack = new Vector2Int(int.MaxValue, int.MaxValue);
         // Try to find an ally in range
+        //Debug.Log("These are " + this.name + " at " + this.transform.position + " potential attack tiles: ");
         foreach (Node atkNode in MARef.AttackTiles)
         {
+            //Debug.Log(atkNode.Position);
             MoveAttack potAlly = MAContRef.GetCharacterMAByNode(atkNode);
             // If we found an ally at that tile
             if (potAlly != null && potAlly.WhatAmI == CharacterType.Ally)
             {
+                //Debug.Log("Attacking ^ That tile");
                 nodeToAttack = atkNode.Position;
                 break;
             }

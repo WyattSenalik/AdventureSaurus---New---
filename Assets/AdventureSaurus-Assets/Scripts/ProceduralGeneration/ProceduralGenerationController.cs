@@ -233,8 +233,6 @@ public class ProceduralGenerationController : MonoBehaviour
         mAContRef.Initialize(roomParent, wallParent, charParent);
         // Initialize TurnSystem
         turnSysRef.Initialize(charParent);
-        // Initialize Pause
-        pauseRef.Initialize(charParent);
         // Initalize PauseMenuController
         pauseMenuContRef.Initialize(charParent);
         // Initialize Prompt

@@ -10,6 +10,35 @@ public class InputController : MonoBehaviour
     [SerializeField] private Canvas _canvasRef = null;
     private bool _canInput;  // Whether input will be excepted or not
 
+    // Called when the component is toggled active
+    // Subscribe to events
+    private void OnEnable()
+    {
+        // When the game is paused, disable this script
+        Pause.OnPauseGame += HideScript;
+        // Unsubscribe to the unpause event (since if this is active, the game is unpaused)
+        Pause.OnUnpauseGame -= ShowScript;
+    }
+
+    // Called when the component is toggled inactive
+    // Unsubscribe from events
+    private void OnDisable()
+    {
+        // Unsubscribe to the pause event (since if this is inactive, the game is paused)
+        Pause.OnPauseGame -= HideScript;
+        // When the game is unpaused, re-enable this script
+        Pause.OnUnpauseGame += ShowScript;
+    }
+
+    // Called when the gameobject is destroyed
+    // Unsubscribe form ALL events
+    private void OnDestroy()
+    {
+        Pause.OnPauseGame -= HideScript;
+        Pause.OnUnpauseGame -= ShowScript;
+    }
+
+
     // Initialize variables
     private void Start()
     {
@@ -131,5 +160,21 @@ public class InputController : MonoBehaviour
         }
         // If we made it here, we did not click on a button
         return false;
+    }
+
+    /// <summary>
+    /// Toggles off this script
+    /// </summary>
+    private void HideScript()
+    {
+        this.enabled = false;
+    }
+
+    /// <summary>
+    /// Toggles on this script
+    /// </summary>
+    private void ShowScript()
+    {
+        this.enabled = true;
     }
 }

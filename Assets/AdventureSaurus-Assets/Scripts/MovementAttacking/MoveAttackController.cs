@@ -46,14 +46,33 @@ public class MoveAttackController : MonoBehaviour
     private void OnEnable()
     {
         // When the player is allowed to select, recalculate the allies' move and attack tiles
-        MoveAttackGUIController.OnPlayerAllowedSelect += RecalculateAllyMoveAttackTiles;
+        MoveAttackGUIController.OnPlayerAllowedSelect += RecalculateAllMoveAttackTiles;
+
+        // When the game is paused, disable this script
+        Pause.OnPauseGame += HideScript;
+        // Unsubscribe to the unpause event (since if this is active, the game is unpaused)
+        Pause.OnUnpauseGame -= ShowScript;
     }
 
     // Called when the gameobject is toggled off
     // Unsubscribe to events
     private void OnDisable()
     {
-        MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllyMoveAttackTiles;
+        MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllMoveAttackTiles;
+
+        // Unsubscribe to the pause event (since if this is inactive, the game is paused)
+        Pause.OnPauseGame -= HideScript;
+        // When the game is unpaused, re-enable this script
+        Pause.OnUnpauseGame += ShowScript;
+    }
+
+    // Called when the gameobject is destroyed
+    // Unsubscribe to ALL events
+    private void OnDestroy()
+    {
+        MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllMoveAttackTiles;
+        Pause.OnPauseGame -= HideScript;
+        Pause.OnUnpauseGame -= ShowScript;
     }
 
     /// <summary>
@@ -429,15 +448,15 @@ public class MoveAttackController : MonoBehaviour
     /// Recalculates the move attack tiles for allies.
     /// Called on the 
     /// </summary>
-    private void RecalculateAllyMoveAttackTiles()
+    private void RecalculateAllMoveAttackTiles()
     {
         // Iterate over each character
         foreach (Transform character in _charParent)
         {
             // Try to get that character's MoveAttack script
             MoveAttack mARef = character.GetComponent<MoveAttack>();
-            // Only recalculate if it exists and is an ally
-            if (mARef != null && mARef.WhatAmI == CharacterType.Ally)
+            // Recalculate the character's movement and attack tiles
+            if (mARef != null)
             {
                 mARef.CalcMoveTiles();
                 mARef.CalcAttackTiles();
@@ -1001,5 +1020,21 @@ public class MoveAttackController : MonoBehaviour
         //Debug.Log("Calcualting A* of " + testNode.Position + " G: " + testNode.G + " H: " + testNode.H + " F: " + testNode.F);
         // For testing, creates text at nodes displaying their F value
         //ShowTextAtNode(testNode, testNode.F.ToString());
+    }
+
+    /// <summary>
+    /// Toggles off this script
+    /// </summary>
+    private void HideScript()
+    {
+        this.enabled = false;
+    }
+
+    /// <summary>
+    /// Toggles on this script
+    /// </summary>
+    private void ShowScript()
+    {
+        this.enabled = true;
     }
 }

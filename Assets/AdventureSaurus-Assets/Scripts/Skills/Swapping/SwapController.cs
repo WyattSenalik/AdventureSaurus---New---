@@ -51,6 +51,14 @@ public class SwapController : MonoBehaviour
         MoveAttackGUIController.OnCharacterDeselect -= UpdateSkillButton;
     }
 
+    // Called when this gameobject is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButton;
+        MoveAttackGUIController.OnCharacterDeselect -= UpdateSkillButton;
+    }
+
     /// <summary>
     /// Update the button when we select a new character
     /// </summary>

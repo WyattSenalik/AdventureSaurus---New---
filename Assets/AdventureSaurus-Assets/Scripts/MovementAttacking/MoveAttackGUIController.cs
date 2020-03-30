@@ -42,6 +42,11 @@ public class MoveAttackGUIController : MonoBehaviour
         TurnSystem.OnBeginPlayerTurn += AllowSelect;
         // When the enemy's turn begins, deny the user from selecting
         TurnSystem.OnBeginEnemyTurn += DenySelect;
+
+        // When the game is paused, disable this script
+        Pause.OnPauseGame += HideScript;
+        // Unsubscribe to the unpause event (since if this is active, the game is unpaused)
+        Pause.OnUnpauseGame -= ShowScript;
     }
 
     // Called when the gameobject is toggled off
@@ -50,6 +55,24 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         TurnSystem.OnBeginPlayerTurn -= AllowSelect;
         TurnSystem.OnBeginEnemyTurn -= DenySelect;
+
+        // Unsubscribe to the pause event (since if this is inactive, the game is paused)
+        Pause.OnPauseGame -= HideScript;
+        // When the game is unpaused, re-enable this script
+        Pause.OnUnpauseGame += ShowScript;
+    }
+
+    // Called when the gameobject is destroyed
+    // Unsubscribe to ALL events
+    private void OnDestroy()
+    {
+        TurnSystem.OnBeginPlayerTurn -= AllowSelect;
+        TurnSystem.OnBeginEnemyTurn -= DenySelect;
+        Pause.OnPauseGame -= HideScript;
+        Pause.OnUnpauseGame -= ShowScript;
+        MoveAttack.OnCharacterFinishedMoving -= ReturnControlAfterMove;
+        MoveAttack.OnCharacterFinishedMoving -= BeginAttackAfterMove;
+        MoveAttack.OnCharacterFinishedAction -= ReturnControlAfterAction;
     }
 
     // Set references
@@ -433,7 +456,7 @@ public class MoveAttackGUIController : MonoBehaviour
     /// </summary>
     private void AllowSelect()
     {
-        Debug.Log("AllowSelect");
+        //Debug.Log("AllowSelect");
         // Call the event for when the player is allowed to select
         if (OnPlayerAllowedSelect != null)
             OnPlayerAllowedSelect();
@@ -454,7 +477,7 @@ public class MoveAttackGUIController : MonoBehaviour
     /// </summary>
     private void DenySelect()
     {
-        Debug.Log("DenySelect");
+        //Debug.Log("DenySelect");
         // Don't let the user select anything
         ToggleSelect(false);
         // Deselect anything that was selected
@@ -491,5 +514,21 @@ public class MoveAttackGUIController : MonoBehaviour
             }
                 
         }
+    }
+
+    /// <summary>
+    /// Toggles off this script
+    /// </summary>
+    private void HideScript()
+    {
+        this.enabled = false;
+    }
+
+    /// <summary>
+    /// Toggles on this script
+    /// </summary>
+    private void ShowScript()
+    {
+        this.enabled = true;
     }
 }

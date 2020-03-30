@@ -34,6 +34,14 @@ public class EnemyTurnController : MonoBehaviour
         SingleEnemy.OnSingleEnemyFinish -= SingleEnemyTurn;
     }
 
+    // Called when the gameobject is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        TurnSystem.OnBeginEnemyTurn -= BeginFirstEnemyTurn;
+        SingleEnemy.OnSingleEnemyFinish -= SingleEnemyTurn;
+    }
+
     /// <summary>
     /// Has a single enemy take their turn
     /// </summary>
@@ -53,7 +61,7 @@ public class EnemyTurnController : MonoBehaviour
             // Call the end enemy turn event
             if (OnEndEnemyTurn != null)
             {
-                Debug.Log("OnEndEnemyTurn");
+                //Debug.Log("OnEndEnemyTurn");
                 OnEndEnemyTurn();
             }
         }
@@ -65,7 +73,7 @@ public class EnemyTurnController : MonoBehaviour
     /// </summary>
     private void BeginFirstEnemyTurn()
     {
-        Debug.Log("BeginFirstEnemyTurn");
+        //Debug.Log("BeginFirstEnemyTurn");
         // Get all the active enemies
         _allEnemies = new List<SingleEnemy>();
 
