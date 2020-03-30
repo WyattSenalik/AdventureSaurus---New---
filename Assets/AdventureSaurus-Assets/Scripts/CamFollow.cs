@@ -105,9 +105,9 @@ public class CamFollow : MonoBehaviour
     private void LateUpdate()
     {
         //Checks if pan finished and if it is enemy turn before allowing free cam
-        /*
         if (_panFinished && !_isOnEnemy)
         {
+            //gets mouse position on right click
             if (Input.GetMouseButtonDown(1))
             {
                 //right click was pressed    
@@ -115,10 +115,12 @@ public class CamFollow : MonoBehaviour
                 _isDragging = true;
                 _charToFollow = null;
             }
+            //checks when right click isn't pressed
             if (!Input.GetMouseButton(1))
             {
                 _isDragging = false;
             }
+            //if right click is pressed it will drag the cam around
             if (_isDragging)
             {
                 Vector3 targetPosition = Camera.main.ScreenToViewportPoint(Input.mousePosition - _mouseOrigin);
@@ -129,7 +131,7 @@ public class CamFollow : MonoBehaviour
                 Camera.main.transform.Translate(move, Space.Self);
             }
         }
-        */
+       
 
         // If we have a character to follow
         if (_charToFollow != null)
