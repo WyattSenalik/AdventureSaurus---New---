@@ -54,6 +54,13 @@ public class PauseMenuController : MonoBehaviour
         Pause.OnPauseGame -= UpdateValues;
     }
 
+    // Called when the gameobject is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        Pause.OnPauseGame -= UpdateValues;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

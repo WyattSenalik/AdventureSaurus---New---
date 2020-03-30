@@ -730,7 +730,12 @@ PrefabInstance:
     - target: {fileID: 1885554832884344792, guid: 70da1097b1dafad4a9fb162e686f4084,
         type: 3}
       propertyPath: hallwayScalar
-      value: 5
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885554832884344792, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: endScalar
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1885554831325360176, guid: 70da1097b1dafad4a9fb162e686f4084,
         type: 3}
