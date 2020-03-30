@@ -44,6 +44,7 @@ public class Inventory : MonoBehaviour
     {
         if (IsFull())
             return false;
+
         items.Add(item);
         refreshUI();
         return true;
