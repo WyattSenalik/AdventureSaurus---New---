@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class GenerateStairs : MonoBehaviour
 {
-    [SerializeField] private GameObject stairsPrefab = null;
+    [SerializeField] private GameObject _stairsPrefab = null;
 
     // Called before start
     private void Awake()
     {
-        if (stairsPrefab == null)
+        if (_stairsPrefab == null)
             Debug.Log("stairsPrefab was not set correctly in GenerateStairs attached to " + this.name);
     }
 
@@ -40,7 +40,7 @@ public class GenerateStairs : MonoBehaviour
         Vector2Int stairsPos = new Vector2Int(Random.Range(botLeftPos.x, topRightPos.x + 1), Random.Range(botLeftPos.y, topRightPos.y + 1));
 
         // Spawn the stairs there and return their transform
-        GameObject stairsObj = Instantiate(stairsPrefab, new Vector3(stairsPos.x, stairsPos.y, 0), Quaternion.identity);
+        GameObject stairsObj = Instantiate(_stairsPrefab, new Vector3(stairsPos.x, stairsPos.y, 0), Quaternion.identity);
         stairsObj.name = "Stairs";
         return stairsObj.transform;
     }

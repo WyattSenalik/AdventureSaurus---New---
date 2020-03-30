@@ -6,56 +6,46 @@ using UnityEngine.Tilemaps;
 public class ProceduralGenerationController : MonoBehaviour
 {
     // Reference to the Transform that will temporarily hold all allies
-    private Transform allyTempParent = null;
+    private Transform _allyTempParent = null;
     public Transform AllyTempParent
     {
-        set { allyTempParent = value; }
-        get { return allyTempParent; }
+        set { _allyTempParent = value; }
+        get { return _allyTempParent; }
     }
 
     // The current floor's base difficulty.
     // TODO set from persistant controller
-    private int curFloorDiff;
+    private int _curFloorDiff;
     public int CurrentFloorDifficulty
     {
-        set { curFloorDiff = value; }
+        set { _curFloorDiff = value; }
     }
 
     // In the case we don't want to generate
-    [SerializeField] private bool shouldGenerate = true;
-    [SerializeField] private Transform roomParent;
-    [SerializeField] private Transform wallParent;
-    [SerializeField] private Transform stairsTrans;
-    private Tilemap tilemapRef;
-    private Transform fireTrans;
-    [SerializeField] private Transform charParent;
+    [SerializeField] private bool _shouldGenerate = true;
+    [SerializeField] private Transform _roomParent;
+    [SerializeField] private Transform _wallParent;
+    [SerializeField] private Transform _stairsTrans;
+    private Tilemap _tilemapRef;
+    private Transform _fireTrans;
+    [SerializeField] private Transform _charParent;
 
     // References for generation
-    private GenerateRooms genRoomsRef;
-    private GenerateWalls wallsGenRef;
-    private GenerateStairs stairsGenRef;
-    private GenerateTiles tilesGenRef;
-    private GenerateSafeRoom safeRoomGenRef;
-    private GenerateEnemies enemiesGenRef;
-    private PlaceAllies placeAlliesRef;
-
-    // References for initializing things
-    private EnemyMoveAttackAI enMAAIRef;
-    private MoveAttackController mAContRef;
-    private TurnSystem turnSysRef;
-    private Pause pauseRef;
-    private PauseMenuController pauseMenuContRef;
-    private CamFollow camFollowRef;
-    private CharDetailedMenuController charDetMenuContRef;
-    private Prompter promptRef;
-    private Stairs stairsScriptRef;
-    private MapCam mapCamRef;
-    private DeathCheck deathCheckRef;
+    private GenerateRooms _genRoomsRef;
+    private GenerateWalls _wallsGenRef;
+    private GenerateStairs _stairsGenRef;
+    private GenerateTiles _tilesGenRef;
+    private GenerateSafeRoom _safeRoomGenRef;
+    private GenerateEnemies _enemiesGenRef;
+    private PlaceAllies _placeAlliesRef;
 
     // Events
     // When we finsh generating the floor
     // For when we need to initialize scripts after generating
-    public delegate void FinishGeneration();
+    public delegate void FinishGeneration(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsParent);
+    public static event FinishGeneration OnFinishGeneration;
+    public delegate void FinishGenerationNoParam();
+    public static event FinishGenerationNoParam OnFinishGenerationNoParam;
 
 
     // Set references
@@ -67,74 +57,27 @@ public class ProceduralGenerationController : MonoBehaviour
 
         // Validation on other Procedural Gen Scripts
         GameObject procGenContObj = this.gameObject;
-        genRoomsRef = procGenContObj.GetComponent<GenerateRooms>();
-        if (genRoomsRef == null)
+        _genRoomsRef = procGenContObj.GetComponent<GenerateRooms>();
+        if (_genRoomsRef == null)
             Debug.Log("There was no GenerateRooms attached to " + procGenContObj.name);
-        wallsGenRef = procGenContObj.GetComponent<GenerateWalls>();
-        if (wallsGenRef == null)
+        _wallsGenRef = procGenContObj.GetComponent<GenerateWalls>();
+        if (_wallsGenRef == null)
             Debug.Log("There was no GenerateWalls attached to " + procGenContObj.name);
-        stairsGenRef = procGenContObj.GetComponent<GenerateStairs>();
-        if (stairsGenRef == null)
+        _stairsGenRef = procGenContObj.GetComponent<GenerateStairs>();
+        if (_stairsGenRef == null)
             Debug.Log("There was no GenerateStairs attached to " + procGenContObj.name);
-        tilesGenRef = procGenContObj.GetComponent<GenerateTiles>();
-        if (tilesGenRef == null)
+        _tilesGenRef = procGenContObj.GetComponent<GenerateTiles>();
+        if (_tilesGenRef == null)
             Debug.Log("There was no GenerateTiles attached to " + procGenContObj.name);
-        safeRoomGenRef = procGenContObj.GetComponent<GenerateSafeRoom>();
-        if (safeRoomGenRef == null)
+        _safeRoomGenRef = procGenContObj.GetComponent<GenerateSafeRoom>();
+        if (_safeRoomGenRef == null)
             Debug.Log("There was no GenerateSafeRoom attached to " + procGenContObj.name);
-        placeAlliesRef = procGenContObj.GetComponent<PlaceAllies>();
-        if (placeAlliesRef == null)
+        _placeAlliesRef = procGenContObj.GetComponent<PlaceAllies>();
+        if (_placeAlliesRef == null)
             Debug.Log("There was no PlaceAllies attached to " + procGenContObj.name);
-        enemiesGenRef = procGenContObj.GetComponent<GenerateEnemies>();
-        if (enemiesGenRef == null)
+        _enemiesGenRef = procGenContObj.GetComponent<GenerateEnemies>();
+        if (_enemiesGenRef == null)
             Debug.Log("There was no GenerateEnemies attached to " + procGenContObj.name);
-
-        // Validation on initialization scripts
-        GameObject gameContObj = GameObject.FindWithTag("GameController");
-        if (gameContObj == null)
-            Debug.Log("Could not find any object with the tag GameController");
-        enMAAIRef = gameContObj.GetComponent<EnemyMoveAttackAI>();
-        if (enMAAIRef == null)
-            Debug.Log("There was no EnemyMoveAttackAI attached to " + gameContObj.name);
-        mAContRef = gameContObj.GetComponent<MoveAttackController>();
-        if (mAContRef == null)
-            Debug.Log("There was no MoveAttackController attached to " + gameContObj.name);
-        turnSysRef = gameContObj.GetComponent<TurnSystem>();
-        if (turnSysRef == null)
-            Debug.Log("There was no TurnSystem attached to " + gameContObj.name);
-        pauseRef = gameContObj.GetComponent<Pause>();
-        if (pauseRef == null)
-            Debug.Log("There was no Pause attached to " + gameContObj.name);
-        pauseMenuContRef = gameContObj.GetComponent<PauseMenuController>();
-        if (pauseMenuContRef == null)
-            Debug.Log("There was no PauseMenuController attached to " + gameContObj.name);
-        charDetMenuContRef = gameContObj.GetComponent<CharDetailedMenuController>();
-        if (charDetMenuContRef == null)
-            Debug.Log("There was no CharDetailedMenuController attached to " + gameContObj.name);
-        promptRef = gameContObj.GetComponent<Prompter>();
-        if (promptRef == null)
-            Debug.Log("There was no Prompter attached to " + gameContObj.name);
-        stairsScriptRef = gameContObj.GetComponent<Stairs>();
-        if (stairsScriptRef == null)
-            Debug.Log("There was no Stairs attached to " + gameContObj.name);
-        deathCheckRef = gameContObj.GetComponent<DeathCheck>();
-        if (deathCheckRef == null)
-            Debug.Log("There was no DeathCheck attached to " + gameContObj.name);
-
-        GameObject cameraObj = GameObject.FindWithTag("MainCamera");
-        if (cameraObj == null)
-            Debug.Log("Could not find any object with the tag MainCamera");
-        camFollowRef = cameraObj.GetComponent<CamFollow>();
-        if (camFollowRef == null)
-            Debug.Log("There was no CamFollow attached to " + cameraObj.name);
-
-        GameObject mapCamObj = GameObject.FindWithTag("MapCam");
-        if (mapCamObj == null)
-            Debug.Log("Could not find any object with the tag MapCam");
-        mapCamRef = mapCamObj.GetComponent<MapCam>();
-        if (mapCamRef == null)
-            Debug.Log("There was no MapCam attached to " + mapCamObj.name);
-
     }
 
     /// <summary>
@@ -146,18 +89,18 @@ public class ProceduralGenerationController : MonoBehaviour
     public void GenerateFloor(bool spawnFire, int amountRooms)
     {
         //Debug.Log("GenerateFloor");
-        if (genRoomsRef != null && wallsGenRef != null && stairsGenRef != null && tilesGenRef != null
-            && safeRoomGenRef != null && placeAlliesRef != null)
+        if (_genRoomsRef != null && _wallsGenRef != null && _stairsGenRef != null && _tilesGenRef != null
+            && _safeRoomGenRef != null && _placeAlliesRef != null)
         {
-            if (shouldGenerate)
+            if (_shouldGenerate)
             {
                 //Debug.Log("SpawnHallwaysAndRooms");
                 // Spawn the rooms, hallways, and lights
                 // Also get a reference to the parent of the rooms
-                genRoomsRef.AmountRoomsToSpawn = amountRooms;
-                roomParent = genRoomsRef.SpawnHallwaysAndRooms();
+                _genRoomsRef.AmountRoomsToSpawn = amountRooms;
+                _roomParent = _genRoomsRef.SpawnHallwaysAndRooms();
                 // Sort all the lights in the room so that they correspond to the correct adjacent room
-                foreach (Transform curRoomTrans in roomParent)
+                foreach (Transform curRoomTrans in _roomParent)
                 {
                     Room curRoomScript = curRoomTrans.GetComponent<Room>();
                     curRoomScript.SortAdjacentRooms();
@@ -165,49 +108,49 @@ public class ProceduralGenerationController : MonoBehaviour
 
                 //Debug.Log("SpawnWallTransforms");
                 // Spawn the wall transforms
-                wallParent = wallsGenRef.SpawnWallTransforms(roomParent);
+                _wallParent = _wallsGenRef.SpawnWallTransforms(_roomParent);
 
                 //Debug.Log("SortRooms");
                 // Sort those rooms quick, we have to do this after walls, since walls assumes the format is room, hallway, room, hallway, etc.
                 // Everything after this assumes the rooms are sorted by weight
-                if (!SortRooms(roomParent))
+                if (!SortRooms(_roomParent))
                     Debug.Log("Failed to sort");
 
                 //Debug.Log("SpawnStairs");
                 // Spawn the stairs in the last room
-                stairsTrans = stairsGenRef.SpawnStairs(roomParent);
+                _stairsTrans = _stairsGenRef.SpawnStairs(_roomParent);
 
                 //Debug.Log("SpawnTileMap");
                 // Create the tiles
-                tilemapRef = tilesGenRef.SpawnTileMap(roomParent, wallParent, stairsTrans);
+                _tilemapRef = _tilesGenRef.SpawnTileMap(_roomParent, _wallParent, _stairsTrans);
 
                 //Debug.Log("SpawnSafeRoom");
                 // Make the safe room if we should have one
                 if (spawnFire)
                 {
-                    fireTrans = safeRoomGenRef.SpawnSafeRoom(roomParent, tilemapRef);
+                    _fireTrans = _safeRoomGenRef.SpawnSafeRoom(_roomParent, _tilemapRef);
                 }
 
                 // Create the Character parent
-                charParent = new GameObject("CharacterParent").transform;
-                charParent.position = Vector3.zero;
+                _charParent = new GameObject("CharacterParent").transform;
+                _charParent.position = Vector3.zero;
 
                 //Debug.Log("PlaceAllies");
                 // Place the allies randomly in the start room
-                placeAlliesRef.PutAlliesInStartRoom(roomParent, allyTempParent);
+                _placeAlliesRef.PutAlliesInStartRoom(_roomParent, _allyTempParent);
 
                 //Debug.Log("SpawnEnemies");
                 // Spawn the enmies
-                enemiesGenRef.SpawnEnemies(charParent, roomParent, curFloorDiff);
+                _enemiesGenRef.SpawnEnemies(_charParent, _roomParent, _curFloorDiff);
             }
 
             // Being extra careful
             int maxIterations = 100;
             int counter = 0;
             // Place the allies in the character parent
-            while (allyTempParent.childCount != 0)
+            while (_allyTempParent.childCount != 0)
             {
-                allyTempParent.GetChild(0).SetParent(charParent);
+                _allyTempParent.GetChild(0).SetParent(_charParent);
                 // Avoid infinite loop
                 if (++counter > maxIterations)
                 {
@@ -216,35 +159,12 @@ public class ProceduralGenerationController : MonoBehaviour
                 }
             }
 
-            //Debug.Log("InitializeScripts");
-            // Initialize scripts
-            InitializeScripts();
+            // Call the OnFinishGeneration event
+            if (OnFinishGeneration != null)
+                OnFinishGeneration(_charParent, _roomParent, _wallParent, _stairsTrans);
+            if (OnFinishGenerationNoParam != null)
+                OnFinishGenerationNoParam();
         }
-    }
-
-    /// <summary>
-    /// Initializes all the scripts that need to be initialized
-    /// </summary>
-    private void InitializeScripts()
-    {
-        // Initialize EnemyMoveAttackAI
-        enMAAIRef.Initialize(charParent);
-        // Initialize MoveAttackController
-        mAContRef.Initialize(roomParent, wallParent, charParent);
-        // Initialize TurnSystem
-        turnSysRef.Initialize(charParent);
-        // Initalize PauseMenuController
-        pauseMenuContRef.Initialize(charParent);
-        // Initialize CamFollow
-        camFollowRef.Initialize(charParent);
-        // Initialize CharDetailedMenuController
-        charDetMenuContRef.Initialize(pauseMenuContRef.AlliesStats);
-        // Initialize Stairs script
-        stairsScriptRef.Initialize(charParent, stairsTrans, promptRef);
-        // Initialize MapCam script
-        mapCamRef.Initialize(mAContRef.GridTopLeft, mAContRef.GridBotRight);
-        // Iniitlaize DeathCheck script
-        deathCheckRef.Initialize(charParent);
     }
 
     /// <summary>
@@ -320,7 +240,7 @@ public class ProceduralGenerationController : MonoBehaviour
     /// <returns>int difficulty of the Floor with the hardest difficulty</returns>
     public int GetMostDifficultFloor()
     {
-        Transform hardRoomTrans = roomParent.GetChild(roomParent.childCount - 1);
+        Transform hardRoomTrans = _roomParent.GetChild(_roomParent.childCount - 1);
         Room hardRoomScriptRef = hardRoomTrans.GetComponent<Room>();
         return hardRoomScriptRef.RoomDifficulty;
     }

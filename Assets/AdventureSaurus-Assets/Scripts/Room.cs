@@ -7,67 +7,93 @@ public enum RoomType { NORMAL, HALLWAY, START, END, SAFE}
 
 public class Room : MonoBehaviour
 {
-    [SerializeField] private List<Light2D> broadcastLights = null;  // A list of the lights that this room is broadcasting to other rooms
+    // A list of the lights that this room is broadcasting to other rooms
+    [SerializeField] private List<Light2D> broadcastLights = null;
     public List<Light2D> BroadcastLights
     {
         get { return broadcastLights; }
     }
-    [SerializeField] private List<Light2D> receiveLights = null;    // A list of the lights that are shining into this room
+    // A list of the lights that are shining into this room
+    [SerializeField] private List<Light2D> receiveLights = null;
     public List<Light2D> ReceiveLights
     {
         get { return receiveLights; }
     }
-    [SerializeField] private List<Room> adjacentRooms = null;   // A list of room adjacent to this one
+    // A list of room adjacent to this one
+    [SerializeField] private List<Room> adjacentRooms = null;
     public List<Room> AdjacentRooms
     {
         get { return adjacentRooms; }
     }
-    private Light2D roomLight = null;    // The light that will illuminate the room
-    private EnemyMoveAttackAI enMAAIRef;    // Reference to the EnemyMoveAttackAI script
-    private List<MoveAttack> alliesInRoom;  // The characters currently in the room
-    private List<MoveAttack> enemiesInRoom; // A list of the enemies in the room
-    private bool isRoomActive;  // If the room is on or off
-    private float currentLightIntensity;    // The current light level of the room
-    private bool clear; // If all enemies in the room have been defeated
-    private int roomWeight; // Represents how far the room is away from the starting room
+    // The light that will illuminate the room
+    private Light2D _roomLight = null;
+    // The characters currently in the room
+    private List<MoveAttack> _alliesInRoom;
+    // A list of the enemies in the room
+    private List<MoveAttack> _enemiesInRoom;
+    // If the room is on or off
+    private bool _isRoomActive;
+    // The current light level of the room
+    private float _currentLightIntensity;
+    // If all enemies in the room have been defeated
+    private bool _clear;
+    // Represents how far the room is away from the starting room
+    private int _roomWeight;
     public int RoomWeight
     {
-        get { return roomWeight; }
-        set { roomWeight = value; }
+        get { return _roomWeight; }
+        set { _roomWeight = value; }
     }
-    private RoomType myRoomType; // What kind of room this is
+    // What kind of room this is
+    private RoomType _myRoomType;
     public RoomType MyRoomType
     {
-        set { myRoomType = value; }
-        get { return myRoomType; }
+        set { _myRoomType = value; }
+        get { return _myRoomType; }
     }
     // The difficulty of the room
-    private int roomDifficulty;
+    private int _roomDifficulty;
     public int RoomDifficulty
     {
-        set { roomDifficulty = value; }
-        get { return roomDifficulty; }
+        set { _roomDifficulty = value; }
+        get { return _roomDifficulty; }
+    }
+
+    // Events
+    // When a room is activated
+    public delegate void RoomActivated(List<MoveAttack> enemiesInTheRoom);
+    public static event RoomActivated OnRoomActivate;
+
+
+    // Called when this component is set active
+    // Subscribe to events
+    private void OnEnable()
+    {
+        // When generation is done, show the first room
+        ProceduralGenerationController.OnFinishGenerationNoParam += ShowStartRoom;
+    }
+
+    // Called when this component is toggled off
+    // Unsubscribe from ALL events
+    private void OnDisable()
+    {
+        // When generation is done, show the first room
+        ProceduralGenerationController.OnFinishGenerationNoParam -= ShowStartRoom;
+    }
+
+    // Called when this gameobject is destroyed
+    // Unsubscribe from events
+    private void OnDestroy()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= ShowStartRoom;
     }
 
     // Set References
     // Awake is called before Start
     private void Awake()
     {
-        GameObject gameController = GameObject.FindWithTag("GameController");
-        // Make sure a GameController exists
-        if (gameController == null)
-            Debug.Log("Could not find any GameObject with the tag GameController");
-        else
-        {
-            enMAAIRef = gameController.GetComponent<EnemyMoveAttackAI>();
-            if (enMAAIRef == null)
-            {
-                Debug.Log("Could not find EnemyMoveAttackAI attached to " + gameController.name);
-            }
-        }
-
-        roomLight = this.GetComponent<Light2D>();
-        if (roomLight == null)
+        _roomLight = this.GetComponent<Light2D>();
+        if (_roomLight == null)
             Debug.Log("Could not find Light attached to " + this.name);
 
         // Initialize my lists that will be set from Procedural Generation
@@ -80,12 +106,28 @@ public class Room : MonoBehaviour
             adjacentRooms = new List<Room>();
 
         // Initialize variables
-        alliesInRoom = new List<MoveAttack>();
-        enemiesInRoom = new List<MoveAttack>();
-        roomLight.intensity = 0;
-        currentLightIntensity = 0;
-        isRoomActive = false;
-        clear = true;
+        _alliesInRoom = new List<MoveAttack>();
+        _enemiesInRoom = new List<MoveAttack>();
+        _roomLight.intensity = 0;
+        _currentLightIntensity = 0;
+        _isRoomActive = false;
+        _clear = true;
+    }
+
+    /// <summary>
+    /// Called by ProceduralGenerationController.OnFinishGenerationNoParam event
+    /// If this room is the start room, turn it on
+    /// </summary>
+    private void ShowStartRoom()
+    {
+        // If this room is the first room
+        if (_myRoomType == RoomType.START)
+        {
+            // Since we just walked into the room, we want to turn it on
+            _currentLightIntensity = 1f;
+            // Turn on the starting room's lights
+            this.BeginChangeIntensity();
+        }
     }
 
     /// <summary>
@@ -98,41 +140,41 @@ public class Room : MonoBehaviour
         Room otherRoom = GetAdjacentRoomByAlly(allyWhoEntered);
 
         // Since we just walked into the room, we want to turn it on
-        currentLightIntensity = 1f;
+        _currentLightIntensity = 1f;
 
         // Test if there is another room, there may not be, if the character starts in that room
         if (otherRoom == null)
         {
             // Turn on the starting room's lights and thats it
-            StartCoroutine(ChangeIntensity(this));
+            this.BeginChangeIntensity();
             return;
         }
         //Debug.Log("otherRoom is " + otherRoom.name);
-        int amountAlliesInOtherRoom = otherRoom.alliesInRoom.Count; // The number of allies in the other room
+        int amountAlliesInOtherRoom = otherRoom._alliesInRoom.Count; // The number of allies in the other room
 
         // If the room the character came from has only that character in it
         if (amountAlliesInOtherRoom == 1)
         {
             // Turn off the room that was came from's light
             // If that room has been cleared, we dim it, otherwise we turn it completely off
-            if (otherRoom.clear)
+            if (otherRoom._clear)
             {
                 // Change the otherRoom's light
-                otherRoom.currentLightIntensity = 0.5f;
+                otherRoom._currentLightIntensity = 0.5f;
             }
             // If the room has not been cleared, we turn it off completely
             else
             {
                 // Change the otherRoom's light
-                otherRoom.currentLightIntensity = 0f;
+                otherRoom._currentLightIntensity = 0f;
             }
         }
 
         // Actually update the lighting of everything after determining what it should be
         // Turn on the lights of this room
-        StartCoroutine(ChangeIntensity(this));
+        this.BeginChangeIntensity();
         // Change the lighting of the other room
-        StartCoroutine(ChangeIntensity(otherRoom));
+        otherRoom.BeginChangeIntensity();
     }
 
 
@@ -144,13 +186,13 @@ public class Room : MonoBehaviour
     {
         Debug.Log("Calming the room");
         // We want to turn the room off
-        currentLightIntensity = 0f;
+        _currentLightIntensity = 0f;
         // Change the intensity of this room
-        StartCoroutine(ChangeIntensity(this));
+        this.BeginChangeIntensity();
         // Update lighting of the adjacent rooms
         foreach (Room adjRoom in adjacentRooms)
         {
-            StartCoroutine(ChangeIntensity(adjRoom));
+            adjRoom.BeginChangeIntensity();
         }
     }
 
@@ -172,14 +214,14 @@ public class Room : MonoBehaviour
         if (mARef.WhatAmI == CharacterType.Enemy)
         {
             // If they aren't already a part of the room's enemies, add them to it
-            if (!enemiesInRoom.Contains(mARef))
+            if (!_enemiesInRoom.Contains(mARef))
             {
-                clear = false;
-                enemiesInRoom.Add(mARef);
+                _clear = false;
+                _enemiesInRoom.Add(mARef);
             }
             // Also, if their room isn't active hide them (transition is used to test if it is the beginning of the game or not, since we don't
             // want an enemy to disappear when they walk between rooms, for which transition will always be true
-            if (!isRoomActive && mARef.transition == false)
+            if (!_isRoomActive && mARef.Transition == false)
             {
                 mARef.gameObject.SetActive(false);
             }
@@ -189,16 +231,18 @@ public class Room : MonoBehaviour
         {
             // Add them to the allies in room
             // Make sure they are not already in the list
-            if (!alliesInRoom.Contains(mARef))
-                alliesInRoom.Add(mARef);
+            if (!_alliesInRoom.Contains(mARef))
+                _alliesInRoom.Add(mARef);
             // Turn on the room
             TriggerRoom(mARef);
 
             // If we haven't activated the enemies in the room yet, do that
-            if (!isRoomActive)
+            if (!_isRoomActive)
             {
-                enMAAIRef.ActivateRoom(enemiesInRoom);
-                isRoomActive = true;
+                _isRoomActive = true;
+                // Call the room activate event
+                if (OnRoomActivate != null)
+                    OnRoomActivate(_enemiesInRoom);
             }
         }
     }
@@ -216,18 +260,18 @@ public class Room : MonoBehaviour
         // If it was an ally
         if (mARef.WhatAmI == CharacterType.Ally)
         {
-            alliesInRoom.Remove(mARef);
+            _alliesInRoom.Remove(mARef);
             // If it was the last ally and that ally dead
-            if (alliesInRoom.Count == 0 && mARef.GetComponent<Health>().CurHP == 0)
+            if (_alliesInRoom.Count == 0 && mARef.GetComponent<Health>().CurHP == 0)
                 CalmRoom(mARef);
         }
         // If it was an enemy and the room is active
-        else if (mARef.WhatAmI == CharacterType.Enemy && isRoomActive)
+        else if (mARef.WhatAmI == CharacterType.Enemy && _isRoomActive)
         {
-            enemiesInRoom.Remove(mARef);
+            _enemiesInRoom.Remove(mARef);
             // If it was the last enemy
-            if (enemiesInRoom.Count == 0)
-                clear = true;
+            if (_enemiesInRoom.Count == 0)
+                _clear = true;
         }
     }
 
@@ -237,7 +281,7 @@ public class Room : MonoBehaviour
     /// <returns>float that is the intensity of the room light</returns>
     public float GetIntensity()
     {
-        return currentLightIntensity;
+        return _currentLightIntensity;
     }
 
     /// <summary>
@@ -249,13 +293,13 @@ public class Room : MonoBehaviour
     {
         // We are going to be setting the intensity of each broadcast light coming from this room to go to other rooms.
         // The resulting overlap of intensities should equal the enterRoom's light's intensity at this moment (not currentIntensity)
-        float targetIntensity = enterRoom.roomLight.intensity;
+        float targetIntensity = enterRoom._roomLight.intensity;
         for (int i = 0; i < enterRoom.broadcastLights.Count; ++i)
         {
             // We have to make it so the sum of the room this broadcast light is 
             // broadcasting into's light plus this light is the target intensity.
             // The room this light is broadcasting into is the broadcastToRooms at the same index.
-            float actualIntensity = targetIntensity - enterRoom.adjacentRooms[i].roomLight.intensity;
+            float actualIntensity = targetIntensity - enterRoom.adjacentRooms[i]._roomLight.intensity;
             // Make sure this intensity is not negative, if it is, we just want to turn it off
             if (actualIntensity < 0f)
             {
@@ -281,10 +325,10 @@ public class Room : MonoBehaviour
             // The resulting overlap of intensities should equal the room this light is being broadcast from's light's 
             // intensity at this moment (not currentIntensity)
             // The light we are on has the same index as the room it is receiving from
-            float targetIntensity = enterRoom.adjacentRooms[i].roomLight.intensity;
+            float targetIntensity = enterRoom.adjacentRooms[i]._roomLight.intensity;
             // We have to make it so the sum of enterRoom's light's intensity and the receiving light's intensity
             // equals the target intensity
-            float actualIntensity = targetIntensity - enterRoom.roomLight.intensity;
+            float actualIntensity = targetIntensity - enterRoom._roomLight.intensity;
             // Make sure this intensity is not negative, if it is, we just want to turn it off
             if (actualIntensity < 0f)
             {
@@ -296,32 +340,42 @@ public class Room : MonoBehaviour
     }
 
     /// <summary>
+    /// Stops other coroutines and starts a new one to change the intensity
+    /// </summary>
+    public void BeginChangeIntensity()
+    {
+        // Stop any other change intensity coroutines running before starting this one
+        StopAllCoroutines();
+        // Start the coroutine to change the intensity
+        StartCoroutine(ChangeIntensity());
+    }
+
+    /// <summary>
     /// Slowly changes the room's light intensity to be the room's currentItensity
     /// </summary>
-    /// <param name="roomToChange">The room whose light will be changed</param>
     /// <returns>IEnumerator</returns>
-    public IEnumerator ChangeIntensity(Room roomToChange)
+    private IEnumerator ChangeIntensity()
     {
         // If its dimmer than its supposed to be, make it brighter
-        while (roomToChange.roomLight.intensity < roomToChange.currentLightIntensity)
+        while (_roomLight.intensity < _currentLightIntensity)
         {
-            roomToChange.roomLight.intensity += Time.deltaTime;
-            UpdateBroadcastLights(roomToChange);
-            UpdateReceivingLights(roomToChange);
+            _roomLight.intensity += Time.deltaTime;
+            UpdateBroadcastLights(this);
+            UpdateReceivingLights(this);
             yield return null;
         }
         // If its brighter than its supposed to be, make it dimmer
-        while (roomToChange.roomLight.intensity > roomToChange.currentLightIntensity)
+        while (_roomLight.intensity > _currentLightIntensity)
         {
-            roomToChange.roomLight.intensity -= Time.deltaTime;
-            UpdateBroadcastLights(roomToChange);
-            UpdateReceivingLights(roomToChange);
+            _roomLight.intensity -= Time.deltaTime;
+            UpdateBroadcastLights(this);
+            UpdateReceivingLights(this);
             yield return null;
         }
         // Its close enough, so finish setting it
-        roomToChange.roomLight.intensity = roomToChange.currentLightIntensity;
-        UpdateBroadcastLights(roomToChange);
-        UpdateReceivingLights(roomToChange);
+        _roomLight.intensity = _currentLightIntensity;
+        UpdateBroadcastLights(this);
+        UpdateReceivingLights(this);
         yield return null;
     }
 
@@ -335,13 +389,13 @@ public class Room : MonoBehaviour
         // Iterate over the adjacent rooms until we get the room this ally is in
         foreach (Room adjRoom in adjacentRooms)
         {
-            if (adjRoom.alliesInRoom.Contains(ally))
+            if (adjRoom._alliesInRoom.Contains(ally))
             {
                 return adjRoom;
             }
         }
         // If we don't find it, something went wrong, or the game just started
-        if (ally.transition)
+        if (ally.Transition)
             Debug.Log("Could not find adjacent room with " + ally.name + " in it");
         return null;
     }

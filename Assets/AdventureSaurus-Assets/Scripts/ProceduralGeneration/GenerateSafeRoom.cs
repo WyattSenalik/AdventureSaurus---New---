@@ -6,20 +6,20 @@ using UnityEngine.Tilemaps;
 public class GenerateSafeRoom : MonoBehaviour
 {
     // The fire pit object to spawn
-    [SerializeField] private GameObject firePitPrefab = null;
-    // The fire pit tiles. Assumes there are 9
-    [SerializeField] private Tile[] emptyFirePit = null;
-    [SerializeField] private Tile[] activeFirePit = null;
+    [SerializeField] private GameObject _firePitPrefab = null;
+    // The fire pit tiles
+    [SerializeField] private Tile _emptyFirePit = null;
+    [SerializeField] private AnimatedTile _activeFirePit = null;
 
     // Called before start
     private void Awake()
     {
         // Validation
-        if (firePitPrefab == null)
+        if (_firePitPrefab == null)
             Debug.Log("firePitPrefab was not set correctly in GenerateStairs attached to " + this.name);
-        if (emptyFirePit == null || emptyFirePit.Length != 9)
+        if (_emptyFirePit == null)
             Debug.Log("emptyFirePit was not set correctly in GenerateStairs attached to " + this.name);
-        if (activeFirePit == null || activeFirePit.Length != 9)
+        if (_activeFirePit == null)
             Debug.Log("activeFirePit was not set correctly in GenerateStairs attached to " + this.name);
     }
 
@@ -59,27 +59,13 @@ public class GenerateSafeRoom : MonoBehaviour
 
         // Calculate the middle of that room
         Vector3Int centerOfRoom = new Vector3Int(Mathf.RoundToInt(safeRoom.position.x), Mathf.RoundToInt(safeRoom.position.y), 0);
-        // Place the fire tiles around that position
-        Vector3Int topLeft = centerOfRoom + new Vector3Int(-1, 1, 0);
-        Vector3Int botRight = centerOfRoom + new Vector3Int(1, -1, 0);
-        Vector3Int iterateVector = new Vector3Int(1, 0, 0);
-        Vector3Int curPos = topLeft;
-        for (int i = 0; i < emptyFirePit.Length; ++i)
-        {
-            // Set the tile
-            tilemapRef.SetTile(curPos, emptyFirePit[i]);
-            // Increment the position
-            curPos += iterateVector;
-            if (curPos.x > botRight.x)
-            {
-                curPos.x = topLeft.x;
-                curPos.y += -1;
-            }
-        }
+        // Place the fire tile on that position
+        // Set the tile
+        tilemapRef.SetTile(centerOfRoom, _emptyFirePit);
 
 
         // Create the fireplace obj at the middle of the room
-        GameObject firePlaceObj = Instantiate(firePitPrefab, centerOfRoom, Quaternion.identity);
+        GameObject firePlaceObj = Instantiate(_firePitPrefab, centerOfRoom, Quaternion.identity);
         firePlaceObj.name = "Fireplace";
         // Give the transform of the fireplace
         return firePlaceObj.transform;

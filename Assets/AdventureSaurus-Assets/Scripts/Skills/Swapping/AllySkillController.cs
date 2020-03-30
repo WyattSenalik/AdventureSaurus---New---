@@ -8,35 +8,34 @@ using UnityEngine;
 public class AllySkillController : CharacterSkills
 {
     // The skills this ally current has available to them to use
-    private List<Skill> availableSkills;
+    private List<Skill> _availableSkills;
     public Skill SpecialSkill
     {
         get {
-            if (availableSkills.Count >= 2)
-                return availableSkills[1];
+            if (_availableSkills.Count >= 2)
+                return _availableSkills[1];
             return null;
         }
     }
     // If the special skill is currently active
-    private bool specialActive;
+    private bool _specialActive;
     public bool SpecialActive
     {
-        get { return specialActive; }
+        get { return _specialActive; }
     }
 
-    // Initializes skill
-    // Called from MoveAttackController
-    public void Initialize()
+    // Called before the first frame
+    // Initialize some variables
+    private void Start()
     {
         // Initialize the list
-        availableSkills = new List<Skill>();
+        _availableSkills = new List<Skill>();
         // Basic attack should already be on every ally, so add that skill as the first one
-        availableSkills.Add(this.GetComponent<BasicAttack>());
+        _availableSkills.Add(this.GetComponent<BasicAttack>());
         // Set the default first skill to basic attack
-        SetSkill(availableSkills[0]);
-        availableSkills[0].EquipSkill();
-        specialActive = false;
-
+        SetSkill(_availableSkills[0]);
+        _availableSkills[0].EquipSkill();
+        _specialActive = false;
 
         // Giving all allies this for testing
         //AcquireSkill(SkillHolder.THREE_SIXTY_SWING);
@@ -49,10 +48,10 @@ public class AllySkillController : CharacterSkills
     public void AcquireSkill(byte skillIndex)
     {
         // Try to give this character the skill
-        Skill gottenSkill = skillHoldRef.GiveSkill(this, skillIndex);
+        Skill gottenSkill = _skillHoldRef.GiveSkill(this, skillIndex);
         // Make sure its a valid skill
         if (gottenSkill != null)
-            availableSkills.Add(gottenSkill);
+            _availableSkills.Add(gottenSkill);
     }
     
     /// <summary>
@@ -62,16 +61,16 @@ public class AllySkillController : CharacterSkills
     public void SwapSkill()
     {
         // Change to basic
-        if (specialActive)
+        if (_specialActive)
         {
             DeactivateSkill();
-            specialActive = false;
+            _specialActive = false;
         }
         // Change to special
         else
         {
             // Set special active to true only if we successfully activated the skill
-            specialActive = ActivateSkill();
+            _specialActive = ActivateSkill();
         }
     }
 
@@ -82,21 +81,21 @@ public class AllySkillController : CharacterSkills
     private void ChangeSkill(int curIndex)
     {
         // Extra safe - make sure available skills has been initialized
-        if (availableSkills == null)
+        if (_availableSkills == null)
         {
             Debug.Log("availableSkills in AllySkillController attached to " + this.name + " has not been initialized yet");
             return;
         }
         // Make sure its a valid index
-        if (curIndex >= availableSkills.Count)
+        if (curIndex >= _availableSkills.Count)
         {
             Debug.Log("Invalid skill index in AllySkillController attached to " + this.name);
             return;
         }
 
         // Change the skill
-        SetSkill(availableSkills[curIndex]);
-        availableSkills[curIndex].EquipSkill();
+        SetSkill(_availableSkills[curIndex]);
+        _availableSkills[curIndex].EquipSkill();
     }
 
     /// <summary>
@@ -115,6 +114,6 @@ public class AllySkillController : CharacterSkills
     public void DeactivateSkill()
     {
         ChangeSkill(0);
-        specialActive = false;
+        _specialActive = false;
     }
 }

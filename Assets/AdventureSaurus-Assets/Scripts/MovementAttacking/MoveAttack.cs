@@ -4,99 +4,119 @@ using UnityEngine;
 
 public class MoveAttack : MonoBehaviour
 {
-    private int moveRange;  // How many tiles this character can move
-    public int MoveRange
-    {
-        get { return moveRange; }
-        set { moveRange = value; }
-    }
-    private int attackRange;   // How many tiles away this character can attack
-    public int AttackRange
-    {
-        get { return attackRange; }
-        set { attackRange = value; }
-    }
-    [SerializeField] private CharacterType whatAmI = CharacterType.None;    // What kind of character is this script attached to?
+    // What kind of character is this script attached to?
+    [SerializeField] private CharacterType _whatAmI = CharacterType.None;
     public CharacterType WhatAmI
     {
-        get { return whatAmI; }
+        get { return _whatAmI; }
     }
-    private MoveAttackController mAContRef; // A reference to the MoveAttackController script
-    private List<Node> moveTiles;   // The valid tiles this character can move to
+
+    // How many tiles this character can move
+    private int _moveRange;
+    public int MoveRange
+    {
+        get { return _moveRange; }
+        set { _moveRange = value; }
+    }
+    // How many tiles away this character can attack
+    private int _attackRange;
+    public int AttackRange
+    {
+        get { return _attackRange; }
+        set { _attackRange = value; }
+    }
+    private List<Node> _moveTiles;   // The valid tiles this character can move to
     public List<Node> MoveTiles
     {
-        get { return moveTiles; }
-        set { moveTiles = value; }
+        get { return _moveTiles; }
+        set { _moveTiles = value; }
     }
-    private List<Node> attackTiles; // The valid tiles this character can attack
+    private List<Node> _attackTiles; // The valid tiles this character can attack
     public List<Node> AttackTiles
     {
-        get { return attackTiles; }
-        set { attackTiles = value; }
+        get { return _attackTiles; }
+        set { _attackTiles = value; }
     }
+
+    // A reference to the MoveAttackController script
+    private MoveAttackController _mAContRef;
 
 
     // For actual movement calculations/animations
-    [SerializeField] private float transSpeed = 3;  // Speed the character moves to transition from one tile to another
-    private SpriteRenderer sprRendRef;  // Reference to the spriteRenderer attached to this character
-    private Animator animRef;   // Reference to the animator attached to this character
-    private MoveAttackGUIController mAGUIContRef;   // Reference to the moveAttackGUIController
-    private Node currentNode;   // The node this object wants to move to next
-    public bool transition;    // Whether this character should be moving or not
-
-    private bool doneTransX;    // If this character has finished moving in the x direction
-    private bool doneTransY;    // If this character has finished moving in the y direction
-    private bool hasMoved;  // If this character has already moved in the "turn"
+    // Speed the character moves to transition from one tile to another
+    [SerializeField] private float _transSpeed = 3;
+    // Reference to the spriteRenderer attached to this character
+    private SpriteRenderer _sprRendRef;
+    // Reference to the animator attached to this character
+    private Animator _animRef;
+    // The node this object wants to move to next
+    private Node _currentNode;
+    // Whether this character should be moving or not
+    private bool _transition;
+    public bool Transition
+    {
+        get { return _transition; }
+    }
+    // If this character has finished moving in the x direction
+    private bool _doneTransX;
+    // If this character has finished moving in the y direction
+    private bool _doneTransY;
+    // If this character has already moved in the "turn"
+    private bool _hasMoved;
     public bool HasMoved
     {
-        get { return hasMoved; }
-        set { hasMoved = value; }
+        get { return _hasMoved; }
+        set { _hasMoved = value; }
     }
-    private bool hasAttacked;   // If this character has already attacked in the "turn"
+    // If this character has already attacked in the "turn"
+    private bool _hasAttacked;
     public bool HasAttacked
     {
-        get { return hasAttacked; }
-        set { hasAttacked = value; }
+        get { return _hasAttacked; }
+        set { _hasAttacked = value; }
     }
 
     // For displaying the tile visuals
-    public GameObject rangeVisualParent;
+    private GameObject _rangeVisualParent;
+    public GameObject RangeVisualParent
+    {
+        get { return _rangeVisualParent; }
+        set { _rangeVisualParent = value; }
+    }
 
     // For attacking
-    private Health enemyHP; // Reference to the health script attached to the enemy I start attacking
-    private Skill skillRef; // Reference to the skill script attached to this character
+    // Reference to the health script attached to the enemy I start attacking
+    private Health _enemyHP;
+
+    // Reference to the skill script attached to this character (and active)
+    private Skill _skillRef;
     // For changing the character's skill in CharacterSkill
     public Skill SkillRef
     {
-        set { skillRef = value; }
+        set { _skillRef = value; }
     }
 
-    // For enemy movement AI
-    private EnemyMoveAttackAI enMAAIRef;    // Reference to the EnemyMoveAttackAI script
-
-    // For turns
-    private TurnSystem turnSysRef;  // Reference to the TurnSystem script
-
     // For displaying the information about this character
-    private Stats statsRef; // Reference to this character's stats
+    // Reference to this character's stats
+    private Stats _statsRef;
     public Stats MyStats
     {
-        get { return statsRef; }
+        get { return _statsRef; }
     }
 
     // Which direction this character was moving previously
-    private Vector2 lastVel;
+    private Vector2 _lastVel;
 
     // For the things that happen after using a skill (like lowering health), 
     // to determine if we should signal the if the character is finished
-    private static List<bool> ongoingActions;
+    private static List<bool> _ongoingActions;
     public static void AddOngoingAction()
     {
-        ongoingActions.Add(true);
+        _ongoingActions.Add(true);
     }
     public static void RemoveOngoingAction()
     {
-        ongoingActions.RemoveAt(0);
+        _ongoingActions.RemoveAt(0);
     }
 
     // Events
@@ -117,6 +137,13 @@ public class MoveAttack : MonoBehaviour
         Pause.OnPauseGame += HideScript;
         // Unsubscribe to the unpause event (since if this is active, the game is unpaused)
         Pause.OnUnpauseGame -= ShowScript;
+
+        // When generation is done, do some initialization
+        ProceduralGenerationController.OnFinishGenerationNoParam += SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam += ResetMyTurn;
+        ProceduralGenerationController.OnFinishGenerationNoParam += CalcMoveTiles;
+        ProceduralGenerationController.OnFinishGenerationNoParam += CalcAttackTiles;
     }
 
     // Called when the component is toggled inactive
@@ -127,6 +154,12 @@ public class MoveAttack : MonoBehaviour
         Pause.OnPauseGame -= HideScript;
         // When the game is unpaused, re-enable this script
         Pause.OnUnpauseGame += ShowScript;
+
+        ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= ResetMyTurn;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= CalcMoveTiles;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= CalcAttackTiles;
     }
 
     // Called when the game object is destroyed
@@ -135,13 +168,41 @@ public class MoveAttack : MonoBehaviour
     {
         Pause.OnPauseGame -= HideScript;
         Pause.OnUnpauseGame -= ShowScript;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= ResetMyTurn;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= CalcMoveTiles;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= CalcAttackTiles;
     }
 
+    // Called before start
+    private void Awake()
+    {
+        // These will have to be set a few times [allies only]
+        SetReferences();
+        // These will only be set once, since they are attached to the same object
+        _sprRendRef = this.GetComponent<SpriteRenderer>();
+        if (_sprRendRef == null)
+        {
+            Debug.Log("Could not find SpriteRenderer attached to " + this.name);
+        }
+        _animRef = this.GetComponent<Animator>();
+        if (_animRef == null)
+        {
+            Debug.Log("Could not find Animator attached to " + this.name);
+        }
+        _statsRef = this.GetComponent<Stats>();
+        if (_statsRef == null)
+        {
+            Debug.Log("Could not find Stats attached to " + this.name);
+        }
+    }
+
+
     /// <summary>
-    /// Set references
-    /// Called by Awake and called from Persistant Controller [allies only]
+    /// Sets the reference to the MoveAttackController
     /// </summary>
-    public void SetReferences()
+    private void SetReferences()
     {
         GameObject gameControllerObj = GameObject.FindWithTag("GameController");
         if (gameControllerObj == null)
@@ -150,66 +211,12 @@ public class MoveAttack : MonoBehaviour
         }
         else
         {
-            mAContRef = gameControllerObj.GetComponent<MoveAttackController>();
-            if (mAContRef == null)
+            _mAContRef = gameControllerObj.GetComponent<MoveAttackController>();
+            if (_mAContRef == null)
             {
                 Debug.Log("Could not find MoveAttackController attached to " + gameControllerObj.name);
             }
-            mAGUIContRef = gameControllerObj.GetComponent<MoveAttackGUIController>();
-            if (mAGUIContRef == null)
-            {
-                Debug.Log("Could not find MoveAttackGUIController attached to " + gameControllerObj.name);
-            }
-            enMAAIRef = gameControllerObj.GetComponent<EnemyMoveAttackAI>();
-            if (enMAAIRef == null)
-            {
-                Debug.Log("Could not find EnemyMoveAttackAI attached to " + gameControllerObj.name);
-            }
-            turnSysRef = gameControllerObj.GetComponent<TurnSystem>();
-            if (turnSysRef == null)
-            {
-                Debug.Log("Could not find TurnSystem attached to " + gameControllerObj.name);
-            }
         }
-    }
-
-    // Called before start
-    private void Awake()
-    {
-        // These will have to be set a few times [allies only]
-        SetReferences();
-        // These will only be set once, since they are attached to the same object'
-        sprRendRef = this.GetComponent<SpriteRenderer>();
-        if (sprRendRef == null)
-        {
-            Debug.Log("Could not find SpriteRenderer attached to " + this.name);
-        }
-        animRef = this.GetComponent<Animator>();
-        if (animRef == null)
-        {
-            Debug.Log("Could not find Animator attached to " + this.name);
-        }
-        statsRef = this.GetComponent<Stats>();
-        if (statsRef == null)
-        {
-            Debug.Log("Could not find Stats attached to " + this.name);
-        }
-    }
-
-    /// <summary>
-    /// Initialize variables
-    /// Called from Start and from PersistantController [allies only]
-    /// </summary>
-    public void Initialize()
-    {
-        currentNode = null;
-        transition = false;
-        doneTransX = true;
-        doneTransY = true;
-        hasMoved = false;
-        hasAttacked = false;
-
-        ongoingActions = new List<bool>();
     }
 
     // Called before the first frame
@@ -219,14 +226,29 @@ public class MoveAttack : MonoBehaviour
     }
 
     /// <summary>
+    /// Initializes variables for walking
+    /// </summary>
+    private void Initialize()
+    {
+        _currentNode = null;
+        _transition = false;
+        _doneTransX = true;
+        _doneTransY = true;
+        _hasMoved = false;
+        _hasAttacked = false;
+
+        _ongoingActions = new List<bool>();
+    }
+
+    /// <summary>
     /// Figures out what nodes are valid for me to move to and saves them in moveTiles
     /// </summary>
     public void CalcMoveTiles()
     {
         // Use that my position to get the node I'm on
-        Node myNode = mAContRef.GetNodeByWorldPosition(this.transform.position);
+        Node myNode = _mAContRef.GetNodeByWorldPosition(this.transform.position);
         // Find the valid move tiles and save them
-        moveTiles = mAContRef.GetValidMovementNodes(myNode, moveRange, whatAmI);
+        _moveTiles = _mAContRef.GetValidMovementNodes(myNode, _moveRange, _whatAmI);
     }
 
     /// <summary>
@@ -235,7 +257,7 @@ public class MoveAttack : MonoBehaviour
     public void CalcAttackTiles()
     {
         // Use my move tiles to figure out where I can attack
-        attackTiles = mAContRef.GetValidAttackNodes(moveTiles, attackRange, whatAmI);
+        _attackTiles = _mAContRef.GetValidAttackNodes(_moveTiles, _attackRange, _whatAmI);
     }
 
     /// <summary>
@@ -245,14 +267,14 @@ public class MoveAttack : MonoBehaviour
     {
         //Debug.Log("Start Moving");
         // Assumes transToMove is on the grid
-        currentNode = mAContRef.GetNodeByWorldPosition(this.gameObject.transform.position);
-        if (currentNode != null)
+        _currentNode = _mAContRef.GetNodeByWorldPosition(this.gameObject.transform.position);
+        if (_currentNode != null)
         {
             //Debug.Log("currentNode at " + currentNode.position + " wants to move to the node at " + currentNode.whereToGo.position);
-            lastVel = Vector2.zero;
-            doneTransX = false;
-            doneTransY = false;
-            transition = true;
+            _lastVel = Vector2.zero;
+            _doneTransX = false;
+            _doneTransY = false;
+            _transition = true;
         }
         else
         {
@@ -265,7 +287,7 @@ public class MoveAttack : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (transition)
+        if (_transition)
         {
             Move();
         }
@@ -279,96 +301,96 @@ public class MoveAttack : MonoBehaviour
     private void Move()
     {
         // If the currentNode exists
-        if (currentNode.WhereToGo != null)
+        if (_currentNode.WhereToGo != null)
         {
             // If not finished moving in the x
-            if (!doneTransX)
+            if (!_doneTransX)
             {
                 // While this is left of the node it wants to get to
-                if (currentNode.WhereToGo.Position.x - this.gameObject.transform.position.x > 0.03f && lastVel.x <= 0)
+                if (_currentNode.WhereToGo.Position.x - this.gameObject.transform.position.x > 0.03f && _lastVel.x <= 0)
                 {
-                    animRef.SetInteger("MoveState", 1);
-                    sprRendRef.flipX = false;
-                    this.gameObject.transform.Translate(Vector3.right * transSpeed * Time.deltaTime);
-                    lastVel.x = -1;
+                    _animRef.SetInteger("MoveState", 1);
+                    _sprRendRef.flipX = false;
+                    this.gameObject.transform.Translate(Vector3.right * _transSpeed * Time.deltaTime);
+                    _lastVel.x = -1;
                     //this.gameObject.transform.position += Vector3.right * transSpeed * Time.deltaTime;
                 }
                 // While this is right of the node it wants to get to
-                else if (this.gameObject.transform.position.x - currentNode.WhereToGo.Position.x > 0.03f && lastVel.x >= 0)
+                else if (this.gameObject.transform.position.x - _currentNode.WhereToGo.Position.x > 0.03f && _lastVel.x >= 0)
                 {
-                    animRef.SetInteger("MoveState", 1);
-                    sprRendRef.flipX = true;
-                    this.gameObject.transform.Translate(Vector3.left * transSpeed * Time.deltaTime);
-                    lastVel.x = 1;
+                    _animRef.SetInteger("MoveState", 1);
+                    _sprRendRef.flipX = true;
+                    this.gameObject.transform.Translate(Vector3.left * _transSpeed * Time.deltaTime);
+                    _lastVel.x = 1;
                     //this.gameObject.transform.position += Vector3.left * transSpeed * Time.deltaTime;
                 }
                 // Once we get to the x value of the node
                 else
                 {
                     //this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(currentNode.whereToGo.position.x), Mathf.RoundToInt(this.gameObject.transform.position.y), this.gameObject.transform.position.z);
-                    doneTransX = true;
-                    lastVel.x = 0;
+                    _doneTransX = true;
+                    _lastVel.x = 0;
                 }
             }
 
             // If not finished moving in the y
-            if (!doneTransY)
+            if (!_doneTransY)
             {
                 // While the node this wants to get to is above where this is
-                if (currentNode.WhereToGo.Position.y - this.gameObject.transform.position.y > 0.03f && lastVel.y >= 0)
+                if (_currentNode.WhereToGo.Position.y - this.gameObject.transform.position.y > 0.03f && _lastVel.y >= 0)
                 {
-                    sprRendRef.flipX = false;
-                    animRef.SetInteger("MoveState", 2);
-                    this.gameObject.transform.Translate(Vector3.up * transSpeed * Time.deltaTime);
-                    lastVel.y = 1;
+                    _sprRendRef.flipX = false;
+                    _animRef.SetInteger("MoveState", 2);
+                    this.gameObject.transform.Translate(Vector3.up * _transSpeed * Time.deltaTime);
+                    _lastVel.y = 1;
                     //this.gameObject.transform.position += Vector3.up * transSpeed * Time.deltaTime;
                 }
                 // While the node this wants to get to is below where this is
-                else if (this.gameObject.transform.position.y - currentNode.WhereToGo.Position.y > 0.03f && lastVel.y <= 0)
+                else if (this.gameObject.transform.position.y - _currentNode.WhereToGo.Position.y > 0.03f && _lastVel.y <= 0)
                 {
-                    sprRendRef.flipX = false;
-                    animRef.SetInteger("MoveState", 0);
-                    this.gameObject.transform.Translate(Vector3.down * transSpeed * Time.deltaTime);
-                    lastVel.y = -1;
+                    _sprRendRef.flipX = false;
+                    _animRef.SetInteger("MoveState", 0);
+                    this.gameObject.transform.Translate(Vector3.down * _transSpeed * Time.deltaTime);
+                    _lastVel.y = -1;
                     //this.gameObject.transform.position += Vector3.down * transSpeed * Time.deltaTime;
                 }
                 // Once we get to the y value of the node
                 else
                 {
                     //this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(this.gameObject.transform.position.x), Mathf.RoundToInt(currentNode.whereToGo.position.y), this.gameObject.transform.position.z);
-                    doneTransY = true;
-                    lastVel.y = 0;
+                    _doneTransY = true;
+                    _lastVel.y = 0;
                 }
             }
 
             // Once I have reached the node I was trying to get to
-            if (doneTransX && doneTransY)
+            if (_doneTransX && _doneTransY)
             {
                 // If that node is the last node, stop moving
-                if (currentNode.WhereToGo == currentNode)
+                if (_currentNode.WhereToGo == _currentNode)
                 { 
-                    this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(currentNode.WhereToGo.Position.x), Mathf.RoundToInt(currentNode.WhereToGo.Position.y), this.gameObject.transform.position.z);
+                    this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(_currentNode.WhereToGo.Position.x), Mathf.RoundToInt(_currentNode.WhereToGo.Position.y), this.gameObject.transform.position.z);
                     EndMove();
                 }
                 // Otherwise, find the next node
                 else
                 {
                     // If there is no character still at the node I just came from, make it have no character on it, so that others can pass through it
-                    if (mAContRef.GetCharacterMAByNode(currentNode) == null)
+                    if (_mAContRef.GetCharacterMAByNode(_currentNode) == null)
                     {
-                        currentNode.Occupying = CharacterType.None;
+                        _currentNode.Occupying = CharacterType.None;
                     }
                     //animRef.SetInteger("MoveState", -1);
-                    currentNode = currentNode.WhereToGo;
-                    doneTransX = false;
-                    doneTransY = false;
+                    _currentNode = _currentNode.WhereToGo;
+                    _doneTransX = false;
+                    _doneTransY = false;
                 }
             }
         }
         // If it doesn't exist, we shouldn't be moving
         else
         {
-            transition = false;
+            _transition = false;
             Debug.Log("Current Tile does not exist");
         }
     }
@@ -380,16 +402,16 @@ public class MoveAttack : MonoBehaviour
     {
         //Debug.Log("Finished Moving");
         // Set the node I am ending on to occupied with my type
-        currentNode.Occupying = whatAmI;
+        _currentNode.Occupying = _whatAmI;
         // Reset the animator stuff
-        animRef.SetInteger("MoveState", -2);
+        _animRef.SetInteger("MoveState", -2);
         // Make it so we are not transitioning between tiles anymore
-        transition = false;
-        currentNode = null;
+        _transition = false;
+        _currentNode = null;
         // We have now moved
-        hasMoved = true;
+        _hasMoved = true;
         // This character cannot attack again until the next turn, so their moveRange is now 0
-        moveRange = 0;
+        _moveRange = 0;
         //Debug.Log("Reached destination");
 
         // Call the event for when a character finished moving
@@ -404,12 +426,12 @@ public class MoveAttack : MonoBehaviour
     public void StartAttack(Vector2Int attackNodePos)
     {
         //Debug.Log("Start Attack");
-        if (skillRef != null)
+        if (_skillRef != null)
         {
             // We have attacked
-            hasAttacked = true;
+            _hasAttacked = true;
             //Debug.Log("Start Skill");
-            skillRef.StartSkill(attackNodePos);
+            _skillRef.StartSkill(attackNodePos);
         }
     }
 
@@ -419,10 +441,10 @@ public class MoveAttack : MonoBehaviour
     public void EndAttack()
     {
         //Debug.Log("Ending attack1");
-        if (skillRef != null)
+        if (_skillRef != null)
         {
             //Debug.Log("End skill " + skillRef.SkillNum);
-            skillRef.EndSkill();
+            _skillRef.EndSkill();
         }
 
         // Wait until signaling the end of the action subsuquent things (like taking damage or death) are done
@@ -439,7 +461,7 @@ public class MoveAttack : MonoBehaviour
         while (true)
         {
             // If there are no ongoing actions, break from the loop
-            if (ongoingActions.Count == 0)
+            if (_ongoingActions.Count == 0)
                 break;
 
             yield return null;
@@ -465,8 +487,8 @@ public class MoveAttack : MonoBehaviour
         //CalcMoveTiles();
         //CalcAttackTiles();
 
-        hasAttacked = false;
-        hasMoved = false;
+        _hasAttacked = false;
+        _hasMoved = false;
     }
 
     /// <summary>

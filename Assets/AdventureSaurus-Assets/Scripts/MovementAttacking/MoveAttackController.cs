@@ -40,6 +40,11 @@ public class MoveAttackController : MonoBehaviour
     // Only for testing. This is a list of the spawned canvas objects that display numbers on the nodes
     private List<GameObject> _visualTests;
 
+    // Events
+    // When the grid finishes calculating
+    public delegate void GridFinishedCalculating(Vector2Int topLeft, Vector2Int botRight);
+    public static event GridFinishedCalculating OnGridFinishedCalculating;
+
 
     // Called when the gameobject is toggled on
     // Subscribe to events
@@ -47,11 +52,14 @@ public class MoveAttackController : MonoBehaviour
     {
         // When the player is allowed to select, recalculate the allies' move and attack tiles
         MoveAttackGUIController.OnPlayerAllowedSelect += RecalculateAllMoveAttackTiles;
+        // When the floor is finished generating, initialize this script
+        ProceduralGenerationController.OnFinishGeneration += Initialize;
 
         // When the game is paused, disable this script
         Pause.OnPauseGame += HideScript;
         // Unsubscribe to the unpause event (since if this is active, the game is unpaused)
         Pause.OnUnpauseGame -= ShowScript;
+
     }
 
     // Called when the gameobject is toggled off
@@ -59,6 +67,7 @@ public class MoveAttackController : MonoBehaviour
     private void OnDisable()
     {
         MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllMoveAttackTiles;
+        ProceduralGenerationController.OnFinishGeneration -= Initialize;
 
         // Unsubscribe to the pause event (since if this is inactive, the game is paused)
         Pause.OnPauseGame -= HideScript;
@@ -71,18 +80,20 @@ public class MoveAttackController : MonoBehaviour
     private void OnDestroy()
     {
         MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllMoveAttackTiles;
+        ProceduralGenerationController.OnFinishGeneration -= Initialize;
         Pause.OnPauseGame -= HideScript;
         Pause.OnUnpauseGame -= ShowScript;
     }
 
     /// <summary>
-    /// We have to wait for characters to set all their references first, so we go in start. Or we used to
-    /// This now gets called from the procedural generation controller for setting up
+    /// Initializes things for this script.
+    /// Called from the FinishGenerating event
     /// </summary>
-    /// <param name="roomParent">Transform that is the parent of all rooms</param>
-    /// <param name="wallPar">Transform that is the parent of all walls</param>
-    /// <param name="charPar">Transform that is the parent of all characters</param>
-    public void Initialize(Transform roomParent, Transform wallPar, Transform charPar)
+    /// <param name="charParent">The parent of all the characters</param>
+    /// <param name="roomParent">The parent of all the rooms </param>
+    /// <param name="wallParent">The parent of all the walls </param>
+    /// <param name="stairsTrans">The transform of the stairs (unused)</param>
+    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
     {
         // Get the bounds of the grid
         _gridTopLeft = FindTopLeftPosition(roomParent);
@@ -90,55 +101,40 @@ public class MoveAttackController : MonoBehaviour
         // Create the grid
         CreateGrid();
         // Set the wall parent and find the walls
-        _wallParent = wallPar;
+        _wallParent = wallParent;
         FindWalls();
         // Set the character parent and find the characters
-        _charParent = charPar;
+        _charParent = charParent;
         FindCharacters();
-        // Create the visual tiles for each character based on their starting moveRange and attackRange
+
+        // For testing only - holds the little numbers that spawn when pathin
+        _visualTests = new List<GameObject>();
+
+        // Create the initial visual tiles
+        InitialCreateVisuals();
+    }
+
+    /// <summary>
+    /// Creates the visual tiles for each character
+    /// </summary>
+    private void InitialCreateVisuals()
+    {
+        // For each character create the visual tiles
+        // based on their starting moveRange and attackRange.
+        // Also initializes each character
         foreach (Transform charTrans in _charParent)
         {
             MoveAttack mARef = charTrans.GetComponent<MoveAttack>();
             if (mARef == null)
             {
                 Debug.Log(charTrans.name + " does not have a MoveAttack script attached to it");
-                continue;
             }
-            // Before we create visual tiles, we need to initialize the allySkillController or enemySkillController
-            if (mARef.WhatAmI == CharacterType.Ally)
+            else
             {
-                AllySkillController allySkillContRef = charTrans.GetComponent<AllySkillController>();
-                if (allySkillContRef == null)
-                {
-                    Debug.Log(charTrans.name + " does not have a AllySkillController script attached to it");
-                    continue;
-                }
-                allySkillContRef.Initialize();
+                // Create the visual tiles ahead of time
+                CreateVisualTiles(mARef);
             }
-            else if (mARef.WhatAmI == CharacterType.Enemy)
-            {
-                EnemySkillController enSkillContRef = charTrans.GetComponent<EnemySkillController>();
-                if (enSkillContRef == null)
-                {
-                    Debug.Log(charTrans.name + " does not have a EnemySkillController script attached to it");
-                    continue;
-                }
-                enSkillContRef.Initialize();
-            }
-
-
-            // Create the visual tiles ahead of time
-            CreateVisualTiles(mARef);
-
-            // We used to hide enemies here, but now we do that in Room
-            // If the character is an enemy, we want to hide those until the their room is gone into
-            /*if (mARef.WhatAmI == CharacterType.Enemy)
-            {
-                mARef.gameObject.SetActive(false);
-            }*/
         }
-
-        _visualTests = new List<GameObject>();
     }
 
 
@@ -161,6 +157,10 @@ public class MoveAttackController : MonoBehaviour
                 row.Add(new Node(new Vector2Int(j, i)));    // Add the node to the row
             }
         }
+
+        // Call the Grid Finished Calculating event
+        if (OnGridFinishedCalculating != null)
+            OnGridFinishedCalculating(_gridTopLeft, _gridBotRight);
     }
 
     /// <summary>
@@ -236,7 +236,7 @@ public class MoveAttackController : MonoBehaviour
         mARef.CalcMoveTiles();
         mARef.CalcAttackTiles();
         // If it is the first time displaying visuals for this character, we need to make brand new visual tiles
-        if (mARef.rangeVisualParent == null)
+        if (mARef.RangeVisualParent == null)
         {
             InitializeVisualTiles(mARef);
         }
@@ -255,15 +255,15 @@ public class MoveAttackController : MonoBehaviour
     private void InitializeVisualTiles(MoveAttack mARef)
     {
         // Create the actual game object
-        mARef.rangeVisualParent = new GameObject("RangeVisualParent");
-        mARef.rangeVisualParent.transform.parent = mARef.transform;
-        mARef.rangeVisualParent.transform.localPosition = Vector3.zero;
+        mARef.RangeVisualParent = new GameObject("RangeVisualParent");
+        mARef.RangeVisualParent.transform.parent = mARef.transform;
+        mARef.RangeVisualParent.transform.localPosition = Vector3.zero;
         // Create two game objects that are chilren of rangeVisualParent to serve as the parents for move and attack
         GameObject moveTileParent = new GameObject("MoveVisualParent");
-        moveTileParent.transform.parent = mARef.rangeVisualParent.transform;
+        moveTileParent.transform.parent = mARef.RangeVisualParent.transform;
         moveTileParent.transform.localPosition = Vector3.zero;
         GameObject attackTileParent = new GameObject("AttackVisualParent");
-        attackTileParent.transform.parent = mARef.rangeVisualParent.transform;
+        attackTileParent.transform.parent = mARef.RangeVisualParent.transform;
         attackTileParent.transform.localPosition = Vector3.zero;
         // Make the first movement tile under the character
         CreateSingleVisualTile(0, 0, mARef, true, moveTileParent.transform, attackTileParent.transform);
@@ -366,7 +366,7 @@ public class MoveAttackController : MonoBehaviour
         foreach (Node moveNode in mARef.MoveTiles)
         {
             // Find a tile transform that matches the movement node's position
-            foreach (Transform tileTrans in mARef.rangeVisualParent.transform.GetChild(0))
+            foreach (Transform tileTrans in mARef.RangeVisualParent.transform.GetChild(0))
             {
                 // Find the node at the tiles location
                 Node tilesNode = GetNodeByWorldPosition(tileTrans.position);
@@ -399,7 +399,7 @@ public class MoveAttackController : MonoBehaviour
                 continue;
             }
             // Find a tile transform that matches the attack node's position
-            foreach (Transform tileTrans in mARef.rangeVisualParent.transform.GetChild(1))
+            foreach (Transform tileTrans in mARef.RangeVisualParent.transform.GetChild(1))
             {
                 // Find the node at the tiles location
                 Node tilesNode = GetNodeByWorldPosition(tileTrans.position);
@@ -433,12 +433,12 @@ public class MoveAttackController : MonoBehaviour
     public void TurnOffVisuals(MoveAttack mARef)
     {
         // Iterate over each move tile and turn them off
-        foreach (Transform tileTrans in mARef.rangeVisualParent.transform.GetChild(0))
+        foreach (Transform tileTrans in mARef.RangeVisualParent.transform.GetChild(0))
         {
             tileTrans.gameObject.SetActive(false);
         }
         // Iterate over each attack tile and turn them off
-        foreach (Transform tileTrans in mARef.rangeVisualParent.transform.GetChild(1))
+        foreach (Transform tileTrans in mARef.RangeVisualParent.transform.GetChild(1))
         {
             tileTrans.gameObject.SetActive(false);
         }

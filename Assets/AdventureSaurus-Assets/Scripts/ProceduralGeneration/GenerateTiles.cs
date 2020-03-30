@@ -6,70 +6,70 @@ using UnityEngine.Tilemaps;
 public class GenerateTiles : MonoBehaviour
 {
     // The object that will be spawned that contains an empty tile map
-    [SerializeField] private GameObject tileMapPrefab = null;
+    [SerializeField] private GameObject _tileMapPrefab = null;
     // Chance to spawn dinosaur bones on a tile
-    [SerializeField] private int dinoBonesChance = 12;
+    [SerializeField] private int _dinoBonesChance = 50;
     // Floor tiles that can be used
-    [SerializeField] private List<Tile> singleFloorTiles = null;
+    [SerializeField] private List<Tile> _singleFloorTiles = null;
     // Floor tiles that take up multiple tiles that can be used
-    [SerializeField] private List<Tile> twoTileDinoBones = null;
+    [SerializeField] private List<Tile> _twoTileDinoBones = null;
     // Wall tiles
-    [SerializeField] private List<Tile> closeWallTiles = null;
-    [SerializeField] private List<Tile> farWallTiles = null;
-    [SerializeField] private List<Tile> leftWallTiles = null;
-    [SerializeField] private List<Tile> rightWallTiles = null;
+    [SerializeField] private List<Tile> _closeWallTiles = null;
+    [SerializeField] private List<Tile> _farWallTiles = null;
+    [SerializeField] private List<Tile> _leftWallTiles = null;
+    [SerializeField] private List<Tile> _rightWallTiles = null;
     // Corner tiles for walls
     // Outer Corners
-    [SerializeField] private Tile closeLeftOuterCornerWallTile = null;
-    [SerializeField] private Tile closeRightOuterCornerWallTile = null;
-    [SerializeField] private Tile farLeftOuterCornerWallTile = null;
-    [SerializeField] private Tile farRightOuterCornerWallTile = null;
+    [SerializeField] private Tile _closeLeftOuterCornerWallTile = null;
+    [SerializeField] private Tile _closeRightOuterCornerWallTile = null;
+    [SerializeField] private Tile _farLeftOuterCornerWallTile = null;
+    [SerializeField] private Tile _farRightOuterCornerWallTile = null;
     // Inner Corners
-    [SerializeField] private Tile closeLeftInnerCornerWallTile = null;
-    [SerializeField] private Tile closeRightInnerCornerWallTile = null;
-    [SerializeField] private Tile farLeftInnerCornerWallTile = null;
-    [SerializeField] private Tile farRightInnerCornerWallTile = null;
+    [SerializeField] private Tile _closeLeftInnerCornerWallTile = null;
+    [SerializeField] private Tile _closeRightInnerCornerWallTile = null;
+    [SerializeField] private Tile _farLeftInnerCornerWallTile = null;
+    [SerializeField] private Tile _farRightInnerCornerWallTile = null;
     // Stair tiles
-    [SerializeField] private Tile stairTile = null;
+    [SerializeField] private Tile _stairTile = null;
 
     // Reference to the tile map
-    private Tilemap tileMapRef;
+    private Tilemap _tileMapRef;
 
     // Called before start
     private void Awake()
     {
         // Validation
-        if (tileMapPrefab == null)
+        if (_tileMapPrefab == null)
             Debug.Log("tileMapPrefab was not set correctly in GenerateStairs attached to " + this.name);
-        if (singleFloorTiles == null)
+        if (_singleFloorTiles == null)
             Debug.Log("singleFloorTiles was not set correctly in GenerateStairs attached to " + this.name);
-        if (twoTileDinoBones == null)
+        if (_twoTileDinoBones == null)
             Debug.Log("twoTileDinoBones was not set correctly in GenerateStairs attached to " + this.name);
-        if (closeWallTiles == null)
+        if (_closeWallTiles == null)
             Debug.Log("closeWallTiles was not set correctly in GenerateStairs attached to " + this.name);
-        if (farWallTiles == null)
+        if (_farWallTiles == null)
             Debug.Log("farWallTiles was not set correctly in GenerateStairs attached to " + this.name);
-        if (leftWallTiles == null)
+        if (_leftWallTiles == null)
             Debug.Log("leftWallTiles was not set correctly in GenerateStairs attached to " + this.name);
-        if (rightWallTiles == null)
+        if (_rightWallTiles == null)
             Debug.Log("rightWallTiles was not set correctly in GenerateStairs attached to " + this.name);
-        if (closeLeftOuterCornerWallTile == null)
+        if (_closeLeftOuterCornerWallTile == null)
             Debug.Log("closeLeftOuterCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (closeRightOuterCornerWallTile == null)
+        if (_closeRightOuterCornerWallTile == null)
             Debug.Log("closeRightOuterCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (farLeftOuterCornerWallTile == null)
+        if (_farLeftOuterCornerWallTile == null)
             Debug.Log("farLeftOuterCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (farRightOuterCornerWallTile == null)
+        if (_farRightOuterCornerWallTile == null)
             Debug.Log("farRightOuterCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (closeLeftInnerCornerWallTile == null)
+        if (_closeLeftInnerCornerWallTile == null)
             Debug.Log("closeLeftInnerCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (closeRightInnerCornerWallTile == null)
+        if (_closeRightInnerCornerWallTile == null)
             Debug.Log("closeRightInnerCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (farLeftInnerCornerWallTile == null)
+        if (_farLeftInnerCornerWallTile == null)
             Debug.Log("farLeftInnerCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (farRightInnerCornerWallTile == null)
+        if (_farRightInnerCornerWallTile == null)
             Debug.Log("farRightInnerCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (stairTile == null)
+        if (_stairTile == null)
             Debug.Log("stairTile was not set correctly in GenerateStairs attached to " + this.name);
     }
 
@@ -87,14 +87,14 @@ public class GenerateTiles : MonoBehaviour
         List<Vector2Int> dinoBonePos = new List<Vector2Int>();
 
         // Create the tilemap
-        GameObject tileMapObj = Instantiate(tileMapPrefab, new Vector3(-0.5f, -0.5f, 0), Quaternion.identity);
+        GameObject tileMapObj = Instantiate(_tileMapPrefab, new Vector3(-0.5f, -0.5f, 0), Quaternion.identity);
         tileMapObj.name = "Grid";
-        tileMapRef = tileMapObj.transform.GetChild(0).GetComponent<Tilemap>();
-        if (tileMapRef == null)
+        _tileMapRef = tileMapObj.transform.GetChild(0).GetComponent<Tilemap>();
+        if (_tileMapRef == null)
             Debug.Log("There is no Tilemap attached to the child of " + tileMapObj.name);
 
         // Clear any tiles on the map
-        tileMapRef.ClearAllTiles();
+        _tileMapRef.ClearAllTiles();
 
         // Add floor tiles to the rooms
         // Iterate over each room
@@ -111,16 +111,16 @@ public class GenerateTiles : MonoBehaviour
                 for (int curCol = 0; curCol < amCols; ++curCol)
                 {
                     // Choose a random floor tile
-                    int randomIndex = Random.Range(0, singleFloorTiles.Count);
+                    int randomIndex = Random.Range(0, _singleFloorTiles.Count);
                     // Calculate the current location
                     Vector2Int curLocation = topLeft + new Vector2Int(curCol, -curRow);
 
                     // Give a chance for this tile to be covered in dino bones
-                    if (Random.Range(0, dinoBonesChance) == 0)
+                    if (Random.Range(0, _dinoBonesChance) == 0)
                         dinoBonePos.Add(curLocation);
 
                     // Add a single room tile at the current location
-                    AddTile(curLocation, singleFloorTiles[randomIndex]);
+                    AddTile(curLocation, _singleFloorTiles[randomIndex]);
                 }
             }
         }
@@ -144,7 +144,7 @@ public class GenerateTiles : MonoBehaviour
                 if (curPos.x == 0 && curPos.y == 0) continue;
                 // Get the tile on the tile map at that locaiton
                 Vector3Int curWallPos = new Vector3Int(Mathf.RoundToInt(curWall.position.x), Mathf.RoundToInt(curWall.position.y), 0);
-                Sprite curTileSpr = tileMapRef.GetSprite(curPos + curWallPos);
+                Sprite curTileSpr = _tileMapRef.GetSprite(curPos + curWallPos);
                 // Test if the sprite exists, if it doesn't we can determine somethings about this wall
                 if (curTileSpr == null)
                 {
@@ -165,64 +165,64 @@ public class GenerateTiles : MonoBehaviour
 
             // If the wall is a left wall
             if (curWallTypeVect.x == -1 && curWallTypeVect.y == 0)
-                AddRandomTile(curWall.position, leftWallTiles);
+                AddRandomTile(curWall.position, _leftWallTiles);
 
             // If the wall is a right wall
             else if (curWallTypeVect.x == 1 && curWallTypeVect.y == 0)
-                AddRandomTile(curWall.position, rightWallTiles);
+                AddRandomTile(curWall.position, _rightWallTiles);
 
             // If the wall is a close wall
             else if (curWallTypeVect.x == 0 && curWallTypeVect.y == -1)
-                AddRandomTile(curWall.position, closeWallTiles);
+                AddRandomTile(curWall.position, _closeWallTiles);
 
             // If the wall is a far wall
             else if (curWallTypeVect.x == 0 && curWallTypeVect.y == 1)
-                AddRandomTile(curWall.position, farWallTiles);
+                AddRandomTile(curWall.position, _farWallTiles);
 
             // Outer corners
             // If the wall is a close left outer corner
             else if (curWallTypeVect.x == -1 && curWallTypeVect.y == -1)
-                AddTile(curWall.position, closeLeftOuterCornerWallTile);
+                AddTile(curWall.position, _closeLeftOuterCornerWallTile);
 
             // If the wall is a close right outer corner
             else if (curWallTypeVect.x == 1 && curWallTypeVect.y == -1)
-                AddTile(curWall.position, closeRightOuterCornerWallTile);
+                AddTile(curWall.position, _closeRightOuterCornerWallTile);
 
             // If the wall is a far left outer corner
             else if (curWallTypeVect.x == -1 && curWallTypeVect.y == 1)
-                AddTile(curWall.position, farLeftOuterCornerWallTile);
+                AddTile(curWall.position, _farLeftOuterCornerWallTile);
 
             // If the wall is a far right outer corner
             else if (curWallTypeVect.x == 1 && curWallTypeVect.y == 1)
-                AddTile(curWall.position, farRightOuterCornerWallTile);
+                AddTile(curWall.position, _farRightOuterCornerWallTile);
 
             // Inner corners
             // If the wall is a close left outer corner
             else if (innerWallTypeVect.x == -1 && innerWallTypeVect.y == -1)
-                AddTile(curWall.position, closeLeftInnerCornerWallTile);
+                AddTile(curWall.position, _closeLeftInnerCornerWallTile);
 
             // If the wall is a close right outer corner
             else if (innerWallTypeVect.x == 1 && innerWallTypeVect.y == -1)
-                AddTile(curWall.position, closeRightInnerCornerWallTile);
+                AddTile(curWall.position, _closeRightInnerCornerWallTile);
 
             // If the wall is a far left outer corner
             else if (innerWallTypeVect.x == -1 && innerWallTypeVect.y == 1)
-                AddTile(curWall.position, farLeftInnerCornerWallTile);
+                AddTile(curWall.position, _farLeftInnerCornerWallTile);
 
             // If the wall is a far right outer corner
             else if (innerWallTypeVect.x == 1 && innerWallTypeVect.y == 1)
-                AddTile(curWall.position, farRightInnerCornerWallTile);
+                AddTile(curWall.position, _farRightInnerCornerWallTile);
 
             // If the wall is a completely different kind of tile
             else
             {
                 Debug.Log("Strange wall encountered " + curWallTypeVect);
-                AddTile(curWall.position, singleFloorTiles[0]);
+                AddTile(curWall.position, _singleFloorTiles[0]);
             }
         }
 
         // Add the stairs to the tilemap
-        AddTile(stairsTrans.position, stairTile);
+        AddTile(stairsTrans.position, _stairTile);
 
         // Add the fireplace
 
@@ -234,7 +234,7 @@ public class GenerateTiles : MonoBehaviour
         }
 
         // Give the tilemap
-        return tileMapRef;
+        return _tileMapRef;
     }
 
     /// <summary>
@@ -245,7 +245,7 @@ public class GenerateTiles : MonoBehaviour
     private void AddTile(Vector3 worldPos, Tile tileToAdd)
     {
         Vector3Int spawnPos = new Vector3Int(Mathf.RoundToInt(worldPos.x), Mathf.RoundToInt(worldPos.y), 0);
-        tileMapRef.SetTile(spawnPos, tileToAdd);
+        _tileMapRef.SetTile(spawnPos, tileToAdd);
     }
 
     /// <summary>
@@ -256,7 +256,7 @@ public class GenerateTiles : MonoBehaviour
     private void AddTile(Vector2Int gridPos, Tile tileToAdd)
     {
         Vector3Int spawnPos = new Vector3Int(gridPos.x, gridPos.y, 0);
-        tileMapRef.SetTile(spawnPos, tileToAdd);
+        _tileMapRef.SetTile(spawnPos, tileToAdd);
     }
 
     /// <summary>
@@ -300,11 +300,11 @@ public class GenerateTiles : MonoBehaviour
             {
                 // Test if the tile at the current position if a floor tile, if it isn't we can't spawn the bones
                 // Get the sprite on the current tile
-                Sprite curTileSpr = tileMapRef.GetSprite(curPos + new Vector3Int(testBonePos.x, testBonePos.y, 0));
+                Sprite curTileSpr = _tileMapRef.GetSprite(curPos + new Vector3Int(testBonePos.x, testBonePos.y, 0));
                 // Assume it isn't a floor tile
                 bool isFloorTile = false;
                 // Iterate over the floor tiles
-                foreach (Tile curFloorTile in singleFloorTiles)
+                foreach (Tile curFloorTile in _singleFloorTiles)
                 {
                     // If we find a floor tile with the same sprite, this is a floor tile
                     if (curFloorTile.sprite == curTileSpr)
@@ -321,11 +321,11 @@ public class GenerateTiles : MonoBehaviour
 
         // If we made it all the way here, we can spawn dino bones
         // Pick a random left tile for the dino bones (gives an even index, which is the left tile)
-        int randomLeftIndex = Random.Range(0, twoTileDinoBones.Count / 2) * 2;
+        int randomLeftIndex = Random.Range(0, _twoTileDinoBones.Count / 2) * 2;
         // Add the left tile
-        AddTile(testBonePos, twoTileDinoBones[randomLeftIndex]);
+        AddTile(testBonePos, _twoTileDinoBones[randomLeftIndex]);
         // Add the right tile
-        AddTile(testBonePos + new Vector2Int(1, 0), twoTileDinoBones[randomLeftIndex + 1]);
+        AddTile(testBonePos + new Vector2Int(1, 0), _twoTileDinoBones[randomLeftIndex + 1]);
 
         return true;
     }

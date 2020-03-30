@@ -5,35 +5,12 @@ using UnityEngine.UI;
 
 public class SwapController : MonoBehaviour
 {
-    // References to other scripts
-    // For getting the current ally selected
-    private MoveAttackGUIController mAGUIRef;
-
     // The button that swaps the skills of the current character
-    [SerializeField] private Button swapButt = null;
+    [SerializeField] private Button _swapButt = null;
 
-    // Set references
-    private void Awake()
-    {
-        mAGUIRef = this.GetComponent<MoveAttackGUIController>();
-        if (mAGUIRef == null)
-            Debug.Log("There was no MoveAttackGUIController attached to " + mAGUIRef.name);
-    }
-
-    /// <summary>
-    /// Swaps the skill of the current selected player
-    /// Called by the skill swap button.
-    /// </summary>
-    public void SwapSelectedPlayerSkill()
-    {
-        // Get the current selected allies skill controller
-        MoveAttack charMA = mAGUIRef.CharSelectedMA;
-        if (charMA == null)
-            return;
-        AllySkillController curAllySkillCont = charMA.GetComponent<AllySkillController>();
-        // Swap their skills
-        curAllySkillCont.SwapSkill();
-    }
+    // Reference to the MoveAttackGUIController script
+    // For getting the current ally selected
+    private MoveAttackGUIController _mAGUIRef;
 
     // Called when this gameobject is enabled
     // Add UpdateSkillButton to be called when we select a character
@@ -59,6 +36,30 @@ public class SwapController : MonoBehaviour
         MoveAttackGUIController.OnCharacterDeselect -= UpdateSkillButton;
     }
 
+    // Set references
+    private void Awake()
+    {
+        _mAGUIRef = this.GetComponent<MoveAttackGUIController>();
+        if (_mAGUIRef == null)
+            Debug.Log("There was no MoveAttackGUIController attached to " + _mAGUIRef.name);
+    }
+
+    /// <summary>
+    /// Swaps the skill of the current selected player
+    /// Called by the skill swap button.
+    /// </summary>
+    public void SwapSelectedPlayerSkill()
+    {
+        // Get the current selected allies skill controller
+        MoveAttack charMA = _mAGUIRef.CharSelectedMA;
+        if (charMA == null)
+            return;
+        AllySkillController curAllySkillCont = charMA.GetComponent<AllySkillController>();
+
+        // Call the swap skill event
+        curAllySkillCont.SwapSkill();
+    }
+
     /// <summary>
     /// Update the button when we select a new character
     /// </summary>
@@ -68,7 +69,7 @@ public class SwapController : MonoBehaviour
         // If there is no character selected or that character is an enemy, just set the button to default and disable it
         if (charMARef == null || charMARef.WhatAmI == CharacterType.Enemy)
         {
-            swapButt.interactable = false;
+            _swapButt.interactable = false;
             // TODO Hide cooldown
         }
         // If that character is an ally, let the button be interactable if their cooldown is up
@@ -86,7 +87,7 @@ public class SwapController : MonoBehaviour
             // This will activate basic attacked when the button is pressed
             if (allySkillContRef.SpecialActive)
             {
-                swapButt.interactable = true;
+                _swapButt.interactable = true;
                 // TODO Hide cooldown
             }
             // If basic attack is currently active (special skill isn't) and the ally has a special skill
@@ -96,20 +97,20 @@ public class SwapController : MonoBehaviour
                 // This will activate the special skill when the button is pressed
                 if (allySkillContRef.SpecialSkill.CooldownTimer <= 0)
                 {
-                    swapButt.interactable = true;
+                    _swapButt.interactable = true;
                     // TODO Hide cooldown
                 }
                 // If the cooldown is not up yet, don't let the player hit the button and display the remaining cooldown
                 else
                 {
-                    swapButt.interactable = false;
+                    _swapButt.interactable = false;
                     // TODO Display cooldown
                 }
             }
             // If basic attack is currently active (special skill isn't) and the ally has no special skill, don't let them press the button
             else
             {
-                swapButt.interactable = false;
+                _swapButt.interactable = false;
                 // TODO Hide cooldown
             }
         }

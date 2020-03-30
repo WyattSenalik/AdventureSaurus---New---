@@ -9,8 +9,6 @@ public class CamFollow : MonoBehaviour
     [SerializeField] private float _dragSpeed = 0.3f;
     //[SerializeField] private float _cameraDistance = 30.0f;
 
-    // Parent of all the character
-    private Transform _charParent;
     // All allies
     private List<Transform> _allies;
 
@@ -44,9 +42,11 @@ public class CamFollow : MonoBehaviour
         // Subscribe to when a character is clicked, so that we can move to them
         MoveAttackGUIController.OnCharacterSelect += FollowCharacter;
         // When an enemy starts their turn, have the camera start to pan over to them
-        EnemyMoveAttackAI.OnBeginSingleEnemy += FollowEnemy;
+        EnemyTurnController.OnPreSingleEnemyTurn += FollowEnemy;
         // When the enemy's turn is over, put the camera on an ally
-        EnemyMoveAttackAI.OnEnemyTurnEnd += FollowFirstAlly;
+        EnemyTurnController.OnEndEnemyTurn += FollowFirstAlly;
+        // When the generation is done, initialize this script
+        ProceduralGenerationController.OnFinishGeneration += Initialize;
     }
 
     // Called when the gameobject is toggled off
@@ -54,8 +54,9 @@ public class CamFollow : MonoBehaviour
     private void OnDisable()
     {
         MoveAttackGUIController.OnCharacterSelect -= FollowCharacter;
-        EnemyMoveAttackAI.OnBeginSingleEnemy -= FollowEnemy;
-        EnemyMoveAttackAI.OnEnemyTurnEnd -= FollowFirstAlly;
+        EnemyTurnController.OnPreSingleEnemyTurn -= FollowEnemy;
+        EnemyTurnController.OnEndEnemyTurn -= FollowFirstAlly;
+        ProceduralGenerationController.OnFinishGeneration -= Initialize;
     }
 
     // Called when the gameobject is destroyed
@@ -63,8 +64,9 @@ public class CamFollow : MonoBehaviour
     private void OnDestroy()
     {
         MoveAttackGUIController.OnCharacterSelect -= FollowCharacter;
-        EnemyMoveAttackAI.OnBeginSingleEnemy -= FollowEnemy;
-        EnemyMoveAttackAI.OnEnemyTurnEnd -= FollowFirstAlly;
+        EnemyTurnController.OnPreSingleEnemyTurn -= FollowEnemy;
+        EnemyTurnController.OnEndEnemyTurn -= FollowFirstAlly;
+        ProceduralGenerationController.OnFinishGeneration -= Initialize;
     }
 
 
@@ -73,24 +75,22 @@ public class CamFollow : MonoBehaviour
     {
         // We haven't finished panning before starting
         _panFinished = false;
-        // Default to following the player first
-        _isOnEnemy = false;
     }
 
-
     /// <summary>
-    /// Called from Procedural Generation after everything is created.
-    /// Gets the allies from the character parent
+    /// Initializes things for this script.
+    /// Called from the FinishGenerating event
     /// </summary>
-    /// <param name="charParent">Parent of all characters</param>
-    public void Initialize(Transform charParent)
+    /// <param name="charParent">The parent of all the characters</param>
+    /// <param name="roomParent">The parent of all the rooms (unused)</param>
+    /// <param name="wallParent">The parent of all the walls (unused)</param>
+    /// <param name="stairsTrans">The transform of the stairs (unused)</param>
+    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
     {
-        // Set the character parent
-        _charParent = charParent;
-
+        // Initialize the list
         _allies = new List<Transform>();
         // Get the allies
-        foreach (Transform charTrans in _charParent)
+        foreach (Transform charTrans in charParent)
         {
             MoveAttack charMA = charTrans.GetComponent<MoveAttack>();
             if (charMA != null && charMA.WhatAmI == CharacterType.Ally)
@@ -98,6 +98,9 @@ public class CamFollow : MonoBehaviour
                 _allies.Add(charTrans);
             }
         }
+        // Default to following the player first
+        _isOnEnemy = false;
+        FollowFirstAlly();
     }
 
     // Move the camera to the correct positions
@@ -177,19 +180,19 @@ public class CamFollow : MonoBehaviour
     }
 
     /// <summary>
-    /// Called from EnemyMoveAttackAI to swap between characters
+    /// Called from EnemyTurnController.OnPreSingleEnemyTurn event
     /// Sets the camera to go to the enemy specified by enemyTrans
     /// </summary>
-    /// <param name="enMARef">The MoveAttack of the enemy to follow</param>
-    private void FollowEnemy(MoveAttack enMARef)
+    /// <param name="enemyTrans">The transform of the enemy to follow</param>
+    private void FollowEnemy(Transform enemyTrans)
     {
         // It is the enemy's turn
         _isOnEnemy = true;
         _panFinished = false;
 
         // Set the char to follow
-        if (enMARef != null)
-            _charToFollow = enMARef.transform;
+        if (enemyTrans != null)
+            _charToFollow = enemyTrans.transform;
         else
             _charToFollow = null;
     }

@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class GenerateWalls : MonoBehaviour
 {
-    [SerializeField] private GameObject wallPrefab = null; // The prefab for the wall
+    // The prefab for the wall
+    [SerializeField] private GameObject _wallPrefab = null;
     // The parent of all the transforms that will be spawned
-    private Transform wallParent;
+    private Transform _wallParent;
 
     /// <summary>
     /// Instantiates a bunch of empty transforms that mark where a wall is
@@ -16,8 +17,8 @@ public class GenerateWalls : MonoBehaviour
     public Transform SpawnWallTransforms(Transform roomParent)
     {
         // Create the wall parent and center it
-        wallParent = (new GameObject("WallParent")).transform;
-        wallParent.position = Vector3.zero;
+        _wallParent = (new GameObject("WallParent")).transform;
+        _wallParent.position = Vector3.zero;
 
         // This list will hold positions where we do not want walls
         List<Vector2Int> noWallPositions = new List<Vector2Int>();
@@ -85,7 +86,7 @@ public class GenerateWalls : MonoBehaviour
                 if (++carefulCount > maxIterate)
                 {
                     Debug.Log("Infinite loop detected");
-                    return wallParent;
+                    return _wallParent;
                 }
             }
             carefulCount = 0;
@@ -98,7 +99,7 @@ public class GenerateWalls : MonoBehaviour
                 if (++carefulCount > maxIterate)
                 {
                     Debug.Log("Infinite loop detected");
-                    return wallParent;
+                    return _wallParent;
                 }
             }
         }
@@ -121,14 +122,14 @@ public class GenerateWalls : MonoBehaviour
                 Vector2Int botWallPos = new Vector2Int(i, curRoomBotLeft.y);
                 if (!noWallPositions.Contains(botWallPos))
                 {
-                    Transform botWallTrans = Instantiate(wallPrefab, new Vector3(botWallPos.x, botWallPos.y, 0), Quaternion.identity, wallParent).transform;
+                    Transform botWallTrans = Instantiate(_wallPrefab, new Vector3(botWallPos.x, botWallPos.y, 0), Quaternion.identity, _wallParent).transform;
                     botWallTrans.name = "Wall " + botWallPos.x + " " + botWallPos.y;
                 }
                 // Create a top wall, if it isn't a wall we should spawn, spawn it
                 Vector2Int topWallPos = new Vector2Int(i, curRoomTopRight.y);
                 if (!noWallPositions.Contains(topWallPos))
                 {
-                    Transform topWallTrans = Instantiate(wallPrefab, new Vector3(topWallPos.x, topWallPos.y, 0), Quaternion.identity, wallParent).transform;
+                    Transform topWallTrans = Instantiate(_wallPrefab, new Vector3(topWallPos.x, topWallPos.y, 0), Quaternion.identity, _wallParent).transform;
                     topWallTrans.name = "Wall " + topWallPos.x + " " + topWallPos.y;
                 }
             }
@@ -139,14 +140,14 @@ public class GenerateWalls : MonoBehaviour
                 Vector2Int leftWallPos = new Vector2Int(curRoomBotLeft.x, i);
                 if (!noWallPositions.Contains(leftWallPos))
                 {
-                    Transform leftWallTrans = Instantiate(wallPrefab, new Vector3(leftWallPos.x, leftWallPos.y, 0), Quaternion.identity, wallParent).transform;
+                    Transform leftWallTrans = Instantiate(_wallPrefab, new Vector3(leftWallPos.x, leftWallPos.y, 0), Quaternion.identity, _wallParent).transform;
                     leftWallTrans.name = "Wall " + leftWallPos.x + " " + leftWallPos.y;
                 }
                 // Create a top wall, if it isn't a wall we should spawn, spawn it
                 Vector2Int rightWallPos = new Vector2Int(curRoomTopRight.x, i);
                 if (!noWallPositions.Contains(rightWallPos))
                 {
-                    Transform rightWallTrans = Instantiate(wallPrefab, new Vector3(rightWallPos.x, rightWallPos.y, 0), Quaternion.identity, wallParent).transform;
+                    Transform rightWallTrans = Instantiate(_wallPrefab, new Vector3(rightWallPos.x, rightWallPos.y, 0), Quaternion.identity, _wallParent).transform;
                     rightWallTrans.name = "Wall " + rightWallPos.x + " " + rightWallPos.y;
                 }
 
@@ -154,6 +155,6 @@ public class GenerateWalls : MonoBehaviour
         }
 
         // Give the parent of all the walls
-        return wallParent;
+        return _wallParent;
     }
 }

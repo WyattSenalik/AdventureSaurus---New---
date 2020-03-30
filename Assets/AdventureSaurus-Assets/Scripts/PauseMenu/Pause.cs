@@ -28,25 +28,27 @@ public class Pause : MonoBehaviour
     // Subscribe to events
     private void OnEnable()
     {
-        Stairs.OnPromptNextFloor += SuspendGame;
+        // When we show the prompt, hide the UI elements
+        // When we get rid of the prompt, show the UI elements
+        Stairs.OnPromptNextFloor += SwitchUIElementsActivity;
     }
 
     // Called when the component is toggled off
     // Unsubscribe from events
     private void OnDisable()
     {
-        Stairs.OnPromptNextFloor -= SuspendGame;
+        Stairs.OnPromptNextFloor -= SwitchUIElementsActivity;
     }
 
     // Called when the gameobject is destroyed
     // Unsubscribe from ALL events
     private void OnDestroy()
     {
-        Stairs.OnPromptNextFloor -= SuspendGame;
+        Stairs.OnPromptNextFloor -= SwitchUIElementsActivity;
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _prevTime = Time.timeScale;
         _isPaused = false;
@@ -94,24 +96,10 @@ public class Pause : MonoBehaviour
     }
 
     /// <summary>
-    /// Pauses the game without calling OnPauseGame or displaying the pause menu
+    /// Hides the UIElements when they are active, hides them otherwise
     /// </summary>
-    private void SuspendGame()
+    private void SwitchUIElementsActivity()
     {
-        // If the game is currently not paused, pause the game
-        if (!_isPaused)
-        {
-            // Stop time
-            StopTime();
-        }
-        // If the game is currently paused, unpause it
-        else
-        {
-            // Resume time
-            ResumeTime();
-        }
-
-        // Turn on/off game-state ui elements
         ToggleUIElementsActivity(_isPaused);
         // Flip the pause state of the game
         _isPaused = !_isPaused;

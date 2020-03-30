@@ -655,7 +655,6 @@ GameObject:
   - component: {fileID: 1885554831325360189}
   - component: {fileID: 5791793982775136098}
   - component: {fileID: 2116340598207365938}
-  - component: {fileID: 3490292907901285851}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -887,7 +886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a0e8b49a0cce24ea0246d17b698199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swapButt: {fileID: 8937746285076730561}
+  _swapButt: {fileID: 8937746285076730561}
 --- !u!114 &2116340598207365938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -900,19 +899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 040940912a258784ba908cae13b5d194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3490292907901285851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885554831325360137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8694874cd00b1ef48b132bcf4c446e39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _aggroRange: 16
 --- !u!1 &1885554831385839149
 GameObject:
   m_ObjectHideFlags: 0
@@ -4803,9 +4789,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9904f93f185add54d9c9abe762a06d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxZoomSize: 8
-  minZoomSize: 2
-  zoomSpeed: 5
+  _maxZoomSize: 8
+  _minZoomSize: 2
+  _zoomSpeed: 1
 --- !u!1 &1885554832161824715
 GameObject:
   m_ObjectHideFlags: 0
@@ -7826,11 +7812,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44a39019051cbe4993b3773ee902974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shouldGenerate: 1
-  roomParent: {fileID: 0}
-  wallParent: {fileID: 0}
-  stairsTrans: {fileID: 0}
-  charParent: {fileID: 0}
+  _shouldGenerate: 1
+  _roomParent: {fileID: 0}
+  _wallParent: {fileID: 0}
+  _stairsTrans: {fileID: 0}
+  _charParent: {fileID: 0}
 --- !u!114 &1885554832884344784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7843,19 +7829,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ac8835c75b76344da8575b7f30c1133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPrefab: {fileID: 6226981127771142951, guid: 73f8c1df84d9c494b962cf046f48b6a3,
+  _roomPrefab: {fileID: 6226981127771142951, guid: 73f8c1df84d9c494b962cf046f48b6a3,
     type: 3}
-  bleedLightPrefab: {fileID: 3888360970156444938, guid: 3f862ed9f92651e4da1d68e60d61f02d,
+  _bleedLightPrefab: {fileID: 3888360970156444938, guid: 3f862ed9f92651e4da1d68e60d61f02d,
     type: 3}
-  lowerLeftBound: {x: -500, y: -500}
-  upperRightBound: {x: 500, y: 500}
-  minRoomSize: {x: 6, y: 6}
-  maxRoomSize: {x: 8, y: 8}
-  hallwayWidthRange: {x: 5, y: 5}
-  hallwayLengthRange: {x: 6, y: 6}
-  hallwayOffsetFromEdge: 2
-  minSpaceBetweenRooms: 1
-  chanceToSpawnBranch: 2
+  _lowerLeftBound: {x: -500, y: -500}
+  _upperRightBound: {x: 500, y: 500}
+  _minRoomSize: {x: 6, y: 6}
+  _maxRoomSize: {x: 8, y: 8}
+  _hallwayWidthRange: {x: 5, y: 5}
+  _hallwayLengthRange: {x: 6, y: 6}
+  _hallwayOffsetFromEdge: 2
+  _minSpaceBetweenRooms: 1
+  _chanceToSpawnBranch: 3
 --- !u!114 &1885554832884344799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7868,7 +7854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4971955f57afc44b8bf9eeb8e0bae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallPrefab: {fileID: 908112855204680109, guid: edb3079cb7e3e144fa69fb4281c1e89d,
+  _wallPrefab: {fileID: 908112855204680109, guid: edb3079cb7e3e144fa69fb4281c1e89d,
     type: 3}
 --- !u!114 &1885554832884344796
 MonoBehaviour:
@@ -7882,7 +7868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cdc4b5e8b7bd2345b0d802f30978b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stairsPrefab: {fileID: 4041283491387904142, guid: 86b972068da24f445bd83b665dfbce4b,
+  _stairsPrefab: {fileID: 4041283491387904142, guid: 86b972068da24f445bd83b665dfbce4b,
     type: 3}
 --- !u!114 &1885554832884344797
 MonoBehaviour:
@@ -7896,51 +7882,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b188e8209acf22c42b7b8a04a55710ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileMapPrefab: {fileID: 4783568868112808690, guid: 523ee7f33ef4a8e4693eb5b18c0fe5ef,
+  _tileMapPrefab: {fileID: 4783568868112808690, guid: 523ee7f33ef4a8e4693eb5b18c0fe5ef,
     type: 3}
-  dinoBonesChance: 50
-  singleFloorTiles:
+  _dinoBonesChance: 50
+  _singleFloorTiles:
   - {fileID: 11400000, guid: e31c5f43f4bf1b3428e93e20bcb728b6, type: 2}
   - {fileID: 11400000, guid: 8b05c82ffe5361645b3af3bcc515614e, type: 2}
   - {fileID: 11400000, guid: 9b8e1ec37fa577346b73f5c6ca462a17, type: 2}
-  twoTileDinoBones:
+  _twoTileDinoBones:
   - {fileID: 11400000, guid: bf82c237d817d7f40897f79d20917212, type: 2}
   - {fileID: 11400000, guid: 867bc6836ae8acd4eae015d09d251651, type: 2}
   - {fileID: 11400000, guid: 25d59e8133c4fb142be3aac26b56ebb4, type: 2}
   - {fileID: 11400000, guid: 12de1a1e28b025e4bb468559af17f0e6, type: 2}
-  closeWallTiles:
+  _closeWallTiles:
   - {fileID: 11400000, guid: 322f3ef3883d28e40b6a208f624dfc0a, type: 2}
   - {fileID: 11400000, guid: a7c405300c32837428220e3c6950d08b, type: 2}
   - {fileID: 11400000, guid: b75a6e6e76fe2cd40a33514254077632, type: 2}
-  farWallTiles:
-  - {fileID: 11400000, guid: c266325237774ce4ba07d336f5e9e130, type: 2}
+  _farWallTiles:
   - {fileID: 11400000, guid: caca3c7bb77e6dc4bae381adc0a3cf22, type: 2}
+  - {fileID: 11400000, guid: c266325237774ce4ba07d336f5e9e130, type: 2}
   - {fileID: 11400000, guid: 066129dffb0215a4bace05197515a500, type: 2}
-  leftWallTiles:
+  _leftWallTiles:
   - {fileID: 11400000, guid: 4e2f7e1145cdb6d4fb650b38712415d0, type: 2}
   - {fileID: 11400000, guid: dc45ee34380f49f4cb37e2421a770454, type: 2}
   - {fileID: 11400000, guid: b253ebd65d410c64e9de09603cd9ac91, type: 2}
-  rightWallTiles:
+  _rightWallTiles:
   - {fileID: 11400000, guid: fd93bd4f38dead04ba1a5be0934cc39a, type: 2}
   - {fileID: 11400000, guid: 8fce30e004454d847b00b92a9d15c487, type: 2}
   - {fileID: 11400000, guid: ca748a760e417a44eb901687f5d807a4, type: 2}
-  closeLeftOuterCornerWallTile: {fileID: 11400000, guid: e8b96a45fd1b3594f80a2be564302b8b,
+  _closeLeftOuterCornerWallTile: {fileID: 11400000, guid: e8b96a45fd1b3594f80a2be564302b8b,
     type: 2}
-  closeRightOuterCornerWallTile: {fileID: 11400000, guid: 1a0fb94fb11fac04081c8f98d6cfd291,
+  _closeRightOuterCornerWallTile: {fileID: 11400000, guid: 1a0fb94fb11fac04081c8f98d6cfd291,
     type: 2}
-  farLeftOuterCornerWallTile: {fileID: 11400000, guid: 02c91162b3da40c4e9b1ffabcb564eb5,
+  _farLeftOuterCornerWallTile: {fileID: 11400000, guid: 02c91162b3da40c4e9b1ffabcb564eb5,
     type: 2}
-  farRightOuterCornerWallTile: {fileID: 11400000, guid: 4fe91c59b588cba4aa1680c72844466a,
+  _farRightOuterCornerWallTile: {fileID: 11400000, guid: 4fe91c59b588cba4aa1680c72844466a,
     type: 2}
-  closeLeftInnerCornerWallTile: {fileID: 11400000, guid: 70e879227bcb12d43b770fa4ac5ad74f,
+  _closeLeftInnerCornerWallTile: {fileID: 11400000, guid: 70e879227bcb12d43b770fa4ac5ad74f,
     type: 2}
-  closeRightInnerCornerWallTile: {fileID: 11400000, guid: 906dadebb0a555a4ca6012e569d4517e,
+  _closeRightInnerCornerWallTile: {fileID: 11400000, guid: 906dadebb0a555a4ca6012e569d4517e,
     type: 2}
-  farLeftInnerCornerWallTile: {fileID: 11400000, guid: 2b94f4a54662450449c0ae8fdd89570d,
+  _farLeftInnerCornerWallTile: {fileID: 11400000, guid: 2b94f4a54662450449c0ae8fdd89570d,
     type: 2}
-  farRightInnerCornerWallTile: {fileID: 11400000, guid: 4175b5eec20833c4db3faf387682bf34,
+  _farRightInnerCornerWallTile: {fileID: 11400000, guid: 4175b5eec20833c4db3faf387682bf34,
     type: 2}
-  stairTile: {fileID: 11400000, guid: b2a04c9c196dcf948bc776e01cd71675, type: 2}
+  _stairTile: {fileID: 11400000, guid: 11dbdc8f7bb3dac40b9fcc65a24ea812, type: 2}
 --- !u!114 &1885554832884344794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7953,28 +7939,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94755ae0b79068d4bb9888b3f50c9cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firePitPrefab: {fileID: 7426554432366633556, guid: 03a4a6aaa7c2b3f40ae6c4c2d96809dc,
+  _firePitPrefab: {fileID: 7426554432366633556, guid: 03a4a6aaa7c2b3f40ae6c4c2d96809dc,
     type: 3}
-  emptyFirePit:
-  - {fileID: 11400000, guid: 924b87049fa511b48998d8295cf8c63a, type: 2}
-  - {fileID: 11400000, guid: df81d6e0f48939945a3ce933977f225d, type: 2}
-  - {fileID: 11400000, guid: 1e778ebb5d059414caee9af8c6adf87b, type: 2}
-  - {fileID: 11400000, guid: a5061b8b9d058eb448ccea31f135373e, type: 2}
-  - {fileID: 11400000, guid: 15befa95445383643bed1826cf0e626b, type: 2}
-  - {fileID: 11400000, guid: 9b1069d6a6b64ae4d993c5313b2c2142, type: 2}
-  - {fileID: 11400000, guid: d5d3e190585ffe94882d85c494788655, type: 2}
-  - {fileID: 11400000, guid: 9d3cbbc7091b176409618cc00a97ee64, type: 2}
-  - {fileID: 11400000, guid: 02e484c27fd14f04aa28aacc71e20f0c, type: 2}
-  activeFirePit:
-  - {fileID: 11400000, guid: dda43d31314731a4a895b8a6d6d63bba, type: 2}
-  - {fileID: 11400000, guid: 144bfa87d849ace4e9cc641bb041047e, type: 2}
-  - {fileID: 11400000, guid: 3487dfbc7b792414e99f52985769069e, type: 2}
-  - {fileID: 11400000, guid: fccb2b74be692f849b7ccf5ee77db5a4, type: 2}
-  - {fileID: 11400000, guid: b111a6976e1e25f41a00c66326d84b7f, type: 2}
-  - {fileID: 11400000, guid: 52bf0c926ab7ab34aafabcf6427fab19, type: 2}
-  - {fileID: 11400000, guid: 6fdecdf9ea9611a4dafafe8042cdf168, type: 2}
-  - {fileID: 11400000, guid: 258d23a2b3375e0409a78709c7073531, type: 2}
-  - {fileID: 11400000, guid: 91a443ef06a98874f9f6d3db8a2cf72d, type: 2}
+  _emptyFirePit: {fileID: 11400000, guid: 7c4443d8831a1f04ebe8640833f2fe3b, type: 2}
+  _activeFirePit: {fileID: 11400000, guid: a21a0a873b5602641b85ecba32fa199a, type: 2}
 --- !u!114 &1885554832884344795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7999,11 +7967,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90736b14daef6d4dbba917e51b0e888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefabs:
+  _enemyPrefabs:
   - {fileID: 821470870810363245, guid: e11294f02a2030d42ba490f163ce88e9, type: 3}
   - {fileID: 9084426930260393326, guid: a59278f53514fca40a44af52fe1beffb, type: 3}
-  hallwayScalar: 0.5
-  endScalar: 1.2
+  _hallwayScalar: 0.5
+  _endScalar: 1.2
 --- !u!1 &1885554832886100467
 GameObject:
   m_ObjectHideFlags: 0
@@ -10566,7 +10534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec7c0b70b61c1d4f84e358c47f39246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillNames:
+  _skillNames:
   - BasicAttack
   - Heal
   - Smite

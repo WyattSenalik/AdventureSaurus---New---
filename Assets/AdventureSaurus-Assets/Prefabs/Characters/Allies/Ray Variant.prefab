@@ -7,61 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.size
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: skillToGain
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[2]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[4]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[7]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[9]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[10]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[11]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[12]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[8]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[6]
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6744302857436448857, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
       propertyPath: m_Name
@@ -121,6 +66,106 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: grimoirePages.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _grimoirePages.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: skillToGain
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: grimoirePages.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: grimoirePages.Array.data[4]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: grimoirePages.Array.data[7]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: grimoirePages.Array.data[9]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: grimoirePages.Array.data[10]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: grimoirePages.Array.data[11]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: grimoirePages.Array.data[12]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: grimoirePages.Array.data[8]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: grimoirePages.Array.data[6]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _skillToGain
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _grimoirePages.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _grimoirePages.Array.data[4]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _grimoirePages.Array.data[6]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _grimoirePages.Array.data[7]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _grimoirePages.Array.data[8]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _grimoirePages.Array.data[9]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _grimoirePages.Array.data[11]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6744302857436448862, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}

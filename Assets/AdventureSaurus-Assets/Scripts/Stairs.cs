@@ -21,13 +21,33 @@ public class Stairs : MonoBehaviour
     private bool _touchedOnce;
     // The transform of the character on the stairs
     private Transform _whoIsOn;
-    // A reference to the prompter script to ask the player if they would like to advance
-    private Prompter _prompter;
 
     // Events
     public delegate void PromptNextFloor();
     public static event PromptNextFloor OnPromptNextFloor;
 
+
+    // Called when the component is toggled on
+    // Subscribe to events
+    private void OnEnable()
+    {
+        // Initialize this script after generation finishes
+        ProceduralGenerationController.OnFinishGeneration += Initialize;
+    }
+
+    // Called when the component is toggled off
+    // Unsubscribe from events
+    private void OnDisable()
+    {
+        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+    }
+
+    // Called when the gameobject is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+    }
 
     // Called before start
     private void Awake()
@@ -38,13 +58,14 @@ public class Stairs : MonoBehaviour
     }
 
     /// <summary>
-    /// Called from Procedural Generation after everything is created.
-    /// Gets the allies from the character parent
+    /// Initializes things for this script.
+    /// Called from the FinishGenerating event
     /// </summary>
-    /// <param name="charParent">Parent of all characters</param>
-    /// <param name="stairsTrans">Transform of the stairs</param>
-    /// <param name="prompterRef">Reference to the prompter</param>
-    public void Initialize(Transform charParent, Transform stairsTrans, Prompter prompterRef)
+    /// <param name="charParent">The parent of all the characters</param>
+    /// <param name="roomParent">The parent of all the rooms (unused)</param>
+    /// <param name="wallParent">The parent of all the walls (unused)</param>
+    /// <param name="stairsTrans">The transform of the stairs</param>
+    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
     {
         // Set the stairs transform
         _stairsTrans = stairsTrans;
@@ -59,8 +80,6 @@ public class Stairs : MonoBehaviour
                 _players.Add(character);
             }
         }
-        // Set the prompter
-        _prompter = prompterRef;
     }
 
     // Called once per frame

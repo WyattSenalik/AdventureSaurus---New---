@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class BasicAttack : Skill
 {
-    /// <summary>
-    /// Called before Start. Sets references.
-    /// </summary>
+    // Called before Start. Sets references.
     private new void Awake()
     {
         // Get references and such
         base.Awake();
         // Set the unique stats for this attack
-        skillNum = 0;
+        _skillNum = 0;
     }
 
     /// <summary>
@@ -22,21 +20,21 @@ public class BasicAttack : Skill
     override public void StartSkill(Vector2Int attackNodePos)
     {
         // Initialize the list of targets
-        enemiesHP = new List<Health>();
+        _enemiesHP = new List<Health>();
 
         // Get the damage
-        damage = statsRef.Strength;
+        _damage = _statsRef.Strength;
 
         // We have to set the enemy to attack, we just need to validate a bit first
-        Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
+        Node nodeToAttack = _mAContRef.GetNodeAtPosition(attackNodePos);
         if (nodeToAttack != null)
         {
-            MoveAttack charToAttack = mAContRef.GetCharacterMAByNode(nodeToAttack);
+            MoveAttack charToAttack = _mAContRef.GetCharacterMAByNode(nodeToAttack);
             if (charToAttack != null)
             {
                 // Add the one enemy we will be hitting
-                enemiesHP.Add(charToAttack.GetComponent<Health>());
-                if (enemiesHP[0] == null)
+                _enemiesHP.Add(charToAttack.GetComponent<Health>());
+                if (_enemiesHP[0] == null)
                     Debug.Log("Enemy to attack does not have a Health script attached to it");
 
                 // Start the skill's animation
@@ -60,21 +58,21 @@ public class BasicAttack : Skill
     override public void EndSkill()
     {
         // Validate that we have an enemy to attack
-        if (enemiesHP != null && enemiesHP.Count > 0 && enemiesHP[0] != null)
+        if (_enemiesHP != null && _enemiesHP.Count > 0 && _enemiesHP[0] != null)
         {
             //Debug.Log("Ending attack on " + enemiesHP[0].name);
             // End the skills animation
             EndSkillAnimation();
             // Deal the damage and get rid of our reference to the enemyHP
-            enemiesHP[0].TakeDamage(damage, this.GetComponent<Stats>());
+            _enemiesHP[0].TakeDamage(_damage, this.GetComponent<Stats>());
 
 
             // Reduce the special skill's cooldown by 1
             // If this is an ally
-            if (maRef.WhatAmI == CharacterType.Ally)
+            if (_maRef.WhatAmI == CharacterType.Ally)
             {
                 // Get the AllySkillController
-                AllySkillController allySkillContRef = maRef.GetComponent<AllySkillController>();
+                AllySkillController allySkillContRef = _maRef.GetComponent<AllySkillController>();
                 if (allySkillContRef == null)
                 {
                     Debug.Log("There is no AllySkillController attached to " + this.name);
@@ -88,11 +86,11 @@ public class BasicAttack : Skill
         else
         {
             // We should not attack anything, so set attack animation to 0
-            anime.SetInteger("AttackDirection", 0);
+            _anime.SetInteger("AttackDirection", 0);
         }
 
         // Get rid of the references of the enemies to hit, so that we do not hit them again on accident
         // after the next time this enemy moves
-        enemiesHP = new List<Health>();
+        _enemiesHP = new List<Health>();
     }
 }

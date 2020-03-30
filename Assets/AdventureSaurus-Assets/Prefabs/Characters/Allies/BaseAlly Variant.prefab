@@ -110,6 +110,11 @@ PrefabInstance:
       propertyPath: whatAmI
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4413198228147627877, guid: 1bd44685ffcc8c243baaf88a3eb96f1f,
+        type: 3}
+      propertyPath: _whatAmI
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4413198228147627896, guid: 1bd44685ffcc8c243baaf88a3eb96f1f,
         type: 3}
       propertyPath: charName

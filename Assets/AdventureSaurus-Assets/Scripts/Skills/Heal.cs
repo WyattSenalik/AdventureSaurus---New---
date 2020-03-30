@@ -4,30 +4,39 @@ using UnityEngine;
 
 public class Heal : Skill
 {
+    // Called before start
+    // Set the skill specific variables
     private new void Awake()
     {
         base.Awake();
-        skillNum = 1334;//spells heel in numbers upside down
-        healing = true;
-        cooldown = 6;
+        // Spells heel in numbers upside down
+        _skillNum = 1334;
+        _healing = true;
+        _cooldown = 6;
     }
 
-    public override void StartSkill(Vector2Int attackNodePos)
+    /// <summary>
+    /// Starts the skills animation and gets a reference to the ally that will be healed
+    /// </summary>
+    /// <param name="healNodesPos">The position of the node that will be healed</param>
+    public override void StartSkill(Vector2Int healNodePos)
     {
-        Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
-        if (nodeToAttack != null)
+        // Get the node at the position
+        Node nodeToHeal = _mAContRef.GetNodeAtPosition(healNodePos);
+        if (nodeToHeal != null)
         {
-            MoveAttack charToAttack = mAContRef.GetCharacterMAByNode(nodeToAttack);
+            // Get the character at that node
+            MoveAttack charToAttack = _mAContRef.GetCharacterMAByNode(nodeToHeal);
             if (charToAttack != null)
             {
                 // Actually set the reference to the enemy HP
-                enemiesHP = new List<Health>();
-                enemiesHP.Add(charToAttack.GetComponent<Health>());
-                if (enemiesHP[0] == null)
+                _enemiesHP = new List<Health>();
+                _enemiesHP.Add(charToAttack.GetComponent<Health>());
+                if (_enemiesHP[0] == null)
                     Debug.Log("Ally to heal does not have a Health script attached to it");
 
                 // Start the skill's animation
-                StartSkillAnimation(attackNodePos);
+                StartSkillAnimation(healNodePos);
             }
             else
                 Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
@@ -35,35 +44,28 @@ public class Heal : Skill
         
     }
 
+    /// <summary>
+    /// Ends the skills animaton and heals the character to heal
+    /// </summary>
     public override void EndSkill()
     {
-        if (enemiesHP != null && enemiesHP[0] != null)
+        // If we have a character to heal
+        if (_enemiesHP != null && _enemiesHP[0] != null)
         {
             // End the skills animation
             EndSkillAnimation();
-            // Deal the damage and get rid of our reference to the enemyHP
-            enemiesHP[0].Heal(damage);
-            
-            enemiesHP[0] = null;
+            // Heal the character and get rid of our reference to the enemyHP
+            _enemiesHP[0].Heal(_damage);
         }
         else
         {
             // We should not attack anything, so set attack animation to 0
-            anime.SetInteger("AttackDirection", 0);
-
-            //Debug.Log("There was no enemy to attack");
-            // If this character is an enemy, have the next enemy attack
-            if (maRef.WhatAmI == CharacterType.Enemy)
-            {
-                enMAAIRef.StartNextEnemy();
-            }
-            // If this character is an ally, give back control to the user
-            else if (maRef.WhatAmI == CharacterType.Ally)
-            {
-                //mAGUIContRef.AllowSelect();
-                turnSysRef.IsPlayerDone();
-            }
+            _anime.SetInteger("AttackDirection", 0);
         }
+
+        // Get rid of the references of the enemies to hit, so that we do not hit them again on accident
+        // after the next time this enemy moves
+        _enemiesHP = new List<Health>();
     }
 
 }

@@ -8,25 +8,25 @@ public enum MagicBuff { DMGINC, RANGEINC, COOLLWR, SKILLACQ };
 public class Grimoire : MonoBehaviour
 {
     // Int value of the skill to gain
-    [SerializeField] private byte skillToGain = SkillHolder.THREE_SIXTY_SWING;
+    [SerializeField] private byte _skillToGain = SkillHolder.THREE_SIXTY_SWING;
     // What to buff per magic level increase
-    [SerializeField] private MagicBuff[] grimoirePages = { MagicBuff.SKILLACQ, MagicBuff.DMGINC };
+    [SerializeField] private MagicBuff[] _grimoirePages = { MagicBuff.SKILLACQ, MagicBuff.DMGINC };
     // The amount of pages read already
-    private int pagesRead;
+    private int _pagesRead;
     // Reference to the ally's Stats
-    private Stats statRef;
+    private Stats _statRef;
     // Reference to the ally's AllySkillController
-    private AllySkillController allySkillContRef;
+    private AllySkillController _allySkillContRef;
 
     // Called before start
     // Set references to itself
     private void Awake()
     {
-        statRef = this.GetComponent<Stats>();
-        if (statRef == null)
+        _statRef = this.GetComponent<Stats>();
+        if (_statRef == null)
             Debug.Log("There was no Stats attached to " + this.name);
-        allySkillContRef = this.GetComponent<AllySkillController>();
-        if (allySkillContRef == null)
+        _allySkillContRef = this.GetComponent<AllySkillController>();
+        if (_allySkillContRef == null)
             Debug.Log("There was no AllySkillController attached to " + this.name);
     }
 
@@ -34,7 +34,7 @@ public class Grimoire : MonoBehaviour
     // Initialize variables
     private void Start()
     {
-        pagesRead = 0;
+        _pagesRead = 0;
     }
 
     // Called when the gameobject is set active
@@ -67,10 +67,10 @@ public class Grimoire : MonoBehaviour
     public void MagicIncrease()
     {
         // While we haven't read as many pages as we should have
-        while (pagesRead < statRef.Magic)
+        while (_pagesRead < _statRef.Magic)
         {
             // If we have read all the written pages, just increase damage
-            if (pagesRead >= grimoirePages.Length)
+            if (_pagesRead >= _grimoirePages.Length)
             {
                 Debug.Log("Read every page");
                 IncreaseDamage();
@@ -78,7 +78,7 @@ public class Grimoire : MonoBehaviour
             // If we have not yet read all the pages, see what should happen
             else
             {
-                switch (grimoirePages[pagesRead])
+                switch (_grimoirePages[_pagesRead])
                 {
                     case (MagicBuff.DMGINC):
                         Debug.Log("Increase Damage");
@@ -102,7 +102,7 @@ public class Grimoire : MonoBehaviour
                 }
             }
             // Increment the pages we have read
-            ++pagesRead;
+            ++_pagesRead;
         }
     }
 
@@ -111,7 +111,7 @@ public class Grimoire : MonoBehaviour
     /// </summary>
     private void IncreaseDamage()
     {
-        allySkillContRef.SpecialSkill.UpgradeDamage();
+        _allySkillContRef.SpecialSkill.UpgradeDamage();
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public class Grimoire : MonoBehaviour
     /// </summary>
     private void IncreaseRange()
     {
-        allySkillContRef.SpecialSkill.UpgradeRange();
+        _allySkillContRef.SpecialSkill.UpgradeRange();
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ public class Grimoire : MonoBehaviour
     /// </summary>
     private void LowerCooldown()
     {
-        allySkillContRef.SpecialSkill.UpgradeCooldown();
+        _allySkillContRef.SpecialSkill.UpgradeCooldown();
     }
 
     /// <summary>
@@ -136,6 +136,6 @@ public class Grimoire : MonoBehaviour
     private void GainSkill()
     {
         // Acquire the skill
-        allySkillContRef.AcquireSkill(skillToGain);
+        _allySkillContRef.AcquireSkill(_skillToGain);
     }
 }

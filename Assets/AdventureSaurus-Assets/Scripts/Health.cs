@@ -6,66 +6,69 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     // The Bars are assumed to have the same sized sprite attached
-    [SerializeField] private Transform redHealthBar = null;     // The transform that holds the sprite of the health
-    [SerializeField] private Transform frameHealthBar = null;   // The transform that holds the sprite of the outline of the health
-    [SerializeField] private float redBarOffset = 0.0625f;      // The offset for the red health bar to be at
+    // The transform that holds the sprite of the health
+    [SerializeField] private Transform _redHealthBar = null;
+    // The transform that holds the sprite of the outline of the health
+    [SerializeField] private Transform _frameHealthBar = null;
+    // The offset for the red health bar to be at
+    [SerializeField] private float _redBarOffset = 0.0625f;
     // The side health bar info. Will be set from pause menu
-    private Slider sideSlider;
+    private Slider _sideSlider;
     public Slider SideSlider
     {
-        set { sideSlider = value; }
+        set { _sideSlider = value; }
     }
 
-    private int maxHP;  // Maximum health of the character
+    // Maximum health of the character
+    private int _maxHP;
     public int MaxHP
     {
-        set { maxHP = value; }
+        set { _maxHP = value; }
     }
-    private int curHP;  // The current health of the character
+    // The current health of the character
+    private int _curHP;
     public int CurHP
     {
-        get { return curHP; }
+        get { return _curHP; }
     }
-    private Animator animRef;   // Reference to the animator attached to this gameObject
+    // What type of character this health script is attached to
+    private CharacterType whatAmI;
+
+    // Reference to the animator attached to this gameObject
+    private Animator _animRef;
 
     // Movement references
-    private MoveAttackGUIController mAGUIContRef;   // A reference to the MoveAttackGUIController, used to give back control to the user after death
-    private MoveAttackController mAContRef; // A reference to the MoveAttackController script, used to recalculate movement after death
-    private CharacterType whatAmI;  // What type of character this health script is attached to
+    // A reference to the MoveAttackController script, used to recalculate movement after death
+    private MoveAttackController _mAContRef;
 
-    // Enemy AI references
-    private EnemyMoveAttackAI enMAAIRef;    // A reference to the EnemyMoveAttackAI, used to alert the enemy AI it should move the next unit after death
-
-    // For turns
-    private TurnSystem turnSysRef;  // Reference to the TurnSystem script
-
+    // Reference to the Stats component of who killed this character
     // For giving xp
-    private Stats myKiller; // Reference to the Stats component of who killed this character
+    private Stats _myKiller;
 
-    /// <summary>
-    /// Set References
-    /// Called from Awake and from PersistantController [allies only]
-    /// </summary>
-    public void SetReferences()
+
+    // Called when the component is set active
+    // Subscribe to events
+    private void OnEnable()
     {
-        GameObject gameManagerObj = GameObject.FindWithTag("GameController");
-        if (gameManagerObj != null)
-        {
-            mAGUIContRef = gameManagerObj.GetComponent<MoveAttackGUIController>();
-            if (mAGUIContRef == null)
-                Debug.Log("Could not find MoveAttackGUIController attached to " + gameManagerObj.name);
-            mAContRef = gameManagerObj.GetComponent<MoveAttackController>();
-            if (mAContRef == null)
-                Debug.Log("Could not find MoveAttackController attached to " + gameManagerObj.name);
-            enMAAIRef = gameManagerObj.GetComponent<EnemyMoveAttackAI>();
-            if (enMAAIRef == null)
-                Debug.Log("Could not find EnemyMoveAttackAI attached to " + gameManagerObj.name);
-            turnSysRef = gameManagerObj.GetComponent<TurnSystem>();
-            if (turnSysRef == null)
-                Debug.Log("Could not find TurnSystem attached to " + gameManagerObj.name);
-        }
-        else
-            Debug.Log("Could not find any GameObject with the tag GameController");
+        // When generation is done, do some initialization
+        ProceduralGenerationController.OnFinishGenerationNoParam += SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam += UpdateHealthDisplay;
+    }
+
+    // Called when the component is toggled off
+    // Unsubscribe from events
+    private void OnDisable()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateHealthDisplay;
+    }
+
+    // Called when the gameobject is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateHealthDisplay;
     }
 
     // Called before Start
@@ -74,8 +77,8 @@ public class Health : MonoBehaviour
         // These will need to be set a few times [allies only]
         SetReferences();
         // These will only need to be set once, since they are attached to this gameobject
-        animRef = this.gameObject.GetComponent<Animator>();
-        if (animRef == null)
+        _animRef = this.gameObject.GetComponent<Animator>();
+        if (_animRef == null)
         {
             Debug.Log("Could not find Animator attached to " + this.name);
         }
@@ -91,17 +94,39 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
-    /// Called from Start and from PersistantController [allies only]
+    /// Set References
     /// </summary>
-    public void Initialize()
+    private void SetReferences()
     {
-        curHP = maxHP; // Needs to be in initialize because maxHP is set in the Awake function of the Stats script
+        GameObject gameManagerObj = GameObject.FindWithTag("GameController");
+        if (gameManagerObj != null)
+        {
+            _mAContRef = gameManagerObj.GetComponent<MoveAttackController>();
+            if (_mAContRef == null)
+                Debug.Log("Could not find MoveAttackController attached to " + gameManagerObj.name);
+        }
+        else
+            Debug.Log("Could not find any GameObject with the tag GameController");
     }
 
     // Start is called before the first frame update
     private void Start()
     {
-        Initialize();
+        _curHP = _maxHP;
+    }
+
+    /// <summary>
+    /// Calculates the health bar values and then updates the visuals on them
+    /// </summary>
+    private void UpdateHealthDisplay()
+    {
+        // Calculate where the health bar should go
+        Vector3 startScale = Vector3.zero, targetScale = Vector3.zero, startPos = Vector3.zero, targetPos = Vector3.zero;
+        CalculateHealthBar(ref startScale, ref targetScale, ref startPos, ref targetPos);
+        // Update the health bar
+        // If the character died, we call it will be called in the update health coroutine so that their hp goes down before they die
+        // If the character didn't die, we return control to the proper authority
+        StartCoroutine(UpdateHealth(startScale, targetScale, startPos, targetPos, false));
     }
 
     /// <summary>
@@ -114,17 +139,17 @@ public class Health : MonoBehaviour
     private void CalculateHealthBar(ref Vector3 startScale, ref Vector3 targetScale, ref Vector3 startPos, ref Vector3 targetPos)
     {
         // Change the localScale of the redHealthBar so that it is startingHP/curHP of its "full health" size
-        startScale = redHealthBar.transform.localScale;
-        targetScale = new Vector3((frameHealthBar.localScale.x - 2*redBarOffset) * curHP / maxHP, redHealthBar.localScale.y, redHealthBar.localScale.z);
+        startScale = _redHealthBar.transform.localScale;
+        targetScale = new Vector3((_frameHealthBar.localScale.x - 2*_redBarOffset) * _curHP / _maxHP, _redHealthBar.localScale.y, _redHealthBar.localScale.z);
 
         // Change the localPosition of the redHealthBar so that it looks like it is coming from the left of the frame
         // -(spritePixelSize / pixelsPerUnit) * blankBar.localScale.x / 2 + (spritePixelSize / pixelsPerUnit) * redBar.localScale.x / 2 + blankBar.localPosition.x
         // ((spritePixelSize / pixelsPerUnit) / 2) * (redBar.localScale.x - blankBar.localScale.x) + blankBar.localPosition.x
-        startPos = redHealthBar.transform.localPosition;
-        float pixelsPerUnit = redHealthBar.gameObject.GetComponent<SpriteMask>().sprite.pixelsPerUnit;
-        float spritePixelSize = redHealthBar.gameObject.GetComponent<SpriteMask>().sprite.rect.size.x;
-        float xComponent = ((spritePixelSize / pixelsPerUnit) / 2) * (targetScale.x - frameHealthBar.localScale.x) + frameHealthBar.localPosition.x;
-        targetPos = new Vector3(xComponent + redBarOffset, redHealthBar.localPosition.y, redHealthBar.localPosition.z);
+        startPos = _redHealthBar.transform.localPosition;
+        float pixelsPerUnit = _redHealthBar.gameObject.GetComponent<SpriteMask>().sprite.pixelsPerUnit;
+        float spritePixelSize = _redHealthBar.gameObject.GetComponent<SpriteMask>().sprite.rect.size.x;
+        float xComponent = ((spritePixelSize / pixelsPerUnit) / 2) * (targetScale.x - _frameHealthBar.localScale.x) + _frameHealthBar.localPosition.x;
+        targetPos = new Vector3(xComponent + _redBarOffset, _redHealthBar.localPosition.y, _redHealthBar.localPosition.z);
     }
 
     /// <summary>
@@ -144,26 +169,26 @@ public class Health : MonoBehaviour
         // We will remove it here after this ends or in Ascend if the damage is fatal
         MoveAttack.AddOngoingAction();
 
-        while (Vector3.Distance(redHealthBar.transform.localPosition, targetPos) > 0.01f)
+        while (Vector3.Distance(_redHealthBar.transform.localPosition, targetPos) > 0.01f)
         {
             Vector3 posIncrement = targetPos - startPos;
-            redHealthBar.transform.localPosition += posIncrement * Time.deltaTime * speed;
+            _redHealthBar.transform.localPosition += posIncrement * Time.deltaTime * speed;
 
             Vector3 scaleIncrement = targetScale - startScale;
-            redHealthBar.transform.localScale += scaleIncrement * Time.deltaTime * speed;
+            _redHealthBar.transform.localScale += scaleIncrement * Time.deltaTime * speed;
 
             yield return null;
         }
 
-        redHealthBar.transform.localPosition = targetPos;
-        redHealthBar.transform.localScale = targetScale;
+        _redHealthBar.transform.localPosition = targetPos;
+        _redHealthBar.transform.localScale = targetScale;
 
         // Will be null for enemies
-        if (sideSlider != null)
-            sideSlider.value = ((float)curHP) / maxHP;
+        if (_sideSlider != null)
+            _sideSlider.value = ((float)_curHP) / _maxHP;
 
         // If the character died. We call it here so that health goes down first
-        if (curHP == 0)
+        if (_curHP == 0)
             Die();
         // Signal MoveAttack that a character's health bar is finished being updated
         else
@@ -186,28 +211,22 @@ public class Health : MonoBehaviour
             return;
         }
         // If damage will deal more than needed to take health to 0, just reduce health to 0
-        else if (curHP - dmgToTake <= 0)
+        else if (_curHP - dmgToTake <= 0)
         {
-            curHP = 0;
-            myKiller = dmgDealer;
+            _curHP = 0;
+            _myKiller = dmgDealer;
         }
         // Otherwise do it normally
         else
         {
-            curHP -= dmgToTake;
-            myKiller = dmgDealer;
+            _curHP -= dmgToTake;
+            _myKiller = dmgDealer;
         }
 
         // If this unit has a health bar, update it to properly display the new health information
-        if (redHealthBar != null && frameHealthBar != null)
+        if (_redHealthBar != null && _frameHealthBar != null)
         {
-            // Calculate where the health bar should go
-            Vector3 startScale = Vector3.zero, targetScale = Vector3.zero, startPos = Vector3.zero, targetPos = Vector3.zero;
-            CalculateHealthBar(ref startScale, ref targetScale, ref startPos, ref targetPos);
-            // Update the health bar
-            // If the character died, we call it will be called in the update health coroutine so that their hp goes down before they die
-            // If the character didn't die, we return control to the proper authority
-            StartCoroutine(UpdateHealth(startScale, targetScale, startPos, targetPos, false));
+            UpdateHealthDisplay();
         }
     }
 
@@ -225,27 +244,25 @@ public class Health : MonoBehaviour
             return false;
         }
         // If they are already at full health, they can't be healed
-        else if (curHP == maxHP)
+        else if (_curHP == _maxHP)
         {
             return false;
         }
         // If they will get healed up to full
-        else if (curHP + healAmount >= maxHP)
+        else if (_curHP + healAmount >= _maxHP)
         {
-            curHP = maxHP;
+            _curHP = _maxHP;
         }
         // Otherwise we just heal normally
         else
         {
-            curHP += healAmount;
+            _curHP += healAmount;
         }
 
         // If this unit has a health bar, update it to properly display the new health information
-        if (redHealthBar != null && frameHealthBar != null)
+        if (_redHealthBar != null && _frameHealthBar != null)
         {
-            Vector3 startScale = Vector3.zero, targetScale = Vector3.zero, startPos = Vector3.zero, targetPos = Vector3.zero;
-            CalculateHealthBar(ref startScale, ref targetScale, ref startPos, ref targetPos);
-            StartCoroutine(UpdateHealth(startScale, targetScale, startPos, targetPos, true));
+            UpdateHealthDisplay();
         }
         return true;
     }
@@ -256,8 +273,7 @@ public class Health : MonoBehaviour
     private void Die()
     {
         //Debug.Log("Dead enemy");
-        enMAAIRef.EnemiesList.Remove(this.GetComponent<MoveAttack>());
-        animRef.SetBool("Dead", true);
+        _animRef.SetBool("Dead", true);
     }
 
     /// <summary>
@@ -266,7 +282,7 @@ public class Health : MonoBehaviour
     private void Ascend()
     {
         // Since this is done, we need to let other character move to where this just was
-        Node myNode = mAContRef.GetNodeByWorldPosition(this.transform.position);
+        Node myNode = _mAContRef.GetNodeByWorldPosition(this.transform.position);
         myNode.Occupying = CharacterType.None;
         // We need to move this character out from the character's parent before we recalculate the visuals, or this will be included in those calculaiton
         GameObject graveyard = new GameObject("Graveyard");
@@ -276,7 +292,7 @@ public class Health : MonoBehaviour
 
         // Give xp to the killer
         Stats myStats = this.GetComponent<Stats>();
-        myKiller.GainExperience(myStats.KillReward(myKiller));
+        _myKiller.GainExperience(myStats.KillReward(_myKiller));
 
         // Remove the ongoing action to signal we are done
         MoveAttack.RemoveOngoingAction();

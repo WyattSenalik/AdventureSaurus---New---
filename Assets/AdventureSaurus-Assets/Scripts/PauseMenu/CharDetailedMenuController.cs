@@ -65,6 +65,8 @@ public class CharDetailedMenuController : MonoBehaviour
     {
         // When the character clicks to display the charcter detailed menu, update the details and diaply them
         PauseMenuController.OnCharDetailedMenuShown += DisplayCharacterDetails;
+        // When the generation finishes, initialize this script
+        ProceduralGenerationController.OnFinishGeneration += Initialize;
     }
 
     // Called when the gameobject is toggled active
@@ -72,6 +74,7 @@ public class CharDetailedMenuController : MonoBehaviour
     private void OnDisable()
     {
         PauseMenuController.OnCharDetailedMenuShown -= DisplayCharacterDetails;
+        ProceduralGenerationController.OnFinishGeneration -= Initialize;
     }
 
     // Called when the gameobject is destroyed
@@ -79,6 +82,7 @@ public class CharDetailedMenuController : MonoBehaviour
     private void OnDestroy()
     {
         PauseMenuController.OnCharDetailedMenuShown -= DisplayCharacterDetails;
+        ProceduralGenerationController.OnFinishGeneration -= Initialize;
     }
 
     // Start is called before the first frame update
@@ -244,14 +248,32 @@ public class CharDetailedMenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Called from ProceduralGenerationController.
-    /// Sets the allies stats
+    /// Initializes things for this script.
+    /// Called from the FinishGenerating event
     /// </summary>
-    /// <param name="allyStats">What to set alliesStats to</param>
-    public void Initialize(List<Stats> allyStats)
+    /// <param name="charParent">The parent of all the characters</param>
+    /// <param name="roomParent">The parent of all the rooms (unused)</param>
+    /// <param name="wallParent">The parent of all the walls (unused)</param>
+    /// <param name="stairsTrans">The transform of the stairs (unused)</param>
+    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
     {
-        // Get the alliesStats
-        _alliesStats = allyStats;
+        // Initialize ally stats
+        _alliesStats = new List<Stats>();
+        // Iterate over the characters to find the allies
+        foreach (Transform singChar in charParent)
+        {
+            // Try to get the character's MoveAttack script
+            MoveAttack singMA = singChar.GetComponent<MoveAttack>();
+            // If the character is an ally, try to add its stats to the alliesStats list
+            if (singMA.WhatAmI == CharacterType.Ally)
+            {
+                // Try to ge tthe character's stats
+                Stats singStats = singChar.GetComponent<Stats>();
+                // If the stats aren't null, add it to the list
+                if (singStats != null)
+                    _alliesStats.Add(singStats);
+            }
+        }
 
         // Set the level up buttons for the characters
         for (int i = 0; i < _alliesStats.Count; ++i)
@@ -398,15 +420,15 @@ public class CharDetailedMenuController : MonoBehaviour
             ++statIncrement;
 
             // Update the bubbles
-            Debug.Log(currentBubbleAmount + " bubbles are currently filled in");
-            Debug.Log(statIncrement + " is the current statIncrement");
-            Debug.Log((currentBubbleAmount + statIncrement) % (bubbles.Count + 1) + " should be filled");
+            //Debug.Log(currentBubbleAmount + " bubbles are currently filled in");
+            //Debug.Log(statIncrement + " is the current statIncrement");
+            //Debug.Log((currentBubbleAmount + statIncrement) % (bubbles.Count + 1) + " should be filled");
             UpdateBubbles(bubbles, (currentBubbleAmount + statIncrement) % (bubbles.Count + 1));
             // Check if this increment makes us reach the desired amount
             // If it does, we need to update the text
             if (statIncrement + currentBubbleAmount >= bubbles.Count + 1)
             {
-                Debug.Log("Updating text to " + (currentStatValue + ((currentBubbleAmount + statIncrement) / (bubbles.Count + 1))).ToString());
+                //Debug.Log("Updating text to " + (currentStatValue + ((currentBubbleAmount + statIncrement) / (bubbles.Count + 1))).ToString());
                 statNumsText.text = (currentStatValue + ((currentBubbleAmount + statIncrement) / (bubbles.Count + 1))).ToString();
             }
 

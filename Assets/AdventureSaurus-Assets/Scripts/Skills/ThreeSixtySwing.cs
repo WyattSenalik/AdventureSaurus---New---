@@ -4,61 +4,76 @@ using UnityEngine;
 
 public class ThreeSixtySwing : Skill
 {
+    // Called before start
+    // Set the skill specific variables
     private new void Awake()
     {
         base.Awake();
-        skillNum = 360;
-        diagnols = true;
-        cooldown = 4;
+        _skillNum = 360;
+        _diagnols = true;
+        _cooldown = 4;
     }
+
     /// <summary>
-    /// Starts the animation for 360. Also gets refences to the enemies that got hit by skill.!!MAy need arltering since skill activation might be different.
+    /// Starts the animation for 360. Also gets refences to the enemies that got hit by skill, so that they can be damaged in endSkill.
     /// </summary>
     /// <param name="attackNodePos">The point the player used to start the skill. Dictates direction of animations.</param>
     override public void StartSkill(Vector2Int attackNodePos)
     {
-        Node nodeToAttack = mAContRef.GetNodeAtPosition(attackNodePos);
-        
+        // Gets the primary node to attack
+        Node nodeToAttack = _mAContRef.GetNodeAtPosition(attackNodePos);
 
+        // If we have a node to attack
         if (nodeToAttack != null)
         {
-            Vector2Int center = new Vector2Int(Mathf.RoundToInt(this.transform.position.x), Mathf.RoundToInt(this.transform.position.y));//gets a initial reference point at the position of charcter
-            
+            // Gets a initial reference point at the position of this charcter
+            Vector2Int center = new Vector2Int(Mathf.RoundToInt(this.transform.position.x), Mathf.RoundToInt(this.transform.position.y));
 
-            List<Node> areaOfAttack = new List<Node>();//list of the 8 tiles around character
+            // List of the 8 tiles around character
+            List<Node> areaOfAttack = new List<Node>();
 
-            areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.up));
-            areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.right));
-            areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.down));
-            areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.left));
+            // 4 Adjacent tiles
+            areaOfAttack.Add(_mAContRef.GetNodeAtPosition(center + Vector2Int.up));
+            areaOfAttack.Add(_mAContRef.GetNodeAtPosition(center + Vector2Int.right));
+            areaOfAttack.Add(_mAContRef.GetNodeAtPosition(center + Vector2Int.down));
+            areaOfAttack.Add(_mAContRef.GetNodeAtPosition(center + Vector2Int.left));
 
-            //These are the diagnol tiles
-            areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.up + Vector2Int.left));
-            areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.up + Vector2Int.right));
-            areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.down + Vector2Int.left));
-            areaOfAttack.Add(mAContRef.GetNodeAtPosition(center + Vector2Int.down + Vector2Int.right));
+            // These are the diagnol tiles
+            areaOfAttack.Add(_mAContRef.GetNodeAtPosition(center + Vector2Int.up + Vector2Int.left));
+            areaOfAttack.Add(_mAContRef.GetNodeAtPosition(center + Vector2Int.up + Vector2Int.right));
+            areaOfAttack.Add(_mAContRef.GetNodeAtPosition(center + Vector2Int.down + Vector2Int.left));
+            areaOfAttack.Add(_mAContRef.GetNodeAtPosition(center + Vector2Int.down + Vector2Int.right));
 
-            MoveAttack charToAttack;
-            int HPindex = 0;
-            enemiesHP = new List<Health>();
-            
-            foreach (Node attack in areaOfAttack){//iterates through the area of attack to test for enemies
+            // Initialize the list of enemies
+            _enemiesHP = new List<Health>();
 
-                charToAttack = mAContRef.GetCharacterMAByNode(attack);
-                if (charToAttack != null)//checks if character exist on node
+            // Iterates through the area of attack to test for enemies
+            foreach (Node attack in areaOfAttack){
+
+                MoveAttack charToAttack = _mAContRef.GetCharacterMAByNode(attack);
+                // Checks if character exist on node
+                if (charToAttack != null)
                 {
-                    if(charToAttack.WhatAmI == CharacterType.Enemy)//checks if charcter is an enemy
+                    //checks if charcter is an enemy
+                    if (charToAttack.WhatAmI == CharacterType.Enemy)
                     {
-                        enemiesHP.Add(charToAttack.GetComponent<Health>());
-                        if (enemiesHP[HPindex] == null)
+                        // Get the health script from that enemy
+                        Health charToAtkHPScript = charToAttack.GetComponent<Health>();
+                        
+                        // Make sure they have a health script
+                        if (charToAtkHPScript == null)
                             Debug.Log("Enemy to attack does not have a Health script attached to it");
-                        HPindex++;
+                        else
+                            _enemiesHP.Add(charToAttack.GetComponent<Health>());
                     }
                 }
-                
-
             }
-            StartSkillAnimation(attackNodePos);
+
+            // If we have at least 1 enemy to attack
+            if (_enemiesHP.Count > 0)
+                StartSkillAnimation(attackNodePos);
+            else
+                Debug.Log("There were no enemies for ThreeSixtySwing to hit");
         }
         else
         {
@@ -73,21 +88,20 @@ public class ThreeSixtySwing : Skill
     /// </summary>
     public override void EndSkill()
     {
-        //Debug.Log("360 End Skill");
-        if (enemiesHP != null)
+        // Validate that we have an enemy to attack
+        if (_enemiesHP != null)
         {
             //Debug.Log("EndAnimation");
             // End the skills animation
             EndSkillAnimation();
 
             //Debug.Log("Deal damage");
-            // Deal the damage and get rid of our reference to the enemyHP
-            for (int i = 0; i < enemiesHP.Count; i++)
+            // Deal the damage to each enemy
+            for (int i = 0; i < _enemiesHP.Count; i++)
             {
-                if (enemiesHP[i] != null)
+                if (_enemiesHP[i] != null)
                 {
-                    enemiesHP[i].TakeDamage(damage, this.GetComponent<Stats>());
-                    enemiesHP[i] = null;
+                    _enemiesHP[i].TakeDamage(_damage, this.GetComponent<Stats>());
                 }
             }
             //Debug.Log("Finished doing damage");
@@ -95,21 +109,11 @@ public class ThreeSixtySwing : Skill
         else
         {
             // We should not attack anything, so set attack animation to 0
-            anime.SetInteger("AttackDirection", 0);
-
-            //Debug.Log("There was no enemy to attack");
-            // If this character is an enemy, have the next enemy attack
-            if (maRef.WhatAmI == CharacterType.Enemy)
-            {
-                enMAAIRef.StartNextEnemy();
-            }
-            // If this character is an ally, give back control to the user
-            else if (maRef.WhatAmI == CharacterType.Ally)
-            {
-                //mAGUIContRef.AllowSelect();
-                turnSysRef.IsPlayerDone();
-            }
+            _anime.SetInteger("AttackDirection", 0);
         }
 
+        // Get rid of the references of the enemies to hit, so that we do not hit them again on accident
+        // after the next time this enemy moves
+        _enemiesHP = new List<Health>();
     }
 }

@@ -5,17 +5,17 @@ using UnityEngine;
 public class GenerateEnemies : MonoBehaviour
 {
     // List of potential enemies to spawn. Sorted by difficulty
-    [SerializeField] private GameObject[] enemyPrefabs = null;
+    [SerializeField] private GameObject[] _enemyPrefabs = null;
     // For reducing the hallway's difficulty
-    [SerializeField] private float hallwayScalar = 0.5f;
+    [SerializeField] private float _hallwayScalar = 0.5f;
     // For increasing the end room's difficulty
-    [SerializeField] private float endScalar = 1.2f;
+    [SerializeField] private float _endScalar = 1.2f;
 
     // Set references
     private void Awake()
     {
         // Check to see if there are enemies to choose from
-        if (enemyPrefabs == null || enemyPrefabs.Length == 0)
+        if (_enemyPrefabs == null || _enemyPrefabs.Length == 0)
             Debug.Log("No enemies have been specified in GenerateEnemies attached to " + this.name);
         // If we have enemies sort them, since we don't trust us to sort them in editor
         else
@@ -51,10 +51,10 @@ public class GenerateEnemies : MonoBehaviour
                 curRoomScript.RoomDifficulty = floorBaseDiff + curRoomScript.RoomWeight * 2;
             // If its a hallway
             else if (curRoomScript.MyRoomType == RoomType.HALLWAY)
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + (curRoomScript.RoomWeight * 2)) * hallwayScalar);
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + (curRoomScript.RoomWeight * 2)) * _hallwayScalar);
             // If its the end
             else if (curRoomScript.MyRoomType == RoomType.END)
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + (curRoomScript.RoomWeight * 2)) * endScalar);
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + (curRoomScript.RoomWeight * 2)) * _endScalar);
             // If its the start or safe room, we don't spawn enemies
             else if (curRoomScript.MyRoomType == RoomType.SAFE || curRoomScript.MyRoomType == RoomType.START)
                 curRoomScript.RoomDifficulty = 0;
@@ -101,8 +101,8 @@ public class GenerateEnemies : MonoBehaviour
             {
                 /// Step 3a: Pick an enemy from the list of enemies
                 /// 
-                int enemyPrefIndex = Random.Range(0, enemyPrefabs.Length);
-                GameObject enemyPrefToSpawn = enemyPrefabs[enemyPrefIndex];
+                int enemyPrefIndex = Random.Range(0, _enemyPrefabs.Length);
+                GameObject enemyPrefToSpawn = _enemyPrefabs[enemyPrefIndex];
 
                 /// Step 3b: Pick a spot in the room to spawn the enemy
                 /// 
@@ -158,19 +158,19 @@ public class GenerateEnemies : MonoBehaviour
     private void SortEnemies()
     {
         // Iterate over the enemies
-        for (int i = 0; i < enemyPrefabs.Length; ++i)
+        for (int i = 0; i < _enemyPrefabs.Length; ++i)
         {
             // Get the current enemies information
-            EnemyDifficulty enemyDiffRef0 = enemyPrefabs[i].GetComponent<EnemyDifficulty>();
+            EnemyDifficulty enemyDiffRef0 = _enemyPrefabs[i].GetComponent<EnemyDifficulty>();
             int enemyDiff0 = enemyDiffRef0.Difficulty;
             // Assume this enemy is the weakest
             int weakestEnemyIndex = i;
             int weakestEnemyDiff = enemyDiff0;
             // Iterate over the enemies after the current to see if one is weaker
-            for (int k = i + 1; k < enemyPrefabs.Length; ++k)
+            for (int k = i + 1; k < _enemyPrefabs.Length; ++k)
             {
                 // Get the next enemies information
-                EnemyDifficulty enemyDiffRef1 = enemyPrefabs[k].GetComponent<EnemyDifficulty>();
+                EnemyDifficulty enemyDiffRef1 = _enemyPrefabs[k].GetComponent<EnemyDifficulty>();
                 int enemyDiff1 = enemyDiffRef1.Difficulty;
 
                 // If we found an enemy weaker than the current enemy, make this enemy the new weakest
@@ -181,9 +181,9 @@ public class GenerateEnemies : MonoBehaviour
                 }
             }
             // Swap the enemies
-            GameObject tempBucket = enemyPrefabs[i];
-            enemyPrefabs[i] = enemyPrefabs[weakestEnemyIndex];
-            enemyPrefabs[weakestEnemyIndex] = tempBucket;
+            GameObject tempBucket = _enemyPrefabs[i];
+            _enemyPrefabs[i] = _enemyPrefabs[weakestEnemyIndex];
+            _enemyPrefabs[weakestEnemyIndex] = tempBucket;
         }
     }
 }

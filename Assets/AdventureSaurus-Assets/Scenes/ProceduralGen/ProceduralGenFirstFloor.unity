@@ -149,14 +149,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e65b1b256a46b324d9c4256f49a3f2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tempAllyParent: {fileID: 1431827292}
-  nextFloorScene:
+  _tempAllyParent: {fileID: 1431827292}
+  _nextFloorScene:
     m_Handle: 8
-  difficultyToner: 0.75
-  nextFloorRoomAm: 3
-  floorsUntilRoomAmInc: 3
-  maxRooms: 9
-  floorsUntilFire: 2
+  _difficultyToner: 0.625
+  _nextFloorRoomAm: 3
+  _floorsUntilRoomAmInc: 3
+  _maxRooms: 9
+  _floorsUntilFire: 2
 --- !u!4 &449665926
 Transform:
   m_ObjectHideFlags: 0
@@ -221,7 +221,7 @@ PrefabInstance:
     - target: {fileID: 8129528713394114394, guid: e9255b6a8fa73744dac62b3850185792,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8129528713394114394, guid: e9255b6a8fa73744dac62b3850185792,
         type: 3}
@@ -354,7 +354,7 @@ PrefabInstance:
     - target: {fileID: 6395254385892751030, guid: 4278b658950a1194d85a7b00a6d114c3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6395254385892751030, guid: 4278b658950a1194d85a7b00a6d114c3,
         type: 3}
@@ -489,7 +489,7 @@ PrefabInstance:
     - target: {fileID: 6395254385892751030, guid: 4278b658950a1194d85a7b00a6d114c3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6395254385892751030, guid: 4278b658950a1194d85a7b00a6d114c3,
         type: 3}
@@ -695,5 +695,20 @@ PrefabInstance:
       propertyPath: _characterPortrait
       value: 
       objectReference: {fileID: 1651068666}
+    - target: {fileID: 1885554832884344784, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _chanceToSpawnBranch
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885554832884344792, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _endScalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885554832884344792, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _hallwayScalar
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70da1097b1dafad4a9fb162e686f4084, type: 3}

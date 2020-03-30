@@ -6,9 +6,9 @@ using UnityEngine;
 // Attached to every enemy
 public class EnemySkillController : CharacterSkills
 {
-    // Initialzies skill
-    // Called from MoveAttackController
-    public void Initialize()
+    // Called before the first frame
+    // Initializes skill
+    private void Start()
     {
         // We want to set the enemies skill to the one skill they have
         Skill mySkill = this.GetComponent<Skill>();

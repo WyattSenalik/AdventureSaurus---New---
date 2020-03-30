@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class Stats : MonoBehaviour
 {
-    private const int maxSpeed = 7; // Mostly for performance reasons, but there should probably be a limit
+    private const int _maxSpeed = 7; // Mostly for performance reasons, but there should probably be a limit
     public int MaxSpeed
     {
-        get { return maxSpeed; }
+        get { return _maxSpeed; }
     }
 
     // Name of the character
@@ -67,27 +67,27 @@ public class Stats : MonoBehaviour
     // Allies give 0
     [SerializeField] private int baseXPToGive = 0;
     // The experience this character has
-    private int experience; // Total experience
-    private int oneLevelExperience; // The experience this character has gained on the current level
+    private int _experience; // Total experience
+    private int _oneLevelExperience; // The experience this character has gained on the current level
     public int OneLevelExperience
     {
-        get { return oneLevelExperience; }
+        get { return _oneLevelExperience; }
     }
     // The current level of this character
-    private int level;
+    private int _level;
     public int Level
     {
-        get { return level; }
+        get { return _level; }
     }
     // The amount of experience this character needs to level up
-    private int nextLevelThreshold; // Total experience needed
-    private int oneLevelNextLevelThreshold; // The experience this character needs to gain since the current level
+    private int _nextLevelThreshold; // Total experience needed
+    private int _oneLevelNextLevelThreshold; // The experience this character needs to gain since the current level
     public int OneLevelNextLevelThreshold
     {
-        get { return oneLevelNextLevelThreshold; }
+        get { return _oneLevelNextLevelThreshold; }
     }
     // If the character is currently in the process of leveling up
-    private bool isLevelingUp;
+    private bool _isLevelingUp;
     // Reference to this allies level up button. Null always for enemies
     [SerializeField] private GameObject levelUpButton = null;
     public GameObject LevelUpButton
@@ -95,44 +95,47 @@ public class Stats : MonoBehaviour
         set { levelUpButton = value; }
     }
     // The amount of stat increases that this character has left
-    private int amountStatIncreases;
+    private int _amountStatIncreases;
     public int AmountStatIncreases
     {
-        get { return amountStatIncreases; }
-        set { amountStatIncreases = value; }
+        get { return _amountStatIncreases; }
+        set { _amountStatIncreases = value; }
     }
 
     // For determining how close towards a particular stat increase the character is.
     // Also the amount of bubbles that should be filled in
-    private int vitalityBubblesFilled;
+    private int _vitalityBubblesFilled;
     public int VitalityBubblesFilled
     {
-        get { return vitalityBubblesFilled; }
-        set { vitalityBubblesFilled = value; }
+        get { return _vitalityBubblesFilled; }
+        set { _vitalityBubblesFilled = value; }
     }
-    private int magicBubblesFilled;
+    private int _magicBubblesFilled;
     public int MagicBubblesFilled
     {
-        get { return magicBubblesFilled; }
-        set { magicBubblesFilled = value; }
+        get { return _magicBubblesFilled; }
+        set { _magicBubblesFilled = value; }
     }
-    private int strBubblesFilled;
+    private int _strBubblesFilled;
     public int StrBubblesFilled
     {
-        get { return strBubblesFilled; }
-        set { strBubblesFilled = value; }
+        get { return _strBubblesFilled; }
+        set { _strBubblesFilled = value; }
     }
-    private int speedBubblesFilled;
+    private int _speedBubblesFilled;
     public int SpeedBubblesFilled
     {
-        get { return speedBubblesFilled; }
-        set { speedBubblesFilled = value; }
+        get { return _speedBubblesFilled; }
+        set { _speedBubblesFilled = value; }
     }
 
     // References
-    private MoveAttack mARef;   // Reference to the MoveAttack script attached to this character
-    private Health hpRef;   // Reference to the Health script attached to this character
-    private MoveAttackController mAContRef; // Reference to the MoveAttackController. Used when updating speed
+    // Reference to the MoveAttack script attached to this character
+    private MoveAttack _mARef;
+    // Reference to the Health script attached to this character
+    private Health _hpRef;
+    // Reference to the MoveAttackController. Used when updating speed
+    private MoveAttackController _mAContRef;
 
     // Stats display stuff
     [SerializeField] private GameObject statsDisplay = null;    // Reference to the stats display of this character
@@ -144,10 +147,10 @@ public class Stats : MonoBehaviour
 
     // Side HUD references
     // Experience bar on the side. Will be set from PauseMenuController
-    private Slider expSlider;
+    private Slider _expSlider;
     public Slider ExpSlider
     {
-        set { expSlider = value; }
+        set { _expSlider = value; }
     }
 
     // Events
@@ -155,24 +158,30 @@ public class Stats : MonoBehaviour
     public delegate void MagicIncrease();
     public static event MagicIncrease OnMagicIncrease;
 
-    /// <summary>
-    /// Sets references to foreign scripts.
-    /// Called from Awake and from PersistantController
-    /// </summary>
-    public void SetReferences()
+
+    // Called when the component is set active
+    // Subscribe to events
+    private void OnEnable()
     {
-        GameObject gameController = GameObject.FindWithTag("GameController");
-        // Make sure a GameController exists
-        if (gameController == null)
-            Debug.Log("Could not find any GameObject with the tag GameController");
-        else
-        {
-            mAContRef = gameController.GetComponent<MoveAttackController>();
-            if (mAContRef == null)
-            {
-                Debug.Log("Could not find MoveAttackController attached to " + gameController.name);
-            }
-        }
+        // When generation is done, do some initialization
+        ProceduralGenerationController.OnFinishGenerationNoParam += SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam += UpdateExpSlider;
+    }
+
+    // Called when the component is toggled off
+    // Unsubscribe from events
+    private void OnDisable()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateExpSlider;
+    }
+
+    // Called when the gameobject is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateExpSlider;
     }
 
     // Called before start
@@ -181,26 +190,46 @@ public class Stats : MonoBehaviour
         // These references are attached to foreign objects and will need to be set multiple times [allies only]
         SetReferences();
         // These references are attached to this game object, so they will only need to be set once
-        mARef = this.GetComponent<MoveAttack>();
-        if (mARef == null)
+        _mARef = this.GetComponent<MoveAttack>();
+        if (_mARef == null)
         {
             if (this.name != "DeadAllyStats")
                 Debug.Log("Could not find MoveAttack attached to " + this.name);
         }
         else
         {
-            mARef.MoveRange = speed;
+            _mARef.MoveRange = speed;
         }
 
-        hpRef = this.GetComponent<Health>();
-        if (hpRef == null)
+        _hpRef = this.GetComponent<Health>();
+        if (_hpRef == null)
         {
             if (this.name != "DeadAllyStats")
                 Debug.Log("Could not find Health attached to " + this.name);
         }
         else
         {
-            hpRef.MaxHP = vitality;
+            _hpRef.MaxHP = vitality;
+        }
+    }
+
+    /// <summary>
+    /// Sets references to foreign scripts.
+    /// Called from Awake and from PersistantController
+    /// </summary>
+    private void SetReferences()
+    {
+        GameObject gameController = GameObject.FindWithTag("GameController");
+        // Make sure a GameController exists
+        if (gameController == null)
+            Debug.Log("Could not find any GameObject with the tag GameController");
+        else
+        {
+            _mAContRef = gameController.GetComponent<MoveAttackController>();
+            if (_mAContRef == null)
+            {
+                Debug.Log("Could not find MoveAttackController attached to " + gameController.name);
+            }
         }
     }
 
@@ -209,33 +238,34 @@ public class Stats : MonoBehaviour
     {
         // These will have to be set once, since these we will need to keep the changes associated with them
         // Start the character out at level 1 with no experience
-        experience = 0;
-        oneLevelExperience = experience;
-        level = 1;
+        _experience = 0;
+        _oneLevelExperience = _experience;
+        _level = 1;
         // Calculate how much xp to reach the next level
-        nextLevelThreshold = CalculateAmountToReachNextLevel(level);
-        oneLevelNextLevelThreshold = nextLevelThreshold;
+        _nextLevelThreshold = CalculateAmountToReachNextLevel(_level);
+        _oneLevelNextLevelThreshold = _nextLevelThreshold;
         // Don't start the player out with any potential stat increases
-        amountStatIncreases = 0;
+        _amountStatIncreases = 0;
 
         // If this character has a level up button, hide it
         if (levelUpButton != null)
             levelUpButton.SetActive(false);
 
         // Initialize the bubbles filled to 0
-        vitalityBubblesFilled = 0;
-        magicBubblesFilled = 0;
-        strBubblesFilled = 0;
-        speedBubblesFilled = 0;
+        _vitalityBubblesFilled = 0;
+        _magicBubblesFilled = 0;
+        _strBubblesFilled = 0;
+        _speedBubblesFilled = 0;
     }
 
     /// <summary>
-    /// Sets all the appropriate variables to their correct values
+    /// Sets all the appropriate variables to their correct values.
+    /// Called from MoveAttack in ResetMyTurn
     /// </summary>
     public void Initialize()
     {
-        mARef.MoveRange = speed;
-        hpRef.MaxHP = vitality;
+        _mARef.MoveRange = speed;
+        _hpRef.MaxHP = vitality;
     }
 
     /// <summary>
@@ -272,8 +302,8 @@ public class Stats : MonoBehaviour
     /// <param name="xpToGain">The amount of experience to gain</param>
     public void GainExperience(int xpToGain)
     {
-        experience += xpToGain;
-        oneLevelExperience += xpToGain;
+        _experience += xpToGain;
+        _oneLevelExperience += xpToGain;
         //Debug.Log(this.name + " gained " + xpToGain + " XP");
         StartCoroutine(CheckLevelUp());
     }
@@ -285,35 +315,44 @@ public class Stats : MonoBehaviour
     /// <returns>IEnumerator</returns>
     private IEnumerator CheckLevelUp()
     {
-        isLevelingUp = false;   // Assume we are not leveling up
+        _isLevelingUp = false;   // Assume we are not leveling up
         do
         {
             // Test if the character has enough exp to level up and isn't already currently leveling up
-            if (experience >= nextLevelThreshold && !isLevelingUp)
+            if (_experience >= _nextLevelThreshold && !_isLevelingUp)
             {
                 // Start leveling the character up
-                isLevelingUp = true;
-                ++level; // Increment level
-                nextLevelThreshold = CalculateAmountToReachNextLevel(level); // Make sure we do this so that the next loop test works as intended
+                _isLevelingUp = true;
+                ++_level; // Increment level
+                _nextLevelThreshold = CalculateAmountToReachNextLevel(_level); // Make sure we do this so that the next loop test works as intended
 
                 // Give the character skill points
-                amountStatIncreases += 3;
+                _amountStatIncreases += 3;
 
                 // Set the oneLevel variables accordingly
-                oneLevelExperience -= oneLevelNextLevelThreshold;
-                oneLevelNextLevelThreshold = nextLevelThreshold - oneLevelNextLevelThreshold;
+                _oneLevelExperience -= _oneLevelNextLevelThreshold;
+                _oneLevelNextLevelThreshold = _nextLevelThreshold - _oneLevelNextLevelThreshold;
 
                 StartCoroutine(LevelUp());
             }
             yield return null;
-        } while (experience >= nextLevelThreshold); // If the character can still level up more, we will do the loop again
+        } while (_experience >= _nextLevelThreshold); // If the character can still level up more, we will do the loop again
 
-        // Will be null for enemies
-        if (expSlider != null)
-            // Set the side exp bar
-            expSlider.value = ((float)oneLevelExperience) / oneLevelNextLevelThreshold;
+        // Update the side slider for allies
+        UpdateExpSlider();
 
         yield return null;
+    }
+
+    /// <summary>
+    /// Sets the experience slider on the left to the correct value
+    /// </summary>
+    private void UpdateExpSlider()
+    {
+        // Will be null for enemies
+        if (_expSlider != null)
+            // Set the side exp bar
+            _expSlider.value = ((float)_oneLevelExperience) / _oneLevelNextLevelThreshold;
     }
 
     /// <summary>
@@ -322,7 +361,7 @@ public class Stats : MonoBehaviour
     /// <returns>IEnumerator</returns>
     private IEnumerator LevelUp()
     {
-        Debug.Log("Congratulations!! " + this.name + " has reached level " + level);
+        Debug.Log("Congratulations!! " + this.name + " has reached level " + _level);
 
         // Show level up visuals
         ////TODO
@@ -330,7 +369,7 @@ public class Stats : MonoBehaviour
             levelUpButton.SetActive(true);
 
         // Stop leveling up, so that we can increment the next level if desired
-        isLevelingUp = false;
+        _isLevelingUp = false;
 
         yield return null;
     }
@@ -374,10 +413,10 @@ public class Stats : MonoBehaviour
         if (amountToIncr == 0)
             return;
         vitality += amountToIncr; // Increase the literal stat
-        hpRef.MaxHP = vitality; // Have the max health value reflect the change
+        _hpRef.MaxHP = vitality; // Have the max health value reflect the change
         // Heal the character by the amount they just increased their vitality by, so they can start using that health right away.
         // This also serves to update the health bar visual
-        hpRef.Heal(amountToIncr);
+        _hpRef.Heal(amountToIncr);
     }
     /// <summary>
     /// Increases magic
@@ -415,13 +454,13 @@ public class Stats : MonoBehaviour
         if (amountToIncr == 0)
             return;
         speed += amountToIncr; // Increase the literal stat
-        mARef.MoveRange = speed; // Have the distance this character can move reflect that change
-        Destroy(mARef.rangeVisualParent.gameObject); // Get rid of the character's old rangeVisuals
-        mARef.rangeVisualParent = null;
-        mAContRef.CreateVisualTiles(mARef); // Make new ones
+        _mARef.MoveRange = speed; // Have the distance this character can move reflect that change
+        Destroy(_mARef.RangeVisualParent); // Get rid of the character's old rangeVisuals
+        _mARef.RangeVisualParent = null;
+        _mAContRef.CreateVisualTiles(_mARef); // Make new ones
         // Recalculate the character's movement and attack
-        mARef.CalcMoveTiles();
-        mARef.CalcAttackTiles();
+        _mARef.CalcMoveTiles();
+        _mARef.CalcAttackTiles();
     }
 
     /// <summary>

@@ -5,12 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuToGame : MonoBehaviour
 {
-  
-
-
-   public void MenuToScene(string level)
+    public void MenuToScene(string level)
     {
         SceneManager.LoadScene(level);
     }
-   
 }

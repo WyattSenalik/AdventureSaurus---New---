@@ -5,9 +5,9 @@ using UnityEngine;
 public class EnemyDifficulty : MonoBehaviour
 {
     // The enemies difficulty
-    [SerializeField] private int difficulty = 1;
+    [SerializeField] private int _difficulty = 1;
     public int Difficulty
     {
-        get { return difficulty; }
+        get { return _difficulty; }
     }
 }

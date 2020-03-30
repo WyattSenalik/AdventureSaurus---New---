@@ -10,9 +10,12 @@ public class MoveAttackGUIController : MonoBehaviour
     // Refernce to the side hp and exp bars. These are also turned on and off when the user has control
     [SerializeField] private Image[] _imagesToTurnOff = null;
 
-    private MoveAttackController _mAContRef = null;  // Reference to the MoveAttackController script
-    private InputController _inpContRef = null;  // Reference to the InputController script
-    private MoveAttack _charSelected;    // A reference to the selected character's MoveAttack script 
+    // Reference to the MoveAttackController script
+    private MoveAttackController _mAContRef = null;
+    // Reference to the InputController script
+    private InputController _inpContRef = null;
+    // A reference to the selected character's MoveAttack script 
+    private MoveAttack _charSelected;
     public MoveAttack CharSelectedMA
     {
         get { return _charSelected; }
@@ -40,6 +43,8 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         // When the player's turn begins, allow them to select things
         TurnSystem.OnBeginPlayerTurn += AllowSelect;
+        // When the player's turn ends, deselect the selected character
+        TurnSystem.OnFinishPlayerTurn += Deselect;
         // When the enemy's turn begins, deny the user from selecting
         TurnSystem.OnBeginEnemyTurn += DenySelect;
 
@@ -54,6 +59,7 @@ public class MoveAttackGUIController : MonoBehaviour
     private void OnDisable()
     {
         TurnSystem.OnBeginPlayerTurn -= AllowSelect;
+        TurnSystem.OnFinishPlayerTurn -= Deselect;
         TurnSystem.OnBeginEnemyTurn -= DenySelect;
 
         // Unsubscribe to the pause event (since if this is inactive, the game is paused)
@@ -68,6 +74,7 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         TurnSystem.OnBeginPlayerTurn -= AllowSelect;
         TurnSystem.OnBeginEnemyTurn -= DenySelect;
+        TurnSystem.OnFinishPlayerTurn -= Deselect;
         Pause.OnPauseGame -= HideScript;
         Pause.OnUnpauseGame -= ShowScript;
         MoveAttack.OnCharacterFinishedMoving -= ReturnControlAfterMove;

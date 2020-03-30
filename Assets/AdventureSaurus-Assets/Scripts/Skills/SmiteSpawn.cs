@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class SmiteSpawn : MonoBehaviour
 {
-    private Health dealDamageTo;
+    private Health _dealDamageTo;
     public Health DealDamageTo
     {
-        set { dealDamageTo = value; }
+        set { _dealDamageTo = value; }
     }
 
-    private Stats giveXPTo;
+    private Stats _giveXPTo;
     public Stats GiveXPTo
     {
-        set { giveXPTo = value; }
+        set { _giveXPTo = value; }
     }
 
-    private int damage;
+    private int _damage;
     public int Damage
     {
-        set { damage = value; }
+        set { _damage = value; }
     }
 
     public void SmiteThee()
     {
         
-        dealDamageTo.TakeDamage(damage, giveXPTo);
+        _dealDamageTo.TakeDamage(_damage, _giveXPTo);
         Destroy(this.gameObject);
     }
     

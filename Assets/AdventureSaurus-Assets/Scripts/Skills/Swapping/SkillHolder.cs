@@ -6,7 +6,7 @@ using UnityEngine;
 public class SkillHolder : MonoBehaviour
 {
     // All of the skills obtainable in the game
-    [SerializeField] private string[] skillNames = { "BasicAttack", "Heal", "Smite", "ThreeSixtySwing" };
+    [SerializeField] private string[] _skillNames = { "BasicAttack", "Heal", "Smite", "ThreeSixtySwing" };
 
     public const byte BASIC_ATTACK = 0;
     public const byte HEAL = 1;
@@ -20,14 +20,14 @@ public class SkillHolder : MonoBehaviour
     /// <param name="skillIndex">The index of the skill</param>
     public Skill GiveSkill(AllySkillController chosenChara, byte skillIndex)
     {
-        if (skillIndex >= skillNames.Length)
+        if (skillIndex >= _skillNames.Length)
         {
             Debug.Log("There is no skill at that index");
             return null;
         }
 
         // Attaches the desired skill if the ally does not already have it
-        switch (skillNames[skillIndex])
+        switch (_skillNames[skillIndex])
         {
             case ("BasicAttack"):
                 if (!HasSkill<BasicAttack>(chosenChara))
@@ -49,7 +49,7 @@ public class SkillHolder : MonoBehaviour
                 Debug.Log("WARNING - BUG DETECTED - Unrecognized Skill to acquire");
                 return null;
         }
-        Debug.Log(chosenChara.name + " already has " + skillNames[skillIndex] + " attached");
+        Debug.Log(chosenChara.name + " already has " + _skillNames[skillIndex] + " attached");
         return null;
     }
 

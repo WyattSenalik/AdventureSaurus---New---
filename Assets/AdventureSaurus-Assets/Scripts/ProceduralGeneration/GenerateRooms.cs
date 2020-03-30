@@ -8,29 +8,43 @@ public enum RoomSide {TOP, RIGHT, BOT, LEFT};
 public class GenerateRooms : MonoBehaviour
 {
     // Prefabs
-    [SerializeField] private GameObject roomPrefab = null; // The room prefab to spawn
-    [SerializeField] private GameObject bleedLightPrefab = null; // The bleed light prefab to spawn between rooms
+    // The room prefab to spawn
+    [SerializeField] private GameObject _roomPrefab = null;
+    // The bleed light prefab to spawn between rooms
+    [SerializeField] private GameObject _bleedLightPrefab = null;
 
     // Spawning Rooms variables
-    [SerializeField] private Vector2Int lowerLeftBound = Vector2Int.zero; // The farthest position down-left a room tile can exist
-    [SerializeField] private Vector2Int upperRightBound = new Vector2Int(int.MaxValue, int.MaxValue); // The farthest position up-right a room tile can exist
-    [SerializeField] private Vector2Int minRoomSize = new Vector2Int(7, 7); // The smallest size a room can be
-    [SerializeField] private Vector2Int maxRoomSize = new Vector2Int(20, 20); // The largest size a room can be
+    // The farthest position down-left a room tile can exist
+    [SerializeField] private Vector2Int _lowerLeftBound = new Vector2Int(int.MinValue, int.MinValue);
+    // The farthest position up-right a room tile can exist
+    [SerializeField] private Vector2Int _upperRightBound = new Vector2Int(int.MaxValue, int.MaxValue);
+    // The smallest size a room can be
+    [SerializeField] private Vector2Int _minRoomSize = new Vector2Int(6, 6);
+    // The largest size a room can be
+    [SerializeField] private Vector2Int _maxRoomSize = new Vector2Int(8, 8);
     // For these hallway sizes, width of the hallway is the amount of wall tiles it will get rid of to connect to a room
     // the length of the hallwa is the distance between the current room and the next room
-    [SerializeField] private Vector2Int hallwayWidthRange = new Vector2Int(3, 5); // The amount of walls this hallway breaks down to connect to a room
-    [SerializeField] private Vector2Int hallwayLengthRange = new Vector2Int(8, 10); // The amount of tiles between the prev room and the next room
-    [SerializeField] private int hallwayOffsetFromEdge = 2; // The distance from the edge of the room a hallway must be
-    private int amountRoomsToSpawn; // The amount of rooms to spawn
+    // The amount of walls this hallway breaks down to connect to a room
+    [SerializeField] private Vector2Int _hallwayWidthRange = new Vector2Int(5, 5);
+    // The amount of tiles between the prev room and the next room
+    [SerializeField] private Vector2Int _hallwayLengthRange = new Vector2Int(6, 6);
+    // The distance from the edge of the room a hallway must be
+    [SerializeField] private int _hallwayOffsetFromEdge = 2;
+    // The amount of rooms to spawn
+    private int _amountRoomsToSpawn;
     public int AmountRoomsToSpawn
     {
-        set { amountRoomsToSpawn = value; }
+        set { _amountRoomsToSpawn = value; }
     }
-    [SerializeField] private int minSpaceBetweenRooms = 0; // The distance two rooms must be apart in any one direction
-    [SerializeField] private int chanceToSpawnBranch = 5; // The chance to not update what the previous room is, so that another room attached to the prevRoom
+    // The distance two rooms must be apart in any one direction
+    [SerializeField] private int _minSpaceBetweenRooms = 1;
+    // The chance to not update what the previous room is, so that another room attached to the prevRoom
+    [SerializeField] private int _chanceToSpawnBranch = 3;
 
-    private Transform roomParent; // The parent of all rooms and hallways
-    private Transform bleedLightsParent; // The parent of all bleed lights
+    // The parent of all rooms and hallways
+    private Transform _roomParent;
+    // The parent of all bleed lights
+    private Transform _bleedLightsParent;
 
     /// <summary>
     /// Spawns and places normal rooms in valid locations such that no rooms will overlap
@@ -39,11 +53,11 @@ public class GenerateRooms : MonoBehaviour
     public Transform SpawnHallwaysAndRooms()
     {
         // Make sure there is enough space to spawn the rooms
-        int maxRoomWidth = maxRoomSize.x + minSpaceBetweenRooms * 2;
-        int maxRoomHeight = maxRoomSize.y + minSpaceBetweenRooms * 2;
-        int xDistAvail = upperRightBound.x - lowerLeftBound.x;
-        int yDistAvail = upperRightBound.y - lowerLeftBound.y;
-        int maxRoomCoverArea = maxRoomWidth * maxRoomHeight * amountRoomsToSpawn;
+        int maxRoomWidth = _maxRoomSize.x + _minSpaceBetweenRooms * 2;
+        int maxRoomHeight = _maxRoomSize.y + _minSpaceBetweenRooms * 2;
+        int xDistAvail = _upperRightBound.x - _lowerLeftBound.x;
+        int yDistAvail = _upperRightBound.y - _lowerLeftBound.y;
+        int maxRoomCoverArea = maxRoomWidth * maxRoomHeight * _amountRoomsToSpawn;
         int givenCoverArea = xDistAvail * yDistAvail;
         if (maxRoomCoverArea > givenCoverArea)
         {
@@ -54,27 +68,27 @@ public class GenerateRooms : MonoBehaviour
 
         // Just in case, to prevent an infinite loop and unity freezing
         // We define a limit to how many times we iterate to find a good spot for the room
-        int breakOutLimit = amountRoomsToSpawn * 100;
+        int breakOutLimit = _amountRoomsToSpawn * 100;
 
         // Create the rooms parent and center it
-        roomParent = (new GameObject("RoomParent")).transform;
-        roomParent.position = Vector3.zero;
+        _roomParent = (new GameObject("RoomParent")).transform;
+        _roomParent.position = Vector3.zero;
 
         // Create the lights parent and center it
-        bleedLightsParent = (new GameObject("BleedLightsParent")).transform;
-        bleedLightsParent.position = Vector3.zero;
+        _bleedLightsParent = (new GameObject("BleedLightsParent")).transform;
+        _bleedLightsParent.position = Vector3.zero;
 
         // Create the first room
         // Define its dimensions
         Vector2Int fRoomSize = Vector2Int.zero;
-        fRoomSize.x = (Random.Range(minRoomSize.x/2, maxRoomSize.x/2 + 1) * 2) + 1;
-        fRoomSize.y = (Random.Range(minRoomSize.y/2, maxRoomSize.y/2 + 1) * 2) + 1;
+        fRoomSize.x = (Random.Range(_minRoomSize.x/2, _maxRoomSize.x/2 + 1) * 2) + 1;
+        fRoomSize.y = (Random.Range(_minRoomSize.y/2, _maxRoomSize.y/2 + 1) * 2) + 1;
         // Determine a position for it (in the middle)
         Vector2Int fRoomPos = Vector2Int.zero;
-        fRoomPos.x = (lowerLeftBound.x + upperRightBound.x) / 2;
-        fRoomPos.y = (lowerLeftBound.y + upperRightBound.y) / 2;
+        fRoomPos.x = (_lowerLeftBound.x + _upperRightBound.x) / 2;
+        fRoomPos.y = (_lowerLeftBound.y + _upperRightBound.y) / 2;
         // Create the first room
-        Transform fRoomTrans = Instantiate(roomPrefab, new Vector3(fRoomPos.x, fRoomPos.y, 0), Quaternion.identity, roomParent).transform;
+        Transform fRoomTrans = Instantiate(_roomPrefab, new Vector3(fRoomPos.x, fRoomPos.y, 0), Quaternion.identity, _roomParent).transform;
         fRoomTrans.localScale = new Vector3(fRoomSize.x, fRoomSize.y, 1);
         fRoomTrans.name = "Room 0";
 
@@ -90,18 +104,18 @@ public class GenerateRooms : MonoBehaviour
         // Iterate to create the correct number of rooms
         int roomsSpawned = 1; // The counter
         int timesLooped = 0; // In case it gets stuck in an infinite loop
-        while (roomsSpawned < amountRoomsToSpawn)
+        while (roomsSpawned < _amountRoomsToSpawn)
         {
             // Determine a side to spawn the hallway on
             RoomSide hallwaySide = RoomSide.TOP + Random.Range(0, 4);
             // Choose the size of the hallway
-            int hallwayWidth = Random.Range(hallwayWidthRange.x, hallwayWidthRange.y + 1);
-            int hallwayLength = Random.Range(hallwayLengthRange.x, hallwayLengthRange.y + 1);
+            int hallwayWidth = Random.Range(_hallwayWidthRange.x, _hallwayWidthRange.y + 1);
+            int hallwayLength = Random.Range(_hallwayLengthRange.x, _hallwayLengthRange.y + 1);
             Vector2Int hallwayScale = Vector2Int.one;
             // Choose the size of the new room
             Vector2Int newRoomSize = Vector2Int.zero;
-            newRoomSize.x = (Random.Range(minRoomSize.x / 2, maxRoomSize.x / 2 + 1) * 2) + 1; ;
-            newRoomSize.y = (Random.Range(minRoomSize.y / 2, maxRoomSize.y / 2 + 1) * 2) + 1; ;
+            newRoomSize.x = (Random.Range(_minRoomSize.x / 2, _maxRoomSize.x / 2 + 1) * 2) + 1; ;
+            newRoomSize.y = (Random.Range(_minRoomSize.y / 2, _maxRoomSize.y / 2 + 1) * 2) + 1; ;
 
 
             // The positions of the hallway and room
@@ -117,7 +131,7 @@ public class GenerateRooms : MonoBehaviour
             // In case the first side choice does not work, we will loop this until we find a side that works
             bool spawnSuccessful = false; // If the most recent spawn was successful
             int amountSidesTested = 0; // The amount of sides of the current room that have been tested
-            int prevRoomIndex = roomParent.childCount - 1; // The index of the previous room
+            int prevRoomIndex = _roomParent.childCount - 1; // The index of the previous room
             while (!spawnSuccessful)
             {
                 // This information will be used in calculating the positions of the hallway and room
@@ -132,11 +146,11 @@ public class GenerateRooms : MonoBehaviour
                 {
                     case RoomSide.TOP:
                         // Calculate offset with the previous room (TOP and BOT) are the same calculation
-                        offsetPrev = Mathf.RoundToInt(Random.Range(-prevRoomRadius.x + hallwayRadius.x + hallwayOffsetFromEdge, prevRoomRadius.x - hallwayRadius.x - hallwayOffsetFromEdge));
+                        offsetPrev = Mathf.RoundToInt(Random.Range(-prevRoomRadius.x + hallwayRadius.x + _hallwayOffsetFromEdge, prevRoomRadius.x - hallwayRadius.x - _hallwayOffsetFromEdge));
                         // Calculate the hallway's position
                         hallwayPos = prevRoomPos + new Vector2(offsetPrev, prevRoomRadius.y + hallwayRadius.y);
                         // Calculate offeset with the new room (TOP and BOT) are same calculation
-                        offsetNew = Mathf.RoundToInt(Random.Range(-newRoomRadius.x + hallwayRadius.x + hallwayOffsetFromEdge, newRoomRadius.x - hallwayRadius.x - hallwayOffsetFromEdge));
+                        offsetNew = Mathf.RoundToInt(Random.Range(-newRoomRadius.x + hallwayRadius.x + _hallwayOffsetFromEdge, newRoomRadius.x - hallwayRadius.x - _hallwayOffsetFromEdge));
                         // Calculate the room's position
                         newRoomPos = hallwayPos + new Vector2(-offsetNew, newRoomRadius.y + hallwayRadius.y);
                         // Set the hallway's scale
@@ -151,11 +165,11 @@ public class GenerateRooms : MonoBehaviour
                         break;
                     case RoomSide.BOT:
                         // Calculate offset with the previous room (TOP and BOT) are the same calculation
-                        offsetPrev = Mathf.RoundToInt(Random.Range(-prevRoomRadius.x + hallwayRadius.x + hallwayOffsetFromEdge, prevRoomRadius.x - hallwayRadius.x - hallwayOffsetFromEdge));
+                        offsetPrev = Mathf.RoundToInt(Random.Range(-prevRoomRadius.x + hallwayRadius.x + _hallwayOffsetFromEdge, prevRoomRadius.x - hallwayRadius.x - _hallwayOffsetFromEdge));
                         // Calculate the hallway's position
                         hallwayPos = prevRoomPos + new Vector2(offsetPrev, -prevRoomRadius.y - hallwayRadius.y);
                         // Calculate offeset with the new room (TOP and BOT) are same calculation
-                        offsetNew = Mathf.RoundToInt(Random.Range(-newRoomRadius.x + hallwayRadius.x + hallwayOffsetFromEdge, newRoomRadius.x - hallwayRadius.x - hallwayOffsetFromEdge));
+                        offsetNew = Mathf.RoundToInt(Random.Range(-newRoomRadius.x + hallwayRadius.x + _hallwayOffsetFromEdge, newRoomRadius.x - hallwayRadius.x - _hallwayOffsetFromEdge));
                         // Calculate the room's position
                         newRoomPos = hallwayPos + new Vector2(-offsetNew, -newRoomRadius.y - hallwayRadius.y);
                         // Set the hallway's scale
@@ -170,11 +184,11 @@ public class GenerateRooms : MonoBehaviour
                         break;
                     case RoomSide.RIGHT:
                         // Calculate offset with the previous room (RIGHT and LEFT) are the same calculaiton
-                        offsetPrev = Mathf.RoundToInt(Random.Range(-prevRoomRadius.y + hallwayRadius.x + hallwayOffsetFromEdge, prevRoomRadius.y - hallwayRadius.x - hallwayOffsetFromEdge));
+                        offsetPrev = Mathf.RoundToInt(Random.Range(-prevRoomRadius.y + hallwayRadius.x + _hallwayOffsetFromEdge, prevRoomRadius.y - hallwayRadius.x - _hallwayOffsetFromEdge));
                         // Calculate the hallway's position
                         hallwayPos = prevRoomPos + new Vector2(prevRoomRadius.x + hallwayRadius.y, offsetPrev);
                         // Calculate offeset with the new room (RIGHT and LEFT) are same calculation
-                        offsetNew = Mathf.RoundToInt(Random.Range(-newRoomRadius.y + hallwayRadius.x + hallwayOffsetFromEdge, newRoomRadius.y - hallwayRadius.x - hallwayOffsetFromEdge));
+                        offsetNew = Mathf.RoundToInt(Random.Range(-newRoomRadius.y + hallwayRadius.x + _hallwayOffsetFromEdge, newRoomRadius.y - hallwayRadius.x - _hallwayOffsetFromEdge));
                         // Calculate the room's position
                         newRoomPos = hallwayPos + new Vector2(newRoomRadius.x + hallwayRadius.y, -offsetNew);
                         // Set the hallway's scale
@@ -189,11 +203,11 @@ public class GenerateRooms : MonoBehaviour
                         break;
                     case RoomSide.LEFT:
                         // Calculate offset with the previous room (RIGHT and LEFT) are the same calculaiton
-                        offsetPrev = Mathf.RoundToInt(Random.Range(-prevRoomRadius.y + hallwayRadius.x + hallwayOffsetFromEdge, prevRoomRadius.y - hallwayRadius.x - hallwayOffsetFromEdge));
+                        offsetPrev = Mathf.RoundToInt(Random.Range(-prevRoomRadius.y + hallwayRadius.x + _hallwayOffsetFromEdge, prevRoomRadius.y - hallwayRadius.x - _hallwayOffsetFromEdge));
                         // Calculate the hallway's position
                         hallwayPos = prevRoomPos + new Vector2(-prevRoomRadius.x - hallwayRadius.y, offsetPrev);
                         // Calculate offeset with the new room (RIGHT and LEFT) are same calculation
-                        offsetNew = Mathf.RoundToInt(Random.Range(-newRoomRadius.y + hallwayRadius.x + hallwayOffsetFromEdge, newRoomRadius.y - hallwayRadius.x - hallwayOffsetFromEdge));
+                        offsetNew = Mathf.RoundToInt(Random.Range(-newRoomRadius.y + hallwayRadius.x + _hallwayOffsetFromEdge, newRoomRadius.y - hallwayRadius.x - _hallwayOffsetFromEdge));
                         // Calculate the room's position
                         newRoomPos = hallwayPos + new Vector2(-newRoomRadius.x - hallwayRadius.y, -offsetNew);
                         // Set the hallway's scale
@@ -215,9 +229,9 @@ public class GenerateRooms : MonoBehaviour
                 if (IsRoomValid(newRoomPos, newRoomSize))
                 {
                     // Create the hallway and the room
-                    Transform hallwayTrans = Instantiate(roomPrefab, new Vector3(hallwayPos.x, hallwayPos.y, 0), Quaternion.identity, roomParent).transform;
+                    Transform hallwayTrans = Instantiate(_roomPrefab, new Vector3(hallwayPos.x, hallwayPos.y, 0), Quaternion.identity, _roomParent).transform;
                     hallwayTrans.localScale = new Vector3(hallwayScale.x, hallwayScale.y, 1);
-                    Transform newRoomTrans = Instantiate(roomPrefab, new Vector3(newRoomPos.x, newRoomPos.y, 0), Quaternion.identity, roomParent).transform;
+                    Transform newRoomTrans = Instantiate(_roomPrefab, new Vector3(newRoomPos.x, newRoomPos.y, 0), Quaternion.identity, _roomParent).transform;
                     newRoomTrans.localScale = new Vector3(newRoomSize.x, newRoomSize.y, 1);
 
                     // Make the new room be adjacent to the hallway,
@@ -242,27 +256,27 @@ public class GenerateRooms : MonoBehaviour
                     // Spawn the lights at the join locations with the proper angles
                     // For between the prev room and hallway
                     // From the prev room to the hallway
-                    GameObject hallFromPrevBroadcastObj = Instantiate(bleedLightPrefab, hallPrevJoinPoint, 
-                                                                      Quaternion.Euler(0, 0, bleedLightRot), bleedLightsParent);
+                    GameObject hallFromPrevBroadcastObj = Instantiate(_bleedLightPrefab, hallPrevJoinPoint, 
+                                                                      Quaternion.Euler(0, 0, bleedLightRot), _bleedLightsParent);
                     Light2D hallFromPrevBroadcastLight2D = hallFromPrevBroadcastObj.GetComponent<Light2D>();
                     prevRoomScriptRef.BroadcastLights.Add(hallFromPrevBroadcastLight2D);
                     hallwayScriptRef.ReceiveLights.Add(hallFromPrevBroadcastLight2D);
                     // From the hallway to the previous room
-                    GameObject hallFromPrevReceiveObj = Instantiate(bleedLightPrefab, hallPrevJoinPoint,
-                                                                    Quaternion.Euler(0, 0, 180 + bleedLightRot), bleedLightsParent);
+                    GameObject hallFromPrevReceiveObj = Instantiate(_bleedLightPrefab, hallPrevJoinPoint,
+                                                                    Quaternion.Euler(0, 0, 180 + bleedLightRot), _bleedLightsParent);
                     Light2D hallFromPrevReceiveLight2D = hallFromPrevReceiveObj.GetComponent<Light2D>();
                     prevRoomScriptRef.ReceiveLights.Add(hallFromPrevReceiveLight2D);
                     hallwayScriptRef.BroadcastLights.Add(hallFromPrevReceiveLight2D);
                     // For between the new room and hallway
                     // From the new room to the hallway
-                    GameObject hallFromNewBroadcastObj = Instantiate(bleedLightPrefab, hallNewJoinPoint,
-                                                                     Quaternion.Euler(0, 0, 180 + bleedLightRot), bleedLightsParent);
+                    GameObject hallFromNewBroadcastObj = Instantiate(_bleedLightPrefab, hallNewJoinPoint,
+                                                                     Quaternion.Euler(0, 0, 180 + bleedLightRot), _bleedLightsParent);
                     Light2D hallFromNewBroadcastLight2D = hallFromNewBroadcastObj.GetComponent<Light2D>();
                     newRoomScriptRef.BroadcastLights.Add(hallFromNewBroadcastLight2D);
                     hallwayScriptRef.ReceiveLights.Add(hallFromNewBroadcastLight2D);
                     // From the hallway to the new room
-                    GameObject hallFromNewReceiveObj = Instantiate(bleedLightPrefab, hallNewJoinPoint,
-                                                                   Quaternion.Euler(0, 0, bleedLightRot), bleedLightsParent);
+                    GameObject hallFromNewReceiveObj = Instantiate(_bleedLightPrefab, hallNewJoinPoint,
+                                                                   Quaternion.Euler(0, 0, bleedLightRot), _bleedLightsParent);
                     Light2D hallFromNewReceiveLight2D = hallFromNewReceiveObj.GetComponent<Light2D>();
                     newRoomScriptRef.ReceiveLights.Add(hallFromNewReceiveLight2D);
                     hallwayScriptRef.BroadcastLights.Add(hallFromNewReceiveLight2D);
@@ -275,7 +289,7 @@ public class GenerateRooms : MonoBehaviour
 
                     // Make the chance not to update the prevRoom to instead create a branch
                     // If the room is not a branch
-                    if (Random.Range(0, chanceToSpawnBranch + 12 / amountRoomsToSpawn ) != 0)
+                    if (Random.Range(0, _chanceToSpawnBranch + 12 / _amountRoomsToSpawn ) != 0)
                     {
                         // Make the prevRoom the room
                         prevRoomPos = newRoomPos;
@@ -311,13 +325,13 @@ public class GenerateRooms : MonoBehaviour
                     if (prevRoomIndex < 0)
                     {
                         Debug.Log("Cannot create anymore rooms");
-                        return roomParent;
+                        return _roomParent;
                     }
                     // Otherwise, the room is valid, so we can set the prevRoom info to that room
                     else
                     {
                         // Set the prevRoom info
-                        prevRoomTrans = roomParent.GetChild(prevRoomIndex);
+                        prevRoomTrans = _roomParent.GetChild(prevRoomIndex);
                         prevRoomPos = prevRoomTrans.position;
                         prevRoomSize = prevRoomTrans.localScale;
                         // Also reset how many iterations of amountSidesTested we had
@@ -338,7 +352,7 @@ public class GenerateRooms : MonoBehaviour
         }
 
         // Return the parent of the rooms
-        return roomParent;
+        return _roomParent;
     }
 
     /// <summary>
@@ -354,13 +368,13 @@ public class GenerateRooms : MonoBehaviour
         Vector2 lowerLeftRoomPos = testPos - roomRadius;
         Vector2 upperRightRoomPos = testPos + roomRadius;
         // Make sure the room is within the bounds specified
-        if (lowerLeftRoomPos.x < lowerLeftBound.x || lowerLeftRoomPos.y < lowerLeftBound.y ||
-            upperRightRoomPos.x > upperRightBound.x || upperRightRoomPos.y > upperRightBound.y)
+        if (lowerLeftRoomPos.x < _lowerLeftBound.x || lowerLeftRoomPos.y < _lowerLeftBound.y ||
+            upperRightRoomPos.x > _upperRightBound.x || upperRightRoomPos.y > _upperRightBound.y)
         {
             return false;
         }
         // Iterate over each currently existing room
-        foreach (Transform roomTrans in roomParent)
+        foreach (Transform roomTrans in _roomParent)
         {
             float xDist = Mathf.Abs(testPos.x - roomTrans.position.x);
             float yDist = Mathf.Abs(testPos.y - roomTrans.position.y);
@@ -369,7 +383,7 @@ public class GenerateRooms : MonoBehaviour
             float yRadiiSum = (roomSize.y + roomTrans.localScale.y) / 2f;
 
             // If the current room is too close to the room being tested, return false
-            if (xDist - xRadiiSum < minSpaceBetweenRooms && yDist - yRadiiSum < minSpaceBetweenRooms)
+            if (xDist - xRadiiSum < _minSpaceBetweenRooms && yDist - yRadiiSum < _minSpaceBetweenRooms)
             {
                 //Debug.Log("New room with size " + roomSize + " at " + testPos + " is too close to "
                 //    + roomTrans.name + " at " + roomTrans.position + " with size " + roomTrans.localScale);

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CamZoom : MonoBehaviour
 {
-    [SerializeField] private float maxZoomSize = 8f;
-    [SerializeField] private float minZoomSize = 2f;
-    [SerializeField] private float zoomSpeed = 1f;
-    private InputController inpContRef; // Reference to the input controller
-    private Camera mainCam; // Reference to the main camera that this script will be controlling
+    [SerializeField] private float _maxZoomSize = 8f;
+    [SerializeField] private float _minZoomSize = 2f;
+    [SerializeField] private float _zoomSpeed = 1f;
+    private InputController _inpContRef; // Reference to the input controller
+    private Camera _mainCam; // Reference to the main camera that this script will be controlling
 
     // Set references
     private void Awake()
@@ -18,8 +18,8 @@ public class CamZoom : MonoBehaviour
             Debug.Log("Could not find any GameObject with the tag GameController");
         else
         {
-            inpContRef = gameContObj.GetComponent<InputController>();
-            if (inpContRef == null)
+            _inpContRef = gameContObj.GetComponent<InputController>();
+            if (_inpContRef == null)
                 Debug.Log("There was no InputController attached to " + gameContObj.name);
         }
 
@@ -28,8 +28,8 @@ public class CamZoom : MonoBehaviour
             Debug.Log("Could not find any GameObject with the tag MainCamera");
         else
         {
-            mainCam = mainCamObj.GetComponent<Camera>();
-            if (mainCam == null)
+            _mainCam = mainCamObj.GetComponent<Camera>();
+            if (_mainCam == null)
                 Debug.Log("There was no Camera attached to " + mainCamObj.name);
         }
     }
@@ -38,16 +38,16 @@ public class CamZoom : MonoBehaviour
     void Update()
     {
         // Get the zoom amount
-        float zoomAmount = inpContRef.ZoomCommand();
+        float zoomAmount = _inpContRef.ZoomCommand();
         // If we are not past our limits
-        if ((mainCam.orthographicSize > minZoomSize && zoomAmount < 0) || (mainCam.orthographicSize < maxZoomSize && zoomAmount > 0))
+        if ((_mainCam.orthographicSize > _minZoomSize && zoomAmount < 0) || (_mainCam.orthographicSize < _maxZoomSize && zoomAmount > 0))
         {
-            mainCam.orthographicSize += zoomAmount * zoomSpeed;
+            _mainCam.orthographicSize += zoomAmount * _zoomSpeed;
             // If we've surpassed the limits
-            if (mainCam.orthographicSize > maxZoomSize)
-                mainCam.orthographicSize = maxZoomSize;
-            else if (mainCam.orthographicSize < minZoomSize)
-                mainCam.orthographicSize = minZoomSize;
+            if (_mainCam.orthographicSize > _maxZoomSize)
+                _mainCam.orthographicSize = _maxZoomSize;
+            else if (_mainCam.orthographicSize < _minZoomSize)
+                _mainCam.orthographicSize = _minZoomSize;
         }
     }
 }

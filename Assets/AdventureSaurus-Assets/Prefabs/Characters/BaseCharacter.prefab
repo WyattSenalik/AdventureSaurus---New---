@@ -127,11 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 0
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!114 &4413198228147627898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,9 +141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960f9ad5bdc6683408209623fa14415d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redHealthBar: {fileID: 4413198229530235580}
-  frameHealthBar: {fileID: 4413198230127945710}
-  redBarOffset: 0.0625
+  _redHealthBar: {fileID: 4413198229530235580}
+  _frameHealthBar: {fileID: 4413198230127945710}
+  _redBarOffset: 0.0625
 --- !u!114 &4413198228147627896
 MonoBehaviour:
   m_ObjectHideFlags: 0

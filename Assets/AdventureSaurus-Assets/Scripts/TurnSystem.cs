@@ -22,6 +22,9 @@ public class TurnSystem : MonoBehaviour
     // For when it is the player's turn
     public delegate void BeginPlayerTurn();
     public static event BeginPlayerTurn OnBeginPlayerTurn;
+    // For when the player's turn ends
+    public delegate void FinishPlayerTurn();
+    public static event FinishPlayerTurn OnFinishPlayerTurn;
 
     // Called when gameobject is toggled on
     // Subscribe to events
@@ -29,6 +32,8 @@ public class TurnSystem : MonoBehaviour
     {
         // When the enemy's turn ends, start the player's turn
         EnemyTurnController.OnEndEnemyTurn += StartPlayerTurn;
+        // When the generation is over, initialize this script
+        ProceduralGenerationController.OnFinishGeneration += Initialize;
 
         // When the game is paused, disable this script
         Pause.OnPauseGame += HideScript;
@@ -41,6 +46,7 @@ public class TurnSystem : MonoBehaviour
     private void OnDisable()
     {
         EnemyTurnController.OnEndEnemyTurn -= StartPlayerTurn;
+        ProceduralGenerationController.OnFinishGeneration -= Initialize;
 
         // Unsubscribe to the pause event (since if this is inactive, the game is paused)
         Pause.OnPauseGame -= HideScript;
@@ -53,6 +59,7 @@ public class TurnSystem : MonoBehaviour
     private void OnDestroy()
     {
         EnemyTurnController.OnEndEnemyTurn -= StartPlayerTurn;
+        ProceduralGenerationController.OnFinishGeneration -= Initialize;
         Pause.OnPauseGame -= HideScript;
         Pause.OnUnpauseGame -= ShowScript;
     }
@@ -64,10 +71,14 @@ public class TurnSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Called from Procedural Generation after everything is created
+    /// Initializes things for this script.
+    /// Called from the OnFinishGenerating event
     /// </summary>
-    /// <param name="charParent">Transform that is the parent of all characters</param>
-    public void Initialize(Transform charParent)
+    /// <param name="charParent">The parent of all the characters</param>
+    /// <param name="roomParent">The parent of all the rooms (unused)</param>
+    /// <param name="wallParent">The parent of all the walls (unused)</param>
+    /// <param name="stairsTrans">The transform of the stairs (unused)</param>
+    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
     {
         _characterTeam = charParent;
     }
@@ -76,7 +87,7 @@ public class TurnSystem : MonoBehaviour
     /// Called by the OnEnemyTurnEnd event from EnemyMoveAttackAI after all enemies have moved.
     /// Starts Players Turn, Enables player to control characters
     /// </summary>
-    public void StartPlayerTurn()
+    private void StartPlayerTurn()
     {
         //Debug.Log("StartPlayerTurn");
         _endTurnButt.interactable = true;
@@ -147,75 +158,85 @@ public class TurnSystem : MonoBehaviour
             StartPlayerTurn();
         }
     }
-    /// <summary>
-    /// Called from 
-    /// </summary>
-    public void IsPlayerDone()//checks if player has done everything that they can do with thier characters
-    {
-        bool areDone = true;
-        foreach (Transform player in _characterTeam)
-        {
-            MoveAttack ma = player.GetComponent<MoveAttack>();
-            if(ma == null)
-            {
-                Debug.Log("There was no move attack attached to " + player.name);
-                continue;
-            }
+    ///// <summary>
+    ///// Called from 
+    ///// </summary>
+    //private void IsPlayerDone()//checks if player has done everything that they can do with thier characters
+    //{
+    //    bool areDone = true;
+    //    foreach (Transform player in _characterTeam)
+    //    {
+    //        MoveAttack ma = player.GetComponent<MoveAttack>();
+    //        if(ma == null)
+    //        {
+    //            Debug.Log("There was no move attack attached to " + player.name);
+    //            continue;
+    //        }
 
-            if(ma.WhatAmI == CharacterType.Ally)//checks if its a player character
-            {
-                if( !(ma.HasMoved && ma.HasAttacked))
-                {
-                    areDone = false;
-                    break;
-                }
-            }
+    //        if(ma.WhatAmI == CharacterType.Ally)//checks if its a player character
+    //        {
+    //            if( !(ma.HasMoved && ma.HasAttacked))
+    //            {
+    //                areDone = false;
+    //                break;
+    //            }
+    //        }
             
-        }
-        if(areDone)
-        {
-            EndPlayerTurn();
-        }
-    }
-    //checks all enemies to see if they are done with their turn
-    public void IsEnemyDone()//gets called each time an enemy is done taking actions
-    {
-        bool areDone = true;//Starts true to assume the player is done but if any have actions left sets it to false
-        foreach (Transform player in _characterTeam)
-        {
-            MoveAttack ma = player.GetComponent<MoveAttack>();
-            if (ma == null)
-            {
-                Debug.Log("There was no move attack attached to " + player.name);
-                continue;
-            }
+    //    }
+    //    if(areDone)
+    //    {
+    //        EndPlayerTurn();
+    //    }
+    //}
+    ////checks all enemies to see if they are done with their turn
+    //private void IsEnemyDone()//gets called each time an enemy is done taking actions
+    //{
+    //    bool areDone = true;//Starts true to assume the player is done but if any have actions left sets it to false
+    //    foreach (Transform player in _characterTeam)
+    //    {
+    //        MoveAttack ma = player.GetComponent<MoveAttack>();
+    //        if (ma == null)
+    //        {
+    //            Debug.Log("There was no move attack attached to " + player.name);
+    //            continue;
+    //        }
 
-            if (ma.WhatAmI == CharacterType.Enemy)
-            {
-                if (!(ma.HasMoved && ma.HasAttacked))
-                {
-                    areDone = false;
-                    break;
-                }
-            }
+    //        if (ma.WhatAmI == CharacterType.Enemy)
+    //        {
+    //            if (!(ma.HasMoved && ma.HasAttacked))
+    //            {
+    //                areDone = false;
+    //                break;
+    //            }
+    //        }
 
-        }
-        if (areDone == true)
-        {
+    //    }
+    //    if (areDone == true)
+    //    {
 
-            StartPlayerTurn();
+    //        StartPlayerTurn();
 
-        }
+    //    }
 
-    }
+    //}
 
-    public void SetToGameStop()//sets state to GameStop which will be used for pausing or cutscenes
-    {
-        _state = TurnState.GAMESTOP;
-    }
+    ///// <summary>
+    ///// Sets state to GameStop which will be used for pausing or cutscenes
+    ///// </summary>
+    //private void SetToGameStop()
+    //{
+    //    _state = TurnState.GAMESTOP;
+    //}
 
+    /// <summary>
+    /// Ends the player's turn and starts the enemy's turn
+    /// </summary>
     public void EndPlayerTurn()
     {
+        // Call the finish player turn event
+        if (OnFinishPlayerTurn != null)
+            OnFinishPlayerTurn();
+
         StartEnemyTurn();
     }
 
