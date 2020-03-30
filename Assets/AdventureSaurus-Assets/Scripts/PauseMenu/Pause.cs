@@ -24,6 +24,27 @@ public class Pause : MonoBehaviour
     public delegate void GameUnpause();
     public static event GameUnpause OnUnpauseGame;
 
+    // Called when the component is toggled active
+    // Subscribe to events
+    private void OnEnable()
+    {
+        Stairs.OnPromptNextFloor += SuspendGame;
+    }
+
+    // Called when the component is toggled off
+    // Unsubscribe from events
+    private void OnDisable()
+    {
+        Stairs.OnPromptNextFloor -= SuspendGame;
+    }
+
+    // Called when the gameobject is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        Stairs.OnPromptNextFloor -= SuspendGame;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,23 +67,17 @@ public class Pause : MonoBehaviour
         // If the game is current not paused, pause the game
         if (!_isPaused)
         {
-            // Change the time scale
-            _prevTime = Time.timeScale;
-            Time.timeScale = 0;
-            //if (Time.fixedDeltaTime - prevTime < 0)
-                //Time.fixedDeltaTime = 0;
-            //else
-                //Time.fixedDeltaTime -= prevTime;
-            
+            // Stop time
+            StopTime();
+
             // Pause the game
             if (OnPauseGame != null)
                 OnPauseGame();
         }
         else
         {
-            // Revert the time
-            Time.timeScale = _prevTime;
-            //Time.fixedDeltaTime += prevTime;
+            // Restart time
+            ResumeTime();
 
             // Unpause the game
             if (OnUnpauseGame != null)
@@ -76,6 +91,54 @@ public class Pause : MonoBehaviour
 
         // Turn off/on the pause menu
         TogglePauseMenu(_isPaused);
+    }
+
+    /// <summary>
+    /// Pauses the game without calling OnPauseGame or displaying the pause menu
+    /// </summary>
+    private void SuspendGame()
+    {
+        // If the game is currently not paused, pause the game
+        if (!_isPaused)
+        {
+            // Stop time
+            StopTime();
+        }
+        // If the game is currently paused, unpause it
+        else
+        {
+            // Resume time
+            ResumeTime();
+        }
+
+        // Turn on/off game-state ui elements
+        ToggleUIElementsActivity(_isPaused);
+        // Flip the pause state of the game
+        _isPaused = !_isPaused;
+    }
+
+    /// <summary>
+    /// Sets the timescale to 0
+    /// </summary>
+    private void StopTime()
+    {
+        // Change the time scale
+        _prevTime = Time.timeScale;
+        Time.timeScale = 0;
+        //if (Time.fixedDeltaTime - prevTime < 0)
+        //Time.fixedDeltaTime = 0;
+        //else
+        //Time.fixedDeltaTime -= prevTime;
+    }
+
+    /// <summary>
+    /// Returns the timescale to what it was before it was stopped
+    /// </summary>
+    private void ResumeTime()
+    {
+        // Revert the time
+        Time.timeScale = _prevTime;
+        //Time.fixedDeltaTime += prevTime;
     }
 
     /// <summary>

@@ -235,8 +235,6 @@ public class ProceduralGenerationController : MonoBehaviour
         turnSysRef.Initialize(charParent);
         // Initalize PauseMenuController
         pauseMenuContRef.Initialize(charParent);
-        // Initialize Prompt
-        promptRef.Initialize(charParent);
         // Initialize CamFollow
         camFollowRef.Initialize(charParent);
         // Initialize CharDetailedMenuController

@@ -78,7 +78,7 @@ public class Prompter : MonoBehaviour
     /// Gets the allies and enemies from the character parent
     /// </summary>
     /// <param name="charPar">Parent of all characters</param>
-    public void Initialize(Transform charPar)
+    public void Initiasdalize(Transform charPar)
     {
         // Set the transform of the character parent
         charParent = charPar;
@@ -107,7 +107,7 @@ public class Prompter : MonoBehaviour
     /// <summary>
     /// Pauses or unpauses the game. Called from a button
     /// </summary>
-    public void PromptGame()
+    public void ProasdpasdtGame()
     {
         if (!isPaused)
         {
