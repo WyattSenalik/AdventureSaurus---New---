@@ -6,6 +6,7 @@ public class CamFollow : MonoBehaviour
 {
     // Camera variables
     [SerializeField] private float _smoothTime = 0.3f;
+    [SerializeField] private float _dragSpeed = 0.3f;
     //[SerializeField] private float _cameraDistance = 30.0f;
 
     // Parent of all the character
@@ -19,10 +20,15 @@ public class CamFollow : MonoBehaviour
     // Camera Velocity
     private Vector3 _camVel;
 
+    //Mouse Position
+    private Vector3 _mouseOrigin;
+
     // If who we are following is an enemy
     private bool _isOnEnemy;
     // If we finished panning to the enemy
     private bool _panFinished;
+    // If the camera is being dragged around
+    private bool _isDragging;
 
     // Events
     // When the camera finishes panning to an enemy
@@ -98,6 +104,33 @@ public class CamFollow : MonoBehaviour
     // We use late update to move camera
     private void LateUpdate()
     {
+        //Checks if pan finished and if it is enemy turn before allowing free cam
+        /*
+        if (_panFinished && !_isOnEnemy)
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                //right click was pressed    
+                _mouseOrigin = Input.mousePosition;
+                _isDragging = true;
+                _charToFollow = null;
+            }
+            if (!Input.GetMouseButton(1))
+            {
+                _isDragging = false;
+            }
+            if (_isDragging)
+            {
+                Vector3 targetPosition = Camera.main.ScreenToViewportPoint(Input.mousePosition - _mouseOrigin);
+
+                // update x and y but not z
+                Vector3 move = new Vector3(-targetPosition.x * _dragSpeed, -targetPosition.y * _dragSpeed, 0);
+
+                Camera.main.transform.Translate(move, Space.Self);
+            }
+        }
+        */
+
         // If we have a character to follow
         if (_charToFollow != null)
         {
@@ -119,6 +152,8 @@ public class CamFollow : MonoBehaviour
                 }
             }
         }
+        
+
     }
 
     /// <summary>
