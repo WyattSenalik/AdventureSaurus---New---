@@ -21,8 +21,6 @@ public class EnemyTurnController : MonoBehaviour
     // Subscribe to events
     private void OnEnable()
     {
-        // When the turn system says its the enemy's turn start taking turns
-        TurnSystem.OnBeginEnemyTurn += BeginFirstEnemyTurn;
         // When one enemy finishes their turn, start the next enemy
         SingleEnemy.OnSingleEnemyFinish += SingleEnemyTurn;
         // When a room is loaded, add the enemies in that room to _allEnemies
@@ -35,7 +33,6 @@ public class EnemyTurnController : MonoBehaviour
     // Unsubscribe from events
     private void OnDisable()
     {
-        TurnSystem.OnBeginEnemyTurn -= BeginFirstEnemyTurn;
         SingleEnemy.OnSingleEnemyFinish -= SingleEnemyTurn;
         Room.OnRoomActivate -= AddEnemies;
         CamFollow.OnFinishEnemyPan -= BeginTurnAfterPan;
@@ -45,7 +42,6 @@ public class EnemyTurnController : MonoBehaviour
     // Unsubscribe from ALL events
     private void OnDestroy()
     {
-        TurnSystem.OnBeginEnemyTurn -= BeginFirstEnemyTurn;
         SingleEnemy.OnSingleEnemyFinish -= SingleEnemyTurn;
         Room.OnRoomActivate -= AddEnemies;
         CamFollow.OnFinishEnemyPan -= BeginTurnAfterPan;
@@ -95,9 +91,10 @@ public class EnemyTurnController : MonoBehaviour
 
     /// <summary>
     /// Starts the turn of the first enemy.
+    /// Called from TurnSystem
     /// The next ally's turn will be called from the OnSingleEnemyFinish event
     /// </summary>
-    private void BeginFirstEnemyTurn()
+    public void BeginFirstEnemyTurn()
     {
         //Debug.Log("BeginFirstEnemyTurn");
 

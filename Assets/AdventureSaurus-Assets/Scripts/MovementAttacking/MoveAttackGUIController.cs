@@ -227,7 +227,7 @@ public class MoveAttackGUIController : MonoBehaviour
             // If it hasn't moved this turn yet or hasn't attacked this turn
             if (!(_charSelected.HasMoved && _charSelected.HasAttacked))
             {
-                Debug.Log("Select character");
+                //Debug.Log("Select character");
                 // Calculate its visuals
                 _charSelected.CalcMoveTiles();
                 _charSelected.CalcAttackTiles();
@@ -466,7 +466,6 @@ public class MoveAttackGUIController : MonoBehaviour
     /// </summary>
     private void AllowSelect()
     {
-        //Debug.Log("AllowSelect");
         // Call the event for when the player is allowed to select
         if (OnPlayerAllowedSelect != null)
             OnPlayerAllowedSelect();

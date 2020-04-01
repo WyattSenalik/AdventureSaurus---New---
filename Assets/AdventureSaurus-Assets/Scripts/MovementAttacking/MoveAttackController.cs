@@ -278,7 +278,14 @@ public class MoveAttackController : MonoBehaviour
             if (i >= mARef.MoveRange + 1)
                 isMoveTile = false;
 
-            Vector2Int placementPos = new Vector2Int(i, 0);
+            Vector2Int placementPos = new Vector2Int(0, i);
+            // Go down, right
+            while (placementPos.y > 0)
+            {
+                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, moveTileParent.transform, attackTileParent.transform);
+                placementPos.x += 1;
+                placementPos.y -= 1;
+            }
             // Go down, left
             while (placementPos.x > 0)
             {
@@ -299,13 +306,6 @@ public class MoveAttackController : MonoBehaviour
                 CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, moveTileParent.transform, attackTileParent.transform);
                 placementPos.x += 1;
                 placementPos.y += 1;
-            }
-            // Go down, right
-            while (placementPos.y > 0)
-            {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, moveTileParent.transform, attackTileParent.transform);
-                placementPos.x += 1;
-                placementPos.y -= 1;
             }
         }
     }
@@ -364,59 +364,98 @@ public class MoveAttackController : MonoBehaviour
     /// <param name="shouldTurnOn">Is true, turn on the visuals. If false, turn them off</param>
     public void SetActiveVisuals(MoveAttack mARef)
     {
+        // Get the grid position of the character
+        Vector2Int charGridPos = new Vector2Int(Mathf.RoundToInt(mARef.transform.position.x),
+            Mathf.RoundToInt(mARef.transform.position.y));
+        // Parent of the movement tile visuals
+        Transform moveTileParent = mARef.RangeVisualParent.transform.GetChild(0);
+        // Parent of the attack tile visuals
+        Transform attackTileParent = mARef.RangeVisualParent.transform.GetChild(1);
+
         // Turn on all the movement ones that are in our moveTiles
         foreach (Node moveNode in mARef.MoveTiles)
         {
-            // Find a tile transform that matches the movement node's position
-            foreach (Transform tileTrans in mARef.RangeVisualParent.transform.GetChild(0))
+            // Get the local grid position of the current node
+            Vector2Int tileLocalGridPos = moveNode.Position - charGridPos;
+            // Get the index of the visual tile
+            int tileIndex = GetVisualTileIndex(tileLocalGridPos.x, tileLocalGridPos.y);
+            // If the tile doesn't exceed the list's bounds, set it to active
+            if (tileIndex < moveTileParent.childCount)
             {
-                // Find the node at the tiles location
-                Node tilesNode = GetNodeByWorldPosition(tileTrans.position);
-                // If the node doesn't exist, don't worry about it
-                // If the node is the same node as the one we are searching for, turn it on and break from this for
-                if (tilesNode != null && tilesNode.Position == moveNode.Position)
-                {
-                    // If the node is empty we want it to be more highlighted, signifying we can move there
-                    SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
-                    if (tilesNode.Occupying == CharacterType.None)
-                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
-                    else
-                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
+                // Get the transform of the visual tile
+                Transform tileTrans = moveTileParent.GetChild(tileIndex);
+                // Pull the sprite renderer off it
+                SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
 
-                    tileTrans.gameObject.SetActive(true);
-                    break;
-                }
+                // If nothing is there, make it more opaque
+                if (moveNode.Occupying == CharacterType.None)
+                    tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
+                // If something is there, make it more transaparent
+                else
+                    tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
+
+                // Set it active
+                tileTrans.gameObject.SetActive(true);
             }
         }
         // Turn on all the attack nodes that is not also a move node
         foreach (Node attackNode in mARef.AttackTiles)
         {
-            // Test if the attack node is in moveTiles, if it is we keep moving
+            // Test if the attack node is in moveTiles, if it is we don't consider it
             if (!mARef.MoveTiles.Contains(attackNode))
             {
-                // Find a tile transform that matches the attack node's position
-                foreach (Transform tileTrans in mARef.RangeVisualParent.transform.GetChild(1))
+                // Get the local grid position of the current node
+                Vector2Int tileLocalGridPos = attackNode.Position - charGridPos;
+                // Get the index of the visual tile
+                int tileIndex = GetVisualTileIndex(tileLocalGridPos.x, tileLocalGridPos.y);
+                // If the tile doesn't exceed the list's bounds, set it to active
+                if (tileIndex < attackTileParent.childCount)
                 {
-                    // Find the node at the tiles location
-                    Node tilesNode = GetNodeByWorldPosition(tileTrans.position);
-                    // If the node doesn't exist, don't worry about it
-                    // If the node is the same node as the one we are searching for, turn it on and break from this for
-                    if (tilesNode != null && tilesNode.Position == attackNode.Position)
-                    {
-                        // If the node is contains an enemy/ally (depending on the character's team) we want it to be more highlighted, signifying we can attack it
-                        SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
-                        if (tilesNode.Occupying == CharacterType.Ally && mARef.WhatAmI == CharacterType.Enemy ||
-                            tilesNode.Occupying == CharacterType.Enemy && mARef.WhatAmI == CharacterType.Ally)
-                            tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
-                        else
-                            tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
+                    // Get the transform of the visual tile
+                    Transform tileTrans = attackTileParent.GetChild(tileIndex);
+                    // Pull the sprite renderer off it
+                    SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
 
-                        tileTrans.gameObject.SetActive(true);
-                        break;
-                    }
+                    // If we there is an attackable opponent, make it more opaque
+                    if (attackNode.Occupying == CharacterType.Ally && mARef.WhatAmI == CharacterType.Enemy ||
+                            attackNode.Occupying == CharacterType.Enemy && mARef.WhatAmI == CharacterType.Ally)
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
+                    // If there is nothing to attack there, make it more transparent
+                    else
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
+
+                    // Set it active
+                    tileTrans.gameObject.SetActive(true);
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Calculates the index of the visual tile we want
+    /// </summary>
+    /// <param name="x">Local x grid position of the tile</param>
+    /// <param name="y">Local y grid position of the tile</param>
+    /// <returns>int index of the tile</returns>
+    private int GetVisualTileIndex(int x, int y)
+    {
+        int rtnIndex = -1;
+
+        // How many tiles from the initial tile this tile is
+        int depth = Mathf.Abs(x) + Mathf.Abs(y);
+
+        // If the tile we want is the first tile
+        if (depth == 0)
+            rtnIndex = 0;
+        // If the tile we want is in the right semicircle
+        else if (x >= 0)
+            rtnIndex = depth * (2 * depth - 1) + 1 - y;
+        // If the tile we want is in the left semicircle
+        else
+            rtnIndex = depth * (2 * depth + 1) + 1 + y;
+
+        //Debug.Log("Visual tile at (" + x + ", " + y + ") has index " + rtnIndex);
+        return rtnIndex;
     }
 
     /// <summary>

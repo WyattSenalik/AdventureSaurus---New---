@@ -15,7 +15,10 @@ public class TurnSystem : MonoBehaviour
     // The parent of all the characters on the floor
     private Transform _characterTeam;
 
-    // Eventsa
+    // References to other GameController scripts
+    EnemyTurnController enTurnContRef;
+
+    // Events
     // For when it is the enemy's turn
     public delegate void BeginEnemyTurn();
     public static event BeginEnemyTurn OnBeginEnemyTurn;
@@ -62,6 +65,15 @@ public class TurnSystem : MonoBehaviour
         ProceduralGenerationController.OnFinishGeneration -= Initialize;
         Pause.OnPauseGame -= HideScript;
         Pause.OnUnpauseGame -= ShowScript;
+    }
+
+    // Called before Start
+    // Set referecnes
+    private void Awake()
+    {
+        enTurnContRef = this.GetComponent<EnemyTurnController>();
+        if (enTurnContRef == null)
+            Debug.Log(this.name + " has no EnemyTurnController attached to it");
     }
 
     // Start is called before the first frame update
@@ -119,43 +131,16 @@ public class TurnSystem : MonoBehaviour
     /// </summary>
     private void StartEnemyTurn()
     {
-        // Assume no enemies are active
-        bool noEnemiesActive = true;
-        // Find all active enemies and reset their turn
-        foreach (Transform potEnemy in _characterTeam)
+        // Start the enemy's turn 
+        if (OnBeginEnemyTurn != null)
         {
-            MoveAttack potEnemyMA = potEnemy.GetComponent<MoveAttack>();
-            if (potEnemyMA == null)
-            {
-                Debug.Log("There is a non character object in " + _characterTeam.name);
-            }
-            else
-            {
-                if (potEnemyMA.WhatAmI == CharacterType.Enemy && potEnemy.gameObject.activeInHierarchy)
-                {
-                    noEnemiesActive = false;
-                    potEnemyMA.ResetMyTurn();
-                }
-            }
-        }
-
-        // If there are active enemies
-        if (!noEnemiesActive)
-        {
-            // Start the enemy's turn 
-            if (OnBeginEnemyTurn != null)
-            {
-                _endTurnButt.interactable = false;
-                _state = TurnState.ENEMYTURN;
-                //Debug.Log("OnBeginEnemyTurn");
-                OnBeginEnemyTurn();
-            }
-        }
-        // If there are no active enemies, start the player's turn again
-        else
-        {
-            // Start the player's turn
-            StartPlayerTurn();
+            _endTurnButt.interactable = false;
+            _state = TurnState.ENEMYTURN;
+            //Debug.Log("OnBeginEnemyTurn");
+            // Call the OnBeginEnemyTurn Event
+            OnBeginEnemyTurn();
+            // Begin the first enemies turn
+            enTurnContRef.BeginFirstEnemyTurn();
         }
     }
     ///// <summary>

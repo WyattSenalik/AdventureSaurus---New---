@@ -71,6 +71,9 @@ public abstract class SingleEnemy : MonoBehaviour
     /// </summary>
     public void TakeTurn()
     {
+        // Reset my turn
+        _mARef.ResetMyTurn();
+
         // Get the node this enemy is standing on
         _standingNode = _mAContRef.GetNodeByWorldPosition(this.transform.position);
         // We are going to use the enemy's move tiles, so we need to recalculate those, 
