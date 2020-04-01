@@ -109,7 +109,7 @@ public class MoveAttack : MonoBehaviour
 
     // For the things that happen after using a skill (like lowering health), 
     // to determine if we should signal the if the character is finished
-    private static List<bool> _ongoingActions;
+    private static List<bool> _ongoingActions = new List<bool>();
     public static void AddOngoingAction()
     {
         _ongoingActions.Add(true);
@@ -236,8 +236,6 @@ public class MoveAttack : MonoBehaviour
         _doneTransY = true;
         _hasMoved = false;
         _hasAttacked = false;
-
-        _ongoingActions = new List<bool>();
     }
 
     /// <summary>
@@ -257,7 +255,7 @@ public class MoveAttack : MonoBehaviour
     public void CalcAttackTiles()
     {
         // Use my move tiles to figure out where I can attack
-        _attackTiles = _mAContRef.GetValidAttackNodes(_moveTiles, _attackRange, _whatAmI);
+        _attackTiles = _mAContRef.GetValidAttackNodes(_moveTiles, _attackRange);
     }
 
     /// <summary>

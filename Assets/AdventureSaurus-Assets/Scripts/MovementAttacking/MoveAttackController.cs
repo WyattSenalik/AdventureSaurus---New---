@@ -227,24 +227,26 @@ public class MoveAttackController : MonoBehaviour
     public void CreateVisualTiles(MoveAttack mARef)
     {
         // Make sure it exists
-        if (mARef == null)
+        if (mARef != null)
+        {
+            // Calculate its move tiles and attack tiles, then initialize the visual tiles for it
+            mARef.CalcMoveTiles();
+            mARef.CalcAttackTiles();
+            // If it is the first time displaying visuals for this character, we need to make brand new visual tiles
+            if (mARef.RangeVisualParent == null)
+            {
+                InitializeVisualTiles(mARef);
+            }
+            // If the character already has the visuals and just needs some of them to be turned on
+            //else
+            //{
+            //    SetActiveVisuals(mARef);
+            //}
+        }
+        else
         {
             Debug.Log(mARef.name + " has no MoveAttack script attached to it");
-            return;
         }
-        // Calculate its move tiles and attack tiles, then initialize the visual tiles for it
-        mARef.CalcMoveTiles();
-        mARef.CalcAttackTiles();
-        // If it is the first time displaying visuals for this character, we need to make brand new visual tiles
-        if (mARef.RangeVisualParent == null)
-        {
-            InitializeVisualTiles(mARef);
-        }
-        // If the character already has the visuals and just needs some of them to be turned on
-        //else
-        //{
-        //    SetActiveVisuals(mARef);
-        //}
     }
 
 
@@ -371,12 +373,8 @@ public class MoveAttackController : MonoBehaviour
                 // Find the node at the tiles location
                 Node tilesNode = GetNodeByWorldPosition(tileTrans.position);
                 // If the node doesn't exist, don't worry about it
-                if (tilesNode == null)
-                {
-                    continue;
-                }
                 // If the node is the same node as the one we are searching for, turn it on and break from this for
-                if (tilesNode.Position == moveNode.Position)
+                if (tilesNode != null && tilesNode.Position == moveNode.Position)
                 {
                     // If the node is empty we want it to be more highlighted, signifying we can move there
                     SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
@@ -394,33 +392,28 @@ public class MoveAttackController : MonoBehaviour
         foreach (Node attackNode in mARef.AttackTiles)
         {
             // Test if the attack node is in moveTiles, if it is we keep moving
-            if (mARef.MoveTiles.Contains(attackNode))
+            if (!mARef.MoveTiles.Contains(attackNode))
             {
-                continue;
-            }
-            // Find a tile transform that matches the attack node's position
-            foreach (Transform tileTrans in mARef.RangeVisualParent.transform.GetChild(1))
-            {
-                // Find the node at the tiles location
-                Node tilesNode = GetNodeByWorldPosition(tileTrans.position);
-                // If the node doesn't exist, don't worry about it
-                if (tilesNode == null)
+                // Find a tile transform that matches the attack node's position
+                foreach (Transform tileTrans in mARef.RangeVisualParent.transform.GetChild(1))
                 {
-                    continue;
-                }
-                // If the node is the same node as the one we are searching for, turn it on and break from this for
-                if (tilesNode.Position == attackNode.Position)
-                {
-                    // If the node is contains an enemy/ally (depending on the character's team) we want it to be more highlighted, signifying we can attack it
-                    SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
-                    if (tilesNode.Occupying == CharacterType.Ally && mARef.WhatAmI == CharacterType.Enemy ||
-                        tilesNode.Occupying == CharacterType.Enemy && mARef.WhatAmI == CharacterType.Ally)
-                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
-                    else
-                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
+                    // Find the node at the tiles location
+                    Node tilesNode = GetNodeByWorldPosition(tileTrans.position);
+                    // If the node doesn't exist, don't worry about it
+                    // If the node is the same node as the one we are searching for, turn it on and break from this for
+                    if (tilesNode != null && tilesNode.Position == attackNode.Position)
+                    {
+                        // If the node is contains an enemy/ally (depending on the character's team) we want it to be more highlighted, signifying we can attack it
+                        SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
+                        if (tilesNode.Occupying == CharacterType.Ally && mARef.WhatAmI == CharacterType.Enemy ||
+                            tilesNode.Occupying == CharacterType.Enemy && mARef.WhatAmI == CharacterType.Ally)
+                            tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
+                        else
+                            tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
 
-                    tileTrans.gameObject.SetActive(true);
-                    break;
+                        tileTrans.gameObject.SetActive(true);
+                        break;
+                    }
                 }
             }
         }
@@ -768,51 +761,58 @@ public class MoveAttackController : MonoBehaviour
     /// <param name="attackRadius">Distance the requester can attack from</param>
     /// <param name="requesterType">What kind of character the requester is</param>
     /// <returns>A list of nodes that can be attacked by the requester</returns>
-    public List<Node> GetValidAttackNodes(List<Node> moveNodes, int attackRadius, CharacterType requesterType)
+    public List<Node> GetValidAttackNodes(List<Node> moveNodes, int attackRadius)
     {
-        List<Node> validNodes = new List<Node>();   // This list is what will be returned. It is the nodes that can be attacked
+        // This list is what will be returned. It is the nodes that can be attacked
+        List<Node> validNodes = new List<Node>();
 
-        List<Node> currentNodes = new List<Node>(); // This list holds the nodes that have yet to be tested for validity
-        List<Node> testedNodes = new List<Node>();  // This list holds the nodes that have already been tested
+        // This list holds the nodes that have yet to be tested for validity
+        List<Node> currentNodes = new List<Node>();
+        // This list holds the nodes that have already been tested
+        // We don't actually need this, since we accept all nodes to be valid, so valid nodes doubles are testedNodes
+        //List<Node> testedNodes = new List<Node>();
 
+        // Add all the move nodes to the current nodes list
         foreach (Node node in moveNodes)
         {
             currentNodes.Add(node);
         }
 
-        int depth = 0;  // This is how many iterations of checks we have gone over. Aka, how many tiles have been traversed in one path
+        // This is how many iterations of checks we have gone over. Aka, how many tiles have been traversed in one path
+        int depth = 0;
         while (depth < attackRadius)
         {
             int amountNodes = currentNodes.Count;
             for (int i = 0; i < amountNodes; ++i)
             {
-                // If the current node is null, end this iteration and start the next one
-                if (currentNodes[i] == null)
-                    continue;
+                // If the current node isn't null, check the nodes around it
+                if (currentNodes[i] != null)
+                {
+                    // Check above node
+                    Vector2Int testPos = currentNodes[i].Position + Vector2Int.up;
+                    ValidAttackTestNode(testPos, validNodes, currentNodes);
 
-                Vector2Int curNodePos = currentNodes[i].Position;
-                // Check above node
-                Vector2Int testPos = new Vector2Int(curNodePos.x, curNodePos.y + 1);
-                ValidAttackTestNode(testPos, validNodes, currentNodes, requesterType);
+                    // Check left node
+                    testPos = currentNodes[i].Position + Vector2Int.left;
+                    ValidAttackTestNode(testPos, validNodes, currentNodes);
 
-                // Check left node
-                testPos = new Vector2Int(curNodePos.x - 1, curNodePos.y);
-                ValidAttackTestNode(testPos, validNodes, currentNodes, requesterType);
+                    // Check right node
+                    testPos = currentNodes[i].Position + Vector2Int.right;
+                    ValidAttackTestNode(testPos, validNodes, currentNodes);
 
-                // Check right node
-                testPos = new Vector2Int(curNodePos.x + 1, curNodePos.y);
-                ValidAttackTestNode(testPos, validNodes, currentNodes, requesterType);
-
-                // Check down node
-                testPos = new Vector2Int(curNodePos.x, curNodePos.y - 1);
-                ValidAttackTestNode(testPos, validNodes, currentNodes, requesterType);
+                    // Check down node
+                    testPos = currentNodes[i].Position + Vector2Int.down;
+                    ValidAttackTestNode(testPos, validNodes, currentNodes);
+                }
 
             }
             // Removes the nodes that have already been iterated over
+            // but not the ones we just added
             for (int i = 0; i < amountNodes; ++i)
             {
                 currentNodes.RemoveAt(0);
             }
+            // Increment the depth
             ++depth;
         }
         return validNodes;
@@ -824,21 +824,15 @@ public class MoveAttackController : MonoBehaviour
     /// <param name="testPos">Position of the node being tested</param>
     /// <param name="validNodes">Reference to the List of Nodes that have been deemed valid to attack</param>
     /// <param name="currentNodes">Reference to the List of Nodes that still need to be tested for validity</param>
-    /// <param name="requestType">Kind of character the requester is. They can only attack character not on their team</param>
-    private void ValidAttackTestNode(Vector2Int testPos, List<Node> validNodes, List<Node> currentNodes, CharacterType requesterType)
+    private void ValidAttackTestNode(Vector2Int testPos, List<Node> validNodes, List<Node> currentNodes)
     {
         Node testNode = GetNodeAtPosition(testPos); // Get the current node
         //Debug.Log("Test tile at " + testPos);
-        // If the node exists
-        if (testPos != null)
+        // If the node exists and it is not already in the validNodes list
+        if (testPos != null && !(validNodes.Contains(testNode)))
         {
-            // If the testNode is not already in the validNodes list, we add it.
-            // No other tests are necessary since GetValidAttackNodes will stop calling this once the range is reached
-            if (!(validNodes.Contains(testNode)))
-            {
-                validNodes.Add(testNode);
-                currentNodes.Add(testNode);
-            }
+            validNodes.Add(testNode);
+            currentNodes.Add(testNode);
         }
     }
 

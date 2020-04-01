@@ -331,14 +331,19 @@ public class AllyStats : Stats
         // Don't bother if we aren't increasing anything
         if (amountToIncr == 0)
             return;
-        _speed += amountToIncr; // Increase the literal stat
-        _mARef.MoveRange = _speed; // Have the distance this character can move reflect that change
-        Destroy(_mARef.RangeVisualParent); // Get rid of the character's old rangeVisuals
+        // Increase the literal stat
+        _speed += amountToIncr;
+        // Have the distance this character can move reflect that change
+        _mARef.MoveRange = _speed;
+        // Get rid of the character's old rangeVisuals
+        Destroy(_mARef.RangeVisualParent);
         _mARef.RangeVisualParent = null;
-        _mAContRef.CreateVisualTiles(_mARef); // Make new ones
+        // Make new ones
+        _mAContRef.CreateVisualTiles(_mARef);
         // Recalculate the character's movement and attack
-        _mARef.CalcMoveTiles();
-        _mARef.CalcAttackTiles();
+        // Done in CreateVisualTiles
+        //_mARef.CalcMoveTiles();
+        //_mARef.CalcAttackTiles();
     }
 
     /// <summary>

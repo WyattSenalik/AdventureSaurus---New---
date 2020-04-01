@@ -5,7 +5,7 @@ using UnityEngine;
 public class Smite : Skill
 {
     // Smite effect to spawn
-    [SerializeField] private GameObject smiteEffect = null;
+    [SerializeField] private GameObject _smiteEffect = null;
 
     // Called before start
     // Set the skill specific variables
@@ -46,7 +46,7 @@ public class Smite : Skill
                 StartSkillAnimation(attackNodePos);
 
                 // Spawn the smite bullet
-                GameObject smiteBullet = Instantiate(smiteEffect, new Vector3(attackNodePos.x, attackNodePos.y, 0), Quaternion.identity);
+                GameObject smiteBullet = Instantiate(_smiteEffect, new Vector3(attackNodePos.x, attackNodePos.y, 0), Quaternion.identity);
                 SmiteSpawn smiteSpawnRef = smiteBullet.GetComponent<SmiteSpawn>();
                 if (smiteSpawnRef == null)
                     Debug.Log("Smite Bullet had no SmiteSpawn script attached");

@@ -11,6 +11,10 @@ public class BasicAttack : Skill
         base.Awake();
         // Set the unique stats for this attack
         _skillNum = 0;
+
+        // Set the attack range of the character, since if basic attack is on a character,
+        // it will be the first one equipped
+        _maRef.AttackRange = _range;
     }
 
     /// <summary>

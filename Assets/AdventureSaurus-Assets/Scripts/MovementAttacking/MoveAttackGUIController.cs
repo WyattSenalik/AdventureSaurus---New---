@@ -221,21 +221,24 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         // Try to get the MoveAttack script off the character
         _charSelected = _mAContRef.GetCharacterMAByNode(selNode);
-        if (_charSelected == null)
-            return;
-        // Make sure this character is active before doing anything else
-        if (!_charSelected.gameObject.activeInHierarchy)
-            return;
-        // If it has one and hasn't moved this turn yet or hasn't attacked this turn
-        if (!(_charSelected.HasMoved && _charSelected.HasAttacked))
+        // Make sure the MoveAttack script is valid and that the character is active in the hierarchy
+        if (_charSelected != null && _charSelected.gameObject.activeInHierarchy)
         {
-            // Set the visuals of it to be on
-            _mAContRef.SetActiveVisuals(_charSelected);
-        }
+            // If it hasn't moved this turn yet or hasn't attacked this turn
+            if (!(_charSelected.HasMoved && _charSelected.HasAttacked))
+            {
+                Debug.Log("Select character");
+                // Calculate its visuals
+                _charSelected.CalcMoveTiles();
+                _charSelected.CalcAttackTiles();
+                // Set the visuals of it to be on
+                _mAContRef.SetActiveVisuals(_charSelected);
+            }
 
-        // Call the character selected event
-        if (OnCharacterSelect != null)
-            OnCharacterSelect(_charSelected);
+            // Call the character selected event
+            if (OnCharacterSelect != null)
+                OnCharacterSelect(_charSelected);
+        }
     }
     
     /// <summary>
