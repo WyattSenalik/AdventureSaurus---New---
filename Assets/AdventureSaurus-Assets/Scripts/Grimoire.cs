@@ -37,29 +37,6 @@ public class Grimoire : MonoBehaviour
         _pagesRead = 0;
     }
 
-    // Called when the gameobject is set active
-    // Subscribe to events
-    private void OnEnable()
-    {
-        // Add magic increase to be called when magic is increased
-        Stats.OnMagicIncrease += MagicIncrease;
-    }
-
-    // Called when the gameobject is disabled
-    // Unsubscribe from events
-    private void OnDisable()
-    {
-        // Remove magic increase from being called when magic is increased
-        Stats.OnMagicIncrease -= MagicIncrease;
-    }
-
-    // Called when the gameobject is destroyed
-    // Unsubscribe from ALL events
-    private void OnDestroy()
-    {
-        Stats.OnMagicIncrease -= MagicIncrease;
-    }
-
     /// <summary>
     /// Called when magic is increased by magic is increased by 1.
     /// Handles how to upgrade the skill

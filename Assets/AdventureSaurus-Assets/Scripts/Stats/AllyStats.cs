@@ -3,69 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Stats : MonoBehaviour
+public class AllyStats : Stats
 {
-    private const int _maxSpeed = 7; // Mostly for performance reasons, but there should probably be a limit
-    public int MaxSpeed
-    {
-        get { return _maxSpeed; }
-    }
-
-    // Name of the character
-    [SerializeField] private string charName = "Deceased";
-    public string CharacterName
-    {
-        get { return charName; }
-    }
     // Character's portrait picture
-    [SerializeField] private Sprite charSpr = null;
+    [SerializeField] private Sprite _charPortrait = null;
     public Sprite CharacterSprite
     {
-        get { return charSpr; }
+        get { return _charPortrait; }
     }
     // Charcter's side picture
-    [SerializeField] private Sprite sideSpr = null;
-    public Sprite SideSprte
+    [SerializeField] private Sprite _sideSpr = null;
+    public Sprite SideSprite
     {
-        get { return sideSpr; }
-    }
-
-    // Stats
-    // How much damage this character deals
-    [SerializeField] private int strength = 0;
-    public int Strength
-    {
-        get { return strength; }
-    }
-    // Magic level affects spells
-    [SerializeField] private int magic = 0;
-    public int Magic
-    {
-        get { return magic; }
-    }
-    // How many tiles this character can move
-    [SerializeField] private int speed = 0;
-    public int Speed
-    {
-        get { return speed; }
-    }
-    // How much damage this character deflects
-    [SerializeField] private int defense = 0;
-    public int Defense
-    {
-        get { return defense; }
-    }
-    // Max health this character has
-    [SerializeField] private int vitality = 0;
-    public int Vitality
-    {
-        get { return vitality; }
+        get { return _sideSpr; }
     }
 
     // Experience
-    // For determining how much xp the killer of this character should get
-    // Allies give 0
-    [SerializeField] private int baseXPToGive = 0;
     // The experience this character has
     private int _experience; // Total experience
     private int _oneLevelExperience; // The experience this character has gained on the current level
@@ -89,10 +42,10 @@ public class Stats : MonoBehaviour
     // If the character is currently in the process of leveling up
     private bool _isLevelingUp;
     // Reference to this allies level up button. Null always for enemies
-    [SerializeField] private GameObject levelUpButton = null;
+    [SerializeField] private GameObject _levelUpButton = null;
     public GameObject LevelUpButton
     {
-        set { levelUpButton = value; }
+        set { _levelUpButton = value; }
     }
     // The amount of stat increases that this character has left
     private int _amountStatIncreases;
@@ -129,22 +82,6 @@ public class Stats : MonoBehaviour
         set { _speedBubblesFilled = value; }
     }
 
-    // References
-    // Reference to the MoveAttack script attached to this character
-    private MoveAttack _mARef;
-    // Reference to the Health script attached to this character
-    private Health _hpRef;
-    // Reference to the MoveAttackController. Used when updating speed
-    private MoveAttackController _mAContRef;
-
-    // Stats display stuff
-    [SerializeField] private GameObject statsDisplay = null;    // Reference to the stats display of this character
-    [SerializeField] private Text nameText = null;  // Reference to the text of the stats display that shows the name
-    [SerializeField] private Text attackText = null;    // Reference to the text of the stats display that shows the attack
-    [SerializeField] private Text defenseText = null;   // Reference to the text of the stats display that shows the defense
-    [SerializeField] private Text healthText = null;    // Reference to the text of the stats display that shows the max health
-    [SerializeField] private Text speedText = null; // Reference to the text of the stats display that shows the speed
-
     // Side HUD references
     // Experience bar on the side. Will be set from PauseMenuController
     private Slider _expSlider;
@@ -153,10 +90,12 @@ public class Stats : MonoBehaviour
         set { _expSlider = value; }
     }
 
-    // Events
-    // When magic is increased
-    public delegate void MagicIncrease();
-    public static event MagicIncrease OnMagicIncrease;
+    // References to itself
+    // Reference to the Grimoire script attached to this character
+    private Grimoire _grimRef;
+
+    // Reference to the MoveAttackController. Used when updating speed
+    private MoveAttackController _mAContRef;
 
 
     // Called when the component is set active
@@ -185,37 +124,26 @@ public class Stats : MonoBehaviour
     }
 
     // Called before start
-    private void Awake()
+    // Set references   
+    private new void Awake()
     {
+        // Call the base's version
+        base.Awake();
+
         // These references are attached to foreign objects and will need to be set multiple times [allies only]
         SetReferences();
         // These references are attached to this game object, so they will only need to be set once
-        _mARef = this.GetComponent<MoveAttack>();
-        if (_mARef == null)
+        _grimRef = this.GetComponent<Grimoire>();
+        if (_grimRef == null)
         {
             if (this.name != "DeadAllyStats")
-                Debug.Log("Could not find MoveAttack attached to " + this.name);
-        }
-        else
-        {
-            _mARef.MoveRange = speed;
-        }
-
-        _hpRef = this.GetComponent<Health>();
-        if (_hpRef == null)
-        {
-            if (this.name != "DeadAllyStats")
-                Debug.Log("Could not find Health attached to " + this.name);
-        }
-        else
-        {
-            _hpRef.MaxHP = vitality;
+                Debug.Log("Could not find Grimoire attached to " + this.name);
         }
     }
 
     /// <summary>
     /// Sets references to foreign scripts.
-    /// Called from Awake and from PersistantController
+    /// Called from PersistantController.OnFinishGenerationNoParam event
     /// </summary>
     private void SetReferences()
     {
@@ -233,7 +161,7 @@ public class Stats : MonoBehaviour
         }
     }
 
-    // Inititalize variables
+    // Inititalize variables and set beginning of game states
     private void Start()
     {
         // These will have to be set once, since these we will need to keep the changes associated with them
@@ -248,8 +176,8 @@ public class Stats : MonoBehaviour
         _amountStatIncreases = 0;
 
         // If this character has a level up button, hide it
-        if (levelUpButton != null)
-            levelUpButton.SetActive(false);
+        if (_levelUpButton != null)
+            _levelUpButton.SetActive(false);
 
         // Initialize the bubbles filled to 0
         _vitalityBubblesFilled = 0;
@@ -258,43 +186,6 @@ public class Stats : MonoBehaviour
         _speedBubblesFilled = 0;
     }
 
-    /// <summary>
-    /// Sets all the appropriate variables to their correct values.
-    /// Called from MoveAttack in ResetMyTurn
-    /// </summary>
-    public void Initialize()
-    {
-        _mARef.MoveRange = speed;
-        _hpRef.MaxHP = vitality;
-    }
-
-    /// <summary>
-    /// Shows or hides the stats of the character
-    /// </summary>
-    /// <param name="shouldShow">If the characters' stats should be shown or hidden</param>
-    public void DisplayStats(bool shouldShow)
-    {
-        if (statsDisplay != null)
-        {
-            nameText.text = charName;
-            attackText.text = "A: " + strength;
-            defenseText.text = "D: " + defense;
-            healthText.text = "H: " + vitality;
-            speedText.text = "S: " + speed;
-            statsDisplay.SetActive(shouldShow);
-        }
-    }
-
-    /// <summary>
-    /// Returns whether the stats are displayed or not
-    /// </summary>
-    /// <returns>Whether the stats are displayed or not</returns>
-    public bool AreStatsDisplayed()
-    {
-        if (statsDisplay != null)
-            return statsDisplay.activeSelf;
-        return false;
-    }
 
     /// <summary>
     /// Gives this character experience. Called from Health by Ascend unction
@@ -365,8 +256,8 @@ public class Stats : MonoBehaviour
 
         // Show level up visuals
         ////TODO
-        if (levelUpButton != null)
-            levelUpButton.SetActive(true);
+        if (_levelUpButton != null)
+            _levelUpButton.SetActive(true);
 
         // Stop leveling up, so that we can increment the next level if desired
         _isLevelingUp = false;
@@ -385,22 +276,6 @@ public class Stats : MonoBehaviour
         return currentLevel * currentLevel * currentLevel + 2;
     }
 
-    /// <summary>
-    /// Calculates how much xp should be gained by the killer for killing this character
-    /// </summary>
-    /// <param name="killer">Stats component of the character who killed this unit</param>
-    /// <returns>int amount of xp the killer should gain</returns>
-    public int KillReward(Stats killer)
-    {
-        // If this character is not supposed to give any xp
-        if (baseXPToGive == 0)
-        {
-            return 0;
-        }
-        // Do the calculation
-        return (((vitality + strength + magic) / 3) + 1) * baseXPToGive;
-    }
-
     // The following 4 functions are for increasing stats upon a level up
     // They are all called from CharDetailedMenuController
     /// <summary>
@@ -412,12 +287,13 @@ public class Stats : MonoBehaviour
         // Don't bother if we aren't increasing anything
         if (amountToIncr == 0)
             return;
-        vitality += amountToIncr; // Increase the literal stat
-        _hpRef.MaxHP = vitality; // Have the max health value reflect the change
+        _vitality += amountToIncr; // Increase the literal stat
+        _hpRef.MaxHP = _vitality; // Have the max health value reflect the change
         // Heal the character by the amount they just increased their vitality by, so they can start using that health right away.
         // This also serves to update the health bar visual
         _hpRef.Heal(amountToIncr);
     }
+
     /// <summary>
     /// Increases magic
     /// </summary>
@@ -427,12 +303,13 @@ public class Stats : MonoBehaviour
         // Don't bother if we aren't increasing anything
         if (amountToIncr == 0)
             return;
-        magic += amountToIncr; // Increase the literal stat
+        _magic += amountToIncr; // Increase the literal stat
 
-        // Call the magic increase event
-        if (OnMagicIncrease != null)
-            OnMagicIncrease();
+        // Call the magic increase from this character's grimoire
+        _grimRef.MagicIncrease();
+
     }
+
     /// <summary>
     /// Increases strength and MoveAttack.damageToDeal
     /// </summary>
@@ -442,8 +319,9 @@ public class Stats : MonoBehaviour
         // Don't bother if we aren't increasing anything
         if (amountToIncr == 0)
             return;
-        strength += amountToIncr; // Increase the literal stat
+        _strength += amountToIncr; // Increase the literal stat
     }
+
     /// <summary>
     /// Increases speed, 
     /// </summary>
@@ -453,8 +331,8 @@ public class Stats : MonoBehaviour
         // Don't bother if we aren't increasing anything
         if (amountToIncr == 0)
             return;
-        speed += amountToIncr; // Increase the literal stat
-        _mARef.MoveRange = speed; // Have the distance this character can move reflect that change
+        _speed += amountToIncr; // Increase the literal stat
+        _mARef.MoveRange = _speed; // Have the distance this character can move reflect that change
         Destroy(_mARef.RangeVisualParent); // Get rid of the character's old rangeVisuals
         _mARef.RangeVisualParent = null;
         _mAContRef.CreateVisualTiles(_mARef); // Make new ones
@@ -468,6 +346,6 @@ public class Stats : MonoBehaviour
     /// </summary>
     public void HideLevelUpButton()
     {
-        levelUpButton.gameObject.SetActive(false);
+        _levelUpButton.gameObject.SetActive(false);
     }
 }

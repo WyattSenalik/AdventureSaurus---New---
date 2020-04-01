@@ -128,5 +128,25 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.newSize.y
       value: 1.09375
       objectReference: {fileID: 0}
+    - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _charName
+      value: Spino Bandit
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _strength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _vitality
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6405350bdbfbbc34b804d573219cc889, type: 3}

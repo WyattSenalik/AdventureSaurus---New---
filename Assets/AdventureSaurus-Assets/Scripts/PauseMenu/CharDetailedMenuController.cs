@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class CharDetailedMenuController : MonoBehaviour
 {
-    // The stats of all 3 character. [0] = Ally 1, [1] = Ally 2, [2] = Ally 3 (this is true for all the ally lists)
-    private List<Stats> _alliesStats; // We are going to steal this list from PauseMenuController
-    private int _currentAllyIndex; // The ally we are currently viewing by index
+    // The stats of all 3 character. [0] = Ally 1, [1] = Ally 2, [2] = Ally 3 
+    // (this is true for all the ally lists [hopefull])
+    private List<AllyStats> _alliesStats;
+    // The ally we are currently viewing by index
+    private int _currentAllyIndex;
 
     // Canvas display things
     //
@@ -53,7 +55,7 @@ public class CharDetailedMenuController : MonoBehaviour
 
     // A dead character's stats. Okay, so if an ally dies, we can't display their stats because they're dead.
     // But we need to display something in their place, so we display a "dead" character's stats
-    private Stats _deadAlly;
+    private AllyStats _deadAlly;
 
     // This is shown when the user tries to submit their changes without using all their points
     [SerializeField] private GameObject _unappliedChangesPrompt = null;
@@ -100,7 +102,7 @@ public class CharDetailedMenuController : MonoBehaviour
 
         // Make the dead ally
         GameObject deadAllyObj = new GameObject("DeadAllyStats");
-        _deadAlly = deadAllyObj.AddComponent<Stats>();
+        _deadAlly = deadAllyObj.AddComponent<AllyStats>();
 
         // Do a lot of validation
         if (_characterPortrait == null)
@@ -258,7 +260,7 @@ public class CharDetailedMenuController : MonoBehaviour
     private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
     {
         // Initialize ally stats
-        _alliesStats = new List<Stats>();
+        _alliesStats = new List<AllyStats>();
         // Iterate over the characters to find the allies
         foreach (Transform singChar in charParent)
         {
@@ -268,7 +270,7 @@ public class CharDetailedMenuController : MonoBehaviour
             if (singMA.WhatAmI == CharacterType.Ally)
             {
                 // Try to ge tthe character's stats
-                Stats singStats = singChar.GetComponent<Stats>();
+                AllyStats singStats = singChar.GetComponent<AllyStats>();
                 // If the stats aren't null, add it to the list
                 if (singStats != null)
                     _alliesStats.Add(singStats);
@@ -290,7 +292,7 @@ public class CharDetailedMenuController : MonoBehaviour
     {
         _currentAllyIndex = allyIndex; // This is the new ally we are viewing
 
-        Stats allyStats = null;
+        AllyStats allyStats = null;
         // Check the index is valid and that the value is not null
         if (_alliesStats.Count > allyIndex && _alliesStats[allyIndex] != null)
             allyStats = _alliesStats[allyIndex]; // For quick reference
@@ -362,7 +364,8 @@ public class CharDetailedMenuController : MonoBehaviour
     /// </summary>
     public void IncrementVitality()
     {
-        Stats allyStats = _alliesStats[_currentAllyIndex]; // For quick reference
+        // For quick reference
+        AllyStats allyStats = _alliesStats[_currentAllyIndex];
         // Increase the stat
         IncrementStat(ref _vitalityAmountIncr, ref _vitalityNums, allyStats.Vitality, allyStats.VitalityBubblesFilled, _vitalityBubbles);
     }
@@ -371,7 +374,8 @@ public class CharDetailedMenuController : MonoBehaviour
     /// </summary>
     public void IncrementMagic()
     {
-        Stats allyStats = _alliesStats[_currentAllyIndex]; // For quick reference
+        // For quick reference
+        AllyStats allyStats = _alliesStats[_currentAllyIndex];
         // Increase the stat
         IncrementStat(ref _magicAmountIncr, ref _magicNums, allyStats.Magic, allyStats.MagicBubblesFilled, _magicBubbles);
     }
@@ -380,7 +384,8 @@ public class CharDetailedMenuController : MonoBehaviour
     /// </summary>
     public void IncrementStrength()
     {
-        Stats allyStats = _alliesStats[_currentAllyIndex]; // For quick reference
+        // For quick reference
+        AllyStats allyStats = _alliesStats[_currentAllyIndex];
         // Increase the stat
         IncrementStat(ref _strAmountIncr, ref _strNums, allyStats.Strength, allyStats.StrBubblesFilled, _strBubbles);
     }
@@ -389,7 +394,8 @@ public class CharDetailedMenuController : MonoBehaviour
     /// </summary>
     public void IncrementSpeed()
     {
-        Stats allyStats = _alliesStats[_currentAllyIndex]; // For quick reference
+        // For quick reference
+        AllyStats allyStats = _alliesStats[_currentAllyIndex];
         // Check if there is the ASCII version of the max speed displayed, if ther is, don't increase it anymore
         if (_speedNums.text[0] != allyStats.MaxSpeed + 48)
         {
@@ -443,7 +449,8 @@ public class CharDetailedMenuController : MonoBehaviour
     /// </summary>
     public void ResetStatChoices()
     {
-        Stats allyStats = null; // For quick reference
+        // For quick reference
+        AllyStats allyStats = null;
         if (_alliesStats.Count > _currentAllyIndex && _alliesStats[_currentAllyIndex] != null)
             allyStats = _alliesStats[_currentAllyIndex];
         else
@@ -492,7 +499,8 @@ public class CharDetailedMenuController : MonoBehaviour
         else if (statPointsUsed == _amountPointsAvailable)
         {
             //Debug.Log("Applying changes");
-            Stats allyStats = _alliesStats[_currentAllyIndex]; // For quick reference
+            // For quick reference
+            AllyStats allyStats = _alliesStats[_currentAllyIndex];
 
             // Apply the temporary stats for real
             ApplyStatChanges();
@@ -560,7 +568,8 @@ public class CharDetailedMenuController : MonoBehaviour
     /// </summary>
     public void ApplyStatChanges()
     {
-        Stats allyStats = _alliesStats[_currentAllyIndex]; // For quick reference
+        // For quick reference
+        AllyStats allyStats = _alliesStats[_currentAllyIndex];
 
         int statPointsUsed = _vitalityAmountIncr + _magicAmountIncr + _strAmountIncr + _speedAmountIncr;
 

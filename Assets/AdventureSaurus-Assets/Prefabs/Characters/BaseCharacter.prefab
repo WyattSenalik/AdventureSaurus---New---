@@ -85,8 +85,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4413198228147627902}
   - component: {fileID: 4413198228147627877}
-  - component: {fileID: 4413198228147627898}
-  - component: {fileID: 4413198228147627896}
   - component: {fileID: 4413198228147627897}
   - component: {fileID: 4413198228147627899}
   - component: {fileID: 4413198228147627878}
@@ -129,49 +127,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _whatAmI: 0
   _transSpeed: 3
---- !u!114 &4413198228147627898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4413198228147627903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 960f9ad5bdc6683408209623fa14415d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _redHealthBar: {fileID: 4413198229530235580}
-  _frameHealthBar: {fileID: 4413198230127945710}
-  _redBarOffset: 0.0625
---- !u!114 &4413198228147627896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4413198228147627903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7db361f630a8ba40a31d859c7d02c72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  charName: BaseCharacter
-  charSpr: {fileID: 0}
-  sideSpr: {fileID: 0}
-  strength: 1
-  magic: 1
-  speed: 1
-  defense: 1
-  vitality: 1
-  baseXPToGive: 1
-  levelUpButton: {fileID: 0}
-  statsDisplay: {fileID: 4413198229527126820}
-  nameText: {fileID: 4413198229108455369}
-  attackText: {fileID: 4413198228775241988}
-  defenseText: {fileID: 4413198228687895159}
-  healthText: {fileID: 4413198228483179774}
-  speedText: {fileID: 4413198230025647467}
 --- !u!212 &4413198228147627897
 SpriteRenderer:
   m_ObjectHideFlags: 0

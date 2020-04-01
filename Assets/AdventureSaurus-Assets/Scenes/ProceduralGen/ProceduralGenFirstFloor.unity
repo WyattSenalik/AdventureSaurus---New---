@@ -253,6 +253,11 @@ PrefabInstance:
       propertyPath: vitality
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7694131260984240152, guid: e9255b6a8fa73744dac62b3850185792,
+        type: 3}
+      propertyPath: _speed
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9255b6a8fa73744dac62b3850185792, type: 3}
 --- !u!4 &456140658 stripped
@@ -385,6 +390,11 @@ PrefabInstance:
         type: 3}
       propertyPath: vitality
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816152497077162484, guid: 4278b658950a1194d85a7b00a6d114c3,
+        type: 3}
+      propertyPath: _speed
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4278b658950a1194d85a7b00a6d114c3, type: 3}
@@ -521,6 +531,11 @@ PrefabInstance:
       propertyPath: vitality
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 4816152497077162484, guid: 4278b658950a1194d85a7b00a6d114c3,
+        type: 3}
+      propertyPath: _speed
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4278b658950a1194d85a7b00a6d114c3, type: 3}
 --- !u!4 &2125315499 stripped
@@ -544,11 +559,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EveryFloorObjects
-      objectReference: {fileID: 0}
-    - target: {fileID: 7976364540032945923, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1885554831440230018, guid: 70da1097b1dafad4a9fb162e686f4084,
         type: 3}
@@ -645,6 +655,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 7976364540032945923, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1885554831975109149, guid: 70da1097b1dafad4a9fb162e686f4084,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -699,16 +714,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _chanceToSpawnBranch
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1885554832884344792, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: _endScalar
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1885554832884344792, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: _hallwayScalar
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70da1097b1dafad4a9fb162e686f4084, type: 3}

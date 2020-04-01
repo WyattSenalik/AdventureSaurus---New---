@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Health : MonoBehaviour
+public abstract class Health : MonoBehaviour
 {
     // The Bars are assumed to have the same sized sprite attached
     // The transform that holds the sprite of the health
@@ -12,17 +12,12 @@ public class Health : MonoBehaviour
     [SerializeField] private Transform _frameHealthBar = null;
     // The offset for the red health bar to be at
     [SerializeField] private float _redBarOffset = 0.0625f;
-    // The side health bar info. Will be set from pause menu
-    private Slider _sideSlider;
-    public Slider SideSlider
-    {
-        set { _sideSlider = value; }
-    }
 
     // Maximum health of the character
     private int _maxHP;
     public int MaxHP
     {
+        get { return _maxHP; }
         set { _maxHP = value; }
     }
     // The current health of the character
@@ -31,82 +26,35 @@ public class Health : MonoBehaviour
     {
         get { return _curHP; }
     }
-    // What type of character this health script is attached to
-    private CharacterType whatAmI;
 
+    // References to things on this gameobject
     // Reference to the animator attached to this gameObject
     private Animator _animRef;
 
     // Movement references
     // A reference to the MoveAttackController script, used to recalculate movement after death
-    private MoveAttackController _mAContRef;
+    protected MoveAttackController _mAContRef;
 
-    // Reference to the Stats component of who killed this character
-    // For giving xp
-    private Stats _myKiller;
-
-
-    // Called when the component is set active
-    // Subscribe to events
-    private void OnEnable()
-    {
-        // When generation is done, do some initialization
-        ProceduralGenerationController.OnFinishGenerationNoParam += SetReferences;
-        ProceduralGenerationController.OnFinishGenerationNoParam += UpdateHealthDisplay;
-    }
-
-    // Called when the component is toggled off
-    // Unsubscribe from events
-    private void OnDisable()
-    {
-        ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateHealthDisplay;
-    }
-
-    // Called when the gameobject is destroyed
-    // Unsubscribe from ALL events
-    private void OnDestroy()
-    {
-        ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateHealthDisplay;
-    }
 
     // Called before Start
-    private void Awake()
+    // Set references
+    protected void Awake()
     {
-        // These will need to be set a few times [allies only]
-        SetReferences();
-        // These will only need to be set once, since they are attached to this gameobject
+        // Get the animator attached to this gameobject
         _animRef = this.gameObject.GetComponent<Animator>();
         if (_animRef == null)
         {
             Debug.Log("Could not find Animator attached to " + this.name);
         }
-        MoveAttack mARef = this.GetComponent<MoveAttack>();
-        if (mARef == null)
-        {
-            Debug.Log("Could not find MoveAttack attached to " + this.name);
-        }
-        else
-        {
-            whatAmI = mARef.WhatAmI;
-        }
-    }
 
-    /// <summary>
-    /// Set References
-    /// </summary>
-    private void SetReferences()
-    {
-        GameObject gameManagerObj = GameObject.FindWithTag("GameController");
-        if (gameManagerObj != null)
-        {
-            _mAContRef = gameManagerObj.GetComponent<MoveAttackController>();
-            if (_mAContRef == null)
-                Debug.Log("Could not find MoveAttackController attached to " + gameManagerObj.name);
-        }
-        else
-            Debug.Log("Could not find any GameObject with the tag GameController");
+        // Get the scripts from GameController
+        GameObject gameContObj = GameObject.FindWithTag("GameController");
+        if (gameContObj == null)
+            Debug.Log("Could not find a gameobject with the tag GameController");
+        // Get the MoveAttackController
+        _mAContRef = gameContObj.GetComponent<MoveAttackController>();
+        if (_mAContRef == null)
+            Debug.Log("Could not MoveAttackController attached to " + gameContObj.name);
     }
 
     // Start is called before the first frame update
@@ -118,7 +66,7 @@ public class Health : MonoBehaviour
     /// <summary>
     /// Calculates the health bar values and then updates the visuals on them
     /// </summary>
-    private void UpdateHealthDisplay()
+    protected void UpdateHealthDisplay()
     {
         // Calculate where the health bar should go
         Vector3 startScale = Vector3.zero, targetScale = Vector3.zero, startPos = Vector3.zero, targetPos = Vector3.zero;
@@ -183,9 +131,7 @@ public class Health : MonoBehaviour
         _redHealthBar.transform.localPosition = targetPos;
         _redHealthBar.transform.localScale = targetScale;
 
-        // Will be null for enemies
-        if (_sideSlider != null)
-            _sideSlider.value = ((float)_curHP) / _maxHP;
+        
 
         // If the character died. We call it here so that health goes down first
         if (_curHP == 0)
@@ -202,25 +148,24 @@ public class Health : MonoBehaviour
     /// </summary>
     /// <param name="dmgToTake">Amount curHP will go down by</param>
     /// <param name="dmgDealer">The Stats of the character who dealt damage</param>
-    public void TakeDamage(int dmgToTake, Stats dmgDealer)
+    public virtual void TakeDamage(int dmgToTake, Stats dmgDealer)
     {
         // Make sure the input is valid. If its not, print a debug and stop the function
         if (dmgToTake < 0)
         {
-            Debug.Log("A negative value was passed into Health.TakeDamage() attached to " + this.gameObject.name + "\nPlease do not try to heal the unit using this function");
+            Debug.Log("A negative value was passed into Health.TakeDamage() attached to " + 
+                this.gameObject.name + "\nPlease do not try to heal the unit using this function");
             return;
         }
         // If damage will deal more than needed to take health to 0, just reduce health to 0
         else if (_curHP - dmgToTake <= 0)
         {
             _curHP = 0;
-            _myKiller = dmgDealer;
         }
         // Otherwise do it normally
         else
         {
             _curHP -= dmgToTake;
-            _myKiller = dmgDealer;
         }
 
         // If this unit has a health bar, update it to properly display the new health information
@@ -279,7 +224,7 @@ public class Health : MonoBehaviour
     /// <summary>
     /// Actually destroys the object. Should only be called by an animation event
     /// </summary>
-    private void Ascend()
+    protected virtual void Ascend()
     {
         // Since this is done, we need to let other character move to where this just was
         Node myNode = _mAContRef.GetNodeByWorldPosition(this.transform.position);
@@ -289,10 +234,6 @@ public class Health : MonoBehaviour
         this.transform.parent = graveyard.transform;
         // We then need to recreate all the visuals, so that the user can see they can move over the dead body
         //NEEDTOFIXmAContRef.CreateAllVisualTiles();
-
-        // Give xp to the killer
-        Stats myStats = this.GetComponent<Stats>();
-        _myKiller.GainExperience(myStats.KillReward(_myKiller));
 
         // Remove the ongoing action to signal we are done
         MoveAttack.RemoveOngoingAction();

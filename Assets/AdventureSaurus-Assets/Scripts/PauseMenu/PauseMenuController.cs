@@ -16,11 +16,7 @@ public class PauseMenuController : MonoBehaviour
     // The text that displays the character's names
     [SerializeField] private Text[] _alliesNameText = null;
     // The stats of each of the allies [0] = ally1, [1] = ally2, [2] = ally3
-    private List<Stats> _alliesStats;
-    public List<Stats> AlliesStats
-    {
-        get { return _alliesStats; }
-    }
+    private List<AllyStats> _alliesStats;
     // The experience bars of each of the allies [0] = ally1, [1] = ally2, [2] = ally3
     [SerializeField] private Slider[] _allyXPBars = null;
     // The portraits of each of the allies [0] = ally1, [1] = ally2, [2] = ally3
@@ -184,15 +180,15 @@ public class PauseMenuController : MonoBehaviour
         }
 
         // We make the list here so that other scripts can access it in Start
-        _alliesStats = new List<Stats>();
+        _alliesStats = new List<AllyStats>();
         // Get the allies Stats (assumes there are three)
         foreach (Transform charTrans in _charParent)
         {
             MoveAttack charMA = charTrans.GetComponent<MoveAttack>();
             if (charMA != null && charMA.WhatAmI == CharacterType.Ally)
             {
-                Stats allyStatsRef = charMA.GetComponent<Stats>();
-                _alliesStats.Add(charMA.GetComponent<Stats>());
+                AllyStats allyStatsRef = charMA.GetComponent<AllyStats>();
+                _alliesStats.Add(allyStatsRef);
             }
         }
 
@@ -204,9 +200,9 @@ public class PauseMenuController : MonoBehaviour
             if (i < _alliesStats.Count)
             {
                 // Change the side picture
-                _sidePortraits[i].sprite = _alliesStats[i].SideSprte;
+                _sidePortraits[i].sprite = _alliesStats[i].SideSprite;
                 // Set the side health bar
-                Health hpScriptRef = _alliesStats[i].GetComponent<Health>();
+                AllyHealth hpScriptRef = _alliesStats[i].GetComponent<AllyHealth>();
                 hpScriptRef.SideSlider = _sideHPBars[i];
                 // Set the side exp bar
                 _alliesStats[i].ExpSlider = _sideExpBars[i];
