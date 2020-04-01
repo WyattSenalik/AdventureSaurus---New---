@@ -51,9 +51,11 @@ public class MoveAttackController : MonoBehaviour
     private void OnEnable()
     {
         // When the player is allowed to select, recalculate the allies' move and attack tiles
-        MoveAttackGUIController.OnPlayerAllowedSelect += RecalculateAllMoveAttackTiles;
+        MoveAttackGUIController.OnPlayerAllowedSelect += RecalculateAllyMoveAttackTiles;
         // When the floor is finished generating, initialize this script
         ProceduralGenerationController.OnFinishGeneration += Initialize;
+        // When the floor is finished generating, recalculate the allies' move and attack tiles
+        ProceduralGenerationController.OnFinishGenerationNoParam += RecalculateAllyMoveAttackTiles;
 
         // When the game is paused, disable this script
         Pause.OnPauseGame += HideScript;
@@ -66,8 +68,9 @@ public class MoveAttackController : MonoBehaviour
     // Unsubscribe to events
     private void OnDisable()
     {
-        MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllMoveAttackTiles;
+        MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllyMoveAttackTiles;
         ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= RecalculateAllyMoveAttackTiles;
 
         // Unsubscribe to the pause event (since if this is inactive, the game is paused)
         Pause.OnPauseGame -= HideScript;
@@ -79,8 +82,9 @@ public class MoveAttackController : MonoBehaviour
     // Unsubscribe to ALL events
     private void OnDestroy()
     {
-        MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllMoveAttackTiles;
+        MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllyMoveAttackTiles;
         ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= RecalculateAllyMoveAttackTiles;
         Pause.OnPauseGame -= HideScript;
         Pause.OnUnpauseGame -= ShowScript;
     }
@@ -480,7 +484,7 @@ public class MoveAttackController : MonoBehaviour
     /// Recalculates the move attack tiles for allies.
     /// Called on the 
     /// </summary>
-    private void RecalculateAllMoveAttackTiles()
+    private void RecalculateAllyMoveAttackTiles()
     {
         // Iterate over each character
         foreach (Transform character in _charParent)
@@ -488,7 +492,7 @@ public class MoveAttackController : MonoBehaviour
             // Try to get that character's MoveAttack script
             MoveAttack mARef = character.GetComponent<MoveAttack>();
             // Recalculate the character's movement and attack tiles
-            if (mARef != null)
+            if (mARef != null && mARef.WhatAmI == CharacterType.Ally)
             {
                 mARef.CalcMoveTiles();
                 mARef.CalcAttackTiles();
@@ -723,38 +727,41 @@ public class MoveAttackController : MonoBehaviour
     /// <returns>A list of nodes that can be reached from the startNode in moveRadius moves or less</returns>
     public List<Node> GetValidMovementNodes(Node startNode, int moveRadius, CharacterType requesterType)
     {
-        List<Node> validNodes = new List<Node>();   // This list is what will be returned. It is the nodes that can be moved to
+        // This list is what will be returned. It is the nodes that can be moved to
+        List<Node> validNodes = new List<Node>();
         validNodes.Add(startNode);
 
-        List<Node> currentNodes = new List<Node>(); // This list holds the nodes that have yet to be tested for validity
+        // This list holds the nodes that have yet to be tested for validity
+        List<Node> currentNodes = new List<Node>();
         currentNodes.Add(startNode);
 
-        int depth = 0;  // This is how many iterations of checks we have gone over. Aka, how many tiles have been traversed in one path
+        // This is how many iterations of checks we have gone over. Aka, how many tiles have been traversed in one path
+        int depth = 0;
         while (depth < moveRadius)
         {
             int amountNodes = currentNodes.Count;
             for (int i = 0; i < amountNodes; ++i)
             {
                 // If the current node is null, end this iteration and start the next one
-                if (currentNodes[i] == null)
-                    continue;
+                if (currentNodes[i] != null)
+                {
+                    Vector2Int curNodePos = currentNodes[i].Position;
+                    // Check above node
+                    Vector2Int testPos = curNodePos + Vector2Int.up;
+                    ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
 
-                Vector2Int curNodePos = currentNodes[i].Position;
-                // Check above node
-                Vector2Int testPos = curNodePos + Vector2Int.up;
-                ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
+                    // Check left node
+                    testPos = curNodePos + Vector2Int.left;
+                    ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
 
-                // Check left node
-                testPos = curNodePos + Vector2Int.left;
-                ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
+                    // Check right node
+                    testPos = curNodePos + Vector2Int.right;
+                    ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
 
-                // Check right node
-                testPos = curNodePos + Vector2Int.right;
-                ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
-
-                // Check down node
-                testPos = curNodePos + Vector2Int.down;
-                ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
+                    // Check down node
+                    testPos = curNodePos + Vector2Int.down;
+                    ValidMoveTestNode(testPos, validNodes, currentNodes, requesterType);
+                }
 
             }
             // Removes the nodes that have already been iterated over
@@ -865,7 +872,8 @@ public class MoveAttackController : MonoBehaviour
     /// <param name="currentNodes">Reference to the List of Nodes that still need to be tested for validity</param>
     private void ValidAttackTestNode(Vector2Int testPos, List<Node> validNodes, List<Node> currentNodes)
     {
-        Node testNode = GetNodeAtPosition(testPos); // Get the current node
+        // Get the current node
+        Node testNode = GetNodeAtPosition(testPos);
         //Debug.Log("Test tile at " + testPos);
         // If the node exists and it is not already in the validNodes list
         if (testPos != null && !(validNodes.Contains(testNode)))

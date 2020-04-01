@@ -78,7 +78,8 @@ public abstract class SingleEnemy : MonoBehaviour
         _standingNode = _mAContRef.GetNodeByWorldPosition(this.transform.position);
         // We are going to use the enemy's move tiles, so we need to recalculate those, 
         // since other characters have probably moved on their turn
-        //MARef.CalcMoveTiles();
+        _mARef.CalcMoveTiles();
+        _mARef.CalcAttackTiles();
         // Find the tile the enemy should move to
         Node nodeToMoveTo = FindTileToMoveTo();
         // Make sure we have a place to move
@@ -114,7 +115,12 @@ public abstract class SingleEnemy : MonoBehaviour
     private void MoveToTile(Node nodeToMoveTo)
     {
         // Path to the tile
-        _mAContRef.Pathing(_standingNode, nodeToMoveTo, CharacterType.Enemy);
+        if (!_mAContRef.Pathing(_standingNode, nodeToMoveTo, CharacterType.Enemy))
+        {
+            Debug.Log("Pathing failed for " + this.name + ". Wanted to move from " + _standingNode.Position + " to " + nodeToMoveTo.Position);
+            _standingNode.WhereToGo = _standingNode;
+        }
+
         // Start moving along that path
         _mARef.StartMove();
     }

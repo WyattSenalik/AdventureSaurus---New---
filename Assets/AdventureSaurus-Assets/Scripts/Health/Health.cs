@@ -47,6 +47,12 @@ public abstract class Health : MonoBehaviour
             Debug.Log("Could not find Animator attached to " + this.name);
         }
 
+        SetReferences();
+    }
+
+    // Sets foreign references
+    protected void SetReferences()
+    {
         // Get the scripts from GameController
         GameObject gameContObj = GameObject.FindWithTag("GameController");
         if (gameContObj == null)

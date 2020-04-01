@@ -142,8 +142,8 @@ public class MoveAttack : MonoBehaviour
         ProceduralGenerationController.OnFinishGenerationNoParam += SetReferences;
         ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
         ProceduralGenerationController.OnFinishGenerationNoParam += ResetMyTurn;
-        ProceduralGenerationController.OnFinishGenerationNoParam += CalcMoveTiles;
-        ProceduralGenerationController.OnFinishGenerationNoParam += CalcAttackTiles;
+        //ProceduralGenerationController.OnFinishGenerationNoParam += CalcMoveTiles;
+        //ProceduralGenerationController.OnFinishGenerationNoParam += CalcAttackTiles;
     }
 
     // Called when the component is toggled inactive
@@ -158,8 +158,8 @@ public class MoveAttack : MonoBehaviour
         ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
         ProceduralGenerationController.OnFinishGenerationNoParam -= ResetMyTurn;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= CalcMoveTiles;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= CalcAttackTiles;
+        //ProceduralGenerationController.OnFinishGenerationNoParam -= CalcMoveTiles;
+        //ProceduralGenerationController.OnFinishGenerationNoParam -= CalcAttackTiles;
     }
 
     // Called when the game object is destroyed
@@ -171,8 +171,8 @@ public class MoveAttack : MonoBehaviour
         ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
         ProceduralGenerationController.OnFinishGenerationNoParam -= ResetMyTurn;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= CalcMoveTiles;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= CalcAttackTiles;
+        //ProceduralGenerationController.OnFinishGenerationNoParam -= CalcMoveTiles;
+        //ProceduralGenerationController.OnFinishGenerationNoParam -= CalcAttackTiles;
     }
 
     // Called before start
@@ -256,28 +256,6 @@ public class MoveAttack : MonoBehaviour
     {
         // Use my move tiles to figure out where I can attack
         _attackTiles = _mAContRef.GetValidAttackNodes(_moveTiles, _attackRange);
-    }
-
-    /// <summary>
-    /// Sets the movement variables to initialize movement of the character
-    /// </summary>
-    public void StartMove()
-    {
-        //Debug.Log("Start Moving");
-        // Assumes transToMove is on the grid
-        _currentNode = _mAContRef.GetNodeByWorldPosition(this.gameObject.transform.position);
-        if (_currentNode != null)
-        {
-            //Debug.Log("currentNode at " + currentNode.position + " wants to move to the node at " + currentNode.whereToGo.position);
-            _lastVel = Vector2.zero;
-            _doneTransX = false;
-            _doneTransY = false;
-            _transition = true;
-        }
-        else
-        {
-            Debug.Log("That node does not exist");
-        }
     }
 
     /// <summary>
@@ -390,6 +368,28 @@ public class MoveAttack : MonoBehaviour
         {
             _transition = false;
             Debug.Log("Current Tile does not exist");
+        }
+    }
+
+    /// <summary>
+    /// Sets the movement variables to initialize movement of the character
+    /// </summary>
+    public void StartMove()
+    {
+        //Debug.Log("Start Moving");
+        // Assumes transToMove is on the grid
+        _currentNode = _mAContRef.GetNodeByWorldPosition(this.gameObject.transform.position);
+        if (_currentNode != null)
+        {
+            //Debug.Log("currentNode at " + currentNode.position + " wants to move to the node at " + currentNode.whereToGo.position);
+            _lastVel = Vector2.zero;
+            _doneTransX = false;
+            _doneTransY = false;
+            _transition = true;
+        }
+        else
+        {
+            Debug.Log("That node does not exist");
         }
     }
 

@@ -47,7 +47,7 @@ public class MoveAttackGUIController : MonoBehaviour
         TurnSystem.OnFinishPlayerTurn += Deselect;
         // When the enemy's turn begins, deny the user from selecting
         TurnSystem.OnBeginEnemyTurn += DenySelect;
-
+        
         // When the game is paused, disable this script
         Pause.OnPauseGame += HideScript;
         // Unsubscribe to the unpause event (since if this is active, the game is unpaused)
@@ -229,8 +229,8 @@ public class MoveAttackGUIController : MonoBehaviour
             {
                 //Debug.Log("Select character");
                 // Calculate its visuals
-                _charSelected.CalcMoveTiles();
-                _charSelected.CalcAttackTiles();
+                //_charSelected.CalcMoveTiles();
+                //_charSelected.CalcAttackTiles();
                 // Set the visuals of it to be on
                 _mAContRef.SetActiveVisuals(_charSelected);
             }

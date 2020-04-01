@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class AllyHealth : Health
 {
+    // References to itself
+    private AllySkillController _allySkillCont;
+
     // The side health bar info. Will be set from pause menu
     private Slider _sideSlider;
     public Slider SideSlider
@@ -20,6 +23,7 @@ public class AllyHealth : Health
         // When generation is done, do some initialization
         ProceduralGenerationController.OnFinishGenerationNoParam += SetReferences;
         ProceduralGenerationController.OnFinishGenerationNoParam += UpdateHealthDisplay;
+        ProceduralGenerationController.OnFinishGenerationNoParam += UpdateSideHealth;
     }
 
     // Called when the component is toggled off
@@ -28,6 +32,7 @@ public class AllyHealth : Health
     {
         ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
         ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateHealthDisplay;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateSideHealth;
     }
 
     // Called when the gameobject is destroyed
@@ -36,6 +41,7 @@ public class AllyHealth : Health
     {
         ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
         ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateHealthDisplay;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateSideHealth;
     }
 
     // Called before Start
@@ -45,24 +51,8 @@ public class AllyHealth : Health
         // Call the base's version
         base.Awake();
 
-        // These will need to be set a few times [allies only]
-        SetReferences();
-    }
-
-    /// <summary>
-    /// Set References
-    /// </summary>
-    private void SetReferences()
-    {
-        GameObject gameManagerObj = GameObject.FindWithTag("GameController");
-        if (gameManagerObj != null)
-        {
-            _mAContRef = gameManagerObj.GetComponent<MoveAttackController>();
-            if (_mAContRef == null)
-                Debug.Log("Could not find MoveAttackController attached to " + gameManagerObj.name);
-        }
-        else
-            Debug.Log("Could not find any GameObject with the tag GameController");
+        // Get the ally's stats
+        _allySkillCont = this.GetComponent<AllySkillController>();
     }
 
     /// <summary>
@@ -76,7 +66,19 @@ public class AllyHealth : Health
         // Call the base's version
         base.TakeDamage(dmgToTake, dmgDealer);
 
-        // Will be null for enemies
+        // Increment the cooldown of the ally's skill by one
+        if (_allySkillCont.SpecialSkill != null)
+            _allySkillCont.SpecialSkill.IncrementCooldownTimer();
+
+        // Update the health bar on the side
+        UpdateSideHealth();
+    }
+
+    /// <summary>
+    /// Updates the value of the side health bar
+    /// </summary>
+    private void UpdateSideHealth()
+    {
         if (_sideSlider != null)
             _sideSlider.value = ((float)CurHP) / MaxHP;
     }
