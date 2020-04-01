@@ -23,9 +23,9 @@ public class EquipSlot : ItemSlot
         return false;
     }
 
-    public bool removeItem(Item unEquip)
-    {
+    //public bool removeItem(Item unEquip)
+    //{
 
-    }
+    //}
 
 }
