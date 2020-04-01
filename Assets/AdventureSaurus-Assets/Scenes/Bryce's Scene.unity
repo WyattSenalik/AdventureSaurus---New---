@@ -2880,7 +2880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &137053697
 Animator:
   serializedVersion: 3
@@ -2971,13 +2970,28 @@ MonoBehaviour:
   defense: 2
   vitality: 1
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1620863491}
   nameText: {fileID: 925021728}
   attackText: {fileID: 2031976718}
   defenseText: {fileID: 504447637}
   healthText: {fileID: 1045409706}
   speedText: {fileID: 882038192}
+  expSlider: {fileID: 0}
 --- !u!114 &137053700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2993,6 +3007,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 1454512262}
   frameHealthBar: {fileID: 1253579929}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &137053701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3005,11 +3029,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &146514165
 GameObject:
   m_ObjectHideFlags: 0
@@ -3741,7 +3762,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &169399873
 Animator:
   serializedVersion: 3
@@ -3832,13 +3852,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1975708708}
   nameText: {fileID: 133172815}
   attackText: {fileID: 174232641}
   defenseText: {fileID: 1666054477}
   healthText: {fileID: 381744362}
   speedText: {fileID: 219525141}
+  expSlider: {fileID: 0}
 --- !u!114 &169399876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3854,6 +3889,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 777390614}
   frameHealthBar: {fileID: 540078449}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &169399877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3866,11 +3911,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &171674677
 GameObject:
   m_ObjectHideFlags: 0
@@ -10140,7 +10182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &469706719
 Animator:
   serializedVersion: 3
@@ -10231,13 +10272,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 264155023}
   nameText: {fileID: 1607964934}
   attackText: {fileID: 1403420842}
   defenseText: {fileID: 2133246076}
   healthText: {fileID: 1041324931}
   speedText: {fileID: 994610491}
+  expSlider: {fileID: 0}
 --- !u!114 &469706722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10253,6 +10309,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 1296447794}
   frameHealthBar: {fileID: 674191817}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &469706723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10265,11 +10331,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &475472713
 GameObject:
   m_ObjectHideFlags: 0
@@ -11705,7 +11768,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &522974061
 Animator:
   serializedVersion: 3
@@ -11796,13 +11858,28 @@ MonoBehaviour:
   defense: 2
   vitality: 1
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1145387063}
   nameText: {fileID: 1735704610}
   attackText: {fileID: 1675177821}
   defenseText: {fileID: 1574648100}
   healthText: {fileID: 959054747}
   speedText: {fileID: 2104701309}
+  expSlider: {fileID: 0}
 --- !u!114 &522974064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11818,6 +11895,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 1084814730}
   frameHealthBar: {fileID: 296615000}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &522974065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11830,11 +11917,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &525984108
 GameObject:
   m_ObjectHideFlags: 0
@@ -12000,7 +12084,7 @@ RectTransform:
   m_Children:
   - {fileID: 35911829}
   m_Father: {fileID: 1754185346}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -13183,7 +13267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &581915571
 Animator:
   serializedVersion: 3
@@ -13274,13 +13357,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 977404802}
   nameText: {fileID: 2106075989}
   attackText: {fileID: 971387524}
   defenseText: {fileID: 1366153825}
   healthText: {fileID: 740011886}
   speedText: {fileID: 432346973}
+  expSlider: {fileID: 0}
 --- !u!114 &581915574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13296,6 +13394,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 793126154}
   frameHealthBar: {fileID: 1752184901}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &581915575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13308,11 +13416,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &586052859
 GameObject:
   m_ObjectHideFlags: 0
@@ -14310,7 +14415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &606514790
 Animator:
   serializedVersion: 3
@@ -14401,13 +14505,28 @@ MonoBehaviour:
   defense: 2
   vitality: 1
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1406221157}
   nameText: {fileID: 1323370684}
   attackText: {fileID: 1011435787}
   defenseText: {fileID: 1078264986}
   healthText: {fileID: 1180761038}
   speedText: {fileID: 1694476133}
+  expSlider: {fileID: 0}
 --- !u!114 &606514793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14423,6 +14542,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 1219056073}
   frameHealthBar: {fileID: 779839524}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &606514794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14435,11 +14564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &610121108
 GameObject:
   m_ObjectHideFlags: 0
@@ -15462,7 +15588,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &632204205
 Animator:
   serializedVersion: 3
@@ -15553,13 +15678,28 @@ MonoBehaviour:
   defense: 2
   vitality: 3
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 967158748}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 125704578}
   nameText: {fileID: 602446470}
   attackText: {fileID: 597536824}
   defenseText: {fileID: 2015095163}
   healthText: {fileID: 1834998054}
   speedText: {fileID: 1616977045}
+  expSlider: {fileID: 0}
 --- !u!114 &632204208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15575,6 +15715,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 1660406760}
   frameHealthBar: {fileID: 901754432}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &632204209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15587,11 +15737,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 2
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &633938523
 GameObject:
   m_ObjectHideFlags: 0
@@ -17182,7 +17329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &680251985
 Animator:
   serializedVersion: 3
@@ -17273,13 +17419,28 @@ MonoBehaviour:
   defense: 2
   vitality: 1
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1969376169}
   nameText: {fileID: 507647560}
   attackText: {fileID: 307116676}
   defenseText: {fileID: 1546008105}
   healthText: {fileID: 1329057860}
   speedText: {fileID: 592910801}
+  expSlider: {fileID: 0}
 --- !u!114 &680251988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17295,6 +17456,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 600927853}
   frameHealthBar: {fileID: 915681351}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &680251989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17307,11 +17478,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &681600052
 GameObject:
   m_ObjectHideFlags: 0
@@ -17344,7 +17512,7 @@ RectTransform:
   m_Children:
   - {fileID: 653385679}
   m_Father: {fileID: 1754185346}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17966,7 +18134,7 @@ RectTransform:
   m_LocalScale: {x: 0.20000003, y: 0.20000003, z: 0.20000003}
   m_Children: []
   m_Father: {fileID: 1754185346}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -21129,7 +21297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &855225121
 Animator:
   serializedVersion: 3
@@ -21220,13 +21387,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 666611238}
   nameText: {fileID: 1744226160}
   attackText: {fileID: 811042188}
   defenseText: {fileID: 253510764}
   healthText: {fileID: 1061682205}
   speedText: {fileID: 1951045793}
+  expSlider: {fileID: 0}
 --- !u!114 &855225124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21242,6 +21424,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 618012909}
   frameHealthBar: {fileID: 210179937}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &855225125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21254,11 +21446,98 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
+--- !u!1 &856362206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 856362207}
+  - component: {fileID: 856362210}
+  - component: {fileID: 856362209}
+  - component: {fileID: 856362208}
+  m_Layer: 5
+  m_Name: LightArmor Slot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &856362207
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856362206}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1744910562}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 80, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &856362208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856362206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1877c5b048a4004197283ba6111ebca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 856362209}
+  ItemType: 0
+--- !u!114 &856362209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856362206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 43b5533df5788f24b9d4e5277f97becc, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &856362210
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856362206}
+  m_CullTransparentMesh: 0
 --- !u!1 &865405388
 GameObject:
   m_ObjectHideFlags: 0
@@ -21786,7 +22065,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &885729489
 Animator:
   serializedVersion: 3
@@ -21877,13 +22155,28 @@ MonoBehaviour:
   defense: 2
   vitality: 1
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 74935023}
   nameText: {fileID: 1539621099}
   attackText: {fileID: 11823867}
   defenseText: {fileID: 1082796996}
   healthText: {fileID: 1352425101}
   speedText: {fileID: 652363631}
+  expSlider: {fileID: 0}
 --- !u!114 &885729492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21899,6 +22192,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 706109424}
   frameHealthBar: {fileID: 2102632537}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &885729493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21911,11 +22214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &886089820
 GameObject:
   m_ObjectHideFlags: 0
@@ -22230,7 +22530,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &897240289
 Animator:
   serializedVersion: 3
@@ -22321,13 +22620,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1145000960}
   nameText: {fileID: 1280675696}
   attackText: {fileID: 658190331}
   defenseText: {fileID: 1203903535}
   healthText: {fileID: 1217985344}
   speedText: {fileID: 163077346}
+  expSlider: {fileID: 0}
 --- !u!114 &897240292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22343,6 +22657,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 2039058758}
   frameHealthBar: {fileID: 917012617}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &897240293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22355,11 +22679,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &901754431
 GameObject:
   m_ObjectHideFlags: 0
@@ -23048,7 +23369,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &924977797
 Animator:
   serializedVersion: 3
@@ -23139,13 +23459,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1023656041}
   nameText: {fileID: 1221775115}
   attackText: {fileID: 1722170729}
   defenseText: {fileID: 34503797}
   healthText: {fileID: 907340643}
   speedText: {fileID: 1322987882}
+  expSlider: {fileID: 0}
 --- !u!114 &924977800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23161,6 +23496,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 1201707647}
   frameHealthBar: {fileID: 1232518307}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &924977801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23173,11 +23518,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &925021726
 GameObject:
   m_ObjectHideFlags: 0
@@ -24593,7 +24935,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &982869354
 Animator:
   serializedVersion: 3
@@ -24684,13 +25025,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 61130780}
   nameText: {fileID: 1667375318}
   attackText: {fileID: 589850212}
   defenseText: {fileID: 731938711}
   healthText: {fileID: 1049263846}
   speedText: {fileID: 184324840}
+  expSlider: {fileID: 0}
 --- !u!114 &982869357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24706,6 +25062,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 2103704628}
   frameHealthBar: {fileID: 2053963924}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &982869358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24718,11 +25084,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &994610489
 GameObject:
   m_ObjectHideFlags: 0
@@ -25755,7 +26118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &1030204884
 Animator:
   serializedVersion: 3
@@ -25846,13 +26208,28 @@ MonoBehaviour:
   defense: 2
   vitality: 1
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 2032848949}
   nameText: {fileID: 1841778657}
   attackText: {fileID: 1435915439}
   defenseText: {fileID: 849774681}
   healthText: {fileID: 1496586316}
   speedText: {fileID: 1734085536}
+  expSlider: {fileID: 0}
 --- !u!114 &1030204887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25868,6 +26245,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 425692388}
   frameHealthBar: {fileID: 719471112}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &1030204888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25880,11 +26267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &1036601121
 GameObject:
   m_ObjectHideFlags: 0
@@ -27574,7 +27958,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &1101072797
 Animator:
   serializedVersion: 3
@@ -27665,13 +28048,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1963042813}
   nameText: {fileID: 1955125141}
   attackText: {fileID: 846851407}
   defenseText: {fileID: 672567045}
   healthText: {fileID: 1851300035}
   speedText: {fileID: 1864559531}
+  expSlider: {fileID: 0}
 --- !u!114 &1101072800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27687,6 +28085,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 2110622618}
   frameHealthBar: {fileID: 171674678}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &1101072801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27699,11 +28107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &1102354410
 GameObject:
   m_ObjectHideFlags: 0
@@ -29051,7 +29456,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &1160080767
 Animator:
   serializedVersion: 3
@@ -29142,13 +29546,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 356159751}
   nameText: {fileID: 1197678942}
   attackText: {fileID: 1533013670}
   defenseText: {fileID: 251597675}
   healthText: {fileID: 1967313276}
   speedText: {fileID: 1224512732}
+  expSlider: {fileID: 0}
 --- !u!114 &1160080770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29164,6 +29583,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 633938524}
   frameHealthBar: {fileID: 2125740153}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &1160080771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29176,11 +29605,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &1161366773
 GameObject:
   m_ObjectHideFlags: 0
@@ -29460,7 +29886,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &1166479362
 Animator:
   serializedVersion: 3
@@ -29551,13 +29976,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 316880853}
   nameText: {fileID: 648079193}
   attackText: {fileID: 1947109386}
   defenseText: {fileID: 544147169}
   healthText: {fileID: 1362924150}
   speedText: {fileID: 2082311350}
+  expSlider: {fileID: 0}
 --- !u!114 &1166479365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29573,6 +30013,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 435637758}
   frameHealthBar: {fileID: 1783261312}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &1166479366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29585,11 +30035,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &1167821705
 GameObject:
   m_ObjectHideFlags: 0
@@ -30511,7 +30958,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &1194213931
 Animator:
   serializedVersion: 3
@@ -30602,13 +31048,28 @@ MonoBehaviour:
   defense: 2
   vitality: 1
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 891367143}
   nameText: {fileID: 294215116}
   attackText: {fileID: 738999225}
   defenseText: {fileID: 1192862459}
   healthText: {fileID: 1610251978}
   speedText: {fileID: 914293218}
+  expSlider: {fileID: 0}
 --- !u!114 &1194213934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30624,6 +31085,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 586052860}
   frameHealthBar: {fileID: 1269637459}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &1194213935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30636,11 +31107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &1196287893
 GameObject:
   m_ObjectHideFlags: 0
@@ -31695,6 +32163,96 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1236267784
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1236267785}
+  - component: {fileID: 1236267788}
+  - component: {fileID: 1236267787}
+  - component: {fileID: 1236267786}
+  m_Layer: 5
+  m_Name: Sword Slot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1236267785
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236267784}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1744910562}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -80, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1236267786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236267784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1877c5b048a4004197283ba6111ebca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 1236267787}
+  ItemType: 5
+--- !u!114 &1236267787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236267784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 876277d3ce4c3794e9929c72d61745df, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1236267788
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236267784}
+  m_CullTransparentMesh: 0
 --- !u!1 &1239759720
 GameObject:
   m_ObjectHideFlags: 0
@@ -38751,7 +39309,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &1548973288
 Animator:
   serializedVersion: 3
@@ -38842,13 +39399,28 @@ MonoBehaviour:
   defense: 2
   vitality: 3
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 484162151}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1958386734}
   nameText: {fileID: 1632254425}
   attackText: {fileID: 910673652}
   defenseText: {fileID: 15332806}
   healthText: {fileID: 1396482549}
   speedText: {fileID: 1560272495}
+  expSlider: {fileID: 0}
 --- !u!114 &1548973291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38864,6 +39436,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 763571926}
   frameHealthBar: {fileID: 2096169308}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &1548973292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38876,11 +39458,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 2
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &1555720953
 GameObject:
   m_ObjectHideFlags: 0
@@ -45227,7 +45806,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &1675062637
 Animator:
   serializedVersion: 3
@@ -45318,13 +45896,28 @@ MonoBehaviour:
   defense: 2
   vitality: 1
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 742957955}
   nameText: {fileID: 1306939981}
   attackText: {fileID: 1284223402}
   defenseText: {fileID: 1196287895}
   healthText: {fileID: 197094454}
   speedText: {fileID: 338445463}
+  expSlider: {fileID: 0}
 --- !u!114 &1675062640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45340,6 +45933,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 639211247}
   frameHealthBar: {fileID: 2139496614}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &1675062641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45352,11 +45955,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &1675177819
 GameObject:
   m_ObjectHideFlags: 0
@@ -46952,6 +47552,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1744226158}
   m_CullTransparentMesh: 0
+--- !u!1 &1744910561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1744910562}
+  - component: {fileID: 1744910563}
+  m_Layer: 5
+  m_Name: EquipmentPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1744910562
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744910561}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1236267785}
+  - {fileID: 856362207}
+  m_Father: {fileID: 1754185346}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -407, y: 216}
+  m_SizeDelta: {x: 310, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1744910563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744910561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6ac93837f042b840bf3343eb1921a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentSlotsParent: {fileID: 1744910562}
+  equipmentSlots:
+  - {fileID: 1236267786}
+  - {fileID: 856362208}
 --- !u!1001 &1747771156
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47156,6 +47810,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2031846700}
+  - {fileID: 1744910562}
   - {fileID: 681600053}
   - {fileID: 1849785264}
   - {fileID: 529986882}
@@ -48697,7 +49352,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &1832377144
 Animator:
   serializedVersion: 3
@@ -48788,13 +49442,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 708539136}
   nameText: {fileID: 1347732778}
   attackText: {fileID: 996518553}
   defenseText: {fileID: 665774687}
   healthText: {fileID: 261298158}
   speedText: {fileID: 1245310510}
+  expSlider: {fileID: 0}
 --- !u!114 &1832377147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48810,6 +49479,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 740232976}
   frameHealthBar: {fileID: 393924979}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &1832377148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48822,11 +49501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &1834998052
 GameObject:
   m_ObjectHideFlags: 0
@@ -49017,7 +49693,7 @@ RectTransform:
   m_Children:
   - {fileID: 1642676671}
   m_Father: {fileID: 1754185346}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -50073,7 +50749,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &1894529821
 Animator:
   serializedVersion: 3
@@ -50164,13 +50839,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1276330213}
   nameText: {fileID: 2051655748}
   attackText: {fileID: 614434331}
   defenseText: {fileID: 1594708449}
   healthText: {fileID: 432241898}
   speedText: {fileID: 1412592861}
+  expSlider: {fileID: 0}
 --- !u!114 &1894529824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50186,6 +50876,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 1636321901}
   frameHealthBar: {fileID: 1155309115}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &1894529825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50198,11 +50898,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &1904312781
 GameObject:
   m_ObjectHideFlags: 0
@@ -53021,7 +53718,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &2005925029
 Animator:
   serializedVersion: 3
@@ -53112,13 +53808,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1521173234}
   nameText: {fileID: 1688279047}
   attackText: {fileID: 1466814299}
   defenseText: {fileID: 1493533117}
   healthText: {fileID: 368327255}
   speedText: {fileID: 1624513866}
+  expSlider: {fileID: 0}
 --- !u!114 &2005925032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53134,6 +53845,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 361135722}
   frameHealthBar: {fileID: 345902553}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &2005925033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53146,11 +53867,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &2007210982
 GameObject:
   m_ObjectHideFlags: 0
@@ -53281,7 +53999,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &2007214871
 Animator:
   serializedVersion: 3
@@ -53372,13 +54089,28 @@ MonoBehaviour:
   defense: 2
   vitality: 2
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 0}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1983883809}
   nameText: {fileID: 1409844653}
   attackText: {fileID: 2061383370}
   defenseText: {fileID: 347621613}
   healthText: {fileID: 794986806}
   speedText: {fileID: 1660198387}
+  expSlider: {fileID: 0}
 --- !u!114 &2007214874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53394,6 +54126,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 1517383033}
   frameHealthBar: {fileID: 617717367}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &2007214875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53406,11 +54148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 3
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &2008447538
 GameObject:
   m_ObjectHideFlags: 0
@@ -55547,7 +56286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48612bf0361d3ae43bdb91b285cc654e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
 --- !u!95 &2073719026
 Animator:
   serializedVersion: 3
@@ -55638,13 +56376,28 @@ MonoBehaviour:
   defense: 2
   vitality: 4
   baseXPToGive: 1
+  experience: 0
+  oneLevelExperience: 0
+  level: 0
+  nextLevelThreshold: 0
+  oneLevelNextLevelThreshold: 0
+  isLevelingUp: 0
   levelUpButton: {fileID: 881733275}
+  amountStatIncreases: 0
+  vitalityBubblesFilled: 0
+  magicBubblesFilled: 0
+  strBubblesFilled: 0
+  speedBubblesFilled: 0
+  mARef: {fileID: 0}
+  hpRef: {fileID: 0}
+  mAContRef: {fileID: 0}
   statsDisplay: {fileID: 1365334199}
   nameText: {fileID: 689910511}
   attackText: {fileID: 214188323}
   defenseText: {fileID: 1157551274}
   healthText: {fileID: 1129625540}
   speedText: {fileID: 1056993255}
+  expSlider: {fileID: 0}
 --- !u!114 &2073719029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55660,6 +56413,16 @@ MonoBehaviour:
   redHealthBar: {fileID: 1967799575}
   frameHealthBar: {fileID: 1508092977}
   redBarOffset: 0.0625
+  sideSlider: {fileID: 0}
+  maxHP: 0
+  curHP: 0
+  animRef: {fileID: 0}
+  mAGUIContRef: {fileID: 0}
+  mAContRef: {fileID: 0}
+  whatAmI: 0
+  enMAAIRef: {fileID: 0}
+  turnSysRef: {fileID: 0}
+  myKiller: {fileID: 0}
 --- !u!114 &2073719030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55672,11 +56435,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6c453991c4474f9136ab3b51350c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1
-  whatAmI: 2
-  transSpeed: 3
-  transition: 0
-  rangeVisualParent: {fileID: 0}
+  _whatAmI: 0
+  _transSpeed: 3
 --- !u!1 &2081558782
 GameObject:
   m_ObjectHideFlags: 0
@@ -57594,9 +58354,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc730ecff318544bb93e1ac1432ade6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Allies: []
-  smoothTime: 0.3
-  cameraDistance: 30
+  _smoothTime: 0.3
+  _dragSpeed: 0.3
 --- !u!20 &2127648523
 Camera:
   m_ObjectHideFlags: 0
@@ -57652,9 +58411,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9904f93f185add54d9c9abe762a06d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxZoomSize: 8
-  minZoomSize: 2
-  zoomSpeed: 5
+  _maxZoomSize: 8
+  _minZoomSize: 2
+  _zoomSpeed: 1
 --- !u!81 &2127648525
 AudioListener:
   m_ObjectHideFlags: 0
@@ -57810,28 +58569,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 437f81712e5663b44a392f9092c92fbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterPortrait: {fileID: 485277333}
-  nameText: {fileID: 1513406134}
-  lvlText: {fileID: 1184169927}
-  vitalityNums: {fileID: 169303883}
-  magicNums: {fileID: 1272903495}
-  strNums: {fileID: 111675544}
-  speedNums: {fileID: 238800010}
-  vitalityBubblesParent: {fileID: 621285624}
-  magicBubblesParent: {fileID: 316797034}
-  strBubblesParent: {fileID: 127303086}
-  speedBubblesParent: {fileID: 1936752411}
-  emptyBubbleSpr: {fileID: 21300000, guid: 519a7cdd8c6fcd947bce51099b3303e4, type: 3}
-  fullBubbleSpr: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
-  pointsText: {fileID: 1438996003}
-  vitalityIncrButt: {fileID: 1932170457}
-  magicIncrButt: {fileID: 1594961040}
-  strIncrButt: {fileID: 734289840}
-  speedIncrButt: {fileID: 1735855560}
-  resetButt: {fileID: 1990211477}
-  confirmButt: {fileID: 204098175}
-  levelUpButtons: []
-  unappliedChangesPrompt: {fileID: 0}
+  _characterPortrait: {fileID: 0}
+  _nameText: {fileID: 0}
+  _lvlText: {fileID: 0}
+  _vitalityNums: {fileID: 0}
+  _magicNums: {fileID: 0}
+  _strNums: {fileID: 0}
+  _speedNums: {fileID: 0}
+  _vitalityBubblesParent: {fileID: 0}
+  _magicBubblesParent: {fileID: 0}
+  _strBubblesParent: {fileID: 0}
+  _speedBubblesParent: {fileID: 0}
+  _emptyBubbleSpr: {fileID: 0}
+  _fullBubbleSpr: {fileID: 0}
+  _pointsText: {fileID: 0}
+  _vitalityIncrButt: {fileID: 0}
+  _magicIncrButt: {fileID: 0}
+  _strIncrButt: {fileID: 0}
+  _speedIncrButt: {fileID: 0}
+  _resetButt: {fileID: 0}
+  _confirmButt: {fileID: 0}
+  _levelUpButtons: []
+  _unappliedChangesPrompt: {fileID: 0}
 --- !u!114 &2129405651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57844,22 +58603,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda884c42b9c12a49a63920ee25713f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapMenuObj: {fileID: 1778773930}
-  teamMenuObj: {fileID: 414120826}
-  inventoryMenuObj: {fileID: 1754185345}
-  charDetailedMenuObj: {fileID: 340869219}
-  alliesNameText:
-  - {fileID: 2047190471}
-  - {fileID: 1182091433}
-  - {fileID: 25286768}
-  allyXPBars:
-  - {fileID: 2098731158}
-  - {fileID: 1555947315}
-  - {fileID: 1114693841}
-  allyPortraits: []
-  sidePortraits: []
-  sideHPBars: []
-  sideExpBars: []
+  _mapMenuObj: {fileID: 0}
+  _teamMenuObj: {fileID: 0}
+  _inventoryMenuObj: {fileID: 0}
+  _charDetailedMenuObj: {fileID: 0}
+  _alliesNameText: []
+  _allyXPBars: []
+  _allyPortraits: []
+  _sidePortraits: []
+  _sideHPBars: []
+  _sideExpBars: []
 --- !u!114 &2129405652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57872,14 +58625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e2f77fd050f7347bcbd39ce32291bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uIElementsToTurnOff:
-  - {fileID: 1734947088}
-  - {fileID: 1061870089}
-  - {fileID: 1110476156}
-  - {fileID: 481980391}
-  - {fileID: 71183834}
-  pauseMenuElements:
-  - {fileID: 797855774}
+  _uIElementsToTurnOff: []
+  _pauseMenuElements: []
 --- !u!114 &2129405653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57892,8 +58639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8694874cd00b1ef48b132bcf4c446e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charParent: {fileID: 118960599}
-  aggroRange: 16
+  _aggroRange: 16
 --- !u!114 &2129405654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57906,18 +58652,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16198c1a4a73d504dbea5adf3b71866c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonsToTurnOff:
-  - {fileID: 1734947089}
-  - {fileID: 2040429043}
-  - {fileID: 251555848}
-  - {fileID: 2035846203}
-  - {fileID: 881733276}
-  - {fileID: 967158749}
-  - {fileID: 484162153}
-  imagesToTurnOff: []
-  areSelected1: 0
-  areSelected2: 0
-  areSelected3: 0
+  _buttonsToTurnOff: []
+  _imagesToTurnOff: []
 --- !u!114 &2129405655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57930,9 +58666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6a91c244970a1b41b90e94653f04d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endTurnButtObj: {fileID: 1734947088}
-  enemyTurn: 0
-  playerTurn: 0
+  _endTurnButt: {fileID: 0}
 --- !u!114 &2129405656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57945,6 +58679,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b718a32954b1f304ba8ba427f9259735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buttonTransforms: []
+  _canvasRef: {fileID: 0}
 --- !u!114 &2129405657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57957,10 +58693,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6725793bf0e01a44ca4275ed884a3d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
-  attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
-  visualSortingLayer: VisualTile
-  tileMaterial: {fileID: 2100000, guid: 8b1469885f49c584db481d9a8bbb59f2, type: 2}
+  _moveTileSprite: {fileID: 0}
+  _attackTileSprite: {fileID: 0}
+  _visualSortingLayer: VisualTile
+  _tileMaterial: {fileID: 0}
 --- !u!4 &2129405658
 Transform:
   m_ObjectHideFlags: 0
@@ -57987,7 +58723,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5258049b3bc3ee4cb858150e9630b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToGoTo: Title Screen
+  _sceneToGoTo: Title Screen
+  _promptMenu: {fileID: 0}
 --- !u!1 &2130175611
 GameObject:
   m_ObjectHideFlags: 0
