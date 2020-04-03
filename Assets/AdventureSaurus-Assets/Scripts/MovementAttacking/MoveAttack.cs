@@ -412,6 +412,10 @@ public class MoveAttack : MonoBehaviour
         _moveRange = 0;
         //Debug.Log("Reached destination");
 
+        // Recalculate the move and attack nodes, so that it does not look like the 
+        CalcMoveTiles();
+        CalcAttackTiles();
+
         // Call the event for when a character finished moving
         if (OnCharacterFinishedMoving != null)
             OnCharacterFinishedMoving();

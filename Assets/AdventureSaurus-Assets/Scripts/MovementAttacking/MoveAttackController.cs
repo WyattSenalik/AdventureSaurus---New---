@@ -54,11 +54,11 @@ public class MoveAttackController : MonoBehaviour
     private void OnEnable()
     {
         // When the player is allowed to select, recalculate the allies' move and attack tiles
-        MoveAttackGUIController.OnPlayerAllowedSelect += RecalculateAllyMoveAttackTiles;
+        //MoveAttackGUIController.OnPlayerAllowedSelect += RecalculateAllyMoveAttackTiles;
         // When the floor is finished generating, initialize this script
         ProceduralGenerationController.OnFinishGeneration += Initialize;
         // When the floor is finished generating, recalculate the allies' move and attack tiles
-        ProceduralGenerationController.OnFinishGenerationNoParam += RecalculateAllyMoveAttackTiles;
+        //ProceduralGenerationController.OnFinishGenerationNoParam += RecalculateAllyMoveAttackTiles;
 
         // When the game is paused, disable this script
         Pause.OnPauseGame += HideScript;
@@ -237,8 +237,8 @@ public class MoveAttackController : MonoBehaviour
         if (mARef != null)
         {
             // Calculate its move tiles and attack tiles, then initialize the visual tiles for it
-            mARef.CalcMoveTiles();
-            mARef.CalcAttackTiles();
+            //mARef.CalcMoveTiles();
+            //mARef.CalcAttackTiles();
             // If it is the first time displaying visuals for this character, we need to make brand new visual tiles
             if (mARef.RangeVisualParent == null)
             {
@@ -887,7 +887,7 @@ public class MoveAttackController : MonoBehaviour
         Node testNode = GetNodeAtPosition(testPos);
         //Debug.Log("Test tile at " + testPos);
         // If the node exists and it is not already in the validNodes list
-        if (testPos != null && !(validNodes.Contains(testNode)))
+        if (testNode != null && !(validNodes.Contains(testNode)))
         {
             validNodes.Add(testNode);
             currentNodes.Add(testNode);
