@@ -262,6 +262,9 @@ public class Skill : MonoBehaviour
         _maRef.AttackRange = _range;
 
         // Update the attack tiles
-        _maRef.CalcAttackTiles();
+        if (_maRef.AttackTiles != null)
+        {
+            _maRef.CalcAttackTiles();
+        }
     }
 }

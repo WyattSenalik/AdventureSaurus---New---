@@ -540,4 +540,17 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         this.enabled = true;
     }
+
+    /// <summary>
+    /// Recalculates visual tiles and displays them
+    /// Called from Skill button to update the visual tiles
+    /// </summary>
+    public void RefreshSelectedVisualTiles()
+    {
+        // Calculate its visuals
+        _charSelected.CalcMoveTiles();
+        _charSelected.CalcAttackTiles();
+        // Set the visuals of it to be on
+        _mAContRef.SetActiveVisuals(_charSelected);
+    }
 }
