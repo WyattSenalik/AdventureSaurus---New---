@@ -6,7 +6,7 @@ using UnityEngine;
 public class CharacterSkills : MonoBehaviour
 {
     // Reference to the MoveAttack script attached to this character
-    private MoveAttack _mARef;
+    protected MoveAttack _mARef;
     // Reference to the skill holder
     protected SkillHolder _skillHoldRef;
 

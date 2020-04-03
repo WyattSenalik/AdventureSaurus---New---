@@ -40,6 +40,9 @@ public class MoveAttackController : MonoBehaviour
     // Only for testing. This is a list of the spawned canvas objects that display numbers on the nodes
     private List<GameObject> _visualTests;
 
+    // Max moveRange + atkRange for a character
+    private const int MAX_RANGE = 12;
+
     // Events
     // When the grid finishes calculating
     public delegate void GridFinishedCalculating(Vector2Int topLeft, Vector2Int botRight);
@@ -274,13 +277,21 @@ public class MoveAttackController : MonoBehaviour
         // Make the first movement tile under the character
         CreateSingleVisualTile(0, 0, mARef, true, moveTileParent.transform, attackTileParent.transform);
 
+        // The depth of tiles to make
+        int totalTileDepth = mARef.MoveRange + mARef.AttackRange;
+        if (mARef.WhatAmI == CharacterType.Ally)
+        {
+            totalTileDepth = MAX_RANGE;
+        }
+
         // Make the rest of the movement tiles around the character
         bool isMoveTile = true;
-        for (int i = 1; i <= mARef.MoveRange + mARef.AttackRange; ++i)
+        for (int i = 1; i <= totalTileDepth; ++i)
         {
+            // We now just say they are all both
             // If we have finished the move tiles
-            if (i >= mARef.MoveRange + 1)
-                isMoveTile = false;
+            //if (i >= mARef.MoveRange + 1)
+                //isMoveTile = false;
 
             Vector2Int placementPos = new Vector2Int(0, i);
             // Go down, right

@@ -24,10 +24,6 @@ public class AllySkillController : CharacterSkills
         get { return _specialActive; }
     }
 
-    // Events
-    // When a skill is swapped
-    // TODO
-
     // Called before the first frame
     // Initialize some variables
     private void Start()

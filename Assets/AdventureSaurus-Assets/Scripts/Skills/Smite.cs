@@ -11,10 +11,15 @@ public class Smite : Skill
     // Set the skill specific variables
     private new void Awake()
     {
+        // Call the base version
         base.Awake();
+        // Set skillNum to be the skillNumber of smite: 1
         _skillNum = 1;
+
+        // These will change. Here are their base values
         _cooldown = 4;
         _range = 2;
+        _damage = 2;
     }
 
     /// <summary>

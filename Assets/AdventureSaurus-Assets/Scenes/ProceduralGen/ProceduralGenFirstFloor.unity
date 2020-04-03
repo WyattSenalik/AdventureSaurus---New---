@@ -486,6 +486,16 @@ PrefabInstance:
       propertyPath: _speed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7198553171757281747, guid: 4278b658950a1194d85a7b00a6d114c3,
+        type: 3}
+      propertyPath: _skillToGain
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7198553171757281747, guid: 4278b658950a1194d85a7b00a6d114c3,
+        type: 3}
+      propertyPath: _grimoirePages.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4278b658950a1194d85a7b00a6d114c3, type: 3}
 --- !u!4 &2125315499 stripped
