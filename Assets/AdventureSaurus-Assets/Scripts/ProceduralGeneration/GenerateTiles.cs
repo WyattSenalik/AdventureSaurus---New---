@@ -7,30 +7,12 @@ public class GenerateTiles : MonoBehaviour
 {
     // The object that will be spawned that contains an empty tile map
     [SerializeField] private GameObject _tileMapPrefab = null;
-    // Chance to spawn dinosaur bones on a tile
-    [SerializeField] private int _dinoBonesChance = 50;
-    // Floor tiles that can be used
-    [SerializeField] private List<Tile> _singleFloorTiles = null;
-    // Floor tiles that take up multiple tiles that can be used
-    [SerializeField] private List<Tile> _twoTileDinoBones = null;
-    // Wall tiles
-    [SerializeField] private List<Tile> _closeWallTiles = null;
-    [SerializeField] private List<Tile> _farWallTiles = null;
-    [SerializeField] private List<Tile> _leftWallTiles = null;
-    [SerializeField] private List<Tile> _rightWallTiles = null;
-    // Corner tiles for walls
-    // Outer Corners
-    [SerializeField] private Tile _closeLeftOuterCornerWallTile = null;
-    [SerializeField] private Tile _closeRightOuterCornerWallTile = null;
-    [SerializeField] private Tile _farLeftOuterCornerWallTile = null;
-    [SerializeField] private Tile _farRightOuterCornerWallTile = null;
-    // Inner Corners
-    [SerializeField] private Tile _closeLeftInnerCornerWallTile = null;
-    [SerializeField] private Tile _closeRightInnerCornerWallTile = null;
-    [SerializeField] private Tile _farLeftInnerCornerWallTile = null;
-    [SerializeField] private Tile _farRightInnerCornerWallTile = null;
-    // Stair tiles
-    [SerializeField] private Tile _stairTile = null;
+    // Chance to spawn one-tiled decorations on a tile
+    [SerializeField] private int _singleTileDecorationChance = 15;
+    // Chance to spawn two-tiled decorations on a tile
+    [SerializeField] private int _twoTileDecorationChance = 50;
+    // TileSet to be used
+    [SerializeField] private TileSet _tileSet = null;
 
     // Reference to the tile map
     private Tilemap _tileMapRef;
@@ -40,37 +22,9 @@ public class GenerateTiles : MonoBehaviour
     {
         // Validation
         if (_tileMapPrefab == null)
-            Debug.Log("tileMapPrefab was not set correctly in GenerateStairs attached to " + this.name);
-        if (_singleFloorTiles == null)
-            Debug.Log("singleFloorTiles was not set correctly in GenerateStairs attached to " + this.name);
-        if (_twoTileDinoBones == null)
-            Debug.Log("twoTileDinoBones was not set correctly in GenerateStairs attached to " + this.name);
-        if (_closeWallTiles == null)
-            Debug.Log("closeWallTiles was not set correctly in GenerateStairs attached to " + this.name);
-        if (_farWallTiles == null)
-            Debug.Log("farWallTiles was not set correctly in GenerateStairs attached to " + this.name);
-        if (_leftWallTiles == null)
-            Debug.Log("leftWallTiles was not set correctly in GenerateStairs attached to " + this.name);
-        if (_rightWallTiles == null)
-            Debug.Log("rightWallTiles was not set correctly in GenerateStairs attached to " + this.name);
-        if (_closeLeftOuterCornerWallTile == null)
-            Debug.Log("closeLeftOuterCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (_closeRightOuterCornerWallTile == null)
-            Debug.Log("closeRightOuterCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (_farLeftOuterCornerWallTile == null)
-            Debug.Log("farLeftOuterCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (_farRightOuterCornerWallTile == null)
-            Debug.Log("farRightOuterCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (_closeLeftInnerCornerWallTile == null)
-            Debug.Log("closeLeftInnerCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (_closeRightInnerCornerWallTile == null)
-            Debug.Log("closeRightInnerCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (_farLeftInnerCornerWallTile == null)
-            Debug.Log("farLeftInnerCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (_farRightInnerCornerWallTile == null)
-            Debug.Log("farRightInnerCornerWallTile was not set correctly in GenerateStairs attached to " + this.name);
-        if (_stairTile == null)
-            Debug.Log("stairTile was not set correctly in GenerateStairs attached to " + this.name);
+            Debug.Log("tileMapPrefab was not set correctly in GenerateTiles attached to " + this.name);
+        if (_tileSet == null)
+            Debug.Log("tileSet was not set correctly in GenerateTiles attached to " + this.name);
     }
 
     /// <summary>
@@ -83,8 +37,10 @@ public class GenerateTiles : MonoBehaviour
     /// <returns>Returns the newly created Tilemap</returns>
     public Tilemap SpawnTileMap(Transform roomParent, Transform wallParent, Transform stairsTrans)
     {
-        // Initilize the list of potential position to spawn the dinosaur bones
-        List<Vector2Int> dinoBonePos = new List<Vector2Int>();
+        // Initialize the list of potential positions to spawn the one-tiled decor
+        List<Vector2Int> oneTiledDecor = new List<Vector2Int>();
+        // Initialize the list of potential position to spawn the two-tiled decor
+        List<Vector2Int> twoTiledDecor = new List<Vector2Int>();
 
         // Create the tilemap
         GameObject tileMapObj = Instantiate(_tileMapPrefab, new Vector3(-0.5f, -0.5f, 0), Quaternion.identity);
@@ -111,16 +67,19 @@ public class GenerateTiles : MonoBehaviour
                 for (int curCol = 0; curCol < amCols; ++curCol)
                 {
                     // Choose a random floor tile
-                    int randomIndex = Random.Range(0, _singleFloorTiles.Count);
+                    int randomIndex = Random.Range(0, _tileSet.SingleFloorTilesLength());
                     // Calculate the current location
                     Vector2Int curLocation = topLeft + new Vector2Int(curCol, -curRow);
 
-                    // Give a chance for this tile to be covered in dino bones
-                    if (Random.Range(0, _dinoBonesChance) == 0)
-                        dinoBonePos.Add(curLocation);
+                    // Give a chance for this tile to be convered in single-tiled decor
+                    if (Random.Range(0, _singleTileDecorationChance) == 0)
+                        oneTiledDecor.Add(curLocation);
+                    // Give a chance for this tile to be covered in a two-tiled decor
+                    else if (Random.Range(0, _twoTileDecorationChance) == 0)
+                        twoTiledDecor.Add(curLocation);
 
                     // Add a single room tile at the current location
-                    AddTile(curLocation, _singleFloorTiles[randomIndex]);
+                    AddTile(curLocation, _tileSet.GetSingleFloorTile(randomIndex));
                 }
             }
         }
@@ -159,78 +118,130 @@ public class GenerateTiles : MonoBehaviour
                     {
                         innerWallTypeVect.x = curPos.x;
                         innerWallTypeVect.y = curPos.y;
-                    }   
+                    }
                 }
             }
 
             // If the wall is a left wall
             if (curWallTypeVect.x == -1 && curWallTypeVect.y == 0)
-                AddRandomTile(curWall.position, _leftWallTiles);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.LeftWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetLeftWallTile(randomIndex));
+            }
 
             // If the wall is a right wall
             else if (curWallTypeVect.x == 1 && curWallTypeVect.y == 0)
-                AddRandomTile(curWall.position, _rightWallTiles);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.RightWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetRightWallTile(randomIndex));
+            }
 
             // If the wall is a close wall
             else if (curWallTypeVect.x == 0 && curWallTypeVect.y == -1)
-                AddRandomTile(curWall.position, _closeWallTiles);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.CloseWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetCloseWallTile(randomIndex));
+            }
 
             // If the wall is a far wall
             else if (curWallTypeVect.x == 0 && curWallTypeVect.y == 1)
-                AddRandomTile(curWall.position, _farWallTiles);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.FarWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetFarWallTile(randomIndex));
+            }
 
             // Outer corners
             // If the wall is a close left outer corner
             else if (curWallTypeVect.x == -1 && curWallTypeVect.y == -1)
-                AddTile(curWall.position, _closeLeftOuterCornerWallTile);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.CloseLeftOuterCornerWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetCloseLeftOuterCornerWallTile(randomIndex));
+            }
 
             // If the wall is a close right outer corner
             else if (curWallTypeVect.x == 1 && curWallTypeVect.y == -1)
-                AddTile(curWall.position, _closeRightOuterCornerWallTile);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.CloseRightOuterCornerWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetCloseRightOuterCornerWallTile(randomIndex));
+            }
 
             // If the wall is a far left outer corner
             else if (curWallTypeVect.x == -1 && curWallTypeVect.y == 1)
-                AddTile(curWall.position, _farLeftOuterCornerWallTile);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.FarLeftOuterCornerWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetFarLeftOuterCornerWallTile(randomIndex));
+            }
 
             // If the wall is a far right outer corner
             else if (curWallTypeVect.x == 1 && curWallTypeVect.y == 1)
-                AddTile(curWall.position, _farRightOuterCornerWallTile);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.FarRightOuterCornerWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetFarRightOuterCornerWallTile(randomIndex));
+            }
 
             // Inner corners
-            // If the wall is a close left outer corner
+            // If the wall is a close left inner corner
             else if (innerWallTypeVect.x == -1 && innerWallTypeVect.y == -1)
-                AddTile(curWall.position, _closeLeftInnerCornerWallTile);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.CloseLeftInnerCornerWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetCloseLeftInnerCornerWallTile(randomIndex));
+            }
 
-            // If the wall is a close right outer corner
+            // If the wall is a close right inner corner
             else if (innerWallTypeVect.x == 1 && innerWallTypeVect.y == -1)
-                AddTile(curWall.position, _closeRightInnerCornerWallTile);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.CloseRightInnerCornerWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetCloseRightInnerCornerWallTile(randomIndex));
+            }
 
-            // If the wall is a far left outer corner
+            // If the wall is a far left inner corner
             else if (innerWallTypeVect.x == -1 && innerWallTypeVect.y == 1)
-                AddTile(curWall.position, _farLeftInnerCornerWallTile);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.FarLeftInnerCornerWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetFarLeftInnerCornerWallTile(randomIndex));
+            }
 
-            // If the wall is a far right outer corner
+            // If the wall is a far right inner corner
             else if (innerWallTypeVect.x == 1 && innerWallTypeVect.y == 1)
-                AddTile(curWall.position, _farRightInnerCornerWallTile);
+            {
+                // Choose a random tile
+                int randomIndex = Random.Range(0, _tileSet.FarRightInnerCornerWallTilesLength());
+                AddTile(curWall.position, _tileSet.GetFarRightInnerCornerWallTile(randomIndex));
+            }
 
             // If the wall is a completely different kind of tile
             else
             {
-                Debug.Log("Strange wall encountered " + curWallTypeVect);
-                AddTile(curWall.position, _singleFloorTiles[0]);
+                Debug.Log("Strange wall encountered CurWallTypeVect: " + curWallTypeVect + ". InnerWallTypeVect: " + innerWallTypeVect);
+                AddTile(curWall.position, _tileSet.GetSingleFloorTile(0));
             }
         }
 
         // Add the stairs to the tilemap
-        AddTile(stairsTrans.position, _stairTile);
+        // Choose a random tile
+        int randomStairIndex = Random.Range(0, _tileSet.StairTilesLength());
+        AddTile(stairsTrans.position, _tileSet.GetStairTile(randomStairIndex));
 
-        // Add the fireplace
-
-
-        // Iterate over the tiles we said we would spawn dino bones at and try to spawn dino bones
-        foreach (Vector2Int tilePos in dinoBonePos)
+        // Iterate over the tiles we said we would spawn single-tiled decor at and try to spawn some
+        foreach (Vector2Int tilePos in oneTiledDecor)
         {
-            AttemptPlaceDinoBones(tilePos);
+            AttemptPlaceSingleTileDecoration(tilePos);
+        }
+        // Iterate over the tiles we said we would spawn two-tiled decor at and try to spawn some
+        foreach (Vector2Int tilePos in twoTiledDecor)
+        {
+            AttemptPlaceTwoTileDecoration(tilePos);
         }
 
         // Give the tilemap
@@ -260,72 +271,85 @@ public class GenerateTiles : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawns a random Tile in the given list at the given world position
+    /// Trys to create a one-tiled decoration at a position
     /// </summary>
-    /// <param name="worldPos">The position to spawn the tile at</param>
-    /// <param name="tileChoices">The list of potential tiles to spawn</param>
-    private void AddRandomTile(Vector3 worldPos, List<Tile> tileChoices)
-    {
-        // Choose a random tile
-        int randomIndex = Random.Range(0, tileChoices.Count);
-        AddTile(worldPos, tileChoices[randomIndex]);
-    }
-
-    /// <summary>
-    /// Spawns a random Tile in the given list at the given grid position
-    /// </summary>
-    /// <param name="gridPos">The position to spawn the tile at</param>
-    /// <param name="tileChoices">The list of potential tiles to spawn</param>
-    private void AddRandomTile(Vector2Int gridPos, List<Tile> tileChoices)
-    {
-        // Choose a random tile
-        int randomIndex = Random.Range(0, tileChoices.Count);
-        AddTile(gridPos, tileChoices[randomIndex]);
-    }
-
-    /// <summary>
-    /// Trys to create dino bones at a position
-    /// </summary>
-    /// <param name="testBonePos">The position on the tilemap we are trying to place dino bones</param>
+    /// <param name="testPos">The position on the tilemap we are trying to place the single-tiled decor</param>
     /// <returns>Returns true if successful</returns>
-    private bool AttemptPlaceDinoBones(Vector2Int testBonePos)
+    private bool AttemptPlaceSingleTileDecoration(Vector2Int testPos)
+    {
+        // Get the sprite on the current tile
+        Sprite curTileSpr = _tileMapRef.GetSprite(new Vector3Int(testPos.x, testPos.y, 0));
+        // Test if the current tile is a floor tile or not
+        // Assume it isn't a floor tile
+        bool isFloorTile = false;
+        // Iterate over the floor tiles
+        for (int i = 0; i < _tileSet.SingleFloorTilesLength(); ++i)
+        {
+            Tile curFloorTile = _tileSet.GetSingleFloorTile(i);
+            // If we find a floor tile with the same sprite, this is a floor tile
+            if (curFloorTile != null && curFloorTile.sprite == curTileSpr)
+            {
+                isFloorTile = true;
+                break;
+            }
+        }
+        // If this was not a floor tile, we can't spawn the decir
+        if (!isFloorTile)
+            return false;
+
+        // If we made it all the way here, we can spawn decor
+        // Pick a random decor
+        int randomIndex = Random.Range(0, _tileSet.SingleTiledDecorationTilesLength());
+        // Add the tile
+        AddTile(testPos, _tileSet.GetSingleTiledDecorationTile(randomIndex));
+
+        return true;
+    }
+
+    /// <summary>
+    /// Trys to create a two-tiled decoration at a position
+    /// </summary>
+    /// <param name="testLeftPos">The position on the tilemap we are trying to place the left part of the two-tiled decor</param>
+    /// <returns>Returns true if successful</returns>
+    private bool AttemptPlaceTwoTileDecoration(Vector2Int testLeftPos)
     {
         //Debug.Log("Trying to spawn dino at " + testBonePos);
-        // Iterate over this tile and its neighbors to find out if any of the adjacent tiles make it so we can't spawn dino bones
-        BoundsInt aroundBounds = new BoundsInt(-1, -1, 0, 3, 3, 1);
-        foreach (Vector3Int curPos in aroundBounds.allPositionsWithin)
+        // Iterate over this tile and its neighbors to find out if any of the adjacent tiles make it so we can't the decoration
+        BoundsInt aroundLeft = new BoundsInt(-1, -1, 0, 3, 3, 1);
+        foreach (Vector3Int curPos in aroundLeft.allPositionsWithin)
         {
             // If its one of the directly adjacent tiles, or this tile
             if (curPos.x == 0 || curPos.y == 0)
             {
-                // Test if the tile at the current position if a floor tile, if it isn't we can't spawn the bones
+                // Test if the tile at the current position if a floor tile, if it isn't we can't spawn the decor
                 // Get the sprite on the current tile
-                Sprite curTileSpr = _tileMapRef.GetSprite(curPos + new Vector3Int(testBonePos.x, testBonePos.y, 0));
+                Sprite curTileSpr = _tileMapRef.GetSprite(curPos + new Vector3Int(testLeftPos.x, testLeftPos.y, 0));
                 // Assume it isn't a floor tile
                 bool isFloorTile = false;
                 // Iterate over the floor tiles
-                foreach (Tile curFloorTile in _singleFloorTiles)
+                for (int i = 0; i < _tileSet.SingleFloorTilesLength(); ++i)
                 {
+                    Tile curFloorTile = _tileSet.GetSingleFloorTile(i);
                     // If we find a floor tile with the same sprite, this is a floor tile
-                    if (curFloorTile.sprite == curTileSpr)
+                    if (curFloorTile != null && curFloorTile.sprite == curTileSpr)
                     {
                         isFloorTile = true;
                         break;
                     }
                 }
-                // If this was not a floor tile, we can't spawn the bones
+                // If this was not a floor tile, we can't spawn the decir
                 if (!isFloorTile)
                     return false;
             }
         }
 
-        // If we made it all the way here, we can spawn dino bones
-        // Pick a random left tile for the dino bones (gives an even index, which is the left tile)
-        int randomLeftIndex = Random.Range(0, _twoTileDinoBones.Count / 2) * 2;
+        // If we made it all the way here, we can spawn decor
+        // Pick a random left tile for the decor (gives an even index, which is the left tile)
+        int randomLeftIndex = Random.Range(0, _tileSet.TwoTiledDecorationTilesLength() / 2) * 2;
         // Add the left tile
-        AddTile(testBonePos, _twoTileDinoBones[randomLeftIndex]);
+        AddTile(testLeftPos, _tileSet.GetTwoTiledDecorationTile(randomLeftIndex));
         // Add the right tile
-        AddTile(testBonePos + new Vector2Int(1, 0), _twoTileDinoBones[randomLeftIndex + 1]);
+        AddTile(testLeftPos + new Vector2Int(1, 0), _tileSet.GetTwoTiledDecorationTile(randomLeftIndex + 1));
 
         return true;
     }

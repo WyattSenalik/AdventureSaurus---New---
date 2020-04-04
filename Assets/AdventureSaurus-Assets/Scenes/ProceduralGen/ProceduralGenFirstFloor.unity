@@ -153,7 +153,7 @@ MonoBehaviour:
   _nextFloorScene:
     m_Handle: 8
   _difficultyToner: 0.625
-  _nextFloorRoomAm: 3
+  _nextFloorRoomAm: 5
   _floorsUntilRoomAmInc: 3
   _maxRooms: 9
   _floorsUntilFire: 2
@@ -660,5 +660,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1885554832884344797, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _tileSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 21fc7d6fce44b9b40a014c8075b18db6,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70da1097b1dafad4a9fb162e686f4084, type: 3}

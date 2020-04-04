@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78c42a18e7e6a334a9815725b742d746, type: 3}
+  m_Name: PurpleDungeon
+  m_EditorClassIdentifier: 
+  _singleFloorTiles:
+  - {fileID: 11400000, guid: e31c5f43f4bf1b3428e93e20bcb728b6, type: 2}
+  - {fileID: 11400000, guid: 8b05c82ffe5361645b3af3bcc515614e, type: 2}
+  - {fileID: 11400000, guid: 9b8e1ec37fa577346b73f5c6ca462a17, type: 2}
+  _closeWallTiles:
+  - {fileID: 11400000, guid: 322f3ef3883d28e40b6a208f624dfc0a, type: 2}
+  - {fileID: 11400000, guid: a7c405300c32837428220e3c6950d08b, type: 2}
+  - {fileID: 11400000, guid: b75a6e6e76fe2cd40a33514254077632, type: 2}
+  _farWallTiles:
+  - {fileID: 11400000, guid: caca3c7bb77e6dc4bae381adc0a3cf22, type: 2}
+  - {fileID: 11400000, guid: c266325237774ce4ba07d336f5e9e130, type: 2}
+  - {fileID: 11400000, guid: 066129dffb0215a4bace05197515a500, type: 2}
+  _leftWallTiles:
+  - {fileID: 11400000, guid: 4e2f7e1145cdb6d4fb650b38712415d0, type: 2}
+  - {fileID: 11400000, guid: dc45ee34380f49f4cb37e2421a770454, type: 2}
+  - {fileID: 11400000, guid: b253ebd65d410c64e9de09603cd9ac91, type: 2}
+  _rightWallTiles:
+  - {fileID: 11400000, guid: fd93bd4f38dead04ba1a5be0934cc39a, type: 2}
+  - {fileID: 11400000, guid: 8fce30e004454d847b00b92a9d15c487, type: 2}
+  - {fileID: 11400000, guid: ca748a760e417a44eb901687f5d807a4, type: 2}
+  _closeLeftOuterCornerWallTiles:
+  - {fileID: 11400000, guid: e8b96a45fd1b3594f80a2be564302b8b, type: 2}
+  _closeRightOuterCornerWallTiles:
+  - {fileID: 11400000, guid: 1a0fb94fb11fac04081c8f98d6cfd291, type: 2}
+  _farLeftOuterCornerWallTiles:
+  - {fileID: 11400000, guid: 02c91162b3da40c4e9b1ffabcb564eb5, type: 2}
+  _farRightOuterCornerWallTiles:
+  - {fileID: 11400000, guid: 4fe91c59b588cba4aa1680c72844466a, type: 2}
+  _closeLeftInnerCornerWallTiles:
+  - {fileID: 11400000, guid: 70e879227bcb12d43b770fa4ac5ad74f, type: 2}
+  _closeRightInnerCornerWallTiles:
+  - {fileID: 11400000, guid: 906dadebb0a555a4ca6012e569d4517e, type: 2}
+  _farLeftInnerCornerWallTiles:
+  - {fileID: 11400000, guid: 2b94f4a54662450449c0ae8fdd89570d, type: 2}
+  _farRightInnerCornerWallTiles:
+  - {fileID: 11400000, guid: 4175b5eec20833c4db3faf387682bf34, type: 2}
+  _stairTiles:
+  - {fileID: 11400000, guid: 11dbdc8f7bb3dac40b9fcc65a24ea812, type: 2}
+  - {fileID: 11400000, guid: b2a04c9c196dcf948bc776e01cd71675, type: 2}
+  _twoTiledDecorationTiles:
+  - {fileID: 11400000, guid: bf82c237d817d7f40897f79d20917212, type: 2}
+  - {fileID: 11400000, guid: 867bc6836ae8acd4eae015d09d251651, type: 2}
+  - {fileID: 11400000, guid: 25d59e8133c4fb142be3aac26b56ebb4, type: 2}
+  - {fileID: 11400000, guid: 12de1a1e28b025e4bb468559af17f0e6, type: 2}
