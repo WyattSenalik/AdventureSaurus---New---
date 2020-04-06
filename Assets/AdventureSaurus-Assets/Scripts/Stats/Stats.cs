@@ -98,6 +98,7 @@ public abstract class Stats : MonoBehaviour
         else
         {
             _hpRef.MaxHP = _vitality;
+            _hpRef.CurHP = _hpRef.MaxHP;
         }
     }
 

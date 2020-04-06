@@ -14,17 +14,18 @@ public abstract class Health : MonoBehaviour
     [SerializeField] private float _redBarOffset = 0.0625f;
 
     // Maximum health of the character
-    private int _maxHP;
+    private int _maxHP = 1;
     public int MaxHP
     {
         get { return _maxHP; }
         set { _maxHP = value; }
     }
     // The current health of the character
-    private int _curHP;
+    private int _curHP = 1;
     public int CurHP
     {
         get { return _curHP; }
+        set { _curHP = value; }
     }
 
     // References to things on this gameobject
@@ -40,6 +41,8 @@ public abstract class Health : MonoBehaviour
     // Set references
     protected void Awake()
     {
+        _curHP = _maxHP;
+
         // Get the animator attached to this gameobject
         _animRef = this.gameObject.GetComponent<Animator>();
         if (_animRef == null)
@@ -61,12 +64,6 @@ public abstract class Health : MonoBehaviour
         _mAContRef = gameContObj.GetComponent<MoveAttackController>();
         if (_mAContRef == null)
             Debug.Log("Could not MoveAttackController attached to " + gameContObj.name);
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        _curHP = _maxHP;
     }
 
     /// <summary>

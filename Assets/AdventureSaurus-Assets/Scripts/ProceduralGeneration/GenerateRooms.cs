@@ -89,7 +89,7 @@ public class GenerateRooms : MonoBehaviour
         fRoomPos.y = (_lowerLeftBound.y + _upperRightBound.y) / 2;
         // Create the first room
         Transform fRoomTrans = Instantiate(_roomPrefab, new Vector3(fRoomPos.x, fRoomPos.y, 0), Quaternion.identity, _roomParent).transform;
-        fRoomTrans.localScale = new Vector3(fRoomSize.x, fRoomSize.y, 1);
+        fRoomTrans.localScale = new Vector3(fRoomSize.x, fRoomSize.y, fRoomTrans.localScale.z);
         fRoomTrans.name = "Room 0";
 
         // Get its Room script and set its weight to 0, as well as make it not a hallway
@@ -230,9 +230,9 @@ public class GenerateRooms : MonoBehaviour
                 {
                     // Create the hallway and the room
                     Transform hallwayTrans = Instantiate(_roomPrefab, new Vector3(hallwayPos.x, hallwayPos.y, 0), Quaternion.identity, _roomParent).transform;
-                    hallwayTrans.localScale = new Vector3(hallwayScale.x, hallwayScale.y, 1);
+                    hallwayTrans.localScale = new Vector3(hallwayScale.x, hallwayScale.y, hallwayTrans.localScale.z);
                     Transform newRoomTrans = Instantiate(_roomPrefab, new Vector3(newRoomPos.x, newRoomPos.y, 0), Quaternion.identity, _roomParent).transform;
-                    newRoomTrans.localScale = new Vector3(newRoomSize.x, newRoomSize.y, 1);
+                    newRoomTrans.localScale = new Vector3(newRoomSize.x, newRoomSize.y, newRoomTrans.localScale.z);
 
                     // Make the new room be adjacent to the hallway,
                     // the hallway adjacent to the new room and the previous rooom,
