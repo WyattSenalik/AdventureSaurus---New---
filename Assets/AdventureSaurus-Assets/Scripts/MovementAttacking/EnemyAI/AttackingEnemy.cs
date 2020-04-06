@@ -311,8 +311,7 @@ public class AttackingEnemy : SingleEnemy
         // Recalculate the enemy's move and attack tiles.
         // We really only want their attack tiles, but those are based on the move tiles
         // Which are currently out of place since they are what the 
-        MARef.CalcMoveTiles();
-        MARef.CalcAttackTiles();
+        MARef.CalcAllTiles();
         Vector2Int nodeToAttack = new Vector2Int(int.MaxValue, int.MaxValue);
         // Try to find an ally in range
         //Debug.Log("These are " + this.name + " at " + this.transform.position + " potential attack tiles: ");

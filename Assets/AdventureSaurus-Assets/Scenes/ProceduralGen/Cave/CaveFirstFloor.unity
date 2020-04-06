@@ -660,16 +660,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1885554832884344792, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: _rainbowChance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1885554831325360179, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: _imagesToTurnOff.Array.size
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 4393695745834973236, guid: 70da1097b1dafad4a9fb162e686f4084,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -715,5 +705,28 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1885554831325360188, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _sceneToGoTo
+      value: CaveNextFloor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885554832884344797, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _tileSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 21fc7d6fce44b9b40a014c8075b18db6,
+        type: 2}
+    - target: {fileID: 1885554832884344794, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _emptyFirePit
+      value: 
+      objectReference: {fileID: 11400000, guid: 600033595f6c32c49b4c8fd314a1accd,
+        type: 2}
+    - target: {fileID: 1885554832884344794, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _activeFirePit
+      value: 
+      objectReference: {fileID: 11400000, guid: f8f3a16157f59844ab82e81469f3382a,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70da1097b1dafad4a9fb162e686f4084, type: 3}

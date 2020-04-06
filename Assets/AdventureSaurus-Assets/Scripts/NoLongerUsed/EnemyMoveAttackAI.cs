@@ -52,7 +52,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
         //CamFollow.OnFinishEnemyPan += TakeSingleTurn;
 
         // Initialize this script after generation finishes
-        ProceduralGenerationController.OnFinishGeneration += Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
     }
 
     // Called when the component is toggled off
@@ -61,7 +61,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
     {
         //TurnSystem.OnBeginEnemyTurn -= StartTakeTurn;
         //CamFollow.OnFinishEnemyPan -= TakeSingleTurn;
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Called when the gameobject is destroyed
@@ -70,7 +70,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
     {
         //TurnSystem.OnBeginEnemyTurn -= StartTakeTurn;
         //CamFollow.OnFinishEnemyPan -= TakeSingleTurn;
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Set References
@@ -95,12 +95,10 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// Initializes things for this script.
     /// Called from the FinishGenerating event
     /// </summary>
-    /// <param name="charParent">The parent of all the characters</param>
-    /// <param name="roomParent">The parent of all the rooms (unused)</param>
-    /// <param name="wallParent">The parent of all the walls (unused)</param>
-    /// <param name="stairsTrans">The transform of the stairs (unused)</param>
-    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
+    private void Initialize()
     {
+        Transform charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
+
         // If its not null, set the character parent
         if (charParent != null)
             _charParent = charParent;
@@ -245,8 +243,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
 
         Node startNode = _mAContRef.GetNodeByWorldPosition(_currentEnemy.transform.position);
         // Reset this enemies movement
-        _currentEnemy.CalcMoveTiles();
-        _currentEnemy.CalcAttackTiles();
+        _currentEnemy.CalcAllTiles();
 
         // Get the node this character should try to attack and the node this character should move to
         _curAttackNodePos = FindDesiredAttackNodePos();

@@ -15,21 +15,21 @@ public class DeathCheck : MonoBehaviour
     private void OnEnable()
     {
         // When the generation is finished, initialize this script
-        ProceduralGenerationController.OnFinishGeneration += Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
     }
 
     // Called when the component is toggled off
     // Unsubscribe from events
     private void OnDisable()
     {
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Called when the gameobject is destroyed
     // Unsubscribe from ALL events
     private void OnDestroy()
     {
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Called 0th, before Start
@@ -41,14 +41,13 @@ public class DeathCheck : MonoBehaviour
 
     /// <summary>
     /// Initializes things for this script.
-    /// Called from the FinishGenerating event
+    /// Called from the FinishGeneratingNoParam event
     /// </summary>
-    /// <param name="charParent">The parent of all the characters</param>
-    /// <param name="roomParent">The parent of all the rooms (unused)</param>
-    /// <param name="wallParent">The parent of all the walls (unused)</param>
-    /// <param name="stairsTrans">The transform of the stairs (unused)</param>
-    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
+    private void Initialize()
     {
+        // Get the character parent
+        Transform charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
+
         _players = new List<Transform>();
         // Iterate over the children of the players parent
         foreach (Transform potAlly in charParent)

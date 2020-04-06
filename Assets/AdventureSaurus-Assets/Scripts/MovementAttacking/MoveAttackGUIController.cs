@@ -228,9 +228,8 @@ public class MoveAttackGUIController : MonoBehaviour
             if (!(_charSelected.HasMoved && _charSelected.HasAttacked))
             {
                 //Debug.Log("Select character");
-                // Calculate its visuals
-                _charSelected.CalcMoveTiles();
-                _charSelected.CalcAttackTiles();
+                // Calculate its valid tiles
+                _charSelected.CalcAllTiles();
                 // Set the visuals of it to be on
                 _mAContRef.SetActiveVisuals(_charSelected);
             }
@@ -271,7 +270,13 @@ public class MoveAttackGUIController : MonoBehaviour
             AttemptMoveAndAttack(selNode);
             return true;
         }
-        // If neither, just deselect them
+        // If the current character can interact there, and there is an interactable thing there
+        else if (_charSelected.InteractTiles.Contains(selNode) && selNode.Occupying == CharacterType.Interactable)
+        {
+            AttemptMoveAndInteract(selNode);
+            return true;
+        }
+        // If none of the above, just deselect them
         else
         {
             Deselect();
@@ -361,6 +366,49 @@ public class MoveAttackGUIController : MonoBehaviour
     }
 
     /// <summary>
+    /// When the user has a ally selected and tries to select an interactable in range
+    /// </summary>
+    /// <param name="selNode">The node that the ally is trying to interact with</param>
+    private void AttemptMoveAndInteract(Node selNode)
+    {
+        // Set the node to interact with
+        _nodeToAttack = selNode;
+
+        // Find out the node 1 (interact distance) away from selNode that is closest to the charSelected
+        // Get the viable nodes
+        List<Node> potNodes = _mAContRef.GetNodesDistFromNode(selNode, 1);
+        Node nodeToMoveTo = null; // The node that will be moved to
+        int distToMoveNode = int.MaxValue; // The distance to the closest node
+        Node charSelectedNode = _mAContRef.GetNodeByWorldPosition(_charSelected.transform.position); // Node the ally is on
+        // Cross reference them against the nodes this character can move to until a match is found
+        foreach (Node testNode in potNodes)
+        {
+            // We haven't done pathing, so we can't compare Fs, so we will just calculate it by actual distance
+            int testNodeDist = Mathf.Abs(testNode.Position.x - charSelectedNode.Position.x) +
+                Mathf.Abs(testNode.Position.y - charSelectedNode.Position.y);
+            if ((_charSelected.MoveTiles.Contains(testNode) || testNode == charSelectedNode) && testNodeDist < distToMoveNode)
+            {
+                nodeToMoveTo = testNode;
+                distToMoveNode = testNodeDist;
+            }
+        }
+
+        // Just make sure that the node exists
+        if (nodeToMoveTo == null)
+        {
+            Debug.Log("Big trouble in MoveAttackGUIController. There was an interactable was in range, but no valid tiles to interact with them");
+            Deselect();
+            return;
+        }
+
+        // Move the character
+        DoMove(charSelectedNode, nodeToMoveTo);
+
+        // When the ally finished moving, interact
+        MoveAttack.OnCharacterFinishedMoving += BeginInteractAfterMove;
+    }
+
+    /// <summary>
     /// Begins the selected ally moving
     /// </summary>
     /// <param name="startNode">Node to start moving from</param>
@@ -391,6 +439,31 @@ public class MoveAttackGUIController : MonoBehaviour
     }
 
     /// <summary>
+    /// Begins the interaction with the object
+    /// </summary>
+    private void DoInteract()
+    {
+        // TODO The interaction
+        // Get the object we will be interacting with
+        Interactable objectToInteractWith = _mAContRef.GetInteractableByNode(_nodeToAttack);
+        if (objectToInteractWith != null)
+        {
+            // Make it so that the player cannot select whilst something is interacting
+            ToggleSelect(false);
+
+            // Start the interaction
+            objectToInteractWith.StartInteract();
+        }
+        else
+        {
+            Debug.Log("WARNING - BUG DETECTED: Nothing to interact with");
+        }
+        // Unselect and untarget everything that we saved for this move attack
+        _nodeToAttack = null;
+        Deselect();
+    }
+
+    /// <summary>
     /// Begins the selected character's attack after they move
     /// Called by OnCharacterFinishedMoving event in MoveAttack
     /// </summary>
@@ -404,6 +477,22 @@ public class MoveAttackGUIController : MonoBehaviour
 
         // When the ally finishes their attack, return control to the user
         MoveAttack.OnCharacterFinishedAction += ReturnControlAfterAction;
+    }
+
+    /// <summary>
+    /// Begins the selected character's interaction after they move
+    /// Called by OnCharcterFinishedMoving event in MoveAttack
+    /// </summary>
+    private void BeginInteractAfterMove()
+    {
+        // Remove itself from the OnCharacterFinishedMoving event
+        MoveAttack.OnCharacterFinishedMoving -= BeginInteractAfterMove;
+
+        // Do the interaction
+        DoInteract();
+
+        // When the ally finishes their interaction, return control to the user
+        Interactable.OnFinishInteraction += ReturnControlAfterInteract;
     }
 
     /// <summary>
@@ -427,6 +516,19 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         // Remove itself from the OnCharacterFinishedMoving event
         MoveAttack.OnCharacterFinishedMoving -= ReturnControlAfterMove;
+
+        ToggleSelect(true);
+        AllowSelect();
+    }
+
+    /// <summary>
+    /// Returns control to the user after an interaction is finished
+    /// Called by OnFinishInteraction event in Interactable
+    /// </summary>
+    private void ReturnControlAfterInteract()
+    {
+        // Remove itself from the OnFinishInteraction event
+        Interactable.OnFinishInteraction -= ReturnControlAfterInteract;
 
         ToggleSelect(true);
         AllowSelect();
@@ -552,8 +654,7 @@ public class MoveAttackGUIController : MonoBehaviour
         //Deselect();
         //AttemptSelect(nodeSel);
         // Calculate its visuals
-        _charSelected.CalcMoveTiles();
-        _charSelected.CalcAttackTiles();
+        _charSelected.CalcAllTiles();
         // Turn off the visuals (since if the last range was greater than the current one, 
         // we don't want to be able to see those with we cannot reach)
         _mAContRef.TurnOffVisuals(_charSelected);

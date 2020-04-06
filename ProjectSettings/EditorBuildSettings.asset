@@ -27,12 +27,12 @@ EditorBuildSettings:
     path: Assets/AdventureSaurus-Assets/Scenes/TestScenes/Test1.unity
     guid: d5b57269c61038c409148abdd7b15e77
   - enabled: 1
-    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/ProceduralGenFirstFloor.unity
+    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/Dungeon/ProceduralGenFirstFloor.unity
     guid: 009ca88c199006c41a77ef4b1038cf1a
   - enabled: 1
     path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/ProceduralGenTest.unity
     guid: d642f8b1566f888439f71243d2d7549c
   - enabled: 1
-    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/ProceduralGenNextFloor.unity
+    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/Dungeon/ProceduralGenNextFloor.unity
     guid: b5e24c2e1dab11d428d0c0ab6f2cb25a
   m_configObjects: {}

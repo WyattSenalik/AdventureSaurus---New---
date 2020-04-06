@@ -68,7 +68,7 @@ public class CharDetailedMenuController : MonoBehaviour
         // When the character clicks to display the charcter detailed menu, update the details and diaply them
         PauseMenuController.OnCharDetailedMenuShown += DisplayCharacterDetails;
         // When the generation finishes, initialize this script
-        ProceduralGenerationController.OnFinishGeneration += Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
     }
 
     // Called when the gameobject is toggled active
@@ -76,7 +76,7 @@ public class CharDetailedMenuController : MonoBehaviour
     private void OnDisable()
     {
         PauseMenuController.OnCharDetailedMenuShown -= DisplayCharacterDetails;
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Called when the gameobject is destroyed
@@ -84,7 +84,7 @@ public class CharDetailedMenuController : MonoBehaviour
     private void OnDestroy()
     {
         PauseMenuController.OnCharDetailedMenuShown -= DisplayCharacterDetails;
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Start is called before the first frame update
@@ -253,12 +253,10 @@ public class CharDetailedMenuController : MonoBehaviour
     /// Initializes things for this script.
     /// Called from the FinishGenerating event
     /// </summary>
-    /// <param name="charParent">The parent of all the characters</param>
-    /// <param name="roomParent">The parent of all the rooms (unused)</param>
-    /// <param name="wallParent">The parent of all the walls (unused)</param>
-    /// <param name="stairsTrans">The transform of the stairs (unused)</param>
-    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
+    private void Initialize()
     {
+        Transform charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
+
         // Initialize ally stats
         _alliesStats = new List<AllyStats>();
         // Iterate over the characters to find the allies

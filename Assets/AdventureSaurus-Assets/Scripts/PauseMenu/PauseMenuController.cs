@@ -42,7 +42,7 @@ public class PauseMenuController : MonoBehaviour
         // When the game pauses, update the visualization of the character stats
         Pause.OnPauseGame += UpdateValues;
         // When generation is finished, initialize this script
-        ProceduralGenerationController.OnFinishGeneration += Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
     }
 
     // Called when the script is toggled off
@@ -50,7 +50,7 @@ public class PauseMenuController : MonoBehaviour
     private void OnDisable()
     {
         Pause.OnPauseGame -= UpdateValues;
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Called when the gameobject is destroyed
@@ -58,7 +58,7 @@ public class PauseMenuController : MonoBehaviour
     private void OnDestroy()
     {
         Pause.OnPauseGame -= UpdateValues;
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Start is called before the first frame update
@@ -164,14 +164,10 @@ public class PauseMenuController : MonoBehaviour
     /// Initializes things for this script.
     /// Called from the FinishGenerating event
     /// </summary>
-    /// <param name="charParent">The parent of all the characters</param>
-    /// <param name="roomParent">The parent of all the rooms (unused)</param>
-    /// <param name="wallParent">The parent of all the walls (unused)</param>
-    /// <param name="stairsTrans">The transform of the stairs (unused)</param>
-    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
+    private void Initialize()
     {
         // Set the character parent
-        _charParent = charParent;
+        _charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
         // Character Parent validation
         if (_charParent == null)
         {

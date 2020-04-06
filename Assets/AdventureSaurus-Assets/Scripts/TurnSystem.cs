@@ -36,7 +36,7 @@ public class TurnSystem : MonoBehaviour
         // When the enemy's turn ends, start the player's turn
         EnemyTurnController.OnEndEnemyTurn += StartPlayerTurn;
         // When the generation is over, initialize this script
-        ProceduralGenerationController.OnFinishGeneration += Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
 
         // When the game is paused, disable this script
         Pause.OnPauseGame += HideScript;
@@ -49,7 +49,7 @@ public class TurnSystem : MonoBehaviour
     private void OnDisable()
     {
         EnemyTurnController.OnEndEnemyTurn -= StartPlayerTurn;
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
 
         // Unsubscribe to the pause event (since if this is inactive, the game is paused)
         Pause.OnPauseGame -= HideScript;
@@ -62,7 +62,7 @@ public class TurnSystem : MonoBehaviour
     private void OnDestroy()
     {
         EnemyTurnController.OnEndEnemyTurn -= StartPlayerTurn;
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
         Pause.OnPauseGame -= HideScript;
         Pause.OnUnpauseGame -= ShowScript;
     }
@@ -86,13 +86,9 @@ public class TurnSystem : MonoBehaviour
     /// Initializes things for this script.
     /// Called from the OnFinishGenerating event
     /// </summary>
-    /// <param name="charParent">The parent of all the characters</param>
-    /// <param name="roomParent">The parent of all the rooms (unused)</param>
-    /// <param name="wallParent">The parent of all the walls (unused)</param>
-    /// <param name="stairsTrans">The transform of the stairs (unused)</param>
-    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
+    private void Initialize()
     {
-        _characterTeam = charParent;
+        _characterTeam = GameObject.Find(ProceduralGenerationController.charParentName).transform;
     }
 
     /// <summary>

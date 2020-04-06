@@ -13,6 +13,7 @@ TagManager:
   - SkillHolder
   - Canvas
   - MapMenu
+  - Campfire
   layers:
   - Default
   - TransparentFX

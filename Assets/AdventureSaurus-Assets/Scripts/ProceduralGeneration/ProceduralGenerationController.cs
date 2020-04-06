@@ -29,6 +29,14 @@ public class ProceduralGenerationController : MonoBehaviour
     private Tilemap _tilemapRef;
     private Transform _fireTrans;
     [SerializeField] private Transform _charParent;
+    [SerializeField] private Transform _interactParent;
+
+    // The names of the parents and transforms
+    public const string roomParentName = "RoomParent";
+    public const string wallParentName = "WallParent";
+    public const string stairsName = "StairsTrans";
+    public const string charParentName = "CharacterParent";
+    public const string interactParentName = "InteractParent";
 
     // References for generation
     private GenerateRooms _genRoomsRef;
@@ -42,8 +50,6 @@ public class ProceduralGenerationController : MonoBehaviour
     // Events
     // When we finsh generating the floor
     // For when we need to initialize scripts after generating
-    public delegate void FinishGeneration(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsParent);
-    public static event FinishGeneration OnFinishGeneration;
     public delegate void FinishGenerationNoParam();
     public static event FinishGenerationNoParam OnFinishGenerationNoParam;
 
@@ -124,15 +130,21 @@ public class ProceduralGenerationController : MonoBehaviour
                 // Create the tiles
                 _tilemapRef = _tilesGenRef.SpawnTileMap(_roomParent, _wallParent, _stairsTrans);
 
+                // Create a parent for the interactables
+                _interactParent = new GameObject(interactParentName).transform;
+                _interactParent.position = Vector3.zero;
+
                 //Debug.Log("SpawnSafeRoom");
                 // Make the safe room if we should have one
                 if (spawnFire)
                 {
                     _fireTrans = _safeRoomGenRef.SpawnSafeRoom(_roomParent, _tilemapRef);
+                    // Make it a child of the interactables parent
+                    _fireTrans.SetParent(_interactParent);
                 }
 
                 // Create the Character parent
-                _charParent = new GameObject("CharacterParent").transform;
+                _charParent = new GameObject(charParentName).transform;
                 _charParent.position = Vector3.zero;
 
                 //Debug.Log("PlaceAllies");
@@ -143,6 +155,18 @@ public class ProceduralGenerationController : MonoBehaviour
                 // Spawn the enmies
                 _enemiesGenRef.SpawnEnemies(_charParent, _roomParent, _curFloorDiff);
             }
+
+            // Set the names of the parents and transforms
+            if (_roomParent != null)
+                _roomParent.name = roomParentName;
+            if (_wallParent != null)
+                _wallParent.name = wallParentName;
+            if (_stairsTrans != null)
+                _stairsTrans.name = stairsName;
+            if (_charParent != null)
+                _charParent.name = charParentName;
+            if (_interactParent != null)
+                _interactParent.name = interactParentName;
 
             // Being extra careful
             int maxIterations = 100;
@@ -160,8 +184,6 @@ public class ProceduralGenerationController : MonoBehaviour
             }
 
             // Call the OnFinishGeneration event
-            if (OnFinishGeneration != null)
-                OnFinishGeneration(_charParent, _roomParent, _wallParent, _stairsTrans);
             if (OnFinishGenerationNoParam != null)
                 OnFinishGenerationNoParam();
         }

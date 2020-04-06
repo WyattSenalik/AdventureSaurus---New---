@@ -98,7 +98,7 @@ public class GenerateEnemies : MonoBehaviour
             /// This algorithm may be edited by adding more steps between 1 and 2 to restrict the 
             /// difficulty of the enemies spawned and other tweaks
             /// 
-            curRoomScript.RoomDifficulty *= 9;
+            //curRoomScript.RoomDifficulty *= 9;
             // Being extra careful
             int maxIterations = curRoomScript.RoomDifficulty;
             int currentIterations = 0;

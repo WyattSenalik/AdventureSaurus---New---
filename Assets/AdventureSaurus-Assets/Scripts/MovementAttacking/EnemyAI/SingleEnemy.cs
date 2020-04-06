@@ -78,8 +78,7 @@ public abstract class SingleEnemy : MonoBehaviour
         _standingNode = _mAContRef.GetNodeByWorldPosition(this.transform.position);
         // We are going to use the enemy's move tiles, so we need to recalculate those, 
         // since other characters have probably moved on their turn
-        _mARef.CalcMoveTiles();
-        _mARef.CalcAttackTiles();
+        _mARef.CalcAllTiles();
         // Find the tile the enemy should move to
         Node nodeToMoveTo = FindTileToMoveTo();
         // Make sure we have a place to move

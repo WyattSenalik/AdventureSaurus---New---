@@ -20,6 +20,8 @@ public class MoveAttackController : MonoBehaviour
     private Transform _wallParent;
     // Parent of all character (ally and enemy) objects
     private Transform _charParent;
+    // Parent of all the interactables
+    private Transform _interactParent;
     // References to all the allies MoveAttack scripts
     private List<MoveAttack> _allyMA;
     // References to all the allies MoveAttack script
@@ -32,10 +34,18 @@ public class MoveAttackController : MonoBehaviour
     [SerializeField] private Sprite _moveTileSprite = null;
     // The sprite that will be put on the visual attack tile
     [SerializeField] private Sprite _attackTileSprite = null;
+    // The sprite that will be put on the visual interact tile
+    [SerializeField] private Sprite _interactTileSprite = null;
+    // The sprite that will be put on the visual heal/buff tile
+    [SerializeField] private Sprite _healTileSprite = null;
     // The sorting layer that the tiles will be put on
     [SerializeField] private string _visualSortingLayer = "VisualTile";
     // The material that will be applied to the sprite renderer of the tiles
     [SerializeField] private Material _tileMaterial = null;
+    // The "can take action there" alpha
+    private const float opaqueVal = 0.6f;
+    // The "nothing to do there" (more of range indicator) alpha
+    private const float transparentVal = 0.2f;
 
     // Only for testing. This is a list of the spawned canvas objects that display numbers on the nodes
     private List<GameObject> _visualTests;
@@ -56,7 +66,7 @@ public class MoveAttackController : MonoBehaviour
         // When the player is allowed to select, recalculate the allies' move and attack tiles
         //MoveAttackGUIController.OnPlayerAllowedSelect += RecalculateAllyMoveAttackTiles;
         // When the floor is finished generating, initialize this script
-        ProceduralGenerationController.OnFinishGeneration += Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
         // When the floor is finished generating, recalculate the allies' move and attack tiles
         //ProceduralGenerationController.OnFinishGenerationNoParam += RecalculateAllyMoveAttackTiles;
 
@@ -71,9 +81,9 @@ public class MoveAttackController : MonoBehaviour
     // Unsubscribe to events
     private void OnDisable()
     {
-        MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllyMoveAttackTiles;
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= RecalculateAllyMoveAttackTiles;
+        //MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllyTiles;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+        //ProceduralGenerationController.OnFinishGenerationNoParam -= RecalculateAllyTiles;
 
         // Unsubscribe to the pause event (since if this is inactive, the game is paused)
         Pause.OnPauseGame -= HideScript;
@@ -85,9 +95,9 @@ public class MoveAttackController : MonoBehaviour
     // Unsubscribe to ALL events
     private void OnDestroy()
     {
-        MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllyMoveAttackTiles;
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= RecalculateAllyMoveAttackTiles;
+        //MoveAttackGUIController.OnPlayerAllowedSelect -= RecalculateAllyTiles;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+        //ProceduralGenerationController.OnFinishGenerationNoParam -= RecalculateAllyTiles;
         Pause.OnPauseGame -= HideScript;
         Pause.OnUnpauseGame -= ShowScript;
     }
@@ -96,23 +106,24 @@ public class MoveAttackController : MonoBehaviour
     /// Initializes things for this script.
     /// Called from the FinishGenerating event
     /// </summary>
-    /// <param name="charParent">The parent of all the characters</param>
-    /// <param name="roomParent">The parent of all the rooms </param>
-    /// <param name="wallParent">The parent of all the walls </param>
-    /// <param name="stairsTrans">The transform of the stairs (unused)</param>
-    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
+    private void Initialize()
     {
+        _charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
+        _wallParent = GameObject.Find(ProceduralGenerationController.wallParentName).transform;
+        Transform roomParent = GameObject.Find(ProceduralGenerationController.roomParentName).transform;
+        _interactParent = GameObject.Find(ProceduralGenerationController.interactParentName).transform;
+
         // Get the bounds of the grid
         _gridTopLeft = FindTopLeftPosition(roomParent);
         _gridBotRight = FindBotRightPosition(roomParent);
         // Create the grid
         CreateGrid();
-        // Set the wall parent and find the walls
-        _wallParent = wallParent;
+        // Find the walls
         FindWalls();
-        // Set the character parent and find the characters
-        _charParent = charParent;
+        // Find the characters
         FindCharacters();
+        // Find the interactables
+        FindInteractables();
 
         // For testing only - holds the little numbers that spawn when pathin
         _visualTests = new List<GameObject>();
@@ -211,6 +222,18 @@ public class MoveAttackController : MonoBehaviour
     }
 
     /// <summary>
+    /// Sets the node the interactables are on to interactable
+    /// </summary>
+    private void FindInteractables()
+    {
+        // Iterate over the interactables
+        foreach (Transform interact in _interactParent)
+        {
+            UpdateGrid(interact.transform, CharacterType.Interactable);
+        }
+    }
+
+    /// <summary>
     /// Finds the node at the position of the occupant and sets it to the passed charType
     /// </summary>
     /// <param name="occupant">The Transform of what is located on the node</param>
@@ -218,7 +241,7 @@ public class MoveAttackController : MonoBehaviour
     private void UpdateGrid(Transform occupant, CharacterType charType)
     {
         // Get the node at the position of occupant
-        Node occupantNode = GetNodeAtPosition(new Vector2Int(Mathf.RoundToInt(occupant.position.x), Mathf.RoundToInt(occupant.position.y)));
+        Node occupantNode = GetNodeByWorldPosition(occupant.transform.position);
         // Set that node to be occupied
         occupantNode.Occupying = charType;
     }
@@ -267,15 +290,18 @@ public class MoveAttackController : MonoBehaviour
         mARef.RangeVisualParent = new GameObject("RangeVisualParent");
         mARef.RangeVisualParent.transform.parent = mARef.transform;
         mARef.RangeVisualParent.transform.localPosition = Vector3.zero;
-        // Create two game objects that are chilren of rangeVisualParent to serve as the parents for move and attack
+        // Create three game objects that are chilren of rangeVisualParent to serve as the parents for move, attack, and interact
         GameObject moveTileParent = new GameObject("MoveVisualParent");
         moveTileParent.transform.parent = mARef.RangeVisualParent.transform;
         moveTileParent.transform.localPosition = Vector3.zero;
-        GameObject attackTileParent = new GameObject("AttackVisualParent");
-        attackTileParent.transform.parent = mARef.RangeVisualParent.transform;
-        attackTileParent.transform.localPosition = Vector3.zero;
+        //GameObject attackTileParent = new GameObject("AttackVisualParent");
+        //attackTileParent.transform.parent = mARef.RangeVisualParent.transform;
+        //attackTileParent.transform.localPosition = Vector3.zero;
+        //GameObject interactTileParent = new GameObject("InteractVisualParent");
+        //interactTileParent.transform.parent = mARef.RangeVisualParent.transform;
+        //interactTileParent.transform.localPosition = Vector3.zero;
         // Make the first movement tile under the character
-        CreateSingleVisualTile(0, 0, mARef, true, moveTileParent.transform, attackTileParent.transform);
+        CreateSingleVisualTile(0, 0, mARef, true, moveTileParent.transform/*, attackTileParent.transform, interactTileParent.transform*/);
 
         // The depth of tiles to make
         int totalTileDepth = mARef.MoveRange + mARef.AttackRange;
@@ -297,28 +323,32 @@ public class MoveAttackController : MonoBehaviour
             // Go down, right
             while (placementPos.y > 0)
             {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, moveTileParent.transform, attackTileParent.transform);
+                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile,
+                    moveTileParent.transform/*, attackTileParent.transform, interactTileParent.transform*/);
                 placementPos.x += 1;
                 placementPos.y -= 1;
             }
             // Go down, left
             while (placementPos.x > 0)
             {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, moveTileParent.transform, attackTileParent.transform);
+                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, 
+                    moveTileParent.transform/*, attackTileParent.transform, interactTileParent.transform*/);
                 placementPos.x -= 1;
                 placementPos.y -= 1;
             }
             // Go up, left
             while (placementPos.y < 0)
             {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, moveTileParent.transform, attackTileParent.transform);
+                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, 
+                    moveTileParent.transform/*, attackTileParent.transform, interactTileParent.transform*/);
                 placementPos.x -= 1;
                 placementPos.y += 1;
             }
             // Go up, right
             while (placementPos.x < 0)
             {
-                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, moveTileParent.transform, attackTileParent.transform);
+                CreateSingleVisualTile(placementPos.x, placementPos.y, mARef, isMoveTile, 
+                    moveTileParent.transform/*, attackTileParent.transform, interactTileParent.transform*/);
                 placementPos.x += 1;
                 placementPos.y += 1;
             }
@@ -334,19 +364,23 @@ public class MoveAttackController : MonoBehaviour
     /// <param name="isMoveTile">If the current tile is a move tile</param>
     /// <param name="moveTileParent">The parent of moveTiles</param>
     /// <param name="attackTileParent">The parent of attackTiles</param>
-    private void CreateSingleVisualTile(int x, int y, MoveAttack charMA, bool isMoveTile, Transform moveTileParent, Transform attackTileParent)
+    /// <param name="interactTileParent">The parent of interactTiles</param>
+    private void CreateSingleVisualTile(int x, int y, MoveAttack charMA, bool isMoveTile, 
+        Transform moveTileParent/*, Transform attackTileParent, Transform interactTileParent*/)
     {
-        // Make a move tile and attack tile at the location
-        if (isMoveTile)
-        {
+        //// Make a move tile, attack tile, and interact tile at the location
+        //if (isMoveTile)
+        //{
             SpawnVisualTile(moveTileParent, new Vector2(x, y), _moveTileSprite, 1);
-            SpawnVisualTile(attackTileParent, new Vector2(x, y), _attackTileSprite, 0);
-        }
-        // Make only an attack tile at the location
-        else
-        {
-            SpawnVisualTile(attackTileParent, new Vector2(x, y), _attackTileSprite, 0);
-        }
+            //SpawnVisualTile(attackTileParent, new Vector2(x, y), _attackTileSprite, 0);
+            //SpawnVisualTile(interactTileParent, new Vector2(x, y), _interactTileSprite, -1);
+        //}
+        //// Make only an attack tile and an interact tile at the location
+        //else
+        //{
+            //SpawnVisualTile(attackTileParent, new Vector2(x, y), _attackTileSprite, 0);
+            //SpawnVisualTile(interactTileParent, new Vector2(x, y), _interactTileSprite, -1);
+        //}
     }
     
     /// <summary>
@@ -370,7 +404,7 @@ public class MoveAttackController : MonoBehaviour
         sprRend.sortingOrder = orderOnLayer;
         sprRend.material = _tileMaterial;
 
-        sprRend.color = new Color(sprRend.color.r, sprRend.color.g, sprRend.color.b, 0.6f);
+        sprRend.color = new Color(sprRend.color.r, sprRend.color.g, sprRend.color.b, opaqueVal);
     }
 
     /// <summary>
@@ -379,6 +413,120 @@ public class MoveAttackController : MonoBehaviour
     /// <param name="shouldTurnOn">Is true, turn on the visuals. If false, turn them off</param>
     public void SetActiveVisuals(MoveAttack mARef)
     {
+        //// New algorithm attemp
+        // Get the grid position of the character
+        Vector2Int charGridPos = new Vector2Int(Mathf.RoundToInt(mARef.transform.position.x),
+            Mathf.RoundToInt(mARef.transform.position.y));
+        // We now only have one tile parent. We change the sprites of its children
+        Transform tileParent = mARef.RangeVisualParent.transform.GetChild(0);
+
+        /// Step 1: Set all tiles to be attack tiles
+        /// 
+        foreach (Node atkNode in mARef.AttackTiles)
+        {
+            // Get the local grid position of the current node
+            Vector2Int tileLocalGridPos = atkNode.Position - charGridPos;
+            // Get the index of the visual tile
+            int tileIndex = GetVisualTileIndex(tileLocalGridPos.x, tileLocalGridPos.y);
+            // If the tile doesn't exceed the list's bounds, set it to active
+            if (tileIndex < tileParent.childCount)
+            {
+                // Get the transform of the visual tile
+                Transform tileTrans = tileParent.GetChild(tileIndex);
+                // Pull the sprite renderer off it
+                SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
+
+                // If we are to attack a foe
+                if (!mARef.TargetFriendly)
+                {
+                    // We set the sprite to the attack sprite
+                    tileSprRend.sprite = _attackTileSprite;
+                    // If we there is an attackable opponent, make it more opaque
+                    if (atkNode.Occupying == CharacterType.Ally && mARef.WhatAmI == CharacterType.Enemy ||
+                            atkNode.Occupying == CharacterType.Enemy && mARef.WhatAmI == CharacterType.Ally)
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, opaqueVal);
+                    // If there is nothing to attack there, make it more transparent
+                    else
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, transparentVal);
+                }
+                // If we are to help a friendly
+                else
+                {
+                    // We set the sprite to the heal/buff sprite
+                    tileSprRend.sprite = _healTileSprite;
+                    // If there is a friendly, make it more opaque
+                    if (atkNode.Occupying == mARef.WhatAmI)
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, opaqueVal);
+                    // If there is nothing to heal/buff there
+                    else
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, transparentVal);
+                }
+
+                // Set it active
+                tileTrans.gameObject.SetActive(true);
+            }
+        }
+        /// Step 2: Set tiles that contain nothing to be move tiles
+        /// 
+        foreach (Node moveNode in mARef.MoveTiles)
+        {
+            // If the node is unoccupied
+            if (moveNode.Occupying == CharacterType.None)
+            {
+                // Get the local grid position of the current node
+                Vector2Int tileLocalGridPos = moveNode.Position - charGridPos;
+                // Get the index of the visual tile
+                int tileIndex = GetVisualTileIndex(tileLocalGridPos.x, tileLocalGridPos.y);
+                // If the tile doesn't exceed the list's bounds, set it to active
+                if (tileIndex < tileParent.childCount)
+                {
+                    // Get the transform of the visual tile
+                    Transform tileTrans = tileParent.GetChild(tileIndex);
+                    // Pull the sprite renderer off it
+                    SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
+
+                    // We set the sprite to the move sprite
+                    tileSprRend.sprite = _moveTileSprite;
+
+                    // All movement tiles are opaque
+                    tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, opaqueVal);
+
+                    // Set it active
+                    tileTrans.gameObject.SetActive(true);
+                }
+            }
+        }
+        /// Step 3: Set tiles that contain interactable objects to be interact tiles
+        /// 
+        foreach (Node interactNode in mARef.InteractTiles)
+        {
+            // If the node is unoccupied
+            if (interactNode.Occupying == CharacterType.Interactable)
+            {
+                // Get the local grid position of the current node
+                Vector2Int tileLocalGridPos = interactNode.Position - charGridPos;
+                // Get the index of the visual tile
+                int tileIndex = GetVisualTileIndex(tileLocalGridPos.x, tileLocalGridPos.y);
+                // If the tile doesn't exceed the list's bounds, set it to active
+                if (tileIndex < tileParent.childCount)
+                {
+                    // Get the transform of the visual tile
+                    Transform tileTrans = tileParent.GetChild(tileIndex);
+                    // Pull the sprite renderer off it
+                    SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
+
+                    // We set the sprite to the move sprite
+                    tileSprRend.sprite = _interactTileSprite;
+
+                    // All interact tiles are opaque
+                    tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, opaqueVal);
+
+                    // Set it active
+                    tileTrans.gameObject.SetActive(true);
+                }
+            }
+        }
+        /*
         // Get the grid position of the character
         Vector2Int charGridPos = new Vector2Int(Mathf.RoundToInt(mARef.transform.position.x),
             Mathf.RoundToInt(mARef.transform.position.y));
@@ -386,6 +534,8 @@ public class MoveAttackController : MonoBehaviour
         Transform moveTileParent = mARef.RangeVisualParent.transform.GetChild(0);
         // Parent of the attack tile visuals
         Transform attackTileParent = mARef.RangeVisualParent.transform.GetChild(1);
+        // Parent of the interact tile visuals
+        Transform interactTileParent = mARef.RangeVisualParent.transform.GetChild(2);
 
         // Turn on all the movement ones that are in our moveTiles
         foreach (Node moveNode in mARef.MoveTiles)
@@ -404,10 +554,10 @@ public class MoveAttackController : MonoBehaviour
 
                 // If nothing is there, make it more opaque
                 if (moveNode.Occupying == CharacterType.None)
-                    tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
+                    tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, opaqueVal);
                 // If something is there, make it more transaparent
                 else
-                    tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
+                    tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, transparentVal);
 
                 // Set it active
                 tileTrans.gameObject.SetActive(true);
@@ -417,7 +567,7 @@ public class MoveAttackController : MonoBehaviour
         foreach (Node attackNode in mARef.AttackTiles)
         {
             // Test if the attack node is in moveTiles, if it is we don't consider it
-            if (!mARef.MoveTiles.Contains(attackNode))
+            if (!mARef.MoveTiles.Contains(attackNode) )
             {
                 // Get the local grid position of the current node
                 Vector2Int tileLocalGridPos = attackNode.Position - charGridPos;
@@ -431,19 +581,68 @@ public class MoveAttackController : MonoBehaviour
                     // Pull the sprite renderer off it
                     SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
 
-                    // If we there is an attackable opponent, make it more opaque
-                    if (attackNode.Occupying == CharacterType.Ally && mARef.WhatAmI == CharacterType.Enemy ||
-                            attackNode.Occupying == CharacterType.Enemy && mARef.WhatAmI == CharacterType.Ally)
-                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.6f);
-                    // If there is nothing to attack there, make it more transparent
+                    // If we are to attack a foe
+                    if (!mARef.TargetFriendly)
+                    {
+                        // We set the sprite to the attack sprite
+                        tileSprRend.sprite = _attackTileSprite;
+                        // If we there is an attackable opponent, make it more opaque
+                        if (attackNode.Occupying == CharacterType.Ally && mARef.WhatAmI == CharacterType.Enemy ||
+                                attackNode.Occupying == CharacterType.Enemy && mARef.WhatAmI == CharacterType.Ally)
+                            tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, opaqueVal);
+                        // If there is nothing to attack there, make it more transparent
+                        else
+                            tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, transparentVal);
+                    }
+                    // If we are to help a friendly
                     else
-                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, 0.2f);
+                    {
+                        // We set the sprite to the heal/buff sprite
+                        tileSprRend.sprite = _healTileSprite;
+                        // If there is a friendly, make it more opaque
+                        if (attackNode.Occupying == mARef.WhatAmI)
+                            tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, opaqueVal);
+                        // If there is nothing to heal/buff there
+                        else
+                            tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, transparentVal);
+                    }
 
                     // Set it active
                     tileTrans.gameObject.SetActive(true);
                 }
             }
         }
+        // Turn on all the interact nodes that is not also an attack or move node
+        foreach (Node interactNode in mARef.InteractTiles)
+        {
+            // Test if the interact node is in the attackTiles or the moveTiles, if it is, we don't consider it
+            if (!mARef.MoveTiles.Contains(interactNode) && !mARef.AttackTiles.Contains(interactNode))
+            {
+                // Get the local grid position of the current node
+                Vector2Int tileLocalGridPos = interactNode.Position - charGridPos;
+                // Get the index of the visual tile
+                int tileIndex = GetVisualTileIndex(tileLocalGridPos.x, tileLocalGridPos.y);
+                // If the tile doesn't exceed the list's bounds, set it to active
+                if (tileIndex < interactTileParent.childCount)
+                {
+                    // Get the transform of the visual tile
+                    Transform tileTrans = interactTileParent.GetChild(tileIndex);
+                    // Pull the sprite renderer off it
+                    SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
+
+                    // If there is an interactable there, make it more opaque
+                    if (interactNode.Occupying == CharacterType.Ally)
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, opaqueVal);
+                    // If there is nothing to interact with there, make it more transparent
+                    else
+                        tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, transparentVal);
+
+                    // Set it active
+                    tileTrans.gameObject.SetActive(true);
+                }
+            }
+        }
+        */
     }
 
     /// <summary>
@@ -479,15 +678,13 @@ public class MoveAttackController : MonoBehaviour
     /// <param name="mARef">Reference to the MoveAttack script attached to the character whose visuals we are turning off</param>
     public void TurnOffVisuals(MoveAttack mARef)
     {
-        // Iterate over each move tile and turn them off
-        foreach (Transform tileTrans in mARef.RangeVisualParent.transform.GetChild(0))
+        // Iterate over all the tiles and turn them off
+        foreach (Transform tileParent in mARef.RangeVisualParent.transform)
         {
-            tileTrans.gameObject.SetActive(false);
-        }
-        // Iterate over each attack tile and turn them off
-        foreach (Transform tileTrans in mARef.RangeVisualParent.transform.GetChild(1))
-        {
-            tileTrans.gameObject.SetActive(false);
+            foreach (Transform tileTrans in tileParent)
+            {
+                tileTrans.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -495,7 +692,7 @@ public class MoveAttackController : MonoBehaviour
     /// Recalculates the move attack tiles for allies.
     /// Called on the 
     /// </summary>
-    private void RecalculateAllyMoveAttackTiles()
+    private void RecalculateAllyTiles()
     {
         // Iterate over each character
         foreach (Transform character in _charParent)
@@ -505,8 +702,7 @@ public class MoveAttackController : MonoBehaviour
             // Recalculate the character's movement and attack tiles
             if (mARef != null && mARef.WhatAmI == CharacterType.Ally)
             {
-                mARef.CalcMoveTiles();
-                mARef.CalcAttackTiles();
+                mARef.CalcAllTiles();
             }
         }
     }
@@ -564,6 +760,28 @@ public class MoveAttackController : MonoBehaviour
                 return character.GetComponent<MoveAttack>();
             }
         }
+        return null;
+    }
+
+    /// <summary>
+    /// Finds if there is an interactable at the specified node. Returns a reference to that interactable's Interactable script
+    /// </summary>
+    /// <param name="testNode">The node that is being tested to see if there is an interactbale there</param>
+    /// <returns>If it finds an interactable, it returns that interactable's Interactable script. If it finds no interactable, returns null</returns>
+    public Interactable GetInteractableByNode(Node testNode)
+    {
+        if (testNode == null)
+            return null;
+        
+        foreach(Transform interactTrans in _interactParent)
+        {
+            // Convert the interactable's position to a node
+            Node interactNode = GetNodeByWorldPosition(interactTrans.position);
+            // If the interactable's node is the same as the test node, then we found it
+            if (testNode == interactNode)
+                return interactTrans.GetComponent<Interactable>();
+        }
+        // If we didn't find it
         return null;
     }
     // End Grid Getter Functions
@@ -816,7 +1034,6 @@ public class MoveAttackController : MonoBehaviour
     /// </summary>
     /// <param name="moveNodes">The nodes that the requester can attack</param>
     /// <param name="attackRadius">Distance the requester can attack from</param>
-    /// <param name="requesterType">What kind of character the requester is</param>
     /// <returns>A list of nodes that can be attacked by the requester</returns>
     public List<Node> GetValidAttackNodes(List<Node> moveNodes, int attackRadius)
     {

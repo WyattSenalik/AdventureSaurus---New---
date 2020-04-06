@@ -25,17 +25,32 @@ public class MoveAttack : MonoBehaviour
         get { return _attackRange; }
         set { _attackRange = value; }
     }
-    private List<Node> _moveTiles;   // The valid tiles this character can move to
+    // The valid tiles this character can move to
+    private List<Node> _moveTiles;
     public List<Node> MoveTiles
     {
         get { return _moveTiles; }
         set { _moveTiles = value; }
     }
-    private List<Node> _attackTiles; // The valid tiles this character can attack
+    // The valid tiles this character can attack
+    private List<Node> _attackTiles;
     public List<Node> AttackTiles
     {
         get { return _attackTiles; }
         set { _attackTiles = value; }
+    }
+    // If the attack tiles are actually buff/heal tiles
+    private bool _targetFriendly = false;
+    public bool TargetFriendly
+    {
+        get { return _targetFriendly; }
+    }
+    // The valid tiles this character can interact with
+    private List<Node> _interactTiles;
+    public List<Node> InteractTiles
+    {
+        get { return _interactTiles; }
+        set { _interactTiles = value; }
     }
 
     // A reference to the MoveAttackController script
@@ -239,9 +254,19 @@ public class MoveAttack : MonoBehaviour
     }
 
     /// <summary>
+    /// Calculates the move tiles, attack tiles, and interact tiles
+    /// </summary>
+    public void CalcAllTiles()
+    {
+        CalcMoveTiles();
+        CalcAttackTiles();
+        CalcInteractTiles();
+    }
+
+    /// <summary>
     /// Figures out what nodes are valid for me to move to and saves them in moveTiles
     /// </summary>
-    public void CalcMoveTiles()
+    private void CalcMoveTiles()
     {
         // Use that my position to get the node I'm on
         Node myNode = _mAContRef.GetNodeByWorldPosition(this.transform.position);
@@ -252,10 +277,20 @@ public class MoveAttack : MonoBehaviour
     /// <summary>
     /// Figures out what nodes are valid for me to atack and saves them in attackTiles
     /// </summary>
-    public void CalcAttackTiles()
+    private void CalcAttackTiles()
     {
         // Use my move tiles to figure out where I can attack
         _attackTiles = _mAContRef.GetValidAttackNodes(_moveTiles, _attackRange);
+    }
+
+    /// <summary>
+    /// Figures out what nodes are valid for me to interact with and saves them in interactTiles
+    /// </summary>
+    private void CalcInteractTiles()
+    {
+        // Use my move tiles to figure out what I can interact with
+        // We reuse get valid attackNodes
+        _interactTiles = _mAContRef.GetValidAttackNodes(_moveTiles, 1);
     }
 
     /// <summary>
@@ -413,8 +448,7 @@ public class MoveAttack : MonoBehaviour
         //Debug.Log("Reached destination");
 
         // Recalculate the move and attack nodes, so that it does not look like the 
-        CalcMoveTiles();
-        CalcAttackTiles();
+        CalcAllTiles();
 
         // Call the event for when a character finished moving
         if (OnCharacterFinishedMoving != null)

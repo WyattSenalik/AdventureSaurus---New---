@@ -32,21 +32,21 @@ public class Stairs : MonoBehaviour
     private void OnEnable()
     {
         // Initialize this script after generation finishes
-        ProceduralGenerationController.OnFinishGeneration += Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
     }
 
     // Called when the component is toggled off
     // Unsubscribe from events
     private void OnDisable()
     {
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Called when the gameobject is destroyed
     // Unsubscribe from ALL events
     private void OnDestroy()
     {
-        ProceduralGenerationController.OnFinishGeneration -= Initialize;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Called before start
@@ -59,16 +59,13 @@ public class Stairs : MonoBehaviour
 
     /// <summary>
     /// Initializes things for this script.
-    /// Called from the FinishGenerating event
+    /// Called from the FinishGeneratingNoParam event
     /// </summary>
-    /// <param name="charParent">The parent of all the characters</param>
-    /// <param name="roomParent">The parent of all the rooms (unused)</param>
-    /// <param name="wallParent">The parent of all the walls (unused)</param>
-    /// <param name="stairsTrans">The transform of the stairs</param>
-    private void Initialize(Transform charParent, Transform roomParent, Transform wallParent, Transform stairsTrans)
+    private void Initialize()
     {
-        // Set the stairs transform
-        _stairsTrans = stairsTrans;
+        // Get the character parent
+        Transform charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
+
         // Initialize the array of players
         _players = new List<Transform>();
         // Iterate over the characters to get the allies
@@ -80,6 +77,9 @@ public class Stairs : MonoBehaviour
                 _players.Add(character);
             }
         }
+
+        // Set the stairs transform
+        _stairsTrans = GameObject.Find(ProceduralGenerationController.stairsName).transform;
     }
 
     // Called once per frame

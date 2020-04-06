@@ -1531,6 +1531,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveTileSprite: {fileID: 21300000, guid: 576b179b2816faf4fbabc81c908e6e90, type: 3}
   _attackTileSprite: {fileID: 21300000, guid: 76ffd8b3a7e26a44d8636b9f5c37cd26, type: 3}
+  _interactTileSprite: {fileID: 21300000, guid: 63e46aa1d763edd4989cb0c243013050,
+    type: 3}
+  _healTileSprite: {fileID: 21300000, guid: 36770800efd190742af3408470e029e7, type: 3}
   _visualSortingLayer: VisualTile
   _tileMaterial: {fileID: 2100000, guid: 8b1469885f49c584db481d9a8bbb59f2, type: 2}
 --- !u!114 &1885554831325360181
@@ -1561,7 +1564,6 @@ MonoBehaviour:
   _buttonsToTurnOff:
   - {fileID: 1885554832063714003}
   - {fileID: 1885554832303467008}
-  - {fileID: 8937746285076730561}
   - {fileID: 1135537505909958309}
   - {fileID: 8057162466976447914}
   - {fileID: 762587114386708547}
@@ -8086,7 +8088,7 @@ MonoBehaviour:
   - {fileID: 9084426930260393326, guid: a59278f53514fca40a44af52fe1beffb, type: 3}
   _hallwayScalar: 0.5
   _endScalar: 1.2
-  _rainbowChance: 0
+  _rainbowChance: 5
 --- !u!1 &1885554832891166813
 GameObject:
   m_ObjectHideFlags: 0
