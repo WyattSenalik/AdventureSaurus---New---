@@ -38,7 +38,7 @@ public class PersistantController : MonoBehaviour
         // Make sure we don't destroy this gameObject when we hop between floors
         DontDestroyOnLoad(this.gameObject);
         // Make sure we don't destroy the tempAllyParent unnecessarily
-        DontDestroyOnLoad(_tempAllyParent.gameObject);
+       DontDestroyOnLoad(_tempAllyParent.gameObject);
     }
 
     // Start is called before the first frame update
