@@ -12,6 +12,7 @@ TagManager:
   - PersistantController
   - SkillHolder
   - Canvas
+  - MapMenu
   layers:
   - Default
   - TransparentFX

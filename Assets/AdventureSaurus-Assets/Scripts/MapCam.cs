@@ -4,8 +4,21 @@ using UnityEngine;
 
 public class MapCam : MonoBehaviour
 {
+    //Camera Variables
+    [SerializeField] private float _smoothTime = 0.3f;
+    [SerializeField] private float _dragSpeed = 5f;
     // Reference to the map camera
     private Camera _camToWorkOn;
+   
+
+    private List<Transform> _allies;
+    private Transform _charToFollow;
+    // Camera Velocity
+    private Vector3 _camVel;
+
+    //Mouse Position
+    private Vector3 _mouseOrigin;
+    private bool _isDragging;
 
     // Called when the component is toggled active
     // Subscribe to events
@@ -55,4 +68,35 @@ public class MapCam : MonoBehaviour
         else
             _camToWorkOn.orthographicSize = yDist;
     }
+
+    private void LateUpdate()
+    {
+        GameObject mapOn = GameObject.FindWithTag("MapMenu");
+        Rect bounds = new Rect(100, 35, 750, 800);
+
+        if (Input.GetMouseButtonDown(1) && mapOn.activeInHierarchy && bounds.Contains(Input.mousePosition))
+        {
+            Debug.Log("in");
+            //right click was pressed    
+            _mouseOrigin = Input.mousePosition;
+            _isDragging = true;
+            _charToFollow = null;
+        }
+        //checks when right click isn't pressed
+        if (!Input.GetMouseButton(1))
+        {
+            _isDragging = false;
+        }
+        //if right click is pressed it will drag the cam around
+        if (_isDragging)
+        {
+            Vector3 targetPosition = _camToWorkOn.ScreenToViewportPoint(Input.mousePosition - _mouseOrigin);
+
+            // update x and y but not z
+            Vector3 move = new Vector3(-targetPosition.x * _dragSpeed, -targetPosition.y * _dragSpeed, 0);
+
+            _camToWorkOn.transform.Translate(move, Space.Self);
+        }
+    }
 }
+    
