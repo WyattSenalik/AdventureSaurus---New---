@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tempAllyParent: {fileID: 1431827292}
   _nextFloorScene:
-    m_Handle: 8
+    m_Handle: 10
   _difficultyToner: 0.625
   _nextFloorRoomAm: 5
   _floorsUntilRoomAmInc: 3

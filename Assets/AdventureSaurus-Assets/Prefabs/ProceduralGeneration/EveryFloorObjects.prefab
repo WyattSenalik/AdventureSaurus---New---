@@ -7973,6 +7973,7 @@ MonoBehaviour:
   _wallParent: {fileID: 0}
   _stairsTrans: {fileID: 0}
   _charParent: {fileID: 0}
+  _interactParent: {fileID: 0}
 --- !u!114 &1885554832884344784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8088,7 +8089,7 @@ MonoBehaviour:
   - {fileID: 9084426930260393326, guid: a59278f53514fca40a44af52fe1beffb, type: 3}
   _hallwayScalar: 0.5
   _endScalar: 1.2
-  _rainbowChance: 5
+  _rainbowChance: 1
 --- !u!1 &1885554832891166813
 GameObject:
   m_ObjectHideFlags: 0

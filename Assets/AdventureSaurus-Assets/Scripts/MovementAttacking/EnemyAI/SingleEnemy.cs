@@ -116,7 +116,7 @@ public abstract class SingleEnemy : MonoBehaviour
         // Path to the tile
         if (!_mAContRef.Pathing(_standingNode, nodeToMoveTo, CharacterType.Enemy))
         {
-            Debug.Log("Pathing failed for " + this.name + ". Wanted to move from " + _standingNode.Position + " to " + nodeToMoveTo.Position);
+            //Debug.Log("Pathing failed for " + this.name + ". Wanted to move from " + _standingNode.Position + " to " + nodeToMoveTo.Position);
             _standingNode.WhereToGo = _standingNode;
         }
 

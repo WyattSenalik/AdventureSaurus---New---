@@ -35,4 +35,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/Dungeon/ProceduralGenNextFloor.unity
     guid: b5e24c2e1dab11d428d0c0ab6f2cb25a
+  - enabled: 1
+    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/Cave/CaveFirstFloor.unity
+    guid: a4737063266c0d14ab82520eee7a185b
+  - enabled: 1
+    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/Cave/CaveNextFloor.unity
+    guid: 28b323e43c08bdc44a82e346522d7c26
   m_configObjects: {}
