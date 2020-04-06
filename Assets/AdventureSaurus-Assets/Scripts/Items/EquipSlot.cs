@@ -12,20 +12,39 @@ public class EquipSlot : ItemSlot
         gameObject.name = ItemType.ToString() + " Slot";
     }
 
-    public bool addItem(Item equip)
+    /// <summary>
+    /// FUnction used to add item to equip slot. Returns true if successful. Also returns previous item in the slot if any.
+    /// </summary>
+    /// <param name="equip">The item to be equipped.</param>
+    /// <param name="previousItem">The item in the equip slot before equipping.</param>
+    /// <returns></returns>
+    public bool addItem(Item equip, out Item previousItem)
     {
-        if (equip.ItemType == this.ItemType)
+        if (equip.ItemType == this.ItemType)//Checks if type of item matches the type of slot.
         {
-            Item = equip;
+            previousItem = Item;//Gets previous item before equiping over it.
+            Item = equip;//assign new item to slot
+            return true;
+        }
+
+        previousItem = null;//returns nothing if no swap occurs
+        return false;
+    }
+
+    /// <summary>
+    /// Function used to remove an item from the equipment slot. Returns true if successful.
+    /// </summary>
+    /// <returns></returns>
+    public bool removeItem()
+    {
+        if(Item != null)
+        {
+            Item = null;
             return true;
         }
 
         return false;
+
     }
-
-    //public bool removeItem(Item unEquip)
-    //{
-
-    //}
 
 }
