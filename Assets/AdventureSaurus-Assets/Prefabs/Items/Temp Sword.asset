@@ -10,6 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cefb06f6265c0674eae0337f9ac5fd2d, type: 3}
-  m_Name: Temp Item
+  m_Name: Temp Sword
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: da14979464900a84bbac13945f1803aa, type: 3}
+  Vit: 0
+  Str: 0
+  Mgk: 0
+  Spd: 0
+  ItemType: 5
