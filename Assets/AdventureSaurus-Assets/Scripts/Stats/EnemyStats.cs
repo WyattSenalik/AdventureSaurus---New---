@@ -22,4 +22,28 @@ public class EnemyStats : Stats
         // Do the calculation
         return (((_vitality + _strength + _magic) / 3) + 1) * _baseXPToGive;
     }
+
+    /// <summary>
+    /// Increases an enemies stats by the given amounts
+    /// </summary>
+    /// <param name="str">Amount to increase strength by</param>
+    /// <param name="mgc">Amount to increase magic by</param>
+    /// <param name="spd">Amount to increase speed by</param>
+    /// <param name="vit">Amount to increase vitality by</param>
+    public void BuffEnemy(int str, int mgc, int spd, int vit)
+    {
+        _strength += str;
+        _magic += mgc;
+        _speed += spd;
+        _vitality += vit;
+    }
+
+    /// <summary>
+    /// Scales the amount of exp an enemy is supposed to give by a scalar
+    /// </summary>
+    /// <param name="scaleAm">Amount to scale the base xp by</param>
+    public void ScaleExpToGive(int scaleAm)
+    {
+        _baseXPToGive *= scaleAm;
+    }
 }

@@ -55,6 +55,9 @@ TagManager:
   - name: Characters
     uniqueID: 1850459489
     locked: 0
+  - name: SkillVisuals
+    uniqueID: 3617004373
+    locked: 0
   - name: HealthBars
     uniqueID: 3405616317
     locked: 0

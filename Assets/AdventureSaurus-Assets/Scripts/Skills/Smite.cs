@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Smite : Skill
 {
-    // Smite effect to spawn
-    [SerializeField] private GameObject _smiteEffect = null;
+    // The prefab that displays the animation
+    private GameObject _spawnPref = null;
+    // Reference tot he spawned prefab, for deletion purposes
+    private GameObject _activeSkillAnimObj = null;
 
     // Called before start
     // Set the skill specific variables
@@ -20,6 +22,9 @@ public class Smite : Skill
         _cooldown = 4;
         _range = 2;
         _damage = 2;
+
+        // Load the spawn predfab
+        _spawnPref = Resources.Load<GameObject>("SmitePrefab");
     }
 
     /// <summary>
@@ -49,16 +54,11 @@ public class Smite : Skill
 
                 // Start the skill's animation
                 StartSkillAnimation(attackNodePos);
-
-                // Spawn the smite bullet
-                GameObject smiteBullet = Instantiate(_smiteEffect, new Vector3(attackNodePos.x, attackNodePos.y, 0), Quaternion.identity);
-                SmiteSpawn smiteSpawnRef = smiteBullet.GetComponent<SmiteSpawn>();
-                if (smiteSpawnRef == null)
-                    Debug.Log("Smite Bullet had no SmiteSpawn script attached");
-                // Set the variables for the smite script
-                smiteSpawnRef.Damage = _damage;
-                smiteSpawnRef.DealDamageTo = charToAtkHPScript;
-                smiteSpawnRef.GiveXPTo = this._statsRef;
+                // Create the prefab to animate
+                _activeSkillAnimObj = Instantiate(_spawnPref);
+                // Center it on the character to attack
+                _activeSkillAnimObj.transform.SetParent(charToAtkHPScript.transform);
+                _activeSkillAnimObj.transform.localPosition = Vector3.zero;
             }
             else
                 Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
@@ -74,7 +74,17 @@ public class Smite : Skill
     {
         // Start the end skill animation
         EndSkillAnimation();
+        // Destroy the additional animation object
+        Destroy(_activeSkillAnimObj);
 
+        // Deal the damage to each enemy
+        for (int i = 0; i < _enemiesHP.Count; i++)
+        {
+            if (_enemiesHP[i] != null)
+            {
+                _enemiesHP[i].TakeDamage(_damage, this.GetComponent<Stats>());
+            }
+        }
         // Get rid of the references of the enemies to hit, so that we do not hit them again on accident
         // after the next time this enemy moves
         _enemiesHP = new List<Health>();

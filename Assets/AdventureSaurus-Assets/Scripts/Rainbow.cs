@@ -10,7 +10,7 @@ public class Rainbow : MonoBehaviour
     [SerializeField] private float _speed = 3f;
 
     // The particle system to spawn
-    [SerializeField] private GameObject _partSysObj = null;
+    private GameObject _partSysObj = null;
     // Reference to the particle system spawned
     private ParticleSystem _myPartSys;
     // If we have spawnd the particle system yet
@@ -29,6 +29,9 @@ public class Rainbow : MonoBehaviour
     private void Awake()
     {
         _sprRendRef = this.GetComponent<SpriteRenderer>();
+
+        // Load the prefab that holds the particle system
+        _partSysObj = Resources.Load<GameObject>("RainbowPrefab");
     }
 
     // Start is called before the first frame update
@@ -38,6 +41,8 @@ public class Rainbow : MonoBehaviour
         _sprRendRef.color = new Color(0, 1, 1);
         _curCol = _sprRendRef.color;
         _colToChange = ColorMain.RED;
+
+        StartFlashing();
     }
 
     /// <summary>
@@ -58,7 +63,7 @@ public class Rainbow : MonoBehaviour
             partSysObj.transform.SetParent(this.transform);
             partSysObj.transform.localPosition = Vector3.zero;
             // Get the ParticleSystem off it, so we can change its colors
-            _myPartSys = _myPartSys.GetComponent<ParticleSystem>();
+            _myPartSys = partSysObj.GetComponent<ParticleSystem>();
 
             _hasSpawned = true;
         }

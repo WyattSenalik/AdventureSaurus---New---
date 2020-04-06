@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ThreeSixtySwing : Skill
 {
+    // The prefab that displays the animation
+    private GameObject _spawnPref = null;
+    // Reference tot he spawned prefab, for deletion purposes
+    private GameObject _activeSkillAnimObj = null;
+
     // Called before start
     // Set the skill specific variables
     private new void Awake()
@@ -12,6 +17,9 @@ public class ThreeSixtySwing : Skill
         _skillNum = 360;
         _diagnols = true;
         _cooldown = 4;
+
+        // Load the spawn predfab
+        _spawnPref = Resources.Load<GameObject>("ThreeSixtyPrefab");
     }
 
     /// <summary>
@@ -71,7 +79,15 @@ public class ThreeSixtySwing : Skill
 
             // If we have at least 1 enemy to attack
             if (_enemiesHP.Count > 0)
+            {
+                // Start the animation of the character
                 StartSkillAnimation(attackNodePos);
+                // Create the prefab to animate
+                _activeSkillAnimObj = Instantiate(_spawnPref);
+                // Center it on the character
+                _activeSkillAnimObj.transform.SetParent(this.transform);
+                _activeSkillAnimObj.transform.localPosition = Vector3.zero;
+            }
             else
                 Debug.Log("There were no enemies for ThreeSixtySwing to hit");
         }
@@ -94,6 +110,8 @@ public class ThreeSixtySwing : Skill
             //Debug.Log("EndAnimation");
             // End the skills animation
             EndSkillAnimation();
+            // Destroy the additional animation prefab
+            Destroy(_activeSkillAnimObj);
 
             //Debug.Log("Deal damage");
             // Deal the damage to each enemy

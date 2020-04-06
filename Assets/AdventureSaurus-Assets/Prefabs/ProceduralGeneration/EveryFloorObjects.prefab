@@ -7964,6 +7964,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileMapPrefab: {fileID: 4783568868112808690, guid: 523ee7f33ef4a8e4693eb5b18c0fe5ef,
     type: 3}
+  _singleTileDecorationChance: 15
   _twoTileDecorationChance: 50
   _tileSet: {fileID: 11400000, guid: 0c24d7e6d57914e438d7431ccefdab17, type: 2}
 --- !u!114 &1885554832884344794
@@ -8011,6 +8012,7 @@ MonoBehaviour:
   - {fileID: 9084426930260393326, guid: a59278f53514fca40a44af52fe1beffb, type: 3}
   _hallwayScalar: 0.5
   _endScalar: 1.2
+  _rainbowChance: 0
 --- !u!1 &1885554832886100467
 GameObject:
   m_ObjectHideFlags: 0

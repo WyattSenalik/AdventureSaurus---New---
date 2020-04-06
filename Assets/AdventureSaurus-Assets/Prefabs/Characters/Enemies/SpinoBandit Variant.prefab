@@ -17,21 +17,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 8c59058e6fb5ca04aa054c813531478f, type: 2}
-    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: charName
-      value: Spino Bandit
-      objectReference: {fileID: 0}
-    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: magic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: vitality
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: m_Sprite
@@ -128,6 +113,11 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.newSize.y
       value: 1.09375
       objectReference: {fileID: 0}
+    - target: {fileID: 4191368584528173494, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _difficulty
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: _charName
@@ -146,6 +136,21 @@ PrefabInstance:
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: _vitality
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: charName
+      value: Spino Bandit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: magic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: vitality
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []

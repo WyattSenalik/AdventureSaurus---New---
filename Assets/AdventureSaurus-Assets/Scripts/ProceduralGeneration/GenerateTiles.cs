@@ -72,11 +72,19 @@ public class GenerateTiles : MonoBehaviour
                     Vector2Int curLocation = topLeft + new Vector2Int(curCol, -curRow);
 
                     // Give a chance for this tile to be convered in single-tiled decor
-                    if (Random.Range(0, _singleTileDecorationChance) == 0)
+                    // Only if there are any single-tiled decorations
+                    if (_tileSet.SingleTiledDecorationTilesLength() > 0 &&
+                        Random.Range(0, _singleTileDecorationChance) == 0)
+                    {
                         oneTiledDecor.Add(curLocation);
+                    }
                     // Give a chance for this tile to be covered in a two-tiled decor
-                    else if (Random.Range(0, _twoTileDecorationChance) == 0)
+                    // Only if there are any double-tiled decorations
+                    else if (_tileSet.TwoTiledDecorationTilesLength() > 0 &&
+                        Random.Range(0, _twoTileDecorationChance) == 0)
+                    {
                         twoTiledDecor.Add(curLocation);
+                    }
 
                     // Add a single room tile at the current location
                     AddTile(curLocation, _tileSet.GetSingleFloorTile(randomIndex));

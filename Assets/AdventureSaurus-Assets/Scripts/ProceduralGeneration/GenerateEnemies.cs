@@ -10,6 +10,8 @@ public class GenerateEnemies : MonoBehaviour
     [SerializeField] private float _hallwayScalar = 0.5f;
     // For increasing the end room's difficulty
     [SerializeField] private float _endScalar = 1.2f;
+    // Chance for a buffed enemy to be a rainbow enemy
+    [SerializeField] private int _rainbowChance = 10;
 
     // Set references
     private void Awake()
@@ -87,24 +89,32 @@ public class GenerateEnemies : MonoBehaviour
                 }
             }
 
-            /// Step 3: Create the enemies for the room in compliance with the difficulty
+            /// Step 3: Determine the amount of enemies we want in this room
+            /// 
+            // I'm just gonna say, we want to aim to fill max 1/4 of the room with enemies
+            int maxEnemies = availSpawnPositions.Count / 4;
+
+            /// Step 4: Create the enemies for the room in compliance with the difficulty
             /// This algorithm may be edited by adding more steps between 1 and 2 to restrict the 
             /// difficulty of the enemies spawned and other tweaks
             /// 
+            curRoomScript.RoomDifficulty *= 9;
             // Being extra careful
             int maxIterations = curRoomScript.RoomDifficulty;
             int currentIterations = 0;
             // We start the current difficulty at 0, since there are no enemies currently in the room
             int currentDifficulty = 0;
+            // The amount of enemies we have spawned
+            int currentAmEnemies = 0;
             // Create a new enemy until the currentDifficulty is the room's difficulty
             while (currentDifficulty < curRoomScript.RoomDifficulty && availSpawnPositions.Count > 0)
             {
-                /// Step 3a: Pick an enemy from the list of enemies
+                /// Step 4a: Determine the average difficulty an enemy would have to be to make it
+                /// to the difficulty level in only x more enemies
                 /// 
-                int enemyPrefIndex = Random.Range(0, _enemyPrefabs.Length);
-                GameObject enemyPrefToSpawn = _enemyPrefabs[enemyPrefIndex];
+                int avgDiff = (curRoomScript.RoomDifficulty - currentDifficulty) / (maxEnemies - currentAmEnemies);
 
-                /// Step 3b: Pick a spot in the room to spawn the enemy
+                /// Step 4b: Pick a spot in the room to spawn the enemy
                 /// 
                 int randPosIndex = Random.Range(0, availSpawnPositions.Count);
                 Vector2Int spawnGridPos = availSpawnPositions[randPosIndex];
@@ -113,14 +123,74 @@ public class GenerateEnemies : MonoBehaviour
                 // Remove the spot we spawned them at from the availSpawnPositions, so that no enemy may be spawned here again
                 availSpawnPositions.RemoveAt(randPosIndex);
 
-                /// Step 3c: Spawn the enemy
+                /// Steps 4c-e: Get a suitable enemy
                 /// 
-                GameObject spawnedEnemyObj = Instantiate(enemyPrefToSpawn, characterParent);
-                spawnedEnemyObj.transform.position = spawnWorldPos;
+                // Initialize some stuff we will need after the loop
+                // Reference to the GameObject of the enemy spawned
+                GameObject spawnedEnemyObj;
+                // Reference to the EnemyDifficulty script attached to the spawned enemy
+                EnemyDifficulty enDiffScriptRef;
 
-                /// Step 3d: Increment the current difficulty
+                int maxSpawnLength = _enemyPrefabs.Length;
+                // We will do c-e until we get an enemy that is not stronger than we need
+                bool chooseNew = false;
+                do
+                {
+                    /// Step 4c: Pick an enemy from the list of enemies
+                    /// 
+                    int enemyPrefIndex = Random.Range(0, maxSpawnLength);
+                    GameObject enemyPrefToSpawn = _enemyPrefabs[enemyPrefIndex];
+
+                    /// Step 4d: Spawn the enemy
+                    /// 
+                    spawnedEnemyObj = Instantiate(enemyPrefToSpawn, characterParent);
+                    spawnedEnemyObj.transform.position = spawnWorldPos;
+
+                    /// Step 4e: If that enemy is too strong for the current difficulty we need, then destroy it and try to spawn
+                    /// another enemy. We will pick a enemy further left in the list, since they are sorted by difficulty
+                    /// 
+                    enDiffScriptRef = spawnedEnemyObj.GetComponent<EnemyDifficulty>();
+                    if (enDiffScriptRef.Difficulty > curRoomScript.RoomDifficulty - currentDifficulty)
+                    {
+                        Destroy(spawnedEnemyObj);
+                        maxSpawnLength = enemyPrefIndex;
+                        chooseNew = true;
+                    }
+                    else
+                        chooseNew = false;
+                } while (chooseNew);
+
+
+                /// Step 4e: If that enemy is weaker than the avg difficulty, then we need to buff it
                 /// 
-                EnemyDifficulty enDiffScriptRef = spawnedEnemyObj.GetComponent<EnemyDifficulty>();
+                int extraDiff = 0;
+                if (avgDiff > enDiffScriptRef.Difficulty)
+                {
+                    // Get the difference in difficulty we need to compensate for
+                    extraDiff = avgDiff - enDiffScriptRef.Difficulty;
+                    // Get the enemy stats we are going to change
+                    EnemyStats enemyStats = spawnedEnemyObj.GetComponent<EnemyStats>();
+
+                    // Get the amounts to buff the enemy by
+                    int strBuff = avgDiff / 6;
+                    int mgcBuff = avgDiff / 6;
+                    int spdBuff = avgDiff / 12;
+                    int hpBuff = avgDiff / 2;
+                    // Increase the stats
+                    enemyStats.BuffEnemy(strBuff, mgcBuff, spdBuff, hpBuff);
+
+                    // Give the enemy buff a chance to be rainbow
+                    if (Random.Range(0, _rainbowChance) == 0)
+                    {
+                        // Let this enemy give more experience
+                        enemyStats.ScaleExpToGive(2);
+                        // Give it the rainbow effect
+                        spawnedEnemyObj.AddComponent<Rainbow>();
+                    }
+                }
+
+                /// Step 4f: Increment the current difficulty
+                /// 
                 // If the enemy for some reason has no EnemyDifficulty script attached to it
                 if (enDiffScriptRef != null)
                 {
@@ -128,10 +198,12 @@ public class GenerateEnemies : MonoBehaviour
                     if (enDiffScriptRef.Difficulty <= 0)
                         currentDifficulty += 1;
                     else
-                        currentDifficulty += enDiffScriptRef.Difficulty;
+                        currentDifficulty += enDiffScriptRef.Difficulty + extraDiff;
                 }
                 else
                     currentDifficulty += 1;
+                // Also increment the amount of enemies in the room
+                ++currentAmEnemies;
 
                 // Be careful of the inifinite
                 if (++currentIterations > maxIterations)
@@ -139,6 +211,9 @@ public class GenerateEnemies : MonoBehaviour
                     Debug.Log("WARNING - POTENTIAL BUG DETECTED - We tried to spawn enemies " + currentIterations + " times");
                     break;
                 }
+
+                //Debug.Log("After spawning " + spawnedEnemyObj.name + " in " + curRoomScript.name + " cur diff is now " +
+                    //currentDifficulty + " out of " + curRoomScript.RoomDifficulty);
             }
 
 

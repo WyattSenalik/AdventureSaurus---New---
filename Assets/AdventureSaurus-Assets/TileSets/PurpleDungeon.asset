@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78c42a18e7e6a334a9815725b742d746, type: 3}
   m_Name: PurpleDungeon
   m_EditorClassIdentifier: 
+  _setName: Dungeon
   _singleFloorTiles:
   - {fileID: 11400000, guid: e31c5f43f4bf1b3428e93e20bcb728b6, type: 2}
   - {fileID: 11400000, guid: 8b05c82ffe5361645b3af3bcc515614e, type: 2}
@@ -51,6 +52,7 @@ MonoBehaviour:
   _stairTiles:
   - {fileID: 11400000, guid: 11dbdc8f7bb3dac40b9fcc65a24ea812, type: 2}
   - {fileID: 11400000, guid: b2a04c9c196dcf948bc776e01cd71675, type: 2}
+  _singleTiledDecorationTiles: []
   _twoTiledDecorationTiles:
   - {fileID: 11400000, guid: bf82c237d817d7f40897f79d20917212, type: 2}
   - {fileID: 11400000, guid: 867bc6836ae8acd4eae015d09d251651, type: 2}
