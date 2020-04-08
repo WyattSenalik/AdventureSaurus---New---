@@ -23,7 +23,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Fog
   - 
   - 
   - 
@@ -62,6 +62,9 @@ TagManager:
     locked: 0
   - name: HealthBars
     uniqueID: 3405616317
+    locked: 0
+  - name: AntiFog
+    uniqueID: 1095032205
     locked: 0
   - name: Fog
     uniqueID: 2433642777

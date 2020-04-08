@@ -6127,7 +6127,7 @@ Canvas:
   m_GameObject: {fileID: 1885554832455133403}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1885554832147014712}
   m_PlaneDistance: 100
   m_PixelPerfect: 1
@@ -7988,7 +7988,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomPrefab: {fileID: 6226981127771142951, guid: 73f8c1df84d9c494b962cf046f48b6a3,
     type: 3}
-  _bleedLightPrefab: {fileID: 3888360970156444938, guid: 3f862ed9f92651e4da1d68e60d61f02d,
+  _bleedLightPrefab: {fileID: 2837345743071051306, guid: 003ee9f52a18c1841a6f1c50793fe063,
     type: 3}
   _lowerLeftBound: {x: -500, y: -500}
   _upperRightBound: {x: 500, y: 500}

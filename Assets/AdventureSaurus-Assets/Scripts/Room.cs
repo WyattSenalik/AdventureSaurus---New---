@@ -1,32 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.LWRP;
 
 public enum RoomType { NORMAL, HALLWAY, START, END, SAFE}
 
 public class Room : MonoBehaviour
 {
     // A list of the lights that this room is broadcasting to other rooms
-    [SerializeField] private List<Light2D> broadcastLights = null;
-    public List<Light2D> BroadcastLights
+    [SerializeField] private List<BleedLight> _broadcastLights = null;
+    public List<BleedLight> BroadcastLights
     {
-        get { return broadcastLights; }
+        get { return _broadcastLights; }
     }
     // A list of the lights that are shining into this room
-    [SerializeField] private List<Light2D> receiveLights = null;
-    public List<Light2D> ReceiveLights
+    [SerializeField] private List<BleedLight> _receiveLights = null;
+    public List<BleedLight> ReceiveLights
     {
-        get { return receiveLights; }
+        get { return _receiveLights; }
     }
     // A list of room adjacent to this one
-    [SerializeField] private List<Room> adjacentRooms = null;
+    [SerializeField] private List<Room> _adjacentRooms = null;
     public List<Room> AdjacentRooms
     {
-        get { return adjacentRooms; }
+        get { return _adjacentRooms; }
     }
-    // The light that will illuminate the room
-    private Light2D _roomLight = null;
+    // The darkness that will ride the room
+    private SpriteRenderer _roomDark = null;
+    public float GetRoomAlpha()
+    {
+        return _roomDark.color.a;
+    }
     // The characters currently in the room
     private List<MoveAttack> _alliesInRoom;
     // A list of the enemies in the room
@@ -92,23 +95,27 @@ public class Room : MonoBehaviour
     // Awake is called before Start
     private void Awake()
     {
-        _roomLight = this.GetComponent<Light2D>();
-        if (_roomLight == null)
-            Debug.Log("Could not find Light attached to " + this.name);
+        _roomDark = this.GetComponent<SpriteRenderer>();
+        if (_roomDark == null)
+            Debug.Log("Could not find SpriteRenderer attached to " + this.name);
 
         // Initialize my lists that will be set from Procedural Generation
         // only if I do not set them in editor
-        if (broadcastLights == null)
-            broadcastLights = new List<Light2D>();
-        if (receiveLights == null)
-            receiveLights = new List<Light2D>();
-        if (adjacentRooms == null)
-            adjacentRooms = new List<Room>();
+        if (_broadcastLights == null)
+            _broadcastLights = new List<BleedLight>();
+        if (_receiveLights == null)
+            _receiveLights = new List<BleedLight>();
+        if (_adjacentRooms == null)
+            _adjacentRooms = new List<Room>();
 
         // Initialize variables
         _alliesInRoom = new List<MoveAttack>();
         _enemiesInRoom = new List<MoveAttack>();
-        _roomLight.intensity = 0;
+
+        Color rmCol = _roomDark.color;
+        rmCol.a = 1;
+        _roomDark.color = rmCol;
+
         _currentLightIntensity = 0;
         _isRoomActive = false;
         _clear = true;
@@ -150,7 +157,8 @@ public class Room : MonoBehaviour
             return;
         }
         //Debug.Log("otherRoom is " + otherRoom.name);
-        int amountAlliesInOtherRoom = otherRoom._alliesInRoom.Count; // The number of allies in the other room
+        // The number of allies in the other room
+        int amountAlliesInOtherRoom = otherRoom._alliesInRoom.Count;
 
         // If the room the character came from has only that character in it
         if (amountAlliesInOtherRoom == 1)
@@ -190,7 +198,7 @@ public class Room : MonoBehaviour
         // Change the intensity of this room
         this.BeginChangeIntensity();
         // Update lighting of the adjacent rooms
-        foreach (Room adjRoom in adjacentRooms)
+        foreach (Room adjRoom in _adjacentRooms)
         {
             adjRoom.BeginChangeIntensity();
         }
@@ -288,27 +296,11 @@ public class Room : MonoBehaviour
     /// Turns on all the broadcast lights of enter room little by little.
     /// This is supposed to be called from ChangeIntensity at each interval
     /// </summary>
-    /// <param name="enterRoom">The room who owns the broadcast lights. It was just entered by an ally</param>
-    private void UpdateBroadcastLights(Room enterRoom)
+    private void UpdateBroadcastLights()
     {
-        // We are going to be setting the intensity of each broadcast light coming from this room to go to other rooms.
-        // The resulting overlap of intensities should equal the enterRoom's light's intensity at this moment (not currentIntensity)
-        float targetIntensity = enterRoom._roomLight.intensity;
-        for (int i = 0; i < enterRoom.broadcastLights.Count; ++i)
+        foreach (BleedLight broadcastLight in _broadcastLights)
         {
-            // We have to make it so the sum of the room this broadcast light is 
-            // broadcasting into's light plus this light is the target intensity.
-            // The room this light is broadcasting into is the broadcastToRooms at the same index.
-            float actualIntensity = targetIntensity - enterRoom.adjacentRooms[i]._roomLight.intensity;
-            // Make sure this intensity is not negative, if it is, we just want to turn it off
-            if (actualIntensity < 0f)
-            {
-                actualIntensity = 0f;
-            }
-            // Set the value
-            enterRoom.broadcastLights[i].intensity = actualIntensity;
-            //Debug.Log("Target intensity for " + enterRoom.broadcastLights[i].name + " is " + targetIntensity);
-            //Debug.Log("Actual intensity of " + enterRoom.broadcastLights[i].name + " is " + actualIntensity);
+            broadcastLight.UpdateBleedLight();
         }
     }
 
@@ -316,26 +308,11 @@ public class Room : MonoBehaviour
     /// Turns off all the broadcast lights of enter room little by little
     /// This is supposed to be called from ChangeIntensity at each interval
     /// </summary>
-    /// <param name="enterRoom">The room who is receiving the receiveLights. It was just entered by an ally</param>
-    private void UpdateReceivingLights(Room enterRoom)
+    private void UpdateReceivingLights()
     {
-        for (int i = 0; i < enterRoom.receiveLights.Count; ++i)
+        foreach (BleedLight receiveLight in _receiveLights)
         {
-            // We are going to be setting the intensity of each receiving light coming into etner room from other rooms.
-            // The resulting overlap of intensities should equal the room this light is being broadcast from's light's 
-            // intensity at this moment (not currentIntensity)
-            // The light we are on has the same index as the room it is receiving from
-            float targetIntensity = enterRoom.adjacentRooms[i]._roomLight.intensity;
-            // We have to make it so the sum of enterRoom's light's intensity and the receiving light's intensity
-            // equals the target intensity
-            float actualIntensity = targetIntensity - enterRoom._roomLight.intensity;
-            // Make sure this intensity is not negative, if it is, we just want to turn it off
-            if (actualIntensity < 0f)
-            {
-                actualIntensity = 0f;
-            }
-            // Set the value
-            enterRoom.receiveLights[i].intensity = actualIntensity;
+            receiveLight.UpdateBleedLight();
         }
     }
 
@@ -356,26 +333,33 @@ public class Room : MonoBehaviour
     /// <returns>IEnumerator</returns>
     private IEnumerator ChangeIntensity()
     {
-        // If its dimmer than its supposed to be, make it brighter
-        while (_roomLight.intensity < _currentLightIntensity)
+        // The color reference to the "darkness" of the room
+        // The rgb values will no be changed, only the a
+        Color col = _roomDark.color;
+
+        // If its brighter (less alpha) than its supposed to be, make it dimmer (more alpha)
+        while (col.a < 1 - _currentLightIntensity)
         {
-            _roomLight.intensity += Time.deltaTime;
-            UpdateBroadcastLights(this);
-            UpdateReceivingLights(this);
+            col.a += Time.deltaTime;
+            _roomDark.color = col;
+            UpdateBroadcastLights();
+            UpdateReceivingLights();
             yield return null;
         }
-        // If its brighter than its supposed to be, make it dimmer
-        while (_roomLight.intensity > _currentLightIntensity)
+        // If its dimmer (more alpha) than its supposed to be, make it brighter (less alpha)
+        while (col.a > 1 - _currentLightIntensity)
         {
-            _roomLight.intensity -= Time.deltaTime;
-            UpdateBroadcastLights(this);
-            UpdateReceivingLights(this);
+            col.a -= Time.deltaTime;
+            _roomDark.color = col;
+            UpdateBroadcastLights();
+            UpdateReceivingLights();
             yield return null;
         }
         // Its close enough, so finish setting it
-        _roomLight.intensity = _currentLightIntensity;
-        UpdateBroadcastLights(this);
-        UpdateReceivingLights(this);
+        col.a = 1 - _currentLightIntensity;
+        _roomDark.color = col;
+        UpdateBroadcastLights();
+        UpdateReceivingLights();
         yield return null;
     }
 
@@ -387,7 +371,7 @@ public class Room : MonoBehaviour
     private Room GetAdjacentRoomByAlly(MoveAttack ally)
     {
         // Iterate over the adjacent rooms until we get the room this ally is in
-        foreach (Room adjRoom in adjacentRooms)
+        foreach (Room adjRoom in _adjacentRooms)
         {
             if (adjRoom._alliesInRoom.Contains(ally))
             {
@@ -406,32 +390,32 @@ public class Room : MonoBehaviour
     public void SortAdjacentRooms()
     {
         // Iterate over the broadcast lights to compare each adjacent room to them
-        for (int i = 0; i < broadcastLights.Count; ++i)
+        for (int i = 0; i < _broadcastLights.Count; ++i)
         {
             // Get the positon of the light
-            Vector3 curLightWorldPos = broadcastLights[i].transform.position;
+            Vector3 curLightWorldPos = _broadcastLights[i].transform.position;
             // Closest distance to the light and reference to the room that is the closest
             float closestDist = float.MaxValue;
             Room closestRoom = null;
             int closestIndex = 0;
             // Iterate over each adjacent room to see which one is the adjacent room corresponding to the light
-            for (int k = i; k < adjacentRooms.Count; ++k)
+            for (int k = i; k < _adjacentRooms.Count; ++k)
             {
                 // Get the position of the current room
-                Vector3 curRoomWorldPos = adjacentRooms[k].transform.position;
+                Vector3 curRoomWorldPos = _adjacentRooms[k].transform.position;
                 // Calculate the distance between the room and the current light
                 float curDist = (curLightWorldPos - curRoomWorldPos).magnitude;
                 // If this room is closer to the light than the last
                 if (curDist < closestDist)
                 {
                     closestDist = curDist;
-                    closestRoom = adjacentRooms[k];
+                    closestRoom = _adjacentRooms[k];
                     closestIndex = k;
                 }
             }
             // Swap the two rooms, as the closer room is closer to the current light, so it is the one that corresponds ot it
-            adjacentRooms[closestIndex] = adjacentRooms[i];
-            adjacentRooms[i] = closestRoom;
+            _adjacentRooms[closestIndex] = _adjacentRooms[i];
+            _adjacentRooms[i] = closestRoom;
         }
     }
 }

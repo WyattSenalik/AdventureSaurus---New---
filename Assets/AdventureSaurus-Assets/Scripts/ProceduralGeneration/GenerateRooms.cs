@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.LWRP;
 
 public enum RoomSide {TOP, RIGHT, BOT, LEFT};
 
@@ -253,33 +252,73 @@ public class GenerateRooms : MonoBehaviour
                     hallwayScriptRef.MyRoomType = RoomType.HALLWAY;
                     newRoomScriptRef.MyRoomType = RoomType.NORMAL;
 
-                    // Spawn the lights at the join locations with the proper angles
-                    // For between the prev room and hallway
-                    // From the prev room to the hallway
+                    ///// Spawn the lights at the join locations with the proper angles
+                    //// For between the prev room and hallway
+                    
+                    /// From the prev room to the hallway
+                    // Spawn BleedLight prefab
                     GameObject hallFromPrevBroadcastObj = Instantiate(_bleedLightPrefab, hallPrevJoinPoint, 
                                                                       Quaternion.Euler(0, 0, bleedLightRot), _bleedLightsParent);
-                    Light2D hallFromPrevBroadcastLight2D = hallFromPrevBroadcastObj.GetComponent<Light2D>();
-                    prevRoomScriptRef.BroadcastLights.Add(hallFromPrevBroadcastLight2D);
-                    hallwayScriptRef.ReceiveLights.Add(hallFromPrevBroadcastLight2D);
-                    // From the hallway to the previous room
+                    Vector3 tempPos = hallFromPrevBroadcastObj.transform.position;
+                    tempPos.z = -1;
+                    hallFromPrevBroadcastObj.transform.position = tempPos;
+                    // Get a reference to the BleedLight script attached to that object
+                    BleedLight hallFromPrevBroadcastBleedLight = hallFromPrevBroadcastObj.GetComponent<BleedLight>();
+                    // Add the BleedLight to the appropriate broadcast and receive lists
+                    prevRoomScriptRef.BroadcastLights.Add(hallFromPrevBroadcastBleedLight);
+                    hallwayScriptRef.ReceiveLights.Add(hallFromPrevBroadcastBleedLight);
+                    // Give the BleedLight references to its corresponding Broadcast and Receive Rooms
+                    hallFromPrevBroadcastBleedLight.BroadcastRoom = prevRoomScriptRef;
+                    hallFromPrevBroadcastBleedLight.ReceiveRoom = hallwayScriptRef;
+
+                    /// From the hallway to the previous room
+                    // Spawn BleedLight prefab
                     GameObject hallFromPrevReceiveObj = Instantiate(_bleedLightPrefab, hallPrevJoinPoint,
                                                                     Quaternion.Euler(0, 0, 180 + bleedLightRot), _bleedLightsParent);
-                    Light2D hallFromPrevReceiveLight2D = hallFromPrevReceiveObj.GetComponent<Light2D>();
-                    prevRoomScriptRef.ReceiveLights.Add(hallFromPrevReceiveLight2D);
-                    hallwayScriptRef.BroadcastLights.Add(hallFromPrevReceiveLight2D);
-                    // For between the new room and hallway
-                    // From the new room to the hallway
+                    tempPos = hallFromPrevReceiveObj.transform.position;
+                    tempPos.z = -1;
+                    hallFromPrevReceiveObj.transform.position = tempPos;
+                    // Get a reference to the BleedLight script attached to that object
+                    BleedLight hallFromPrevReceiveBleedLight = hallFromPrevReceiveObj.GetComponent<BleedLight>();
+                    // Add the BleedLight to the appropriate broadcast and receive lists
+                    hallwayScriptRef.BroadcastLights.Add(hallFromPrevReceiveBleedLight);
+                    prevRoomScriptRef.ReceiveLights.Add(hallFromPrevReceiveBleedLight);
+                    // Give the BleedLight references to its corresponding Broadcast and Receive Rooms
+                    hallFromPrevReceiveBleedLight.BroadcastRoom = hallwayScriptRef;
+                    hallFromPrevReceiveBleedLight.ReceiveRoom = prevRoomScriptRef;
+
+                    //// For between the new room and hallway
+                    /// From the new room to the hallway
+                    // Spawn BleedLight prefab
                     GameObject hallFromNewBroadcastObj = Instantiate(_bleedLightPrefab, hallNewJoinPoint,
                                                                      Quaternion.Euler(0, 0, 180 + bleedLightRot), _bleedLightsParent);
-                    Light2D hallFromNewBroadcastLight2D = hallFromNewBroadcastObj.GetComponent<Light2D>();
-                    newRoomScriptRef.BroadcastLights.Add(hallFromNewBroadcastLight2D);
-                    hallwayScriptRef.ReceiveLights.Add(hallFromNewBroadcastLight2D);
-                    // From the hallway to the new room
+                    tempPos = hallFromNewBroadcastObj.transform.position;
+                    tempPos.z = -1;
+                    hallFromNewBroadcastObj.transform.position = tempPos;
+                    // Get a reference to the BleedLight script attached to that object
+                    BleedLight hallFromNewBroadcastBleedLight = hallFromNewBroadcastObj.GetComponent<BleedLight>();
+                    // Add the BleedLight to the appropriate broadcast and receive lists
+                    newRoomScriptRef.BroadcastLights.Add(hallFromNewBroadcastBleedLight);
+                    hallwayScriptRef.ReceiveLights.Add(hallFromNewBroadcastBleedLight);
+                    // Give the BleedLight references to its corresponding Broadcast and Receive Rooms
+                    hallFromNewBroadcastBleedLight.BroadcastRoom = newRoomScriptRef;
+                    hallFromNewBroadcastBleedLight.ReceiveRoom = hallwayScriptRef;
+
+                    /// From the hallway to the new room
+                    // Spawn BleedLight prefab
                     GameObject hallFromNewReceiveObj = Instantiate(_bleedLightPrefab, hallNewJoinPoint,
                                                                    Quaternion.Euler(0, 0, bleedLightRot), _bleedLightsParent);
-                    Light2D hallFromNewReceiveLight2D = hallFromNewReceiveObj.GetComponent<Light2D>();
-                    newRoomScriptRef.ReceiveLights.Add(hallFromNewReceiveLight2D);
-                    hallwayScriptRef.BroadcastLights.Add(hallFromNewReceiveLight2D);
+                    tempPos = hallFromNewReceiveObj.transform.position;
+                    tempPos.z = -1;
+                    hallFromNewReceiveObj.transform.position = tempPos;
+                    // Get a reference to the BleedLight script attached to that object
+                    BleedLight hallFromNewReceiveBleedLight = hallFromNewReceiveObj.GetComponent<BleedLight>();
+                    // Add the BleedLight to the appropriate broadcast and receive lists
+                    hallwayScriptRef.BroadcastLights.Add(hallFromNewReceiveBleedLight);
+                    newRoomScriptRef.ReceiveLights.Add(hallFromNewReceiveBleedLight);
+                    // Give the BleedLight references to its corresponding Broadcast and Receive Rooms
+                    hallFromNewReceiveBleedLight.BroadcastRoom = hallwayScriptRef;
+                    hallFromNewReceiveBleedLight.ReceiveRoom = newRoomScriptRef;
 
 
                     // Give the hallway and room a name
