@@ -6,7 +6,7 @@ public class MapCam : MonoBehaviour
 {
     //Camera Variables
     [SerializeField] private float _smoothTime = 0.3f;
-    [SerializeField] private float _dragSpeed = 5f;
+    [SerializeField] private float _dragSpeed = 0.3f;
     // Reference to the map camera
     private Camera _camToWorkOn;
    
@@ -60,6 +60,7 @@ public class MapCam : MonoBehaviour
     /// <param name="botRight">Bot right of the grid</param>
     private void Initialize(Vector2Int topLeft, Vector2Int botRight)
     {
+        Debug.Log("size is being changed");
         // Set its size
         int xDist = botRight.x - topLeft.x;
         int yDist = topLeft.y - botRight.y;
@@ -68,19 +69,23 @@ public class MapCam : MonoBehaviour
         else
             _camToWorkOn.orthographicSize = yDist;
     }
-
+ 
     private void LateUpdate()
     {
+        
+        //finds the mapmenu and checks if the mapmenu is on
         GameObject mapOn = GameObject.FindWithTag("MapMenu");
         Rect bounds = new Rect(100, 35, 750, 800);
-
-        if (Input.GetMouseButtonDown(1) && mapOn.activeInHierarchy && bounds.Contains(Input.mousePosition))
+        if (mapOn)
         {
-            Debug.Log("in");
-            //right click was pressed    
-            _mouseOrigin = Input.mousePosition;
-            _isDragging = true;
-            _charToFollow = null;
+            if (Input.GetMouseButtonDown(1) && mapOn.activeInHierarchy && bounds.Contains(Input.mousePosition))
+            {
+                Debug.Log("in");
+                //right click was pressed    
+                _mouseOrigin = Input.mousePosition;
+                _isDragging = true;
+                _charToFollow = null;
+            }
         }
         //checks when right click isn't pressed
         if (!Input.GetMouseButton(1))
@@ -97,6 +102,7 @@ public class MapCam : MonoBehaviour
 
             _camToWorkOn.transform.Translate(move, Space.Self);
         }
+        
     }
 }
     
