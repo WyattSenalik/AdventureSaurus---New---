@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -157,6 +157,8 @@ MonoBehaviour:
   _floorsUntilRoomAmInc: 3
   _maxRooms: 9
   _floorsUntilFire: 2
+  _winFloorNum: 4
+  _winSceneName: WinScene
 --- !u!4 &449665926
 Transform:
   m_ObjectHideFlags: 0
@@ -253,11 +255,6 @@ PrefabInstance:
       propertyPath: vitality
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 7694131260984240152, guid: e9255b6a8fa73744dac62b3850185792,
-        type: 3}
-      propertyPath: _speed
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9255b6a8fa73744dac62b3850185792, type: 3}
 --- !u!4 &456140658 stripped
@@ -347,11 +344,6 @@ PrefabInstance:
         type: 3}
       propertyPath: vitality
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4816152497077162484, guid: 4278b658950a1194d85a7b00a6d114c3,
-        type: 3}
-      propertyPath: _speed
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7198553171757281747, guid: 4278b658950a1194d85a7b00a6d114c3,
         type: 3}
@@ -480,11 +472,6 @@ PrefabInstance:
         type: 3}
       propertyPath: vitality
       value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4816152497077162484, guid: 4278b658950a1194d85a7b00a6d114c3,
-        type: 3}
-      propertyPath: _speed
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7198553171757281747, guid: 4278b658950a1194d85a7b00a6d114c3,
         type: 3}
