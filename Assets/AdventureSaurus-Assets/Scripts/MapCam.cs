@@ -6,7 +6,7 @@ public class MapCam : MonoBehaviour
 {
     //Camera Variables
     [SerializeField] private float _smoothTime = 0.3f;
-    [SerializeField] private float _dragSpeed = 0.3f;
+    [SerializeField] private float _dragSpeed = 5f;
     // Reference to the map camera
     private Camera _camToWorkOn;
    
@@ -60,7 +60,6 @@ public class MapCam : MonoBehaviour
     /// <param name="botRight">Bot right of the grid</param>
     private void Initialize(Vector2Int topLeft, Vector2Int botRight)
     {
-        Debug.Log("size is being changed");
         // Set its size
         int xDist = botRight.x - topLeft.x;
         int yDist = topLeft.y - botRight.y;
@@ -80,7 +79,6 @@ public class MapCam : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(1) && mapOn.activeInHierarchy && bounds.Contains(Input.mousePosition))
             {
-                Debug.Log("in");
                 //right click was pressed    
                 _mouseOrigin = Input.mousePosition;
                 _isDragging = true;
