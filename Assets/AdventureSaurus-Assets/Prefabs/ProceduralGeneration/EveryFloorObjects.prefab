@@ -9771,7 +9771,7 @@ GameObject:
   - component: {fileID: 1885554833305244150}
   m_Layer: 5
   m_Name: MapMenu
-  m_TagString: Untagged
+  m_TagString: MapMenu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
