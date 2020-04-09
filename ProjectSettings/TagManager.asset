@@ -23,9 +23,9 @@ TagManager:
   - UI
   - 
   - 
-  - Fog
-  - 
-  - 
+  - Tilemap
+  - FogMain
+  - FogSecondary
   - 
   - 
   - 

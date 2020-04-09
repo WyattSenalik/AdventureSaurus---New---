@@ -16,11 +16,11 @@ public class EnemyHealth : Health
     /// <param name="dmgDealer">The Stats of the character who dealt damage</param>
     public override void TakeDamage(int dmgToTake, Stats dmgDealer)
     {
-        // Call the super's function
-        base.TakeDamage(dmgToTake, dmgDealer);
-
         // Set my killer, in the case this dies
         _myKiller = dmgDealer as AllyStats;
+
+        // Call the super's function
+        base.TakeDamage(dmgToTake, dmgDealer);
     }
 
     /// <summary>

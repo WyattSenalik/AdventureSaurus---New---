@@ -17,10 +17,15 @@ public class BleedLight : MonoBehaviour
     }
 
     // SpriteRenderer of the semi-circle
-    [SerializeField] private SpriteRenderer _fillCirc = null;
-    // SpriteRenderer of the inverse of the semi-circle
-    [SerializeField] private SpriteRenderer _borderCirc = null;
+    private SpriteRenderer _fillCirc = null;
 
+
+    // Called before start
+    // Set references
+    private void Awake()
+    {
+        _fillCirc = this.GetComponent<SpriteRenderer>();
+    }
 
     /// <summary>
     /// Updates the appropriate alpha values of the fill and border
@@ -28,20 +33,6 @@ public class BleedLight : MonoBehaviour
     public void UpdateBleedLight()
     {
         UpdateFillAlpha();
-        UpdateBorderAlpha();
-
-        // If both the fill circle and the border are off, hide their objects
-        // If both the fill circle and the border circle are off, show the cover
-        if (_fillCirc.color.a == 1 && _borderCirc.color.a == 1)
-        {
-            _fillCirc.gameObject.SetActive(false);
-            _borderCirc.gameObject.SetActive(false);
-        }
-        else
-        {
-            _fillCirc.gameObject.SetActive(true);
-            _borderCirc.gameObject.SetActive(true);
-        }
     }
 
     /// <summary>
@@ -51,21 +42,11 @@ public class BleedLight : MonoBehaviour
     private void UpdateFillAlpha()
     {
         // Get the most lit room's alpha
-        float alphaVal = Mathf.Min(_receiveRoom.GetRoomAlpha(), _broadcastRoom.GetRoomAlpha());
+        float alphaVal = Mathf.Max(_receiveRoom.GetRoomAlpha(), _broadcastRoom.GetRoomAlpha());
         // Set the fill circle's alpha
         SetAlpha(alphaVal, _fillCirc);
     }
 
-    /// <summary>
-    /// Set the alpha value of the _borderCirc to the lighting of the receive room
-    /// </summary>
-    private void UpdateBorderAlpha()
-    {
-        // Get the lighting of the receieve room
-        float alphaVal = _receiveRoom.GetRoomAlpha();
-        // Set the border circle's alpha
-        SetAlpha(alphaVal, _borderCirc);
-    }
 
     /// <summary>
     /// Sets the alpha value of the passed in sprite renderer

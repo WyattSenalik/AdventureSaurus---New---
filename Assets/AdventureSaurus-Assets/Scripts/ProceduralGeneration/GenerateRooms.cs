@@ -145,11 +145,13 @@ public class GenerateRooms : MonoBehaviour
                 {
                     case RoomSide.TOP:
                         // Calculate offset with the previous room (TOP and BOT) are the same calculation
-                        offsetPrev = Mathf.RoundToInt(Random.Range(-prevRoomRadius.x + hallwayRadius.x + _hallwayOffsetFromEdge, prevRoomRadius.x - hallwayRadius.x - _hallwayOffsetFromEdge));
+                        offsetPrev = Mathf.RoundToInt(Random.Range(-prevRoomRadius.x + hallwayRadius.x + _hallwayOffsetFromEdge, 
+                            prevRoomRadius.x - hallwayRadius.x - _hallwayOffsetFromEdge));
                         // Calculate the hallway's position
                         hallwayPos = prevRoomPos + new Vector2(offsetPrev, prevRoomRadius.y + hallwayRadius.y);
                         // Calculate offeset with the new room (TOP and BOT) are same calculation
-                        offsetNew = Mathf.RoundToInt(Random.Range(-newRoomRadius.x + hallwayRadius.x + _hallwayOffsetFromEdge, newRoomRadius.x - hallwayRadius.x - _hallwayOffsetFromEdge));
+                        offsetNew = Mathf.RoundToInt(Random.Range(-newRoomRadius.x + hallwayRadius.x + _hallwayOffsetFromEdge, 
+                            newRoomRadius.x - hallwayRadius.x - _hallwayOffsetFromEdge));
                         // Calculate the room's position
                         newRoomPos = hallwayPos + new Vector2(-offsetNew, newRoomRadius.y + hallwayRadius.y);
                         // Set the hallway's scale

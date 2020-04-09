@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6226981127771142946}
   - component: {fileID: 7275502287882097604}
   m_Layer: 10
-  m_Name: Room
+  m_Name: RoomMultiCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -25,10 +25,10 @@ public class Room : MonoBehaviour
         get { return _adjacentRooms; }
     }
     // The darkness that will ride the room
-    private SpriteRenderer _roomDark = null;
+    private SpriteRenderer _roomLight = null;
     public float GetRoomAlpha()
     {
-        return _roomDark.color.a;
+        return _roomLight.color.a;
     }
     // The characters currently in the room
     private List<MoveAttack> _alliesInRoom;
@@ -95,8 +95,8 @@ public class Room : MonoBehaviour
     // Awake is called before Start
     private void Awake()
     {
-        _roomDark = this.GetComponent<SpriteRenderer>();
-        if (_roomDark == null)
+        _roomLight = this.GetComponent<SpriteRenderer>();
+        if (_roomLight == null)
             Debug.Log("Could not find SpriteRenderer attached to " + this.name);
 
         // Initialize my lists that will be set from Procedural Generation
@@ -112,9 +112,10 @@ public class Room : MonoBehaviour
         _alliesInRoom = new List<MoveAttack>();
         _enemiesInRoom = new List<MoveAttack>();
 
-        Color rmCol = _roomDark.color;
-        rmCol.a = 1;
-        _roomDark.color = rmCol;
+        // Assume dark
+        Color rmCol = _roomLight.color;
+        rmCol.a = 0;
+        _roomLight.color = rmCol;
 
         _currentLightIntensity = 0;
         _isRoomActive = false;
@@ -335,29 +336,29 @@ public class Room : MonoBehaviour
     {
         // The color reference to the "darkness" of the room
         // The rgb values will no be changed, only the a
-        Color col = _roomDark.color;
+        Color col = _roomLight.color;
 
-        // If its brighter (less alpha) than its supposed to be, make it dimmer (more alpha)
-        while (col.a < 1 - _currentLightIntensity)
+        // If its darker (less alpha) than its supposed to be, make it brighter (more alpha)
+        while (col.a < _currentLightIntensity)
         {
             col.a += Time.deltaTime;
-            _roomDark.color = col;
+            _roomLight.color = col;
             UpdateBroadcastLights();
             UpdateReceivingLights();
             yield return null;
         }
-        // If its dimmer (more alpha) than its supposed to be, make it brighter (less alpha)
-        while (col.a > 1 - _currentLightIntensity)
+        // If its brighter (more alpha) than its supposed to be, make it darker (less alpha)
+        while (col.a > _currentLightIntensity)
         {
             col.a -= Time.deltaTime;
-            _roomDark.color = col;
+            _roomLight.color = col;
             UpdateBroadcastLights();
             UpdateReceivingLights();
             yield return null;
         }
         // Its close enough, so finish setting it
-        col.a = 1 - _currentLightIntensity;
-        _roomDark.color = col;
+        col.a = _currentLightIntensity;
+        _roomLight.color = col;
         UpdateBroadcastLights();
         UpdateReceivingLights();
         yield return null;
