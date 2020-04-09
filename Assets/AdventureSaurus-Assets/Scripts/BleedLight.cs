@@ -28,7 +28,7 @@ public class BleedLight : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the appropriate alpha values of the fill and border
+    /// Updates the appropriate alpha values of the fill
     /// </summary>
     public void UpdateBleedLight()
     {
@@ -55,7 +55,7 @@ public class BleedLight : MonoBehaviour
     /// <param name="sprRend">SpriteRenderer to edit the alpha of</param>
     private void SetAlpha(float alphaVal, SpriteRenderer sprRend)
     {
-        // Cast the float to [0, 1] if it is outside the bounds
+        // Clamps the float to [0, 1] if it is outside the bounds
         if (alphaVal > 1)
             alphaVal = 1;
         else if (alphaVal < 0)
