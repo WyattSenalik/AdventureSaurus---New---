@@ -32,6 +32,11 @@ public class PersistantController : MonoBehaviour
     // What floor we are on
     private int _nextFloorNum;
 
+    // What floor is win
+    [SerializeField] private int _winFloorNum = int.MaxValue;
+    // Scene to load when win
+    [SerializeField] private string _winSceneName = "WinScene";
+
     // Called before start
     private void Awake()
     {
@@ -132,6 +137,12 @@ public class PersistantController : MonoBehaviour
 
         // Update what floor this is
         ++_nextFloorNum;
+
+        // If the next floor is win, load the win scene
+        if (_nextFloorNum == _winFloorNum)
+        {
+            SceneManager.LoadScene(_winSceneName);
+        }
 
         // Test if we should increment the amount of rooms
         if (_nextFloorRoomAm < _maxRooms && _nextFloorNum % _floorsUntilRoomAmInc == 0)

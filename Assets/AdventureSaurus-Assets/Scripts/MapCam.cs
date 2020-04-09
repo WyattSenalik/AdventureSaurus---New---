@@ -68,19 +68,22 @@ public class MapCam : MonoBehaviour
         else
             _camToWorkOn.orthographicSize = yDist;
     }
-
+ 
     private void LateUpdate()
     {
+        
+        //finds the mapmenu and checks if the mapmenu is on
         GameObject mapOn = GameObject.FindWithTag("MapMenu");
         Rect bounds = new Rect(100, 35, 750, 800);
-
-        if (Input.GetMouseButtonDown(1) && mapOn.activeInHierarchy && bounds.Contains(Input.mousePosition))
+        if (mapOn)
         {
-            Debug.Log("in");
-            //right click was pressed    
-            _mouseOrigin = Input.mousePosition;
-            _isDragging = true;
-            _charToFollow = null;
+            if (Input.GetMouseButtonDown(1) && mapOn.activeInHierarchy && bounds.Contains(Input.mousePosition))
+            {
+                //right click was pressed    
+                _mouseOrigin = Input.mousePosition;
+                _isDragging = true;
+                _charToFollow = null;
+            }
         }
         //checks when right click isn't pressed
         if (!Input.GetMouseButton(1))
@@ -97,6 +100,7 @@ public class MapCam : MonoBehaviour
 
             _camToWorkOn.transform.Translate(move, Space.Self);
         }
+        
     }
 }
     

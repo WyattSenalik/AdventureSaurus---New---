@@ -353,4 +353,6 @@ public class AllyStats : Stats
     {
         _levelUpButton.gameObject.SetActive(false);
     }
+
+    
 }

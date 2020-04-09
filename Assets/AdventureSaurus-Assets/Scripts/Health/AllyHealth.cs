@@ -82,4 +82,14 @@ public class AllyHealth : Health
         if (_sideSlider != null)
             _sideSlider.value = ((float)CurHP) / MaxHP;
     }
+    /// <summary>
+    /// Consumes a charge of potion and heals player for 50% of max health
+    /// </summary>
+    public void ConsumePotion()
+    {
+        base.Heal(base.MaxHP / 2);
+
+        //update the health bar on the side
+        UpdateSideHealth();
+    }
 }
