@@ -193,6 +193,20 @@ public class TileSet : ScriptableObject
         return _stairTiles.Length;
     }
 
+    //// Campfire
+    // Unlit
+    [SerializeField] private Tile _unlitCampfire = null;
+    public Tile GetUnlitCampfire()
+    {
+        return _unlitCampfire;
+    }
+    // Lit
+    [SerializeField] private AnimatedTile _litCampfire = null;
+    public AnimatedTile GetLitCampfire()
+    {
+        return _litCampfire;
+    }
+
     //// Decorations
     // Single tiled decorations
     [SerializeField] private Tile[] _singleTiledDecorationTiles = null;

@@ -138,7 +138,7 @@ public class ProceduralGenerationController : MonoBehaviour
                 // Make the safe room if we should have one
                 if (spawnFire)
                 {
-                    _fireTrans = _safeRoomGenRef.SpawnSafeRoom(_roomParent, _tilemapRef);
+                    _fireTrans = _safeRoomGenRef.SpawnSafeRoom(_roomParent, _tilemapRef, _tilesGenRef.ActiveTileSet);
                     // Make it a child of the interactables parent
                     _fireTrans.SetParent(_interactParent);
                 }

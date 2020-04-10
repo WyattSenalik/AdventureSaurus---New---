@@ -156,7 +156,7 @@ MonoBehaviour:
   _nextFloorRoomAm: 3
   _floorsUntilRoomAmInc: 3
   _maxRooms: 9
-  _floorsUntilFire: 2
+  _floorsUntilFire: 1
   _winFloorNum: 4
   _winSceneName: WinScene
 --- !u!4 &449665926
@@ -1141,26 +1141,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 2071
-      objectReference: {fileID: 0}
-    - target: {fileID: 1885554832884344784, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: _minRoomSize.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1885554832884344784, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: _minRoomSize.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1885554832884344784, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: _maxRoomSize.x
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1885554832884344784, guid: 70da1097b1dafad4a9fb162e686f4084,
-        type: 3}
-      propertyPath: _maxRoomSize.y
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70da1097b1dafad4a9fb162e686f4084, type: 3}

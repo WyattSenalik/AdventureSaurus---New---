@@ -65,8 +65,8 @@ public class PersistantController : MonoBehaviour
         // Initialize the starting floors stuff
         // Initialize the floor difficulty to 0
         _nextFloorDiff = 0;
-        _shouldHaveCamfire = false;
         _nextFloorNum = 1;
+        _shouldHaveCamfire = _nextFloorNum % _floorsUntilFire == 0;
         // Start the first floor's generation
         StartGeneration();
     }

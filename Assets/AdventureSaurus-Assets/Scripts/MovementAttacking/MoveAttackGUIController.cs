@@ -481,11 +481,11 @@ public class MoveAttackGUIController : MonoBehaviour
         // Remove itself from the OnCharacterFinishedMoving event
         MoveAttack.OnCharacterFinishedMoving -= BeginAttackAfterMove;
 
-        // Do the attack
-        DoAttack();
-
         // When the ally finishes their attack, return control to the user
         MoveAttack.OnCharacterFinishedAction += ReturnControlAfterAction;
+
+        // Do the attack
+        DoAttack();
     }
 
     /// <summary>
@@ -497,11 +497,11 @@ public class MoveAttackGUIController : MonoBehaviour
         // Remove itself from the OnCharacterFinishedMoving event
         MoveAttack.OnCharacterFinishedMoving -= BeginInteractAfterMove;
 
-        // Do the interaction
-        DoInteract();
-
         // When the ally finishes their interaction, return control to the user
         Interactable.OnFinishInteraction += ReturnControlAfterInteract;
+
+        // Do the interaction
+        DoInteract();
     }
 
     /// <summary>

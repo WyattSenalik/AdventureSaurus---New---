@@ -429,7 +429,7 @@ public class MoveAttackController : MonoBehaviour
                 tileTrans.gameObject.SetActive(true);
             }
         }
-        /// Step 2: Set move attack tiles to on
+        /// Step 2: Set move tiles to on
         /// 
         foreach (Node moveNode in mARef.MoveTiles)
         {

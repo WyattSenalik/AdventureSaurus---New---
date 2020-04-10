@@ -425,7 +425,11 @@ public class MoveAttack : MonoBehaviour
             // If the tile is occupied by an interactable
             else if (testNode.Occupying == CharacterType.Interactable)
             {
-                _interactTiles.Add(testNode);
+                // Get the interactable at that node
+                Interactable interactAtNode = _mAContRef.GetInteractableByNode(testNode);
+                // Only add the interactable to interact tiles if it can can currently be interacted with
+                if (interactAtNode != null && interactAtNode.CanInteractWith)
+                    _interactTiles.Add(testNode);
             }
 
             // Add the node to the tested nodes

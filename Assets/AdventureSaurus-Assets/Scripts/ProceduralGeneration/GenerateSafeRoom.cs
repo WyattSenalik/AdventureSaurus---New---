@@ -7,9 +7,6 @@ public class GenerateSafeRoom : MonoBehaviour
 {
     // The fire pit object to spawn
     [SerializeField] private GameObject _firePitPrefab = null;
-    // The fire pit tiles
-    [SerializeField] private Tile _emptyFirePit = null;
-    [SerializeField] private AnimatedTile _activeFirePit = null;
 
     // Called before start
     private void Awake()
@@ -17,13 +14,9 @@ public class GenerateSafeRoom : MonoBehaviour
         // Validation
         if (_firePitPrefab == null)
             Debug.Log("firePitPrefab was not set correctly in GenerateStairs attached to " + this.name);
-        if (_emptyFirePit == null)
-            Debug.Log("emptyFirePit was not set correctly in GenerateStairs attached to " + this.name);
-        if (_activeFirePit == null)
-            Debug.Log("activeFirePit was not set correctly in GenerateStairs attached to " + this.name);
     }
 
-    public Transform SpawnSafeRoom(Transform roomParent, Tilemap tilemapRef)
+    public Transform SpawnSafeRoom(Transform roomParent, Tilemap tilemapRef, TileSet activeTilset)
     {
         // Get the safe room, the middle most room
         int midRoomIndex = roomParent.childCount / 2;
@@ -61,12 +54,21 @@ public class GenerateSafeRoom : MonoBehaviour
         Vector3Int centerOfRoom = new Vector3Int(Mathf.RoundToInt(safeRoom.position.x), Mathf.RoundToInt(safeRoom.position.y), 0);
         // Place the fire tile on that position
         // Set the tile
-        tilemapRef.SetTile(centerOfRoom, _emptyFirePit);
+        tilemapRef.SetTile(centerOfRoom, activeTilset.GetUnlitCampfire());
 
 
         // Create the fireplace obj at the middle of the room
         GameObject firePlaceObj = Instantiate(_firePitPrefab, centerOfRoom, Quaternion.identity);
         firePlaceObj.name = "Fireplace";
+        // Set the active fire component of the campfire script
+        Campfire campfireRef = firePlaceObj.GetComponent<Campfire>();
+        if (campfireRef != null)
+        {
+            campfireRef.LitCampfire = activeTilset.GetLitCampfire();
+            campfireRef.TilemapRef = tilemapRef;
+        }
+        else
+            Debug.Log("No Campfire script attached to the spawned campfire");
         // Give the transform of the fireplace
         return firePlaceObj.transform;
     }
