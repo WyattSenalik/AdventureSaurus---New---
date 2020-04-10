@@ -40,6 +40,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c67d60e5599a4214eb2d508e042c564e, type: 2}
   _stairTiles:
   - {fileID: 11400000, guid: 0d55f5bd133fbb74197f04f3c94ceabe, type: 2}
+  _unlitCampfire: {fileID: 11400000, guid: 600033595f6c32c49b4c8fd314a1accd, type: 2}
+  _litCampfire: {fileID: 11400000, guid: f8f3a16157f59844ab82e81469f3382a, type: 2}
   _singleTiledDecorationTiles:
   - {fileID: 11400000, guid: 295e0b2c9f6399a4a985fcbc0576c885, type: 2}
   - {fileID: 11400000, guid: 2389b6b9ed6c68144b3908880458d7a9, type: 2}

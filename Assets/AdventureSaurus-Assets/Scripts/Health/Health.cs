@@ -6,12 +6,8 @@ using UnityEngine.UI;
 public abstract class Health : MonoBehaviour
 {
     // The Bars are assumed to have the same sized sprite attached
-    // The transform that holds the sprite of the health
-    [SerializeField] private Transform _redHealthBar = null;
-    // The transform that holds the sprite of the outline of the health
-    [SerializeField] private Transform _frameHealthBar = null;
-    // The offset for the red health bar to be at
-    [SerializeField] private float _redBarOffset = 0.0625f;
+    // The slider of the health bar
+    [SerializeField] private Slider _healthBarSlider = null;
 
     // Maximum health of the character
     private int _maxHP = 1;
@@ -71,70 +67,41 @@ public abstract class Health : MonoBehaviour
     /// </summary>
     protected void UpdateHealthDisplay()
     {
-        // Calculate where the health bar should go
-        Vector3 startScale = Vector3.zero, targetScale = Vector3.zero, startPos = Vector3.zero, targetPos = Vector3.zero;
-        CalculateHealthBar(ref startScale, ref targetScale, ref startPos, ref targetPos);
         // Update the health bar
         // If the character died, we call it will be called in the update health coroutine so that their hp goes down before they die
         // If the character didn't die, we return control to the proper authority
-        StartCoroutine(UpdateHealth(startScale, targetScale, startPos, targetPos, false));
-    }
-
-    /// <summary>
-    /// Calculates the health bar so that it will fit inside the empty health bar
-    /// </summary>
-    /// <param name="startScale">Passed by reference. Gets set to the redHealthBar's current localScale</param>
-    /// <param name="targetScale">Passed by reference. The localPosition the redHealthBar should be at to appear like the character has the correct amount of health</param>
-    /// <param name="startPos">Passed by reference. Gets set to the redHealthBar's current localPosition</param>
-    /// <param name="targetPos">Passed by reference. The localPosition the redHealthBar should be at to appear like the character has the correct amount of health</param>
-    private void CalculateHealthBar(ref Vector3 startScale, ref Vector3 targetScale, ref Vector3 startPos, ref Vector3 targetPos)
-    {
-        // Change the localScale of the redHealthBar so that it is startingHP/curHP of its "full health" size
-        startScale = _redHealthBar.transform.localScale;
-        targetScale = new Vector3((_frameHealthBar.localScale.x - 2*_redBarOffset) * _curHP / _maxHP, _redHealthBar.localScale.y, _redHealthBar.localScale.z);
-
-        // Change the localPosition of the redHealthBar so that it looks like it is coming from the left of the frame
-        // -(spritePixelSize / pixelsPerUnit) * blankBar.localScale.x / 2 + (spritePixelSize / pixelsPerUnit) * redBar.localScale.x / 2 + blankBar.localPosition.x
-        // ((spritePixelSize / pixelsPerUnit) / 2) * (redBar.localScale.x - blankBar.localScale.x) + blankBar.localPosition.x
-        startPos = _redHealthBar.transform.localPosition;
-        float pixelsPerUnit = _redHealthBar.gameObject.GetComponent<SpriteMask>().sprite.pixelsPerUnit;
-        float spritePixelSize = _redHealthBar.gameObject.GetComponent<SpriteMask>().sprite.rect.size.x;
-        float xComponent = ((spritePixelSize / pixelsPerUnit) / 2) * (targetScale.x - _frameHealthBar.localScale.x) + _frameHealthBar.localPosition.x;
-        targetPos = new Vector3(xComponent + _redBarOffset, _redHealthBar.localPosition.y, _redHealthBar.localPosition.z);
+        StartCoroutine(UpdateHealth());
     }
 
     /// <summary>
     /// Slowly increases the health bars visuals. Also tests if the enemy is going to die, if they are it calls Die.
     /// Also returns control to the correct autority if no one died
     /// </summary>
-    /// <param name="startScale">The localScale of the redHealthBar before calling this function</param>
-    /// <param name="targetScale">The localScale the redHealthBar needs to get to</param>
-    /// <param name="startPos">The localPosition of the redHealthBar before calling this function</param>
-    /// <param name="targetPos">The localPosition the redHealthBar needs to get to</param>
     /// <param name="speed">scalar for how fast the health bar moves. Defaults to 1</param>
-    /// <param name="healing">If the health is being healed (true) or damage is being taken (false)</param>
-    /// <returns>Returns an IEnumerator</returns>
-    private IEnumerator UpdateHealth(Vector3 startScale, Vector3 targetScale, Vector3 startPos, Vector3 targetPos, bool healing, float speed = 1f)
+    /// <returns>IEnumerator</returns>
+    private IEnumerator UpdateHealth(float speed = 0.5f)
     {
         // Signal MoveAttack that a character's health bar is currently being updated.
         // We will remove it here after this ends or in Ascend if the damage is fatal
         MoveAttack.AddOngoingAction();
 
-        while (Vector3.Distance(_redHealthBar.transform.localPosition, targetPos) > 0.01f)
+        // Get the target amount to work towards
+        float targetAm = ((float)CurHP) / MaxHP;
+        // If we are lower than the current amount
+        while (_healthBarSlider.value < targetAm)
         {
-            Vector3 posIncrement = targetPos - startPos;
-            _redHealthBar.transform.localPosition += posIncrement * Time.deltaTime * speed;
-
-            Vector3 scaleIncrement = targetScale - startScale;
-            _redHealthBar.transform.localScale += scaleIncrement * Time.deltaTime * speed;
-
+            _healthBarSlider.value += Time.deltaTime * speed;
+            yield return null;
+        }
+        // If we are higher than the current amount
+        while (_healthBarSlider.value > targetAm)
+        {
+            _healthBarSlider.value -= Time.deltaTime * speed;
             yield return null;
         }
 
-        _redHealthBar.transform.localPosition = targetPos;
-        _redHealthBar.transform.localScale = targetScale;
-
-        
+        // After we finish, just set it
+        _healthBarSlider.value = targetAm;
 
         // If the character died. We call it here so that health goes down first
         if (_curHP == 0)
@@ -172,7 +139,7 @@ public abstract class Health : MonoBehaviour
         }
 
         // If this unit has a health bar, update it to properly display the new health information
-        if (_redHealthBar != null && _frameHealthBar != null)
+        if (_healthBarSlider != null)
         {
             UpdateHealthDisplay();
         }
@@ -208,7 +175,7 @@ public abstract class Health : MonoBehaviour
         }
 
         // If this unit has a health bar, update it to properly display the new health information
-        if (_redHealthBar != null && _frameHealthBar != null)
+        if (_healthBarSlider != null)
         {
             UpdateHealthDisplay();
         }

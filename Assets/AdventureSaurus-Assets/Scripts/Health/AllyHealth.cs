@@ -15,7 +15,7 @@ public class AllyHealth : Health
         set
         {
             _sideSlider = value;
-            UpdateSideHealth();
+            StartUpdateSideHealth();
         }
     }
 
@@ -27,7 +27,7 @@ public class AllyHealth : Health
         // When generation is done, do some initialization
         ProceduralGenerationController.OnFinishGenerationNoParam += SetReferences;
         ProceduralGenerationController.OnFinishGenerationNoParam += UpdateHealthDisplay;
-        ProceduralGenerationController.OnFinishGenerationNoParam += UpdateSideHealth;
+        ProceduralGenerationController.OnFinishGenerationNoParam += StartUpdateSideHealth;
     }
 
     // Called when the component is toggled off
@@ -36,7 +36,7 @@ public class AllyHealth : Health
     {
         ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
         ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateHealthDisplay;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateSideHealth;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= StartUpdateSideHealth;
     }
 
     // Called when the gameobject is destroyed
@@ -45,7 +45,7 @@ public class AllyHealth : Health
     {
         ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
         ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateHealthDisplay;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateSideHealth;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= StartUpdateSideHealth;
     }
 
     // Called before Start
@@ -75,7 +75,7 @@ public class AllyHealth : Health
             _allySkillCont.SpecialSkill.IncrementCooldownTimer();
 
         // Update the health bar on the side
-        UpdateSideHealth();
+        StartUpdateSideHealth();
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class AllyHealth : Health
         // If the heal was succesful update the side health bar and return true
         if (base.Heal(healAmount))
         {
-            UpdateSideHealth();
+            StartUpdateSideHealth();
             return true;
         }
         // If the heal was not successful, return false
@@ -98,12 +98,38 @@ public class AllyHealth : Health
     }
 
     /// <summary>
-    /// Updates the value of the side health bar
+    /// Starts the coroutine which updates the value of the side health bar
     /// </summary>
-    private void UpdateSideHealth()
+    private void StartUpdateSideHealth()
     {
         if (_sideSlider != null)
-            _sideSlider.value = ((float)CurHP) / MaxHP;
+            StartCoroutine(UpdateSideHealth());
+    }
+
+    /// <summary>
+    /// Updates the value of the side health bar
+    /// </summary>
+    private IEnumerator UpdateSideHealth()
+    {
+        Debug.Log("Hello");
+        // Get the target amount to work towards
+        float targetAm = ((float)CurHP) / MaxHP;
+        // If we are lower than the current amount
+        while (_sideSlider.value < targetAm)
+        {
+            _sideSlider.value += Time.deltaTime;
+            yield return null;
+        }
+        // If we are higher than the current amount
+        while (_sideSlider.value > targetAm)
+        {
+            _sideSlider.value -= Time.deltaTime;
+            yield return null;
+        }
+
+        // Just set it to what it is supposed to be
+        _sideSlider.value = targetAm;
+        yield return null;
     }
     /// <summary>
     /// Consumes a charge of potion and heals player for 50% of max health
@@ -114,6 +140,6 @@ public class AllyHealth : Health
 
         // Update both health bars
         UpdateHealthDisplay();
-        UpdateSideHealth();
+        StartUpdateSideHealth();
     }
 }
