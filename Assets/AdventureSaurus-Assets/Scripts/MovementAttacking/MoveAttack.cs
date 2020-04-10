@@ -44,6 +44,7 @@ public class MoveAttack : MonoBehaviour
     public bool TargetFriendly
     {
         get { return _targetFriendly; }
+        set { _targetFriendly = value; }
     }
     // The valid tiles this character can interact with
     private List<Node> _interactTiles;
@@ -411,10 +412,13 @@ public class MoveAttack : MonoBehaviour
             else if (testNode.Occupying == _whatAmI)
             {
                 currentNodes.Add(testNode);
+                // Also put an attack/heal tile here
+                _attackTiles.Add(testNode);
             }
-            // If it is occupied by someone from the other team and I have attack range of at least one, I can attack there
-            else if (((testNode.Occupying == CharacterType.Ally && _whatAmI == CharacterType.Enemy) ||
-                (testNode.Occupying == CharacterType.Enemy && _whatAmI == CharacterType.Ally)) && _attackRange > 0)
+            // If it is occupied by a character and I have attack range of at least one, I might want to attack/heal there
+            // Or if its a wall, because consistency
+            else if ((testNode.Occupying == CharacterType.Ally || testNode.Occupying == CharacterType.Enemy
+                || testNode.Occupying == CharacterType.Wall) && _attackRange > 0)
             {
                 _attackTiles.Add(testNode);
             }

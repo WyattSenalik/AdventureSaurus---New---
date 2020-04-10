@@ -79,6 +79,25 @@ public class AllyHealth : Health
     }
 
     /// <summary>
+    /// Increments curHP by healAmount.
+    /// Also updates the heal bars
+    /// </summary>
+    /// <param name="healAmount">the amount to heal</param>
+    /// <returns>Returns true if the unit was healed. False otherwise (they had fullHP or a negative value was passed in)</returns>
+    public override bool Heal(int healAmount)
+    {
+        // If the heal was succesful update the side health bar and return true
+        if (base.Heal(healAmount))
+        {
+            UpdateSideHealth();
+            return true;
+        }
+        // If the heal was not successful, return false
+        else
+            return false;
+    }
+
+    /// <summary>
     /// Updates the value of the side health bar
     /// </summary>
     private void UpdateSideHealth()

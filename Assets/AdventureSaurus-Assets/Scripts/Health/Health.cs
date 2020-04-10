@@ -183,7 +183,7 @@ public abstract class Health : MonoBehaviour
     /// </summary>
     /// <param name="healAmount">the amount to heal</param>
     /// <returns>Returns true if the unit was healed. False otherwise (they had fullHP or a negative value was passed in)</returns>
-    public bool Heal(int healAmount)
+    public virtual bool Heal(int healAmount)
     {
         // Make sure the input is valid. If its not, print a debug and stop the function
         if (healAmount < 0)

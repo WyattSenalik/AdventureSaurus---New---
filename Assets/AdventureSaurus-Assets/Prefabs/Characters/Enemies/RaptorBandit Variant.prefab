@@ -17,11 +17,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 2ab912b0fc945a44abffaeceea09c7f2, type: 2}
-    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: charName
-      value: Raptor Bandit
-      objectReference: {fileID: 0}
     - target: {fileID: 2098535882787079965, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: m_Sprite
@@ -107,6 +102,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _speed
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _baseXPToGive
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: charName
+      value: Raptor Bandit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6405350bdbfbbc34b804d573219cc889, type: 3}

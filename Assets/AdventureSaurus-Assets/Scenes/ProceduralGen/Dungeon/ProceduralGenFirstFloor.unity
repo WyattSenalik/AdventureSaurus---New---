@@ -423,7 +423,7 @@ PrefabInstance:
     - target: {fileID: 4816152497077162484, guid: 4278b658950a1194d85a7b00a6d114c3,
         type: 3}
       propertyPath: _speed
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4816152497077162484, guid: 4278b658950a1194d85a7b00a6d114c3,
         type: 3}
@@ -434,11 +434,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _vitality
       value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 7198553171757281747, guid: 4278b658950a1194d85a7b00a6d114c3,
-        type: 3}
-      propertyPath: _skillToGain
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6395254384663356929, guid: 4278b658950a1194d85a7b00a6d114c3,
         type: 3}
@@ -1146,6 +1141,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 2071
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885554832884344784, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _minRoomSize.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885554832884344784, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _minRoomSize.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885554832884344784, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _maxRoomSize.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885554832884344784, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: _maxRoomSize.y
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70da1097b1dafad4a9fb162e686f4084, type: 3}

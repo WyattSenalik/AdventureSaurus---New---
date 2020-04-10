@@ -153,9 +153,10 @@ public class MoveAttackGUIController : MonoBehaviour
                         mARef.MyStats.DisplayStats(false);
                     }
                 }
-                // If the selected node contains an ally, deselect the current selected character, and select the new character
+                // If the selected node contains an ally (and the currently selected ally isn't targetting friendlies), 
+                // deselect the current selected character, and select the new character.
                 // Or if the selected node contains an enemy and we have an enemy selected
-                else if (selectedNode.Occupying == CharacterType.Ally ||
+                else if ((selectedNode.Occupying == CharacterType.Ally && !_charSelected.TargetFriendly) ||
                     (selectedNode.Occupying == CharacterType.Enemy && _charSelected.WhatAmI == CharacterType.Enemy))
                 {
                     if (mARef == null)
@@ -262,10 +263,18 @@ public class MoveAttackGUIController : MonoBehaviour
 
             return true;
         }
-        // If the current character can attack there, and there is an (active) enemy there.
+        // If the current character can attack there (and wants to attack), and there is an (active) enemy there.
         // Then we want the current character to walk to the closest node to there and attack
-        else if (_charSelected.AttackTiles.Contains(selNode) && charAtNode != null && 
+        else if (_charSelected.AttackTiles.Contains(selNode) && !_charSelected.TargetFriendly && charAtNode != null &&
             charAtNode.WhatAmI == CharacterType.Enemy && charAtNode.gameObject.activeInHierarchy)
+        {
+            AttemptMoveAndAttack(selNode);
+            return true;
+        }
+        // If the current character can heal/buff there (and wants to), and there is an ally there.
+        // Then we want the current character to walk to the closest node to there and heal/buff
+        else if (_charSelected.AttackTiles.Contains(selNode) && _charSelected.TargetFriendly && charAtNode != null &&
+            charAtNode.WhatAmI == CharacterType.Ally)
         {
             AttemptMoveAndAttack(selNode);
             return true;

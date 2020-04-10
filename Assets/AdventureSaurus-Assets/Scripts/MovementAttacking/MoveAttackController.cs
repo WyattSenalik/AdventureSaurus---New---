@@ -51,7 +51,7 @@ public class MoveAttackController : MonoBehaviour
     private List<GameObject> _visualTests;
 
     // Max moveRange + atkRange for a character
-    private const int MAX_RANGE = 12;
+    private const int MAX_RANGE = 20;
 
     // Events
     // When the grid finishes calculating
@@ -416,8 +416,9 @@ public class MoveAttackController : MonoBehaviour
                 {
                     // We set the sprite to the heal/buff sprite
                     tileSprRend.sprite = _healTileSprite;
-                    // If there is a friendly, make it more opaque
-                    if (atkNode.Occupying == mARef.WhatAmI)
+                    // If there is a friendly (that isn't the character), make it more opaque
+                    MoveAttack charAtNode = GetCharacterMAByNode(atkNode);
+                    if (atkNode.Occupying == mARef.WhatAmI && mARef != charAtNode)
                         tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, opaqueVal);
                     // If there is nothing to heal/buff there
                     else

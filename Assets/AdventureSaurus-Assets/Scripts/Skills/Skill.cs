@@ -261,6 +261,9 @@ public class Skill : MonoBehaviour
         // Set the range
         _maRef.AttackRange = _range;
 
+        // Set if the skill is friendly or deadly
+        _maRef.TargetFriendly = _healing;
+
         // Update the attack tiles
         if (_maRef.AttackTiles != null)
         {
