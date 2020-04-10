@@ -12,7 +12,11 @@ public class AllyHealth : Health
     private Slider _sideSlider;
     public Slider SideSlider
     {
-        set { _sideSlider = value; }
+        set
+        {
+            _sideSlider = value;
+            UpdateSideHealth();
+        }
     }
 
 
@@ -89,7 +93,8 @@ public class AllyHealth : Health
     {
         base.Heal(base.MaxHP / 2);
 
-        //update the health bar on the side
+        // Update both health bars
+        UpdateHealthDisplay();
         UpdateSideHealth();
     }
 }

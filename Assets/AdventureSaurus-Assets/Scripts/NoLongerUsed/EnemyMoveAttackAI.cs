@@ -243,7 +243,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
 
         Node startNode = _mAContRef.GetNodeByWorldPosition(_currentEnemy.transform.position);
         // Reset this enemies movement
-        _currentEnemy.CalcAllTiles();
+        _currentEnemy.CalculateAllTiles();
 
         // Get the node this character should try to attack and the node this character should move to
         _curAttackNodePos = FindDesiredAttackNodePos();

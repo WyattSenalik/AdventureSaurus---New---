@@ -229,7 +229,7 @@ public class MoveAttackGUIController : MonoBehaviour
             {
                 //Debug.Log("Select character");
                 // Calculate its valid tiles
-                _charSelected.CalcAllTiles();
+                _charSelected.CalculateAllTiles();
                 // Set the visuals of it to be on
                 _mAContRef.SetActiveVisuals(_charSelected);
             }
@@ -654,7 +654,7 @@ public class MoveAttackGUIController : MonoBehaviour
         //Deselect();
         //AttemptSelect(nodeSel);
         // Calculate its visuals
-        _charSelected.CalcAllTiles();
+        _charSelected.CalculateAllTiles();
         // Turn off the visuals (since if the last range was greater than the current one, 
         // we don't want to be able to see those with we cannot reach)
         _mAContRef.TurnOffVisuals(_charSelected);

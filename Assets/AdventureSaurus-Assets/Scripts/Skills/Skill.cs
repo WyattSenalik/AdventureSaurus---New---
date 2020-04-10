@@ -264,7 +264,7 @@ public class Skill : MonoBehaviour
         // Update the attack tiles
         if (_maRef.AttackTiles != null)
         {
-            _maRef.CalcAllTiles();
+            _maRef.CalculateAllTiles();
         }
     }
 }
