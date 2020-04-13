@@ -528,7 +528,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlaceHolder_Death
+  m_Name: Fade_Death
   m_Speed: 0.8
   m_CycleOffset: 0
   m_Transitions: []
@@ -541,7 +541,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e906a9562ee208e439d06e2fd69add15, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6a413c389505faf4ab52e5f787c91cfd, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1191,7 +1191,7 @@ AnimatorStateMachine:
     m_Position: {x: -1548.4098, y: -624.4744, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2056500610526835498}
-    m_Position: {x: -688.4098, y: -284.47443, z: 0}
+    m_Position: {x: -690, y: -280, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
