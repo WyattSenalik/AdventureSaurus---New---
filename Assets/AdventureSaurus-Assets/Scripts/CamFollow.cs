@@ -12,6 +12,9 @@ public class CamFollow : MonoBehaviour
     // All allies
     private List<Transform> _allies;
 
+    // Index of last ally followed
+    private Transform _lastAllyFollowed;
+
     // The transform of the character to follow
     private Transform _charToFollow;
 
@@ -44,7 +47,7 @@ public class CamFollow : MonoBehaviour
         // When an enemy starts their turn, have the camera start to pan over to them
         EnemyTurnController.OnPreSingleEnemyTurn += FollowEnemy;
         // When the enemy's turn is over, put the camera on an ally
-        EnemyTurnController.OnEndEnemyTurn += FollowFirstAlly;
+        EnemyTurnController.OnEndEnemyTurn += FollowLastAlly;
         // When the generation is done, initialize this script
         ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
     }
@@ -55,7 +58,7 @@ public class CamFollow : MonoBehaviour
     {
         MoveAttackGUIController.OnCharacterSelect -= FollowCharacter;
         EnemyTurnController.OnPreSingleEnemyTurn -= FollowEnemy;
-        EnemyTurnController.OnEndEnemyTurn -= FollowFirstAlly;
+        EnemyTurnController.OnEndEnemyTurn -= FollowLastAlly;
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
@@ -65,7 +68,7 @@ public class CamFollow : MonoBehaviour
     {
         MoveAttackGUIController.OnCharacterSelect -= FollowCharacter;
         EnemyTurnController.OnPreSingleEnemyTurn -= FollowEnemy;
-        EnemyTurnController.OnEndEnemyTurn -= FollowFirstAlly;
+        EnemyTurnController.OnEndEnemyTurn -= FollowLastAlly;
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
@@ -172,7 +175,15 @@ public class CamFollow : MonoBehaviour
 
         // Set the char to follow
         if (charMA != null)
+        {
             _charToFollow = charMA.transform;
+
+            // If they are an ally
+            if (charMA.WhatAmI == CharacterType.Ally)
+            {
+                _lastAllyFollowed = charMA.transform;
+            }
+        }
         else
             _charToFollow = null;
     }
@@ -206,6 +217,7 @@ public class CamFollow : MonoBehaviour
             if (charTrans != null)
             {
                 _charToFollow = charTrans;
+                _lastAllyFollowed = charTrans;
                 break;
             }
         }
@@ -223,6 +235,41 @@ public class CamFollow : MonoBehaviour
         _panFinished = true;
 
         if (allyIndex < _allies.Count && _allies[allyIndex] != null)
+        {
             _charToFollow = _allies[allyIndex];
+            _lastAllyFollowed = _allies[allyIndex];
+        }
+    }
+
+    /// <summary>
+    /// Sets the camera on the given ally
+    /// </summary>
+    /// <param name="allyToFollow">Transform of ally to follow</param>
+    private void FollowAlly(Transform allyToFollow)
+    {
+        // It is not the enemy's turn
+        _isOnEnemy = false;
+        _panFinished = true;
+
+        if (allyToFollow != null && _allies.Contains(allyToFollow))
+        {
+            _charToFollow = allyToFollow;
+            _lastAllyFollowed = allyToFollow;
+        }
+    }
+
+    /// <summary>
+    /// Puts the camera back on the last ally the camera was following
+    /// </summary>
+    private void FollowLastAlly()
+    {
+        if (_lastAllyFollowed != null)
+        {
+            FollowAlly(_lastAllyFollowed);
+        }
+        else
+        {
+            FollowFirstAlly();
+        }
     }
 }

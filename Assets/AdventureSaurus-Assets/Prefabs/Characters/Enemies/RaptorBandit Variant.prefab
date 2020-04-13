@@ -103,10 +103,15 @@ PrefabInstance:
       propertyPath: _speed
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
+    - target: {fileID: 1646896228317113016, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
-      propertyPath: _baseXPToGive
-      value: 3
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1646896228317113016, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}

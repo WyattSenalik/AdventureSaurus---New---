@@ -202,6 +202,7 @@ public class PauseMenuController : MonoBehaviour
                 hpScriptRef.SideSlider = _sideHPBars[i];
                 // Set the side exp bar
                 _alliesStats[i].ExpSlider = _sideExpBars[i];
+                _alliesStats[i].UpdateExpSlider();
             }
             // If there is not ally at this point, they dead
             else

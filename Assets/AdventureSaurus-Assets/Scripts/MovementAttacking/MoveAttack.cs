@@ -452,15 +452,15 @@ public class MoveAttack : MonoBehaviour
         // If there is a node there are we have not tested it before
         if (testNode != null && !testedNodes.Contains(testNode))
         {
-            // If I can reach with an attack
-            if (_attackRange >= 1)
-            {
-                _attackTiles.Add(testNode);
-            }
             // If the tile is occupied by an interactable
-            else if (testNode.Occupying == CharacterType.Interactable)
+            if (testNode.Occupying == CharacterType.Interactable)
             {
                 _interactTiles.Add(testNode);
+            }
+            // If I can reach with an attack
+            else if (_attackRange >= 1)
+            {
+                _attackTiles.Add(testNode);
             }
 
             // Add the node to the tested nodes and the current nodes

@@ -173,7 +173,8 @@ public class MoveAttackGUIController : MonoBehaviour
                         Deselect();
                     }
                 }
-                // Otherwise, If the currently selected character is an ally, try to move them to the location the user just selected or attack something there
+                // Otherwise, If the currently selected character is an ally, try to move them to the location
+                // the user just selected, attack something there, or interact with something there
                 else if (_charSelected.WhatAmI == CharacterType.Ally)
                 {
                     // If the character has not moved yet
@@ -189,10 +190,14 @@ public class MoveAttackGUIController : MonoBehaviour
                     // If the character has moved, but not attacked yet
                     else if (!_charSelected.HasAttacked)
                     {
-                        // Try to attack, if successful, just deselect
+                        // Try to attack, if successful, try to interact
                         if (AttemptAttack(selectedNode))
-                            Deselect(); // Deselect the already selected character
-                        // Otherwise, the node was invalid to attack, so try to select a character if there is one there
+                            // Deselect the already selected character
+                            Deselect();
+                        else if (AttemptInteract(selectedNode))
+                            // Deselect the already selected character
+                            Deselect();
+                        // Otherwise, the node was invalid to attack or interact with, so try to select a character if there is one there
                         else
                         {
                             Deselect();
@@ -308,14 +313,39 @@ public class MoveAttackGUIController : MonoBehaviour
             // Set the node to attack
             _nodeToAttack = selNode;
 
-            // Have the ally attack that node
-            DoAttack();
-
             // When the ally finishes their attack, return control to the user
             MoveAttack.OnCharacterFinishedAction += ReturnControlAfterAction;
 
+            // Have the ally attack that node
+            DoAttack();
+
             return true;
         }
+        return false;
+    }
+
+    /// <summary>
+    /// When the user tries to interact with something after moving
+    /// </summary>
+    /// <param name="selNode">The node that was selected</param>
+    /// <returns>Returns true if the interaction was successful, false otherwise</returns>
+    private bool AttemptInteract(Node selNode)
+    {
+        // If there is an interactable at that location and it is in the selected character's interact tiles
+        Interactable interact = _mAContRef.GetInteractableByNode(selNode);
+        if (_charSelected.InteractTiles.Contains(selNode) && selNode.Occupying == CharacterType.Interactable
+            && interact != null)
+        {
+            // Set the node to interact with
+            _nodeToAttack = selNode;
+
+            // Whe the ally finishes their interaction, return control to the user
+            // Maybe TODO
+
+            // Have the ally interact with that node
+            DoInteract();
+        }
+
         return false;
     }
 

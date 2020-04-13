@@ -104,7 +104,6 @@ public class AllyStats : Stats
     {
         // When generation is done, do some initialization
         ProceduralGenerationController.OnFinishGenerationNoParam += SetReferences;
-        ProceduralGenerationController.OnFinishGenerationNoParam += UpdateExpSlider;
     }
 
     // Called when the component is toggled off
@@ -112,7 +111,6 @@ public class AllyStats : Stats
     private void OnDisable()
     {
         ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateExpSlider;
     }
 
     // Called when the gameobject is destroyed
@@ -120,7 +118,6 @@ public class AllyStats : Stats
     private void OnDestroy()
     {
         ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
-        ProceduralGenerationController.OnFinishGenerationNoParam -= UpdateExpSlider;
     }
 
     // Called before start
@@ -236,14 +233,16 @@ public class AllyStats : Stats
     }
 
     /// <summary>
-    /// Sets the experience slider on the left to the correct value
+    /// Sets the experience slider on the left to the correct value.
+    /// Called when gaining exp and from PauseMenuController when new floor genned
     /// </summary>
-    private void UpdateExpSlider()
+    public void UpdateExpSlider()
     {
-        // Will be null for enemies
         if (_expSlider != null)
             // Set the side exp bar
             _expSlider.value = ((float)_oneLevelExperience) / _oneLevelNextLevelThreshold;
+        else
+            Debug.Log("No exp slider found");
     }
 
     /// <summary>

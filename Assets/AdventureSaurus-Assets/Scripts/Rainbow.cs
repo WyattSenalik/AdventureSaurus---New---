@@ -32,6 +32,9 @@ public class Rainbow : MonoBehaviour
 
         // Load the prefab that holds the particle system
         _partSysObj = Resources.Load<GameObject>("RainbowPrefab");
+
+        if (_partSysObj == null)
+            Debug.Log("Could not load Rainbow Particles");
     }
 
     // Start is called before the first frame update
