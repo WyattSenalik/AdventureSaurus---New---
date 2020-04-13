@@ -111,7 +111,8 @@ public class AllyHealth : Health
     /// </summary>
     private IEnumerator UpdateSideHealth()
     {
-        Debug.Log("Hello");
+        // Add the ongoing action
+        MoveAttack.AddOngoingAction();
         // Get the target amount to work towards
         float targetAm = ((float)CurHP) / MaxHP;
         // If we are lower than the current amount
@@ -129,6 +130,10 @@ public class AllyHealth : Health
 
         // Just set it to what it is supposed to be
         _sideSlider.value = targetAm;
+
+        // Remove the ongoing action
+        MoveAttack.RemoveOngoingAction();
+
         yield return null;
     }
     /// <summary>
@@ -136,10 +141,6 @@ public class AllyHealth : Health
     /// </summary>
     public void ConsumePotion()
     {
-        base.Heal(base.MaxHP / 2);
-
-        // Update both health bars
-        UpdateHealthDisplay();
-        StartUpdateSideHealth();
+        Heal(base.MaxHP / 2);
     }
 }
