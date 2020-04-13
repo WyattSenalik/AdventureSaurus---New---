@@ -31,6 +31,8 @@ public class Pause : MonoBehaviour
         // When we show the prompt, hide the UI elements
         // When we get rid of the prompt, show the UI elements
         Stairs.OnPromptNextFloor += SwitchUIElementsActivity;
+        // When the game is ending, reset the time scale
+        PauseMenuController.OnQuitGame += ResumeTime;
     }
 
     // Called when the component is toggled off
@@ -38,6 +40,7 @@ public class Pause : MonoBehaviour
     private void OnDisable()
     {
         Stairs.OnPromptNextFloor -= SwitchUIElementsActivity;
+        PauseMenuController.OnQuitGame -= ResumeTime;
     }
 
     // Called when the gameobject is destroyed
@@ -45,6 +48,7 @@ public class Pause : MonoBehaviour
     private void OnDestroy()
     {
         Stairs.OnPromptNextFloor -= SwitchUIElementsActivity;
+        PauseMenuController.OnQuitGame -= ResumeTime;
     }
 
     // Start is called before the first frame update

@@ -37,13 +37,42 @@ public class PersistantController : MonoBehaviour
     // Scene to load when win
     [SerializeField] private string _winSceneName = "WinScene";
 
+
+    /// <summary>
+    /// Called when the script is set active.
+    /// Subscribe to events.
+    /// </summary>
+    private void OnEnable()
+    {
+        // When the game is quit, get rid of the persistant objects
+        PauseMenuController.OnQuitGame += PrepareForQuit;
+    }
+
+    /// <summary>
+    /// Called when the script is toggled off.
+    /// Unsubscribe from events.
+    /// </summary>
+    private void OnDisable()
+    {
+        PauseMenuController.OnQuitGame -= PrepareForQuit;
+    }
+
+    /// <summary>
+    /// Called when the gameobject is destroyed.
+    /// Unsubscribe from ALL events
+    /// </summary>
+    private void OnDestroy()
+    {
+        PauseMenuController.OnQuitGame -= PrepareForQuit;
+    }
+
     // Called before start
     private void Awake()
     {
         // Make sure we don't destroy this gameObject when we hop between floors
         DontDestroyOnLoad(this.gameObject);
         // Make sure we don't destroy the tempAllyParent unnecessarily
-       DontDestroyOnLoad(_tempAllyParent.gameObject);
+        DontDestroyOnLoad(_tempAllyParent.gameObject);
     }
 
     // Start is called before the first frame update
@@ -150,5 +179,15 @@ public class PersistantController : MonoBehaviour
 
         // Test if the current floor should have a campfire
         _shouldHaveCamfire = _nextFloorNum % _floorsUntilFire == 0;
+    }
+
+    /// <summary>
+    /// Prepares to quit the game by destroying the persistant controller and the temp ally parent, so they
+    /// do not persist into the main menu scene
+    /// </summary>
+    private void PrepareForQuit()
+    {
+        Destroy(_tempAllyParent.gameObject);
+        Destroy(this.gameObject);
     }
 }

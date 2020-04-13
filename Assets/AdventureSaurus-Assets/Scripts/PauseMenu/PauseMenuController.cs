@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -30,10 +31,16 @@ public class PauseMenuController : MonoBehaviour
     // Exp bars on the side
     [SerializeField] private Slider[] _sideExpBars = null;
 
+    // Name of the title screen
+    [SerializeField] private string _titleSceneName = "Title Screen";
+
     // Events
     // For when the character detailed menu is shown
     public delegate void CharDetailedMenuShown(int index);
     public static event CharDetailedMenuShown OnCharDetailedMenuShown;
+    // For when the game is quit
+    public delegate void QuitGame();
+    public static event QuitGame OnQuitGame;
 
     // Called when the script is toggled active
     // Subscribe to events
@@ -325,5 +332,20 @@ public class PauseMenuController : MonoBehaviour
                 _allyXPBars[i].value = 0;
             }
         }
+    }
+
+
+    /// <summary>
+    /// Loads the title scene.
+    /// Called from the exit game button in the pause menu
+    /// </summary>
+    public void LoadTitleScene()
+    {
+        // Call the quit game event
+        if (OnQuitGame != null)
+            OnQuitGame();
+
+        // Load the main menu
+        SceneManager.LoadScene(_titleSceneName);
     }
 }
