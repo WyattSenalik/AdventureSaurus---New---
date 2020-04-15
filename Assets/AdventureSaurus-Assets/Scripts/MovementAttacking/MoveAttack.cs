@@ -427,7 +427,7 @@ public class MoveAttack : MonoBehaviour
             {
                 // Get the interactable at that node
                 Interactable interactAtNode = _mAContRef.GetInteractableByNode(testNode);
-                // Only add the interactable to interact tiles if it can can currently be interacted with
+                // Only add the interactable to interact tiles if it can currently be interacted with
                 if (interactAtNode != null && interactAtNode.CanInteractWith)
                     _interactTiles.Add(testNode);
             }
@@ -455,7 +455,11 @@ public class MoveAttack : MonoBehaviour
             // If the tile is occupied by an interactable
             if (testNode.Occupying == CharacterType.Interactable)
             {
-                _interactTiles.Add(testNode);
+                // Get the interactable at that node
+                Interactable interactAtNode = _mAContRef.GetInteractableByNode(testNode);
+                // Only add the interactable to interact tiles if it can currently be interacted with
+                if (interactAtNode != null && interactAtNode.CanInteractWith)
+                    _interactTiles.Add(testNode);
             }
             // If I can reach with an attack
             else if (_attackRange >= 1)

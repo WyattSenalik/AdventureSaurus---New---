@@ -80,6 +80,7 @@ public class MoveAttackGUIController : MonoBehaviour
         MoveAttack.OnCharacterFinishedMoving -= ReturnControlAfterMove;
         MoveAttack.OnCharacterFinishedMoving -= BeginAttackAfterMove;
         MoveAttack.OnCharacterFinishedAction -= ReturnControlAfterAction;
+        Interactable.OnFinishInteraction -= ReturnControlAfterInteract;
     }
 
     // Set references
@@ -181,7 +182,7 @@ public class MoveAttackGUIController : MonoBehaviour
                     if (!_charSelected.HasMoved)
                     {
                         // Try to move/attack with them. If it fails (since the node was an invalid one to move/attack), try to select an enemy if its there
-                        if (!AttemptMoveOrAttack(selectedNode))
+                        if (!AttemptMoveOrAttackOrInteract(selectedNode))
                             AttemptSelect(selectedNode);
                         // If it was successful, we need to hide their stats
                         else
@@ -252,7 +253,7 @@ public class MoveAttackGUIController : MonoBehaviour
     /// </summary>
     /// <param name="selNode">The node that was just selected</param>
     /// <returns>Returns true if the character will do an action, false if they just got deselected</returns>
-    private bool AttemptMoveOrAttack(Node selNode)
+    private bool AttemptMoveOrAttackOrInteract(Node selNode)
     {
         MoveAttack charAtNode = _mAContRef.GetCharacterMAByNode(selNode);
         // If the current character can move there
@@ -339,8 +340,8 @@ public class MoveAttackGUIController : MonoBehaviour
             // Set the node to interact with
             _nodeToAttack = selNode;
 
-            // Whe the ally finishes their interaction, return control to the user
-            // Maybe TODO
+            // When the ally finishes their interaction, return control to the user
+            Interactable.OnFinishInteraction += ReturnControlAfterInteract;
 
             // Have the ally interact with that node
             DoInteract();
@@ -482,7 +483,6 @@ public class MoveAttackGUIController : MonoBehaviour
     /// </summary>
     private void DoInteract()
     {
-        // TODO The interaction
         // Get the object we will be interacting with
         Interactable objectToInteractWith = _mAContRef.GetInteractableByNode(_nodeToAttack);
         if (objectToInteractWith != null)
