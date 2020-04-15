@@ -14,14 +14,23 @@ public abstract class Health : MonoBehaviour
     public int MaxHP
     {
         get { return _maxHP; }
-        set { _maxHP = value; }
+        set {
+            _curHP += value - _maxHP;
+            _maxHP = value;
+            if (this.gameObject.activeInHierarchy)
+                UpdateHealthDisplay();
+        }
     }
     // The current health of the character
     private int _curHP = 1;
     public int CurHP
     {
         get { return _curHP; }
-        set { _curHP = value; }
+        set {
+            _curHP = value;
+            if (this.gameObject.activeInHierarchy)
+                UpdateHealthDisplay();
+        }
     }
 
     // References to things on this gameobject
