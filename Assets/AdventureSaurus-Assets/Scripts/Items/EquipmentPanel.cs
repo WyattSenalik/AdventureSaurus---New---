@@ -1,11 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using System;
 using UnityEngine;
 
 public class EquipmentPanel : MonoBehaviour
 {
     [SerializeField] Transform equipmentSlotsParent;
     [SerializeField] EquipSlot[] equipmentSlots;
+
+    public event Action<Item> OnItemRightClickedEvent;
+
+    private void Start()
+    {
+        for (int i = 0; i < equipmentSlots.Length; i++)
+        {
+            equipmentSlots[i].OnRightClickEvent += OnItemRightClickedEvent;
+        }
+    }
 
     private void OnValidate()
     {
@@ -25,7 +37,7 @@ public class EquipmentPanel : MonoBehaviour
 
             if (equipmentSlots[i].ItemType == equip.ItemType)//Checks if type of item matches the type of slot.
             {
-                previousItem = equip;//Gets previous item before equiping over it.
+                previousItem = equipmentSlots[i].Item;//Gets previous item before equiping over it.
                 equipmentSlots[i].Item = equip;//assign new item to slot
                 return true;
             }

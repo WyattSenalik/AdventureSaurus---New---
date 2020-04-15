@@ -31,10 +31,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData != null && eventData.button == PointerEventData.InputButton.Right)
+        
+        if (eventData != null && eventData.button == PointerEventData.InputButton.Right)
         {
-            if(Item != null && OnRightClickEvent != null)
+            
+            if (Item != null && OnRightClickEvent != null)
             {
+                
                 OnRightClickEvent(Item);
             }
         }
