@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using System;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -8,7 +10,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] EquipmentPanel equipmentPanelREF;
     private void Awake()
     {
-        inventoryREF.OnItemRightClickedEvent += Equip;
+        inventoryREF.OnItemRightClickedEvent += EquipFromInv;
+        equipmentPanelREF.OnItemRightClickedEvent += UnequipFromEquipPanel;
     }
 
     private void EquipFromInv(Item item)
@@ -16,8 +19,14 @@ public class InventoryManager : MonoBehaviour
         Equip(item);
     }
 
+    private void UnequipFromEquipPanel(Item item)
+    {
+        Unequip(item);
+    }
+
     public void Equip(Item equippingItem)
     {
+        
         if (inventoryREF.removeItem(equippingItem))
         {
             Item previousItem;
@@ -27,9 +36,11 @@ public class InventoryManager : MonoBehaviour
                 {
                     inventoryREF.addItem(previousItem);
                 }
+                
             }
             else
             {
+                
                 inventoryREF.addItem(equippingItem);
             }
         }

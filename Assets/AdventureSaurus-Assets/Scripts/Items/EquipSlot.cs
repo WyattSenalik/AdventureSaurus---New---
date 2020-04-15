@@ -6,6 +6,7 @@ public class EquipSlot : ItemSlot
 {
     public ItemType ItemType;
 
+
     protected override void OnValidate()
     {
         base.OnValidate();
