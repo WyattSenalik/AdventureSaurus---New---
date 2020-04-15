@@ -18,6 +18,31 @@ public class Grimoire : MonoBehaviour
     // Reference to the ally's AllySkillController
     private AllySkillController _allySkillContRef;
 
+
+    // Called when the component is toggled active
+    // Subscribe to events
+    private void OnEnable()
+    {
+        // Wait until after Generation for this because things in AllySkillController need to be enabled first
+        // Try an initial magic increase in case the character is supposed to start with
+        // skills or upgraded skills or what not
+        ProceduralGenerationController.OnFinishGenerationNoParam += MagicIncrease;
+    }
+
+    // Called when the component is toggled off
+    // Unsubscribe from events
+    private void OnDisable()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= MagicIncrease;
+    }
+
+    // Called when the gameobject is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= MagicIncrease;
+    }
+
     // Called before start
     // Set references to itself
     private void Awake()

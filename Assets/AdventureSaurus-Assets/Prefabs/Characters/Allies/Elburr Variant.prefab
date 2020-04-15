@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &385077893086297838
+--- !u!1001 &4539679213241168065
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 6744302857436448857, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
       propertyPath: m_Name
-      value: Ray Variant
+      value: Elburr Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6744302857436448856, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
@@ -69,93 +69,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
-      propertyPath: grimoirePages.Array.size
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
       propertyPath: _grimoirePages.Array.size
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: skillToGain
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[2]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[4]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[7]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[9]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[10]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[11]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[12]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[8]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: grimoirePages.Array.data[6]
-      value: 2
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
       propertyPath: _skillToGain
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
-      propertyPath: _grimoirePages.Array.data[2]
+      propertyPath: _grimoirePages.Array.data[3]
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
       propertyPath: _grimoirePages.Array.data[4]
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
-      propertyPath: _grimoirePages.Array.data[6]
-      value: 2
+      propertyPath: _grimoirePages.Array.data[5]
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
       propertyPath: _grimoirePages.Array.data[7]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: _grimoirePages.Array.data[8]
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
@@ -164,27 +104,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
-      propertyPath: _grimoirePages.Array.data[11]
+      propertyPath: _grimoirePages.Array.data[10]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _grimoirePages.Array.data[12]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _grimoirePages.Array.data[14]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _grimoirePages.Array.data[1]
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
-      propertyPath: _grimoirePages.Array.data[3]
+      propertyPath: _grimoirePages.Array.data[8]
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7403486460727856957, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
-      propertyPath: _grimoirePages.Array.data[5]
-      value: 1
+      propertyPath: _grimoirePages.Array.data[13]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5156194277246021402, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
       propertyPath: _charName
-      value: Ray
+      value: Elburr
       objectReference: {fileID: 0}
     - target: {fileID: 5156194277246021402, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
       propertyPath: _strength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156194277246021402, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _magic
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5156194277246021402, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
@@ -195,25 +155,25 @@ PrefabInstance:
     - target: {fileID: 5156194277246021402, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
       propertyPath: _vitality
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 5156194277246021402, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: _charPortrait
-      value: 
-      objectReference: {fileID: 21300000, guid: 081c5ed3fd546e24ba4246593961fb6b,
-        type: 3}
     - target: {fileID: 5156194277246021402, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
       propertyPath: _sideSpr
       value: 
-      objectReference: {fileID: 21300000, guid: b97e150c1414591499353b3c27782125,
+      objectReference: {fileID: 21300000, guid: f33a31b9cb8591f4ebe497495cb23a0e,
+        type: 3}
+    - target: {fileID: 5156194277246021402, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+        type: 3}
+      propertyPath: _charPortrait
+      value: 
+      objectReference: {fileID: 21300000, guid: f28e7c197ac6bb748acd3704e66a2453,
         type: 3}
     - target: {fileID: 6744302857436448863, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -3969967456734249590, guid: 1c9c71fe1821dca4c964873a6626d1d2,
+      objectReference: {fileID: 3940537294339462506, guid: 190e30792f47513418f5c5d3c9c61a8a,
         type: 3}
     - target: {fileID: 6744302857436448863, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
@@ -224,23 +184,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 7bc33253a96f1034eb37e13f5edaacff, type: 2}
-    - target: {fileID: 6744302857436448862, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+      objectReference: {fileID: 9100000, guid: af05a63f187f20247a493cf0504e6711, type: 2}
+    - target: {fileID: 6223164996785546746, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
-      propertyPath: charName
-      value: Ray
+      propertyPath: m_AnchorMax.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6744302857436448862, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
+    - target: {fileID: 6223164996785546746, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
         type: 3}
-      propertyPath: charSpr
-      value: 
-      objectReference: {fileID: 21300000, guid: 98dcd5131a7f625498d8e6c15cd8eabe,
-        type: 3}
-    - target: {fileID: 6744302857436448862, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f,
-        type: 3}
-      propertyPath: sideSpr
-      value: 
-      objectReference: {fileID: 21300000, guid: b97e150c1414591499353b3c27782125,
-        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9af7ed9f880dfbe4b83d84e0f0fe4b7f, type: 3}
