@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class InputController : MonoBehaviour
 {
-    // Buttons that if the player clicks on, we shouldn't return the gridpoint
-    [SerializeField] private RectTransform[] _buttonTransforms = null;
-    [SerializeField] private Canvas _canvasRef = null;
+    //// Buttons that if the player clicks on, we shouldn't return the gridpoint
+    //[SerializeField] private RectTransform[] _buttonTransforms = null;
+    //[SerializeField] private Canvas _canvasRef = null;
     private bool _canInput;  // Whether input will be excepted or not
 
     // Called when the component is toggled active

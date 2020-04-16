@@ -16,7 +16,7 @@ public class TurnSystem : MonoBehaviour
     private Transform _characterTeam;
 
     // References to other GameController scripts
-    EnemyTurnController enTurnContRef;
+    private EnemyTurnController _enTurnContRef;
 
     // Events
     // For when it is the enemy's turn
@@ -71,8 +71,8 @@ public class TurnSystem : MonoBehaviour
     // Set referecnes
     private void Awake()
     {
-        enTurnContRef = this.GetComponent<EnemyTurnController>();
-        if (enTurnContRef == null)
+        _enTurnContRef = this.GetComponent<EnemyTurnController>();
+        if (_enTurnContRef == null)
             Debug.Log(this.name + " has no EnemyTurnController attached to it");
     }
 
@@ -136,7 +136,7 @@ public class TurnSystem : MonoBehaviour
             // Call the OnBeginEnemyTurn Event
             OnBeginEnemyTurn();
             // Begin the first enemies turn
-            enTurnContRef.BeginFirstEnemyTurn();
+            _enTurnContRef.BeginFirstEnemyTurn();
         }
     }
     ///// <summary>

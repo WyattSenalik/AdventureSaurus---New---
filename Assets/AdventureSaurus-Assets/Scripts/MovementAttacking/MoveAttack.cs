@@ -696,13 +696,16 @@ public class MoveAttack : MonoBehaviour
     /// <returns>IEnumerator</returns>
     private IEnumerator WaitFinishAction()
     {
+        int infiniteAvoid = 1000;
+        int counter = 0;
         // Check if there are any ongoing actions stopping us from finishing this enemy's turn
-        while (true)
+        while (_ongoingActions.Count != 0)
         {
-            // If there are no ongoing actions, break from the loop
-            if (_ongoingActions.Count == 0)
-                break;
-
+            if (infiniteAvoid < ++counter)
+            {
+                GameObject nullObj = null;
+                Grimoire errorCause = nullObj.GetComponent<Grimoire>();
+            }
             yield return null;
         }
 

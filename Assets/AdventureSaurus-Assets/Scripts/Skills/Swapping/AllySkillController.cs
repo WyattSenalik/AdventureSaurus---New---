@@ -37,8 +37,12 @@ public class AllySkillController : CharacterSkills
         _availableSkills[0].EquipSkill();
         _specialActive = false;
 
-        // Giving all allies this for testing
-        //AcquireSkill(SkillHolder.THREE_SIXTY_SWING);
+        // Check if this character should start out with any skills by calling Grimoire's Magic increase
+        Grimoire myGrim = this.GetComponent<Grimoire>();
+        if (myGrim != null)
+            myGrim.MagicIncrease();
+        else
+            Debug.Log("There is no Grimoire attached to " + this.name);
     }
 
     /// <summary>

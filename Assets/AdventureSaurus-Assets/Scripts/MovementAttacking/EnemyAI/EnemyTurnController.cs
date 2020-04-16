@@ -74,7 +74,6 @@ public class EnemyTurnController : MonoBehaviour
             // Call the end enemy turn event
             if (OnEndEnemyTurn != null)
             {
-                //Debug.Log("OnEndEnemyTurn");
                 OnEndEnemyTurn();
             }
         }
@@ -96,8 +95,6 @@ public class EnemyTurnController : MonoBehaviour
     /// </summary>
     public void BeginFirstEnemyTurn()
     {
-        //Debug.Log("BeginFirstEnemyTurn");
-
         // Get rid of the dead enemies
         CullTheDead();
 

@@ -7,8 +7,6 @@ public class PersistantController : MonoBehaviour
 {
     // Temporary parent of the allies
     [SerializeField] private Transform _tempAllyParent = null;
-    // This is the scene that is tested for if it is the newly loaded scene
-    [SerializeField] private Scene _nextFloorScene;
 
     // List of allies, we will want to make these persistant throughout scenes
     private List<GameObject> _allies;

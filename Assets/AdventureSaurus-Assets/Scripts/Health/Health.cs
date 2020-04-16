@@ -17,8 +17,6 @@ public abstract class Health : MonoBehaviour
         set {
             _curHP += value - _maxHP;
             _maxHP = value;
-            if (this.gameObject.activeInHierarchy)
-                UpdateHealthDisplay();
         }
     }
     // The current health of the character
@@ -76,6 +74,7 @@ public abstract class Health : MonoBehaviour
     /// </summary>
     protected void UpdateHealthDisplay()
     {
+        Debug.Log("Starting Coroutine for UpdateHealth");
         // Update the health bar
         // If the character died, we call it will be called in the update health coroutine so that their hp goes down before they die
         // If the character didn't die, we return control to the proper authority
@@ -90,6 +89,7 @@ public abstract class Health : MonoBehaviour
     /// <returns>IEnumerator</returns>
     private IEnumerator UpdateHealth(float speed = 0.5f)
     {
+        Debug.Log("AddingOngoingAction");
         // Signal MoveAttack that a character's health bar is currently being updated.
         // We will remove it here after this ends or in Ascend if the damage is fatal
         MoveAttack.AddOngoingAction();
@@ -117,7 +117,10 @@ public abstract class Health : MonoBehaviour
             Die();
         // Signal MoveAttack that a character's health bar is finished being updated
         else
+        {
             MoveAttack.RemoveOngoingAction();
+            Debug.Log("RemovingOngoingAction");
+        }
 
         yield return null;
     }

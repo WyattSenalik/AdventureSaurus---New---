@@ -150,14 +150,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tempAllyParent: {fileID: 1431827292}
-  _nextFloorScene:
-    m_Handle: 8
   _difficultyToner: 0.625
-  _nextFloorRoomAm: 3
-  _floorsUntilRoomAmInc: 3
+  _nextFloorRoomAm: 4
+  _floorsUntilRoomAmInc: 2
   _maxRooms: 9
-  _floorsUntilFire: 1
-  _winFloorNum: 4
+  _floorsUntilFire: 2
+  _winFloorNum: 2147483647
   _winSceneName: WinScene
 --- !u!4 &449665926
 Transform:
