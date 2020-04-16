@@ -18,8 +18,13 @@ public class SwapController : MonoBehaviour
     // Add UpdateSkillButton to be called when we select a character
     private void OnEnable()
     {
+        // When a new character is selected, update the skill button
         MoveAttackGUIController.OnCharacterSelect += UpdateSkillButton;
-        MoveAttackGUIController.OnCharacterDeselect += UpdateSkillButton;
+        //MoveAttackGUIController.OnCharacterDeselect += UpdateSkillButton;
+        // When the user is allowed to select, update the skill button in a special way
+        MoveAttackGUIController.OnPlayerAllowedSelect += UpdateSkillButtAfterAllowedSelect;
+        // When the user is denied the ability to select, update the skill button in a special way
+        MoveAttackGUIController.OnPlayerToggledSelectOff += UpdateSkillButtAfterDeniedSelect;
     }
 
     // Called when this gameobject is disabled
@@ -27,7 +32,9 @@ public class SwapController : MonoBehaviour
     private void OnDisable()
     {
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButton;
-        MoveAttackGUIController.OnCharacterDeselect -= UpdateSkillButton;
+        //MoveAttackGUIController.OnCharacterDeselect -= UpdateSkillButton;
+        MoveAttackGUIController.OnPlayerAllowedSelect -= UpdateSkillButtAfterAllowedSelect;
+        MoveAttackGUIController.OnPlayerToggledSelectOff -= UpdateSkillButtAfterDeniedSelect;
     }
 
     // Called when this gameobject is destroyed
@@ -35,7 +42,9 @@ public class SwapController : MonoBehaviour
     private void OnDestroy()
     {
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButton;
-        MoveAttackGUIController.OnCharacterDeselect -= UpdateSkillButton;
+        //MoveAttackGUIController.OnCharacterDeselect -= UpdateSkillButton;
+        MoveAttackGUIController.OnPlayerAllowedSelect -= UpdateSkillButtAfterAllowedSelect;
+        MoveAttackGUIController.OnPlayerToggledSelectOff -= UpdateSkillButtAfterDeniedSelect;
     }
 
     // Set references
@@ -61,7 +70,7 @@ public class SwapController : MonoBehaviour
     public void SwapSelectedPlayerSkill()
     {
         // Get the current selected allies skill controller
-        MoveAttack charMA = _mAGUIRef.CharSelectedMA;
+        MoveAttack charMA = _mAGUIRef.RecentCharSelectedMA;
         if (charMA != null)
         {
             // Get a refrence to the currently selected ally's skill controller
@@ -136,5 +145,23 @@ public class SwapController : MonoBehaviour
                 _cooldownText.gameObject.SetActive(false);
             }
         }
+    }
+
+    /// <summary>
+    /// Updates the skill button to the correct amount of interactabiltiy
+    /// after the player is allowed to select again
+    /// </summary>
+    private void UpdateSkillButtAfterAllowedSelect()
+    {
+        UpdateSkillButton(_mAGUIRef.RecentCharSelectedMA);
+    }
+
+    /// <summary>
+    /// Updates the skill button to the correct amount of interactabiltiy
+    /// after the player is denied the ability to select
+    /// </summary>
+    private void UpdateSkillButtAfterDeniedSelect()
+    {
+        _swapButt.interactable = false;
     }
 }

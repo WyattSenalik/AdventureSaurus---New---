@@ -20,6 +20,12 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         get { return _charSelected; }
     }
+    // A reference to the character that was most recently stored in _charSelected
+    private MoveAttack _recentCharSel;
+    public MoveAttack RecentCharSelectedMA
+    {
+        get { return _recentCharSel; }
+    }
 
     // If the user can select things right now
     private bool _canSelect;
@@ -34,8 +40,11 @@ public class MoveAttackGUIController : MonoBehaviour
     public delegate void CharacterDeselect(MoveAttack charMARef);
     public static event CharacterDeselect OnCharacterDeselect;
     // Event for when the player is allowed to select again
-    public delegate void PlayerAllowedSelected();
-    public static event PlayerAllowedSelected OnPlayerAllowedSelect;
+    public delegate void PlayerAllowedSelect();
+    public static event PlayerAllowedSelect OnPlayerAllowedSelect;
+    // Event for when the player is not allowed to select
+    public delegate void PlayeToggledSelectOff();
+    public static event PlayeToggledSelectOff OnPlayerToggledSelectOff;
 
     // Called when the gameobject is toggled on
     // Subscribe to events
@@ -231,6 +240,8 @@ public class MoveAttackGUIController : MonoBehaviour
         // Make sure the MoveAttack script is valid and that the character is active in the hierarchy
         if (_charSelected != null && _charSelected.gameObject.activeInHierarchy)
         {
+            // Set the recent selected character
+            _recentCharSel = _charSelected;
             // If it hasn't moved this turn yet or hasn't attacked this turn
             if (!(_charSelected.HasMoved && _charSelected.HasAttacked))
             {
@@ -642,6 +653,17 @@ public class MoveAttackGUIController : MonoBehaviour
     /// <param name="onOff">Whether to let the user select or not</param>
     private void ToggleSelect(bool onOff)
     {
+        if (onOff)
+        {
+
+        }
+        else
+        {
+            // Call the event for when the player is denied to select
+            if (OnPlayerToggledSelectOff != null)
+                OnPlayerToggledSelectOff();
+        }
+
         _canSelect = onOff;
         // Switch the buttons on or off
         foreach (Button butt in _buttonsToTurnOff)
@@ -688,16 +710,7 @@ public class MoveAttackGUIController : MonoBehaviour
     /// </summary>
     public void RefreshSelectedVisualTiles()
     {
-        //MoveAttack prevSel = _charSelected;
-        //Node nodeSel = _mAContRef.GetNodeByWorldPosition(prevSel.transform.position);
-        //Deselect();
-        //AttemptSelect(nodeSel);
-        // Calculate its visuals
-        _charSelected.CalculateAllTiles();
-        // Turn off the visuals (since if the last range was greater than the current one, 
-        // we don't want to be able to see those with we cannot reach)
-        _mAContRef.TurnOffVisuals(_charSelected);
-        // Turn the visuals back on
-        _mAContRef.SetActiveVisuals(_charSelected);
+        // Reselect the character (they have been unselected because of button click)
+        AttemptSelect(_mAContRef.GetNodeByWorldPosition(_recentCharSel.transform.position));
     }
 }

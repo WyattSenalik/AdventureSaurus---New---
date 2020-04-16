@@ -52,10 +52,10 @@ public class InputController : MonoBehaviour
     /// <returns>Returns true on the frame the command was issued, false otherwise</returns>
     public bool SelectClick()
     {
-        Vector3 pos = Input.mousePosition;
+        //Vector3 pos = Input.mousePosition;
 
         // If we can input and did not click a button
-        if (_canInput && !WasButtonClick(pos))
+        if (_canInput /*&& !WasButtonClick(pos)*/)
             return Input.GetMouseButtonDown(0);
         return false;
     }
@@ -110,57 +110,57 @@ public class InputController : MonoBehaviour
         _canInput = false;
     }
 
-    /// <summary>
-    /// Checks if the last input was a button click and not a grid click
-    /// </summary>
-    /// <param name="clickPos">Where was clicked in screen point</param>
-    /// <returns>True if a button was clicked. False is it was a grid click</returns>
-    private bool WasButtonClick(Vector2 clickPos)
-    {
-        // Convert the click location to a 0-1 viewport position
-        Vector2 canvasPos = Camera.main.ScreenToViewportPoint(clickPos);
-        // Make sure we did not click where a button is
-        // Iterate over each button
-        foreach (RectTransform buttRectTrans in _buttonTransforms)
-        {
-            // Get the center
-            float centerX = buttRectTrans.anchoredPosition.x;
-            float centerY = buttRectTrans.anchoredPosition.y;
-            // Go over the parents as they help determine the center
-            RectTransform curRectTrans = buttRectTrans.parent.GetComponent<RectTransform>();
-            while (curRectTrans.gameObject != _canvasRef.gameObject)
-            {
-                centerX += curRectTrans.anchoredPosition.x;
-                centerY += curRectTrans.anchoredPosition.y;
-                curRectTrans = curRectTrans.parent.GetComponent<RectTransform>();
-            }
-            // Calculate the bounds of the button
-            float left = (centerX - buttRectTrans.rect.width * 0.5f * buttRectTrans.localScale.x) * _canvasRef.scaleFactor / _canvasRef.pixelRect.xMax;
-            float right = (centerX + buttRectTrans.rect.width * 0.5f * buttRectTrans.localScale.x) * _canvasRef.scaleFactor / _canvasRef.pixelRect.xMax;
-            float bot = (centerY - buttRectTrans.rect.height * 0.5f * buttRectTrans.localScale.y) * _canvasRef.scaleFactor / _canvasRef.pixelRect.yMax;
-            float top = (centerY + buttRectTrans.rect.height * 0.5f * buttRectTrans.localScale.y) * _canvasRef.scaleFactor / _canvasRef.pixelRect.yMax;
+    ///// <summary>
+    ///// Checks if the last input was a button click and not a grid click
+    ///// </summary>
+    ///// <param name="clickPos">Where was clicked in screen point</param>
+    ///// <returns>True if a button was clicked. False is it was a grid click</returns>
+    //private bool WasButtonClick(Vector2 clickPos)
+    //{
+    //    // Convert the click location to a 0-1 viewport position
+    //    Vector2 canvasPos = Camera.main.ScreenToViewportPoint(clickPos);
+    //    // Make sure we did not click where a button is
+    //    // Iterate over each button
+    //    foreach (RectTransform buttRectTrans in _buttonTransforms)
+    //    {
+    //        // Get the center
+    //        float centerX = buttRectTrans.anchoredPosition.x;
+    //        float centerY = buttRectTrans.anchoredPosition.y;
+    //        // Go over the parents as they help determine the center
+    //        RectTransform curRectTrans = buttRectTrans.parent.GetComponent<RectTransform>();
+    //        while (curRectTrans.gameObject != _canvasRef.gameObject)
+    //        {
+    //            centerX += curRectTrans.anchoredPosition.x;
+    //            centerY += curRectTrans.anchoredPosition.y;
+    //            curRectTrans = curRectTrans.parent.GetComponent<RectTransform>();
+    //        }
+    //        // Calculate the bounds of the button
+    //        float left = (centerX - buttRectTrans.rect.width * 0.5f * buttRectTrans.localScale.x) * _canvasRef.scaleFactor / _canvasRef.pixelRect.xMax;
+    //        float right = (centerX + buttRectTrans.rect.width * 0.5f * buttRectTrans.localScale.x) * _canvasRef.scaleFactor / _canvasRef.pixelRect.xMax;
+    //        float bot = (centerY - buttRectTrans.rect.height * 0.5f * buttRectTrans.localScale.y) * _canvasRef.scaleFactor / _canvasRef.pixelRect.yMax;
+    //        float top = (centerY + buttRectTrans.rect.height * 0.5f * buttRectTrans.localScale.y) * _canvasRef.scaleFactor / _canvasRef.pixelRect.yMax;
 
-            // Get the bottom left and top right rectangle positions
-            //Debug.Log(buttRectTrans.name + " has position (" + ((left + right) / 2) + ", " + ((bot + top) / 2) + ")");
-            Vector2 botLeftCorner = new Vector2(left, bot);
-            Vector2 topRightCorner = new Vector2(right, top);
+    //        // Get the bottom left and top right rectangle positions
+    //        //Debug.Log(buttRectTrans.name + " has position (" + ((left + right) / 2) + ", " + ((bot + top) / 2) + ")");
+    //        Vector2 botLeftCorner = new Vector2(left, bot);
+    //        Vector2 topRightCorner = new Vector2(right, top);
 
-            // If we clicked on where a button is
-            if (canvasPos.x >= botLeftCorner.x && canvasPos.x <= topRightCorner.x &&
-                canvasPos.y >= botLeftCorner.y && canvasPos.y <= topRightCorner.y)
-            {
-                //Debug.Log("Clicked on " + buttRectTrans.name + ". Click was at " + canvasPos.x + ", " + canvasPos.y +
-                //    "). Button is at left corner: " + botLeftCorner +
-                //    "right corner: " + topRightCorner);
-                return true;
-            }
-            //Debug.Log("Did not click on " + buttRectTrans.name + ". Click was at " + canvasPos.x + ", " + canvasPos.y +
-            //        "). Button is at left corner: " + botLeftCorner +
-            //        " right corner: " + topRightCorner);
-        }
-        // If we made it here, we did not click on a button
-        return false;
-    }
+    //        // If we clicked on where a button is
+    //        if (canvasPos.x >= botLeftCorner.x && canvasPos.x <= topRightCorner.x &&
+    //            canvasPos.y >= botLeftCorner.y && canvasPos.y <= topRightCorner.y)
+    //        {
+    //            Debug.Log("Clicked on " + buttRectTrans.name + ". Click was at " + canvasPos.x + ", " + canvasPos.y +
+    //                "). Button is at left corner: " + botLeftCorner +
+    //                "right corner: " + topRightCorner);
+    //            return true;
+    //        }
+    //        //Debug.Log("Did not click on " + buttRectTrans.name + ". Click was at " + canvasPos.x + ", " + canvasPos.y +
+    //        //        "). Button is at left corner: " + botLeftCorner +
+    //        //        " right corner: " + topRightCorner);
+    //    }
+    //    // If we made it here, we did not click on a button
+    //    return false;
+    //}
 
     /// <summary>
     /// Toggles off this script
