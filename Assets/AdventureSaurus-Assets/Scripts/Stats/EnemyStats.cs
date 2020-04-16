@@ -39,6 +39,8 @@ public class EnemyStats : Stats
         _speed += spd;
         _vitality += vit;
         _hpRef.MaxHP = _vitality;
+        _hpRef.CurHP = _hpRef.MaxHP;
+        _hpRef.Heal(0);
     }
 
     /// <summary>

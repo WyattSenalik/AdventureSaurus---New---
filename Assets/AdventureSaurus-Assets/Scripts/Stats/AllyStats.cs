@@ -212,14 +212,14 @@ public class AllyStats : Stats
                 // Start leveling the character up
                 _isLevelingUp = true;
                 ++_level; // Increment level
-                _nextLevelThreshold = CalculateAmountToReachNextLevel(_level); // Make sure we do this so that the next loop test works as intended
 
                 // Give the character skill points
                 _amountStatIncreases += 3;
 
                 // Set the oneLevel variables accordingly
-                _oneLevelExperience -= _oneLevelNextLevelThreshold;
-                _oneLevelNextLevelThreshold = _nextLevelThreshold - _oneLevelNextLevelThreshold;
+                _oneLevelExperience = _experience - _nextLevelThreshold;
+                _nextLevelThreshold = CalculateAmountToReachNextLevel(_level); // Make sure we do this so that the next loop test works as intended
+                _oneLevelNextLevelThreshold = _nextLevelThreshold - (_experience - _oneLevelExperience);
 
                 StartCoroutine(LevelUp());
             }
