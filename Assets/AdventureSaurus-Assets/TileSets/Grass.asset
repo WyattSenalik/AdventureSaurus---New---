@@ -39,9 +39,19 @@ MonoBehaviour:
   _farRightInnerCornerWallTiles:
   - {fileID: 11400000, guid: eb71528c97dfe254bb55cb0a2080899d, type: 2}
   _stairTiles:
-  - {fileID: 11400000, guid: 11dbdc8f7bb3dac40b9fcc65a24ea812, type: 2}
-  _unlitCampfire: {fileID: 11400000, guid: 7c4443d8831a1f04ebe8640833f2fe3b, type: 2}
-  _litCampfire: {fileID: 11400000, guid: a21a0a873b5602641b85ecba32fa199a, type: 2}
+  - {fileID: 11400000, guid: f7858e9172974624494df97e0e8fc49d, type: 2}
+  _unlitCampfire: {fileID: 11400000, guid: 36e0d4fd4fcf0714fba6712dc929ecd6, type: 2}
+  _litCampfire: {fileID: 11400000, guid: 81c662c6effe77744a9bdb8e5759cbc5, type: 2}
   _singleTiledDecorationTiles:
   - {fileID: 11400000, guid: f01489ec5dadedd4bbf09a7724623bb7, type: 2}
-  _twoTiledDecorationTiles: []
+  - {fileID: 11400000, guid: cb50e8f4e39fe204d8b6a37e8bcdc240, type: 2}
+  - {fileID: 11400000, guid: 6e4c0e7e2d1c30d42b122d674d51f420, type: 2}
+  _twoTiledDecorationTiles:
+  - {fileID: 11400000, guid: 707ef5520715ff3458386cefe7b95557, type: 2}
+  - {fileID: 11400000, guid: d357ca0128793574c932c085b2bf83c1, type: 2}
+  - {fileID: 11400000, guid: b7e2d0302f916264cae3adc8d29a8b60, type: 2}
+  - {fileID: 11400000, guid: 2732550adec7a6345b8db4961c08a2a1, type: 2}
+  - {fileID: 11400000, guid: b164caf15d0bfa544bee496182e46e4b, type: 2}
+  - {fileID: 11400000, guid: b8db2d354a2ede34b809ae60d903c704, type: 2}
+  - {fileID: 11400000, guid: fe3593ed851b8b64081448bc7bd081a5, type: 2}
+  - {fileID: 11400000, guid: 1d3c496a68073a541835d42a6f537747, type: 2}
