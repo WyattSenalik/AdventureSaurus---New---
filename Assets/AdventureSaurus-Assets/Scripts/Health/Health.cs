@@ -8,6 +8,8 @@ public abstract class Health : MonoBehaviour
     // The Bars are assumed to have the same sized sprite attached
     // The slider of the health bar
     [SerializeField] private Slider _healthBarSlider = null;
+    // The text that display remaining health
+    [SerializeField] private Text _healthText = null;
 
     // Maximum health of the character
     private int _maxHP = 1;
@@ -75,6 +77,8 @@ public abstract class Health : MonoBehaviour
         // If the character died, we call it will be called in the update health coroutine so that their hp goes down before they die
         // If the character didn't die, we return control to the proper authority
         StartCoroutine(UpdateHealth());
+        // Set the text to display the correct values
+        _healthText.text = _curHP.ToString() + "/" + _maxHP.ToString();
     }
 
     /// <summary>

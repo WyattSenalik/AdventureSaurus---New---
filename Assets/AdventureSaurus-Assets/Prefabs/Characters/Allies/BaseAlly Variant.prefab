@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBarSlider: {fileID: 3133533273437308102}
+  _healthText: {fileID: 3042597262080696367}
 --- !u!1001 &6964332898006183718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -208,6 +209,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3042597262080696367 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5377084416484757257, guid: 1bd44685ffcc8c243baaf88a3eb96f1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6964332898006183718}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6744302856601422850 stripped

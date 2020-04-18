@@ -207,7 +207,7 @@ public class AllyStats : Stats
         do
         {
             // Test if the character has enough exp to level up and isn't already currently leveling up
-            if (_experience >= _nextLevelThreshold && !_isLevelingUp)
+            if (!_isLevelingUp && _experience >= _nextLevelThreshold)
             {
                 // Start leveling the character up
                 _isLevelingUp = true;
@@ -251,8 +251,6 @@ public class AllyStats : Stats
     /// <returns>IEnumerator</returns>
     private IEnumerator LevelUp()
     {
-        Debug.Log("Congratulations!! " + this.name + " has reached level " + _level);
-
         // Show level up visuals
         ////TODO
         if (_levelUpButton != null)

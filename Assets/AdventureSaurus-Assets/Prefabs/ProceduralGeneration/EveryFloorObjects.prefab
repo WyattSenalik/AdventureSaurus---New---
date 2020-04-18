@@ -1879,18 +1879,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b718a32954b1f304ba8ba427f9259735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttonTransforms:
-  - {fileID: 1885554832303467011}
-  - {fileID: 1885554832063714002}
-  - {fileID: 6782400713890190413}
-  - {fileID: 1670747941959816886}
-  - {fileID: 6137182840523712493}
-  - {fileID: 6121270288067140026}
-  - {fileID: 8805900634615928405}
-  - {fileID: 9057812328950227619}
-  - {fileID: 3629404341460727628}
-  - {fileID: 8693313180677839159}
-  _canvasRef: {fileID: 1885554832455133382}
 --- !u!114 &1885554831325360177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8761,7 +8749,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1885554831325360190}
-        m_MethodName: ConfirmStatChoices
+        m_MethodName: ApplyStatChanges
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
