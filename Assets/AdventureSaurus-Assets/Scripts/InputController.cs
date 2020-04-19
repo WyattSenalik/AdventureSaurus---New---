@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class InputController : MonoBehaviour
 {
-    //// Buttons that if the player clicks on, we shouldn't return the gridpoint
-    //[SerializeField] private RectTransform[] _buttonTransforms = null;
-    //[SerializeField] private Canvas _canvasRef = null;
-    private bool _canInput;  // Whether input will be excepted or not
+    // Whether input will be excepted or not
+    private bool _canInput;
+
+    // For touch zoom
+    // How fast the zoom is
+    [SerializeField] private float zoomSpeed = 0.03f;
 
     // Called when the component is toggled active
     // Subscribe to events
@@ -89,7 +91,35 @@ public class InputController : MonoBehaviour
     {
         if (_canInput)
         {
-            return -Input.GetAxis("Mouse ScrollWheel");
+            // The input of the mouse (in the case we are playing on pc)
+            float mouseInput = -Input.GetAxis("Mouse ScrollWheel");
+
+            // The input of the touch controls (in case we are playing mobile)
+            float touchInput = 0;
+            if (Input.touchCount == 2)
+            {
+                // Get the touches
+                Touch firstTouch = Input.GetTouch(0);
+                Touch secondTouch = Input.GetTouch(1);
+                // Get the positions of the touches
+                Vector2 firstTouchPrevPos = firstTouch.position - firstTouch.deltaPosition;
+                Vector2 secondTouchPrevPos = secondTouch.position - secondTouch.deltaPosition;
+                // Get the previous and current differences in position
+                float touchesPrevPosDiff = (firstTouchPrevPos - secondTouchPrevPos).magnitude;
+                float touchesCurPosDiff = (firstTouch.position - secondTouch.position).magnitude;
+                // Set the touch input
+                touchInput = (firstTouch.deltaPosition - secondTouch.deltaPosition).magnitude * zoomSpeed;
+
+                // If the previous is less than the current we want to zoom in, so make this negative
+                if (touchesPrevPosDiff < touchesCurPosDiff)
+                    touchInput = -touchInput;
+            }
+
+
+            if (Mathf.Abs(mouseInput) >= Mathf.Abs(touchInput))
+                return mouseInput;
+            else
+                return touchInput;
         }
         return 0;
     }
@@ -109,58 +139,6 @@ public class InputController : MonoBehaviour
     {
         _canInput = false;
     }
-
-    ///// <summary>
-    ///// Checks if the last input was a button click and not a grid click
-    ///// </summary>
-    ///// <param name="clickPos">Where was clicked in screen point</param>
-    ///// <returns>True if a button was clicked. False is it was a grid click</returns>
-    //private bool WasButtonClick(Vector2 clickPos)
-    //{
-    //    // Convert the click location to a 0-1 viewport position
-    //    Vector2 canvasPos = Camera.main.ScreenToViewportPoint(clickPos);
-    //    // Make sure we did not click where a button is
-    //    // Iterate over each button
-    //    foreach (RectTransform buttRectTrans in _buttonTransforms)
-    //    {
-    //        // Get the center
-    //        float centerX = buttRectTrans.anchoredPosition.x;
-    //        float centerY = buttRectTrans.anchoredPosition.y;
-    //        // Go over the parents as they help determine the center
-    //        RectTransform curRectTrans = buttRectTrans.parent.GetComponent<RectTransform>();
-    //        while (curRectTrans.gameObject != _canvasRef.gameObject)
-    //        {
-    //            centerX += curRectTrans.anchoredPosition.x;
-    //            centerY += curRectTrans.anchoredPosition.y;
-    //            curRectTrans = curRectTrans.parent.GetComponent<RectTransform>();
-    //        }
-    //        // Calculate the bounds of the button
-    //        float left = (centerX - buttRectTrans.rect.width * 0.5f * buttRectTrans.localScale.x) * _canvasRef.scaleFactor / _canvasRef.pixelRect.xMax;
-    //        float right = (centerX + buttRectTrans.rect.width * 0.5f * buttRectTrans.localScale.x) * _canvasRef.scaleFactor / _canvasRef.pixelRect.xMax;
-    //        float bot = (centerY - buttRectTrans.rect.height * 0.5f * buttRectTrans.localScale.y) * _canvasRef.scaleFactor / _canvasRef.pixelRect.yMax;
-    //        float top = (centerY + buttRectTrans.rect.height * 0.5f * buttRectTrans.localScale.y) * _canvasRef.scaleFactor / _canvasRef.pixelRect.yMax;
-
-    //        // Get the bottom left and top right rectangle positions
-    //        //Debug.Log(buttRectTrans.name + " has position (" + ((left + right) / 2) + ", " + ((bot + top) / 2) + ")");
-    //        Vector2 botLeftCorner = new Vector2(left, bot);
-    //        Vector2 topRightCorner = new Vector2(right, top);
-
-    //        // If we clicked on where a button is
-    //        if (canvasPos.x >= botLeftCorner.x && canvasPos.x <= topRightCorner.x &&
-    //            canvasPos.y >= botLeftCorner.y && canvasPos.y <= topRightCorner.y)
-    //        {
-    //            Debug.Log("Clicked on " + buttRectTrans.name + ". Click was at " + canvasPos.x + ", " + canvasPos.y +
-    //                "). Button is at left corner: " + botLeftCorner +
-    //                "right corner: " + topRightCorner);
-    //            return true;
-    //        }
-    //        //Debug.Log("Did not click on " + buttRectTrans.name + ". Click was at " + canvasPos.x + ", " + canvasPos.y +
-    //        //        "). Button is at left corner: " + botLeftCorner +
-    //        //        " right corner: " + topRightCorner);
-    //    }
-    //    // If we made it here, we did not click on a button
-    //    return false;
-    //}
 
     /// <summary>
     /// Toggles off this script
