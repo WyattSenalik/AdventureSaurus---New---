@@ -109,6 +109,7 @@ public class MoveAttack : MonoBehaviour
     // For changing the character's skill in CharacterSkill
     public Skill SkillRef
     {
+        get { return _skillRef; }
         set { _skillRef = value; }
     }
 

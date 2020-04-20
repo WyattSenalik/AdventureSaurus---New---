@@ -15,8 +15,8 @@ public class Smite : Skill
     {
         // Call the base version
         base.Awake();
-        // Set skillNum to be the skillNumber of smite: 1
-        _skillNum = 1;
+        // Set skillNum to be the skillNumber of smite: 2
+        _skillNum = 2;
 
         // These will change. Here are their base values
         _cooldown = 4;

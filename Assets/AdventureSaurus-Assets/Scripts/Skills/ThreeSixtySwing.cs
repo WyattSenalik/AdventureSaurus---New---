@@ -14,7 +14,8 @@ public class ThreeSixtySwing : Skill
     private new void Awake()
     {
         base.Awake();
-        _skillNum = 360;
+        // Set skillNum to be the skillNumber of threesixtyswing: 3
+        _skillNum = 3;
         _diagnols = true;
         _cooldown = 4;
 

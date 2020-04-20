@@ -6,7 +6,7 @@ using UnityEngine;
 public class SkillHolder : MonoBehaviour
 {
     // All of the skills obtainable in the game
-    [SerializeField] private string[] _skillNames = { "BasicAttack", "Heal", "Smite", "ThreeSixtySwing" };
+    [SerializeField] private static readonly string[] _skillNames = { "BasicAttack", "Heal", "Smite", "ThreeSixtySwing" };
 
     public const byte BASIC_ATTACK = 0;
     public const byte HEAL = 1;
@@ -102,5 +102,15 @@ public class SkillHolder : MonoBehaviour
                 return;
         }
         Debug.Log(chosenChara.name + " already has " + _skillNames[skillIndex] + " attached");
+    }
+
+    /// <summary>
+    /// Returns the name of the skill with the given index
+    /// </summary>
+    /// <param name="index">Index of the skill</param>
+    /// <returns>string name of skill</returns>
+    public static string GetSkillName(int index)
+    {
+        return _skillNames[index];
     }
 }

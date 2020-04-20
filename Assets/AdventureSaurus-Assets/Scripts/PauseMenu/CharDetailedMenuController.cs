@@ -40,6 +40,16 @@ public class CharDetailedMenuController : MonoBehaviour
     // The level up buttons (for allies 1, 2, and 3 in order)
     [SerializeField] private GameObject[] _levelUpButtons = null;
 
+    // The skill preview stuff
+    // Name text
+    [SerializeField] private Text _skillNameText = null;
+    // Damage text
+    [SerializeField] private Text _skillDmgText = null;
+    // Range text
+    [SerializeField] private Text _skillRangeText = null;
+    // Cooldown text
+    [SerializeField] private Text _skillCooldownText = null;
+
     // For keeping track of how many points the player is putting into each stat upon a level up
     private int _amountPointsAvailable;
     private int _vitalityAmountIncr;
@@ -220,6 +230,26 @@ public class CharDetailedMenuController : MonoBehaviour
             Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "unappliedChangesPrompt was not initialized properly, please set it in the editor");
         }
+        if (_skillNameText == null)
+        {
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
+                "skillNameText was not initialized properly, please set it in the editor");
+        }
+        if (_skillDmgText == null)
+        {
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
+                "skillDmgText was not initialized properly, please set it in the editor");
+        }
+        if (_skillRangeText == null)
+        {
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
+                "skillRangeText was not initialized properly, please set it in the editor");
+        }
+        if (_skillCooldownText == null)
+        {
+            Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
+                "skillCooldownText was not initialized properly, please set it in the editor");
+        }
 
         // Create the lists for the bubbles
         _vitalityBubbles = new List<Image>();
@@ -331,6 +361,33 @@ public class CharDetailedMenuController : MonoBehaviour
         bool arePointsAvailable = _amountPointsAvailable > 0;
         // Set things active or inactive
         LevelUpUISetActive(arePointsAvailable);
+
+        // Update the skill preview
+        string skillName = "Upgrade magic to gain a skill";
+        string skillDmg = "";
+        string skillRange = "";
+        string skillCooldown = "";
+        // Get the reference to the skill
+        if (allyStats != null)
+        {
+            AllySkillController skillContRef = allyStats.GetComponent<AllySkillController>();
+            if (skillContRef != null)
+            {
+                Skill activeSkill = skillContRef.SpecialSkill;
+                if (activeSkill != null)
+                {
+                    skillName = "Skill: " + SkillHolder.GetSkillName(activeSkill.SkillNum);
+                    skillDmg = "Damage: " + activeSkill.Damage.ToString();
+                    skillRange = "Range: " + activeSkill.Range.ToString();
+                    skillCooldown = "Cooldown: " + activeSkill.Cooldown.ToString();
+                }
+            }
+        }
+        // Set the values
+        _skillNameText.text = skillName;
+        _skillDmgText.text = skillDmg;
+        _skillRangeText.text = skillRange;
+        _skillCooldownText.text = skillCooldown;
     }
 
     /// <summary>

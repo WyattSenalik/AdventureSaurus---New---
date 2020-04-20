@@ -9,8 +9,8 @@ public class Heal : Skill
     private new void Awake()
     {
         base.Awake();
-        // Spells heel in numbers upside down
-        _skillNum = 1334;
+        // Set skillNum to be the skillNumber of heal: 1
+        _skillNum = 1;
         _healing = true;
         _cooldown = 6;
     }

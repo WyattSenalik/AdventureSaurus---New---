@@ -31,6 +31,10 @@ public class Skill : MonoBehaviour
     protected List<Health> _enemiesHP;
     // The cooldown of the skill
     protected int _cooldown = 0;
+    public int Cooldown
+    {
+        get { return _cooldown; }
+    }
     // The amount of turns progressed towards the cooldown
     protected int _cooldownTimer;
     public int CooldownTimer
@@ -39,8 +43,16 @@ public class Skill : MonoBehaviour
     }
     // The amount of damage this skill does / the amount this skill heals
     protected int _damage = 1;
+    public int Damage
+    {
+        get { return _damage; }
+    }
     // The distance this skill can cover
     protected int _range = 1;
+    public int Range
+    {
+        get { return _range; }
+    }
 
 
     // Called when the component is set active
