@@ -39,7 +39,7 @@ public class Grimoire : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when magic is increased by magic is increased by 1.
+    /// Called when magic is increased by 1.
     /// Handles how to upgrade the skill
     /// </summary>
     public void MagicIncrease()
@@ -115,5 +115,86 @@ public class Grimoire : MonoBehaviour
     {
         // Acquire the skill
         _allySkillContRef.AcquireSkill(_skillToGain);
+    }
+
+
+    /// <summary>
+    /// Called when magic is decreased by 1.
+    /// Handles how to downgrade the skill
+    /// </summary>
+    public void MagicDecrease()
+    {
+        // While we have read too many pages
+        while (_pagesRead >= _statRef.Magic)
+        {
+            // If we have read none the written pages, do nothing
+            if (_pagesRead <= 0)
+            {
+                Debug.Log("Read no pages");
+                return;
+            }
+            // If we have read some of the pages, see what should happen
+            else
+            {
+                // Check the previous grimoir page to determine what to unlearn
+                switch (_grimoirePages[_pagesRead - 1])
+                {
+                    case (MagicBuff.DMGINC):
+                        Debug.Log("Increase Damage");
+                        DecreaseDamage();
+                        break;
+                    case (MagicBuff.RANGEINC):
+                        Debug.Log("Increase Range");
+                        DecreaseRange();
+                        break;
+                    case (MagicBuff.COOLLWR):
+                        Debug.Log("Lower Cooldown");
+                        RaiseCooldown();
+                        break;
+                    case (MagicBuff.SKILLACQ):
+                        Debug.Log("Gain Skill");
+                        LoseSkill();
+                        break;
+                    default:
+                        Debug.Log("WARNING - Unhandled MagicBuff");
+                        break;
+                }
+            }
+            // Decrement the pages we have read
+            --_pagesRead;
+        }
+    }
+
+    /// <summary>
+    /// Decreases the damage of the skill by one
+    /// </summary>
+    private void DecreaseDamage()
+    {
+        _allySkillContRef.SpecialSkill.DowngradeDamage();
+    }
+
+    /// <summary>
+    /// Decreases the range for the skill by one
+    /// </summary>
+    private void DecreaseRange()
+    {
+        _allySkillContRef.SpecialSkill.DowngradeRange();
+    }
+
+    /// <summary>
+    /// Raises the cooldown of the skill by one
+    /// </summary>
+    private void RaiseCooldown()
+    {
+        _allySkillContRef.SpecialSkill.DowngradeCooldown();
+    }
+
+    /// <summary>
+    /// Takes the skill from the ally
+    /// </summary>
+    private void LoseSkill()
+    {
+        // Lose the skill
+        _allySkillContRef.LoseSkill(_skillToGain);
     }
 }

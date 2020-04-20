@@ -57,7 +57,37 @@ public class AllySkillController : CharacterSkills
         if (gottenSkill != null)
             _availableSkills.Add(gottenSkill);
     }
-    
+
+    /// <summary>
+    /// Removes a skill to the available skills list.
+    /// </summary>
+    /// <param name="skillIndex">Index of the skill to lose</param>
+    public void LoseSkill(byte skillIndex)
+    {
+        // We want to equip basic attack so that when we remove a skill, we don't have the
+        // removed skill equipped
+        DeactivateSkill();
+
+        // Try to remove the skill from this character
+        _skillHoldRef.RemoveSkill(this, skillIndex);
+        // Try to remove all null references from the available skills list
+        // Since the skill just removed will be null in the list
+        int curIndex = 0;
+        while (curIndex < _availableSkills.Count)
+        {
+            // If we found a null skill, remove it
+            if (_availableSkills[curIndex] == null)
+            {
+                _availableSkills.RemoveAt(curIndex);
+            }
+            // Otherwise keep iterating
+            else
+            {
+                ++curIndex;
+            }
+        }
+    }
+
     /// <summary>
     /// Activates basic attack if special is active. Activates special if basic attack is active.
     /// Called from the swap controller when the skill button is pushed.

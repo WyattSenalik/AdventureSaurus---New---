@@ -273,7 +273,7 @@ public class MoveAttackController : MonoBehaviour
         mARef.RangeVisualParent = new GameObject("RangeVisualParent");
         mARef.RangeVisualParent.transform.parent = mARef.transform;
         mARef.RangeVisualParent.transform.localPosition = Vector3.zero;
-        // Create one game objects that is a child of rangeVisualParent to serve as the parents for move, attack, and interact
+        // Create one game object that is a child of rangeVisualParent to serve as the parents for move, attack, and interact
         // We will swap the sprites as needed
         GameObject moveTileParent = new GameObject("MoveVisualParent");
         moveTileParent.transform.parent = mARef.RangeVisualParent.transform;

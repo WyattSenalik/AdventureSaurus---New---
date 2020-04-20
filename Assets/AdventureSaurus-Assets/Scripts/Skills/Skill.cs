@@ -226,6 +226,17 @@ public class Skill : MonoBehaviour
     }
 
     /// <summary>
+    /// Decrements the cooldown 1 farther to being off cooldown.
+    /// </summary>
+    private void DecrementCooldownTimer()
+    {
+        // Make the cooldown longer. If for some reason, it would make the timer
+        // longer than the cooldown, just make it the cooldown
+        if (++_cooldownTimer > _cooldown)
+            _cooldownTimer = _cooldown;
+    }
+
+    /// <summary>
     /// Decrements cooldown by 1 so that it takes 1 less turn to get the skill back
     /// </summary>
     public void UpgradeCooldown()
@@ -250,6 +261,33 @@ public class Skill : MonoBehaviour
     public void UpgradeRange()
     {
         ++_range;
+    }
+
+    /// <summary>
+    /// Increments cooldown by 1 so that it takes 1 more turn to get the skill back
+    /// </summary>
+    public void DowngradeCooldown()
+    {
+        // Make the cooldown higher
+        ++_cooldown;
+        // Also decrement the timer
+        DecrementCooldownTimer();
+    }
+
+    /// <summary>
+    /// Decreases the damage of the skill by 1
+    /// </summary>
+    public void DowngradeDamage()
+    {
+        --_damage;
+    }
+
+    /// <summary>
+    /// Decreases the range of the skill by 1
+    /// </summary>
+    public void DowngradeRange()
+    {
+        --_range;
     }
 
     /// <summary>

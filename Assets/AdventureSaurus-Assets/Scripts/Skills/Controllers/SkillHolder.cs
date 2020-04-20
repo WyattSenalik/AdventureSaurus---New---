@@ -64,4 +64,43 @@ public class SkillHolder : MonoBehaviour
         Skill hasSkill = chosenChara.gameObject.GetComponent<T>() as Skill;
         return hasSkill != null;
     }
+
+    /// <summary>
+    /// Removes a skill from an ally
+    /// </summary>
+    /// <param name="chosenChara">The ally chosen to lose the skill</param>
+    /// <param name="skillIndex">The index of the skill</param>
+    public void RemoveSkill(AllySkillController chosenChara, byte skillIndex)
+    {
+        if (skillIndex >= _skillNames.Length)
+        {
+            Debug.Log("There is no skill at that index");
+            return;
+        }
+
+        // Removes the desired skill if the ally has it
+        switch (_skillNames[skillIndex])
+        {
+            case ("BasicAttack"):
+                if (HasSkill<BasicAttack>(chosenChara))
+                    Destroy(chosenChara.gameObject.GetComponent<BasicAttack>());
+                break;
+            case ("Heal"):
+                if (HasSkill<Heal>(chosenChara))
+                    Destroy(chosenChara.gameObject.GetComponent<Heal>());
+                break;
+            case ("Smite"):
+                if (HasSkill<Smite>(chosenChara))
+                    Destroy(chosenChara.gameObject.GetComponent<Smite>());
+                break;
+            case ("ThreeSixtySwing"):
+                if (HasSkill<ThreeSixtySwing>(chosenChara))
+                    Destroy(chosenChara.gameObject.GetComponent<ThreeSixtySwing>());
+                break;
+            default:
+                Debug.Log("WARNING - BUG DETECTED - Unrecognized Skill to acquire");
+                return;
+        }
+        Debug.Log(chosenChara.name + " already has " + _skillNames[skillIndex] + " attached");
+    }
 }

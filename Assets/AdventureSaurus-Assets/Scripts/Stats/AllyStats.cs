@@ -282,7 +282,7 @@ public class AllyStats : Stats
     public void IncreaseVitality(int amountToIncr)
     {
         // Don't bother if we aren't increasing anything
-        if (amountToIncr == 0)
+        if (amountToIncr <= 0)
             return;
         _vitality += amountToIncr; // Increase the literal stat
         _hpRef.MaxHP = _vitality; // Have the max health value reflect the change
@@ -292,13 +292,13 @@ public class AllyStats : Stats
     }
 
     /// <summary>
-    /// Increases magic
+    /// Increases magic and updates the grimoire
     /// </summary>
     /// <param name="amountToIncr">The amount to increase magic by</param>
     public void IncreaseMagic(int amountToIncr)
     {
         // Don't bother if we aren't increasing anything
-        if (amountToIncr == 0)
+        if (amountToIncr <= 0)
             return;
         _magic += amountToIncr; // Increase the literal stat
 
@@ -308,13 +308,13 @@ public class AllyStats : Stats
     }
 
     /// <summary>
-    /// Increases strength and MoveAttack.damageToDeal
+    /// Increases strength
     /// </summary>
     /// <param name="amountToIncr">The amount to increase strength by</param>
     public void IncreaseStrength(int amountToIncr)
     {
         // Don't bother if we aren't increasing anything
-        if (amountToIncr == 0)
+        if (amountToIncr <= 0)
             return;
         _strength += amountToIncr; // Increase the literal stat
     }
@@ -326,17 +326,99 @@ public class AllyStats : Stats
     public void IncreaseSpeed(int amountToIncr)
     {
         // Don't bother if we aren't increasing anything
-        if (amountToIncr == 0)
+        if (amountToIncr <= 0)
             return;
         // Increase the literal stat
         _speed += amountToIncr;
         // Have the distance this character can move reflect that change
         _mARef.MoveRange = _speed;
+        // Just in case, calculate all the tiles again
+        _mARef.CalculateAllTiles();
+
+        // We don't have to do the below any more, since we make a max amount of tiles at the beginning anyway
         // Get rid of the character's old rangeVisuals
-        Destroy(_mARef.RangeVisualParent);
-        _mARef.RangeVisualParent = null;
+        //Destroy(_mARef.RangeVisualParent);
+        //_mARef.RangeVisualParent = null;
         // Make new ones
-        _mAContRef.CreateVisualTiles(_mARef);
+        //_mAContRef.CreateVisualTiles(_mARef);
+        // Recalculate the character's movement and attack
+        // Done in CreateVisualTiles
+        //_mARef.CalcMoveTiles();
+        //_mARef.CalcAttackTiles();
+    }
+
+    // The following 4 functions are for decreasing stats upon removing an item
+    /// <summary>
+    /// Decreases vitality, Health.maxHP, Health.curHP, and updates the health bar to reflect that
+    /// </summary>
+    /// <param name="amountToDec">The amount to decrease vitality by</param>
+    public void DecreaseVitality(int amountToDec)
+    {
+        // Don't bother if we aren't decreasing anything
+        if (amountToDec <= 0)
+            return;
+        // Decrease the literal stat
+        _vitality -= amountToDec;
+        // Have the max health value reflect the change
+        _hpRef.MaxHP = _vitality;
+        // Deal dmg to the character by the amount they just decreased their vitality by,
+        // so that the change is actually reflected.
+        // This also serves to update the health bar visual
+        _hpRef.TakeDamage(amountToDec, null);
+    }
+
+    /// <summary>
+    /// Decreases magic and updates the grimoire
+    /// </summary>
+    /// <param name="amountToDec">The amount to decrease magic by</param>
+    public void DecreaseMagic(int amountToDec)
+    {
+        // Don't bother if we aren't decreasing anything
+        if (amountToDec <= 0)
+            return;
+        // Decrease the literal stat
+        _magic -= amountToDec;
+
+        // Call the magic decrease from this character's grimoire
+        _grimRef.MagicDecrease();
+
+    }
+
+    /// <summary>
+    /// Decreases strength
+    /// </summary>
+    /// <param name="amountToDec">The amount to decrease strength by</param>
+    public void DecreaseStrength(int amountToDec)
+    {
+        // Don't bother if we aren't decreasing anything
+        if (amountToDec <= 0)
+            return;
+        // Decrease the literal stat
+        _strength -= amountToDec;
+    }
+
+    /// <summary>
+    /// Decreases speed and remakes the visual tiles to account for that
+    /// </summary>
+    /// <param name="amountToDec">The amount to decrease speed by</param>
+    public void DecreaseSpeed(int amountToDec)
+    {
+        // Don't bother if we aren't decreasing anything
+        if (amountToDec <= 0)
+            return;
+        // Decrease the literal stat
+        _speed -= amountToDec;
+        // Have the distance this character can move reflect that change
+        _mARef.MoveRange = _speed;
+        // Just in case, calculate all the tiles again
+        _mARef.CalculateAllTiles();
+
+        // We don't have to do the below any more, since we make a max amount of tiles at the beginning anyway
+        // Get rid of the character's old rangeVisuals
+        //Destroy(_mARef.RangeVisualParent);
+        //_mARef.RangeVisualParent = null;
+        // Make new ones
+        //_mAContRef.CreateVisualTiles(_mARef);
         // Recalculate the character's movement and attack
         // Done in CreateVisualTiles
         //_mARef.CalcMoveTiles();

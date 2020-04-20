@@ -183,7 +183,7 @@ public class GenerateEnemies : MonoBehaviour
                     if (Random.Range(0, _rainbowChance) == 0)
                     {
                         // Let this enemy give more experience
-                        enemyStats.ScaleExpToGive(2);
+                        enemyStats.AddExpToGive(extraDiff);
                         // Give it the rainbow effect
                         spawnedEnemyObj.AddComponent<Rainbow>();
                     }

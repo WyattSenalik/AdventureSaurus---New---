@@ -44,11 +44,11 @@ public class EnemyStats : Stats
     }
 
     /// <summary>
-    /// Scales the amount of exp an enemy is supposed to give by a scalar
+    /// Adds an amount of experience they the player should get
     /// </summary>
-    /// <param name="scaleAm">Amount to scale the base xp by</param>
-    public void ScaleExpToGive(int scaleAm)
+    /// <param name="scaleAm">Amount to add the experience by</param>
+    public void AddExpToGive(int addAm)
     {
-        _baseXPToGive *= scaleAm;
+        _baseXPToGive += addAm;
     }
 }
