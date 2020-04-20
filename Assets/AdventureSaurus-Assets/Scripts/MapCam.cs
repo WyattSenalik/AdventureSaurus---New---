@@ -6,7 +6,7 @@ public class MapCam : MonoBehaviour
 {
     //Camera Variables
     [SerializeField] private float _smoothTime = 0.3f;
-    [SerializeField] private float _dragSpeed = 5f;
+    [SerializeField] private float _dragSpeed = 2f;
     // Reference to the map camera
     private Camera _camToWorkOn;
    
@@ -77,7 +77,7 @@ public class MapCam : MonoBehaviour
         Rect bounds = new Rect(100, 35, 750, 800);
         if (mapOn)
         {
-            if (Input.GetMouseButtonDown(1) && mapOn.activeInHierarchy && bounds.Contains(Input.mousePosition))
+            if (Input.GetMouseButtonDown(0) && mapOn.activeInHierarchy && bounds.Contains(Input.mousePosition))
             {
                 //right click was pressed    
                 _mouseOrigin = Input.mousePosition;
@@ -86,7 +86,7 @@ public class MapCam : MonoBehaviour
             }
         }
         //checks when right click isn't pressed
-        if (!Input.GetMouseButton(1))
+        if (!Input.GetMouseButton(0))
         {
             _isDragging = false;
         }
