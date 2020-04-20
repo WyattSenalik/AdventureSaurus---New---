@@ -54,6 +54,10 @@ public class Skill : MonoBehaviour
         get { return _range; }
     }
 
+    // Events
+    // When the cooldown changes
+    public delegate void CooldownChange();
+    public static event CooldownChange OnCooldownChange;
 
     // Called when the component is set active
     // Subscribe to events
@@ -257,6 +261,10 @@ public class Skill : MonoBehaviour
         --_cooldown;
         // Also increment the timer
         IncrementCooldownTimer();
+
+        // Call the on cooldown change event
+        if (OnCooldownChange != null)
+            OnCooldownChange();
     }
 
     /// <summary>
@@ -284,6 +292,10 @@ public class Skill : MonoBehaviour
         ++_cooldown;
         // Also decrement the timer
         DecrementCooldownTimer();
+
+        // Call the on cooldown change event
+        if (OnCooldownChange != null)
+            OnCooldownChange();
     }
 
     /// <summary>

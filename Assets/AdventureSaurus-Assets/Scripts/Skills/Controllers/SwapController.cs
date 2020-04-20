@@ -20,11 +20,12 @@ public class SwapController : MonoBehaviour
     {
         // When a new character is selected, update the skill button
         MoveAttackGUIController.OnCharacterSelect += UpdateSkillButton;
-        //MoveAttackGUIController.OnCharacterDeselect += UpdateSkillButton;
         // When the user is allowed to select, update the skill button in a special way
         MoveAttackGUIController.OnPlayerAllowedSelect += UpdateSkillButtAfterAllowedSelect;
         // When the user is denied the ability to select, update the skill button in a special way
         MoveAttackGUIController.OnPlayerToggledSelectOff += UpdateSkillButtAfterDeniedSelect;
+        // When a character upgrades their cooldown on a skill, update the button just in case
+        Skill.OnCooldownChange += UpdateSkillButtAfterAllowedSelect;
     }
 
     // Called when this gameobject is disabled
@@ -32,9 +33,9 @@ public class SwapController : MonoBehaviour
     private void OnDisable()
     {
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButton;
-        //MoveAttackGUIController.OnCharacterDeselect -= UpdateSkillButton;
         MoveAttackGUIController.OnPlayerAllowedSelect -= UpdateSkillButtAfterAllowedSelect;
         MoveAttackGUIController.OnPlayerToggledSelectOff -= UpdateSkillButtAfterDeniedSelect;
+        Skill.OnCooldownChange -= UpdateSkillButtAfterAllowedSelect;
     }
 
     // Called when this gameobject is destroyed
@@ -42,9 +43,9 @@ public class SwapController : MonoBehaviour
     private void OnDestroy()
     {
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButton;
-        //MoveAttackGUIController.OnCharacterDeselect -= UpdateSkillButton;
         MoveAttackGUIController.OnPlayerAllowedSelect -= UpdateSkillButtAfterAllowedSelect;
         MoveAttackGUIController.OnPlayerToggledSelectOff -= UpdateSkillButtAfterDeniedSelect;
+        Skill.OnCooldownChange -= UpdateSkillButtAfterAllowedSelect;
     }
 
     // Set references

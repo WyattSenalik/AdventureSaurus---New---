@@ -279,6 +279,7 @@ public class MoveAttack : MonoBehaviour
 
         // This list holds the move nodes that are "edge" tiles and have something we can interact/attack/buff near them
         List<Node> edgeMoveNodes = new List<Node>();
+        edgeMoveNodes.Add(startNode);
 
         // This is how many iterations of checks we have gone over. Aka, how many tiles have been traversed in one path
         int depth = 0;
