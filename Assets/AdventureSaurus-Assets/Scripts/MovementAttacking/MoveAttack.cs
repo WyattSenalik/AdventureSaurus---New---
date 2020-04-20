@@ -277,6 +277,9 @@ public class MoveAttack : MonoBehaviour
         List<Node> currentNodes = new List<Node>();
         currentNodes.Add(startNode);
 
+        // This list holds the move nodes that are "edge" tiles and have something we can interact/attack/buff near them
+        List<Node> edgeMoveNodes = new List<Node>();
+
         // This is how many iterations of checks we have gone over. Aka, how many tiles have been traversed in one path
         int depth = 0;
         // 1. First iterate only over the range of tiles we can move
@@ -291,19 +294,28 @@ public class MoveAttack : MonoBehaviour
                     Vector2Int curNodePos = currentNodes[i].Position;
                     // Check above node
                     Vector2Int testPos = curNodePos + Vector2Int.up;
-                    MoveTestNode(testPos, testedNodes, currentNodes);
+                    bool isAboveValid = MoveTestNode(testPos, testedNodes, currentNodes);
 
                     // Check left node
                     testPos = curNodePos + Vector2Int.left;
-                    MoveTestNode(testPos, testedNodes, currentNodes);
+                    bool isLeftValid = MoveTestNode(testPos, testedNodes, currentNodes);
 
                     // Check right node
                     testPos = curNodePos + Vector2Int.right;
-                    MoveTestNode(testPos, testedNodes, currentNodes);
+                    bool isRightValid = MoveTestNode(testPos, testedNodes, currentNodes);
 
                     // Check down node
                     testPos = curNodePos + Vector2Int.down;
-                    MoveTestNode(testPos, testedNodes, currentNodes);
+                    bool isDownValid = MoveTestNode(testPos, testedNodes, currentNodes);
+
+
+                    // If they were not all valid, then there is something adjacent to the cur tile where
+                    // we should put an attack/interactable tile. So add it to edge tiles
+                    if (!(isAboveValid && isLeftValid && isRightValid && isDownValid)
+                        && currentNodes[i].Occupying == CharacterType.None)
+                    {
+                        edgeMoveNodes.Add(currentNodes[i]);
+                    }
                 }
 
             }
@@ -314,74 +326,82 @@ public class MoveAttack : MonoBehaviour
             }
             ++depth;
         }
-        // 2. Now iterate one more tile to check for interactables (There is little need for a while statement,
+        // All the remaining currentNodes are edge tiles (as long as no one is there)
+        foreach (Node n in currentNodes)
+            if (n.Occupying == CharacterType.None)
+                edgeMoveNodes.Add(n);
+
+        // Reset the tested nodes, since we do not care if the tiles were already tested for movement, since they could have failed
+        // those tested due to them being an interactable/attack tile
+        testedNodes = new List<Node>();
+        // 2. Now iterate 4-way over the edge tiles to check for interactables (There is no need for a while statement,
         // since we are only iterating one more tile, but it keeps it looking similar)
         while (depth < _moveRange + 1)
         {
-            int amountNodes = currentNodes.Count;
+            int amountNodes = edgeMoveNodes.Count;
             for (int i = 0; i < amountNodes; ++i)
             {
                 // If the current node is null, end this iteration and start the next one
-                if (currentNodes[i] != null)
+                if (edgeMoveNodes[i] != null)
                 {
-                    Vector2Int curNodePos = currentNodes[i].Position;
+                    Vector2Int curNodePos = edgeMoveNodes[i].Position;
                     // Check above node
                     Vector2Int testPos = curNodePos + Vector2Int.up;
-                    InteractTestNode(testPos, testedNodes, currentNodes);
+                    InteractTestNode(testPos, testedNodes, edgeMoveNodes);
 
                     // Check left node
                     testPos = curNodePos + Vector2Int.left;
-                    InteractTestNode(testPos, testedNodes, currentNodes);
+                    InteractTestNode(testPos, testedNodes, edgeMoveNodes);
 
                     // Check right node
                     testPos = curNodePos + Vector2Int.right;
-                    InteractTestNode(testPos, testedNodes, currentNodes);
+                    InteractTestNode(testPos, testedNodes, edgeMoveNodes);
 
                     // Check down node
                     testPos = curNodePos + Vector2Int.down;
-                    InteractTestNode(testPos, testedNodes, currentNodes);
+                    InteractTestNode(testPos, testedNodes, edgeMoveNodes);
                 }
 
             }
             // Removes the nodes that have already been iterated over
             for (int i = 0; i < amountNodes; ++i)
             {
-                currentNodes.RemoveAt(0);
+                edgeMoveNodes.RemoveAt(0);
             }
             ++depth;
         }
         // 3. Finally, iterate over the remaining depth to check for attacking
         while (depth < _moveRange + _attackRange)
         {
-            int amountNodes = currentNodes.Count;
+            int amountNodes = edgeMoveNodes.Count;
             for (int i = 0; i < amountNodes; ++i)
             {
                 // If the current node is null, end this iteration and start the next one
-                if (currentNodes[i] != null)
+                if (edgeMoveNodes[i] != null)
                 {
-                    Vector2Int curNodePos = currentNodes[i].Position;
+                    Vector2Int curNodePos = edgeMoveNodes[i].Position;
                     // Check above node
                     Vector2Int testPos = curNodePos + Vector2Int.up;
-                    AttackTestNode(testPos, testedNodes, currentNodes);
+                    AttackTestNode(testPos, testedNodes, edgeMoveNodes);
 
                     // Check left node
                     testPos = curNodePos + Vector2Int.left;
-                    AttackTestNode(testPos, testedNodes, currentNodes);
+                    AttackTestNode(testPos, testedNodes, edgeMoveNodes);
 
                     // Check right node
                     testPos = curNodePos + Vector2Int.right;
-                    AttackTestNode(testPos, testedNodes, currentNodes);
+                    AttackTestNode(testPos, testedNodes, edgeMoveNodes);
 
                     // Check down node
                     testPos = curNodePos + Vector2Int.down;
-                    AttackTestNode(testPos, testedNodes, currentNodes);
+                    AttackTestNode(testPos, testedNodes, edgeMoveNodes);
                 }
 
             }
             // Removes the nodes that have already been iterated over
             for (int i = 0; i < amountNodes; ++i)
             {
-                currentNodes.RemoveAt(0);
+                edgeMoveNodes.RemoveAt(0);
             }
             ++depth;
         }
@@ -392,50 +412,46 @@ public class MoveAttack : MonoBehaviour
     /// This is the Move specific variety. That means, nodes will be appended to currentNodes only when
     /// the character can legally travel to that location (when the node is occupied by no one or somone
     /// on the same team).
-    /// It also means that we test for all 3 different interactions: movement, attacking, and interactables
+    /// We only test for the movement interaction (tests for the others will come later)
     /// </summary>
     /// <param name="testPos">Position of the node being tested</param>
     /// <param name="testedNodes">Reference to the List of Nodes that have been tested before</param>
     /// <param name="currentNodes">Reference to the List of Nodes that still need to be tested</param>
-    private void MoveTestNode(Vector2Int testPos, List<Node> testedNodes, List<Node> currentNodes)
+    /// <returns>Returns true if the tested node was a valid move tile</returns>
+    private bool MoveTestNode(Vector2Int testPos, List<Node> testedNodes, List<Node> currentNodes)
     {
         Node testNode = _mAContRef.GetNodeAtPosition(testPos);
+        // Assume this node cannot be added
+        bool wasNodeAdded = false;
         // If there is a node there are we have not tested it before
-        if (testNode != null && !testedNodes.Contains(testNode))
+        if (testNode != null)
         {
             // If the node is not occupied, I can move there
             if (testNode.Occupying == CharacterType.None)
             {
-                _moveTiles.Add(testNode);
-                currentNodes.Add(testNode);
+                // Only add it if we have not already done so
+                if (!testedNodes.Contains(testNode)) {
+                    _moveTiles.Add(testNode);
+                    currentNodes.Add(testNode);
+                }
+                // This node is being added to move tiles
+                wasNodeAdded = true;
             }
             // If it is occupied by someone on my team, I can't move there, but I can move past there
             else if (testNode.Occupying == _whatAmI)
             {
-                currentNodes.Add(testNode);
-                // Also put an attack/heal tile here
-                _attackTiles.Add(testNode);
+                // Only add it if we have not already done so
+                if (!testedNodes.Contains(testNode))
+                {
+                    currentNodes.Add(testNode);
+                }
             }
-            // If it is occupied by a character and I have attack range of at least one, I might want to attack/heal there
-            // Or if its a wall, because consistency
-            else if ((testNode.Occupying == CharacterType.Ally || testNode.Occupying == CharacterType.Enemy
-                || testNode.Occupying == CharacterType.Wall) && _attackRange > 0)
-            {
-                _attackTiles.Add(testNode);
-            }
-            // If the tile is occupied by an interactable
-            else if (testNode.Occupying == CharacterType.Interactable)
-            {
-                // Get the interactable at that node
-                Interactable interactAtNode = _mAContRef.GetInteractableByNode(testNode);
-                // Only add the interactable to interact tiles if it can currently be interacted with
-                if (interactAtNode != null && interactAtNode.CanInteractWith)
-                    _interactTiles.Add(testNode);
-            }
-
             // Add the node to the tested nodes
             testedNodes.Add(testNode);
         }
+
+        // Return if the tile is a move tile or not
+        return wasNodeAdded;
     }
 
     /// <summary>
@@ -468,9 +484,13 @@ public class MoveAttack : MonoBehaviour
                 _attackTiles.Add(testNode);
             }
 
-            // Add the node to the tested nodes and the current nodes
+            // Add the node to the tested nodes
             testedNodes.Add(testNode);
-            currentNodes.Add(testNode);
+            // Only add the node to the current nodes if the character's attack range is above 1
+            if (_attackRange > 1)
+            {
+                currentNodes.Add(testNode);
+            }
         }
     }
 
