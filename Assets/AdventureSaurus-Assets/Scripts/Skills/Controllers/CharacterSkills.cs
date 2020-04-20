@@ -17,12 +17,12 @@ public class CharacterSkills : MonoBehaviour
         _mARef = this.GetComponent<MoveAttack>();
         if (_mARef == null)
             Debug.Log("WARNING - There was no MoveAttack script attached to " + this.name);
-        GameObject skillHoldObj = GameObject.FindWithTag("SkillHolder");
-        if (skillHoldObj == null)
-            Debug.Log("WARNING - No GameObject with the tag SkillHolder was found");
-        _skillHoldRef = skillHoldObj.GetComponent<SkillHolder>();
+        GameObject gameContObj = GameObject.FindWithTag("GameController");
+        if (gameContObj == null)
+            Debug.Log("WARNING - No GameObject with the tag GameController was found");
+        _skillHoldRef = gameContObj.GetComponent<SkillHolder>();
         if (_skillHoldRef == null)
-            Debug.Log("WARNING - There was no SkillHolder script attached to " + skillHoldObj.name);
+            Debug.Log("WARNING - There was no SkillHolder script attached to " + gameContObj.name);
     }
 
     /// <summary>

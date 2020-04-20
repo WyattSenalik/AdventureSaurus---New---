@@ -9,6 +9,10 @@ public class Grimoire : MonoBehaviour
 {
     // Int value of the skill to gain
     [SerializeField] private byte _skillToGain = SkillHolder.THREE_SIXTY_SWING;
+    public byte SkillToGain
+    {
+        get { return _skillToGain; }
+    }
     // What to buff per magic level increase
     [SerializeField] private MagicBuff[] _grimoirePages = { MagicBuff.SKILLACQ, MagicBuff.DMGINC };
     // The amount of pages read already
@@ -196,5 +200,15 @@ public class Grimoire : MonoBehaviour
     {
         // Lose the skill
         _allySkillContRef.LoseSkill(_skillToGain);
+    }
+
+    /// <summary>
+    /// Peeks at the magic buff that is waiting in x pages
+    /// </summary>
+    /// <param name="pagesAhead">Pages ahead to peek</param>
+    /// <returns>MagicBuff at current page + pagesAhead</returns>
+    public MagicBuff PeekForward(int pagesAhead)
+    {
+        return _grimoirePages[_pagesRead - 1 + pagesAhead];
     }
 }
