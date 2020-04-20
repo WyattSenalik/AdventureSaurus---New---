@@ -6,7 +6,8 @@ public class MapCam : MonoBehaviour
 {
     //Camera Variables
     [SerializeField] private float _smoothTime = 0.3f;
-    [SerializeField] private float _dragSpeed = 2f;
+    [SerializeField] private float _dragSpeed = 3f;
+
     // Reference to the map camera
     private Camera _camToWorkOn;
    

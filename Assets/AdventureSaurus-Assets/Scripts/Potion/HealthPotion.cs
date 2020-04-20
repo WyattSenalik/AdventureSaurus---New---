@@ -9,6 +9,8 @@ public class HealthPotion : MonoBehaviour
     [SerializeField] private Text _chargesText = null;
     //Potion image
     [SerializeField] private Image _potionImage = null;
+    //Potion Position
+    Vector3 _defaultPos;
 
     //current charges on the potion
     private int _charges;
@@ -83,6 +85,7 @@ public class HealthPotion : MonoBehaviour
         _charges = 3;
         //start without potion in hand
         _isHolding = false;
+        _defaultPos = _potionImage.transform.position;
     }
 
     private void LateUpdate()
@@ -98,7 +101,7 @@ public class HealthPotion : MonoBehaviour
         //returns potion to default position
         else if(_isHolding==false)
         {
-            _potionImage.transform.position = new Vector3(91.5f, 49.2f, 0.0f);
+            _potionImage.transform.position = _defaultPos;
         }
     }
 
