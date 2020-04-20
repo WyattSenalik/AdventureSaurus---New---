@@ -7707,6 +7707,7 @@ MonoBehaviour:
   _enemyPrefabs:
   - {fileID: 821470870810363245, guid: e11294f02a2030d42ba490f163ce88e9, type: 3}
   - {fileID: 9084426930260393326, guid: a59278f53514fca40a44af52fe1beffb, type: 3}
+  - {fileID: 9099408466769840702, guid: 6a03aa4d3014eff45a10ab916a8d5c5f, type: 3}
   _hallwayScalar: 0.5
   _endScalar: 1.2
   _rainbowChance: 1
