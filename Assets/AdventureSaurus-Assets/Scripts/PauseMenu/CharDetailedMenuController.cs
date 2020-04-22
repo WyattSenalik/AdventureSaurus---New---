@@ -607,22 +607,22 @@ public class CharDetailedMenuController : MonoBehaviour
         // Vitality
         int currentVitBubbleIncrease = _vitalityAmountIncr + allyStats.VitalityBubblesFilled;
         int amountVitForIncrease = _vitalityBubbles.Count + 1;
-        allyStats.IncreaseVitality(currentVitBubbleIncrease / amountVitForIncrease);
+        allyStats.ChangeVitality(currentVitBubbleIncrease / amountVitForIncrease);
         allyStats.VitalityBubblesFilled = currentVitBubbleIncrease % amountVitForIncrease;
         // Magic
         int currentMagBubbleIncrease = _magicAmountIncr + allyStats.MagicBubblesFilled;
         int amountMagForIncrease = _magicBubbles.Count + 1;
-        allyStats.IncreaseMagic(currentMagBubbleIncrease / amountMagForIncrease);
+        allyStats.ChangeMagic(currentMagBubbleIncrease / amountMagForIncrease);
         allyStats.MagicBubblesFilled = currentMagBubbleIncrease % amountMagForIncrease;
         // Strength
         int currentStrBubbleIncrease = _strAmountIncr + allyStats.StrBubblesFilled;
         int amountStrForIncrease = _strBubbles.Count + 1;
-        allyStats.IncreaseStrength(currentStrBubbleIncrease / amountStrForIncrease);
+        allyStats.ChangeStrength(currentStrBubbleIncrease / amountStrForIncrease);
         allyStats.StrBubblesFilled = currentStrBubbleIncrease % amountStrForIncrease;
         // Speed
         int currentSpdBubbleIncrease = _speedAmountIncr + allyStats.SpeedBubblesFilled;
         int amountSpdForIncrease = _speedBubbles.Count + 1;
-        allyStats.IncreaseSpeed(currentSpdBubbleIncrease / amountSpdForIncrease);
+        allyStats.ChangeSpeed(currentSpdBubbleIncrease / amountSpdForIncrease);
         allyStats.SpeedBubblesFilled = currentSpdBubbleIncrease % amountSpdForIncrease;
 
         // Reset the stats for if we can increase things

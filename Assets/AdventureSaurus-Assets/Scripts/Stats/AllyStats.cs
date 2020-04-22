@@ -279,7 +279,7 @@ public class AllyStats : Stats
     /// Increases vitality, Health.maxHP, Health.curHP, and updates the health bar to reflect that
     /// </summary>
     /// <param name="amountToIncr">The amount to increase vitality by</param>
-    public void IncreaseVitality(int amountToIncr)
+    private void IncreaseVitality(int amountToIncr)
     {
         // Don't bother if we aren't increasing anything
         if (amountToIncr <= 0)
@@ -295,7 +295,7 @@ public class AllyStats : Stats
     /// Increases magic and updates the grimoire
     /// </summary>
     /// <param name="amountToIncr">The amount to increase magic by</param>
-    public void IncreaseMagic(int amountToIncr)
+    private void IncreaseMagic(int amountToIncr)
     {
         // Don't bother if we aren't increasing anything
         if (amountToIncr <= 0)
@@ -311,7 +311,7 @@ public class AllyStats : Stats
     /// Increases strength
     /// </summary>
     /// <param name="amountToIncr">The amount to increase strength by</param>
-    public void IncreaseStrength(int amountToIncr)
+    private void IncreaseStrength(int amountToIncr)
     {
         // Don't bother if we aren't increasing anything
         if (amountToIncr <= 0)
@@ -323,7 +323,7 @@ public class AllyStats : Stats
     /// Increases speed, 
     /// </summary>
     /// <param name="amountToIncr">The amount to increase speed by</param>
-    public void IncreaseSpeed(int amountToIncr)
+    private void IncreaseSpeed(int amountToIncr)
     {
         // Don't bother if we aren't increasing anything
         if (amountToIncr <= 0)
@@ -352,7 +352,7 @@ public class AllyStats : Stats
     /// Decreases vitality, Health.maxHP, Health.curHP, and updates the health bar to reflect that
     /// </summary>
     /// <param name="amountToDec">The amount to decrease vitality by</param>
-    public void DecreaseVitality(int amountToDec)
+    private void DecreaseVitality(int amountToDec)
     {
         // Don't bother if we aren't decreasing anything
         if (amountToDec <= 0)
@@ -371,7 +371,7 @@ public class AllyStats : Stats
     /// Decreases magic and updates the grimoire
     /// </summary>
     /// <param name="amountToDec">The amount to decrease magic by</param>
-    public void DecreaseMagic(int amountToDec)
+    private void DecreaseMagic(int amountToDec)
     {
         // Don't bother if we aren't decreasing anything
         if (amountToDec <= 0)
@@ -388,7 +388,7 @@ public class AllyStats : Stats
     /// Decreases strength
     /// </summary>
     /// <param name="amountToDec">The amount to decrease strength by</param>
-    public void DecreaseStrength(int amountToDec)
+    private void DecreaseStrength(int amountToDec)
     {
         // Don't bother if we aren't decreasing anything
         if (amountToDec <= 0)
@@ -401,7 +401,7 @@ public class AllyStats : Stats
     /// Decreases speed and remakes the visual tiles to account for that
     /// </summary>
     /// <param name="amountToDec">The amount to decrease speed by</param>
-    public void DecreaseSpeed(int amountToDec)
+    private void DecreaseSpeed(int amountToDec)
     {
         // Don't bother if we aren't decreasing anything
         if (amountToDec <= 0)
@@ -423,6 +423,74 @@ public class AllyStats : Stats
         // Done in CreateVisualTiles
         //_mARef.CalcMoveTiles();
         //_mARef.CalcAttackTiles();
+    }
+
+    /// <summary>
+    /// General change function for vitality
+    /// </summary>
+    /// <param name="amountToChange">Value to change stat by. Can be positive or negative.</param>
+    public void ChangeVitality(int amountToChange)
+    {
+        //Test if amount is positive to call increase
+        if(amountToChange > 0)
+            IncreaseVitality(amountToChange);
+
+        //Test if amount is negative to call decrease
+        if (amountToChange < 0)
+            DecreaseVitality(-amountToChange);//Change amount to its opposite(which should be positive) for decrease function
+
+        //Amount value 0 does nothing
+    }
+
+    /// <summary>
+    /// General change function for magic
+    /// </summary>
+    /// <param name="amountToChange">Value to change stat by. Can be positive or negative.</param>
+    public void ChangeMagic(int amountToChange)
+    {
+        //Test if amount is positive to call increase
+        if (amountToChange > 0)
+            IncreaseMagic(amountToChange);
+
+        //Test if amount is negative to call decrease
+        if (amountToChange < 0)
+            DecreaseMagic(-amountToChange);//Change amount to its opposite(which should be positive) for decrease function
+
+        //Amount value 0 does nothing
+    }
+
+    /// <summary>
+    /// General change function for strength
+    /// </summary>
+    /// <param name="amountToChange">Value to change stat by. Can be positive or negative.</param>
+    public void ChangeStrength(int amountToChange)
+    {
+        //Test if amount is positive to call increase
+        if (amountToChange > 0)
+            IncreaseStrength(amountToChange);
+
+        //Test if amount is negative to call decrease
+        if (amountToChange < 0)
+            DecreaseStrength(-amountToChange);//Change amount to its opposite(which should be positive) for decrease function
+
+        //Amount value 0 does nothing
+    }
+
+    /// <summary>
+    /// General change function for speed
+    /// </summary>
+    /// <param name="amountToChange">Value to change stat by. Can be positive or negative.</param>
+    public void ChangeSpeed(int amountToChange)
+    {
+        //Test if amount is positive to call increase
+        if (amountToChange > 0)
+            IncreaseSpeed(amountToChange);
+
+        //Test if amount is negative to call decrease
+        if (amountToChange < 0)
+            DecreaseSpeed(-amountToChange);//Change amount to its opposite(which should be positive) for decrease function
+
+        //Amount value 0 does nothing
     }
 
     /// <summary>
