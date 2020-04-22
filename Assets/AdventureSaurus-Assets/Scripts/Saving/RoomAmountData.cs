@@ -4,7 +4,8 @@
 public class RoomAmountData
 {
     // Amount of rooms there are
-    int roomAmount;
+    private int roomAmount;
+    public int GetRoomAmount() { return roomAmount; }
 
     public RoomAmountData(Transform roomParent)
     {

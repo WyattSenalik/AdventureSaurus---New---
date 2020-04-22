@@ -1786,6 +1786,7 @@ GameObject:
   - component: {fileID: 2116340598207365938}
   - component: {fileID: 7444128480833961428}
   - component: {fileID: 7476253815065174859}
+  - component: {fileID: 300566050003756746}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -2046,9 +2047,6 @@ MonoBehaviour:
   _skillDmgText: {fileID: 129828547666367693}
   _skillRangeText: {fileID: 2326479275558873944}
   _skillCooldownText: {fileID: 2099780609486982233}
-  _defTextCol: {r: 0.20784314, g: 0.21960784, b: 0.28235295, a: 1}
-  _upgradeTextCol: {r: 0.20784314, g: 0.74509805, b: 0.28235295, a: 1}
-  _downgradeTextCol: {r: 0.74509805, g: 0.21960784, b: 0.28235295, a: 1}
 --- !u!114 &7476253815065174859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2059,6 +2057,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ec7c0b70b61c1d4f84e358c47f39246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &300566050003756746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885554831325360137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9474ae1717741db4b9c989257b874556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1885554831385839149

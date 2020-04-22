@@ -44,22 +44,16 @@ public class Room : MonoBehaviour
     }
     // If the room is on or off
     private bool _isRoomActive;
-    public bool GetIsRoomActive()
-    {
-        return _isRoomActive;
-    }
+    public bool GetIsRoomActive() { return _isRoomActive; }
+    public void SetIsRoomActive(bool isRmActive) { _isRoomActive = isRmActive; }
     // The current light level of the room
     private float _currentLightIntensity;
-    public float GetCurrentLightIntensity()
-    {
-        return _currentLightIntensity;
-    }
+    public float GetCurrentLightIntensity() { return _currentLightIntensity; }
+    public void SetCurrentLightIntensity(float newCurLightInten) { _currentLightIntensity = newCurLightInten; }
     // If all enemies in the room have been defeated
     private bool _clear;
-    public bool GetClear()
-    {
-        return _clear;
-    }
+    public bool GetClear() { return _clear; }
+    public void SetClear(bool newClear) { _clear = newClear; }
     // Represents how far the room is away from the starting room
     private int _roomWeight;
     public int RoomWeight
@@ -94,6 +88,8 @@ public class Room : MonoBehaviour
     {
         // When generation is done, show the first room
         ProceduralGenerationController.OnFinishGenerationNoParam += ShowStartRoom;
+        // Save this room when the game saves
+        SaveSystem.OnSave += SaveRoom;
     }
 
     // Called when this component is toggled off
@@ -102,6 +98,7 @@ public class Room : MonoBehaviour
     {
         // When generation is done, show the first room
         ProceduralGenerationController.OnFinishGenerationNoParam -= ShowStartRoom;
+        SaveSystem.OnSave -= SaveRoom;
     }
 
     // Called when this gameobject is destroyed
@@ -109,6 +106,7 @@ public class Room : MonoBehaviour
     private void OnDestroy()
     {
         ProceduralGenerationController.OnFinishGenerationNoParam -= ShowStartRoom;
+        SaveSystem.OnSave -= SaveRoom;
     }
 
     // Set References
@@ -438,5 +436,13 @@ public class Room : MonoBehaviour
             _adjacentRooms[closestIndex] = _adjacentRooms[i];
             _adjacentRooms[i] = closestRoom;
         }
+    }
+
+    /// <summary>
+    /// Saves this room's data in a file
+    /// </summary>
+    private void SaveRoom()
+    {
+        SaveSystem.SaveRoom(this);
     }
 }

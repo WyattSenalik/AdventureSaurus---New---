@@ -46,7 +46,7 @@ public class RoomData
         // EnemiesInRoom
         enemiesInRoomSiblingIndicies = new int[room.GetEnemiesInRoom().Count];
         for (int i = 0; i < room.GetEnemiesInRoom().Count; ++i)
-            alliesInRoomSiblingIndicies[i] = room.GetEnemiesInRoom()[i].transform.GetSiblingIndex();
+            enemiesInRoomSiblingIndicies[i] = room.GetEnemiesInRoom()[i].transform.GetSiblingIndex();
 
         // If the room is active
         isRoomActive = room.GetIsRoomActive();

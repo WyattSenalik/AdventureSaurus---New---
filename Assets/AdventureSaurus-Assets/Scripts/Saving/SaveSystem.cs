@@ -20,14 +20,14 @@ public static class SaveSystem
 
 
     /// <summary>
-    /// Saves the amount of rooms in a binary file at /rooms/roomAmount.num
+    /// Saves the amount of rooms in a binary file at /roomAmount.num
     /// </summary>
     /// <param name="roomParent"></param>
     public static void SaveRoomAmount(Transform roomParent)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         // Location of the file
-        string path = Application.persistentDataPath + "/rooms/roomAmount.num";
+        string path = Application.persistentDataPath + "/roomAmount.num";
         // Open a connection to the file
         FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -40,13 +40,13 @@ public static class SaveSystem
         stream.Close();
     }
     /// <summary>
-    /// Loads the amount of rooms from a binary file at /rooms/roomAmount.num
+    /// Loads the amount of rooms from a binary file at /roomAmount.num
     /// </summary>
     /// <returns>RoomAmountData. The data loaded from the file</returns>
     public static RoomAmountData LoadRoomAmount()
     {
         // The attempted path
-        string path = Application.persistentDataPath + "/rooms/roomAmount.num";
+        string path = Application.persistentDataPath + "/roomAmount.num";
         // If there is a file there
         if (File.Exists(path))
         {
@@ -69,14 +69,14 @@ public static class SaveSystem
     }
 
     /// <summary>
-    /// Saves the data for a room in a binary file at /rooms/roomX.rm where X is the sibling index of the room
+    /// Saves the data for a room in a binary file at /roomX.rm where X is the sibling index of the room
     /// </summary>
     /// <param name="room">Room whose data we want to save</param>
     public static void SaveRoom(Room room)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         // Location of the file
-        string path = Application.persistentDataPath + "/rooms/room" + room.transform.GetSiblingIndex().ToString() + ".rm";
+        string path = Application.persistentDataPath + "/room" + room.transform.GetSiblingIndex().ToString() + ".rm";
         // Open a connection to the file
         FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -89,14 +89,14 @@ public static class SaveSystem
         stream.Close();
     }
     /// <summary>
-    /// Loads saved data for a room from a binary file at /rooms/roomX.rm where X is the sibling index of the room
+    /// Loads saved data for a room from a binary file at /roomX.rm where X is the sibling index of the room
     /// </summary>
     /// <param name="roomSiblingIndex">Index of the room we want to load</param>
     /// <returns>RoomData. The data loaded from the file</returns>
     public static RoomData LoadRoom(int roomSiblingIndex)
     {
         // The attempted path
-        string path = Application.persistentDataPath + "/rooms/room" + roomSiblingIndex.ToString();
+        string path = Application.persistentDataPath + "/room" + roomSiblingIndex.ToString() + ".rm";
         // If there is a file there
         if (File.Exists(path))
         {
