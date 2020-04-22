@@ -115,15 +115,15 @@ public class HealthPotion : MonoBehaviour
         if (_isHolding == false && _charges!=0)
         {
             _isHolding = true;
-            //decreases charges when picked up
-            _charges--;
+
+            
         }
         //if you are already holding the potion and reclick the potion icon it puts it back
         else if(_isHolding == true)
         {
             _isHolding = false;
-            //increases charges when put back
-            _charges++;
+
+
         }
             
        
@@ -136,6 +136,9 @@ public class HealthPotion : MonoBehaviour
     {
         if (charMA.WhatAmI == CharacterType.Ally &&_isHolding==true)
         {
+            // reduces the charges
+            _charges--;
+
             if (charMA.name == _alliesHealth[0].name)
             {
                 _allyIndex = 0;
