@@ -32,14 +32,34 @@ public class Room : MonoBehaviour
     }
     // The characters currently in the room
     private List<MoveAttack> _alliesInRoom;
+    public List<MoveAttack> GetAlliesInRoom()
+    {
+        return new List<MoveAttack>(_alliesInRoom);
+    }
     // A list of the enemies in the room
     private List<MoveAttack> _enemiesInRoom;
+    public List<MoveAttack> GetEnemiesInRoom()
+    {
+        return new List<MoveAttack>(_enemiesInRoom);
+    }
     // If the room is on or off
     private bool _isRoomActive;
+    public bool GetIsRoomActive()
+    {
+        return _isRoomActive;
+    }
     // The current light level of the room
     private float _currentLightIntensity;
+    public float GetCurrentLightIntensity()
+    {
+        return _currentLightIntensity;
+    }
     // If all enemies in the room have been defeated
     private bool _clear;
+    public bool GetClear()
+    {
+        return _clear;
+    }
     // Represents how far the room is away from the starting room
     private int _roomWeight;
     public int RoomWeight

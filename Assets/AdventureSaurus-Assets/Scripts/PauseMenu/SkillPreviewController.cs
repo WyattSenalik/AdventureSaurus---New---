@@ -14,10 +14,6 @@ public class SkillPreviewController : MonoBehaviour
     [SerializeField] private Text _skillRangeText = null;
     // Cooldown text
     [SerializeField] private Text _skillCooldownText = null;
-    // Colors
-    [SerializeField] private Color _defTextCol = new Color(0.207843137254902f, 0.2196078431372549f, 0.2823529411764706f);
-    [SerializeField] private Color _upgradeTextCol = new Color(0.207843137254902f, 0.7450980392156863f, 0.2823529411764706f);
-    [SerializeField] private Color _downgradeTextCol = new Color(0.7450980392156863f, 0.2196078431372549f, 0.2823529411764706f);
 
     // Reference to SkillHolder for if the upgrade is to get a skill
     private SkillHolder _skillHolderRef;
@@ -89,10 +85,10 @@ public class SkillPreviewController : MonoBehaviour
         _skillRangeText.text = skillRange;
         _skillCooldownText.text = skillCooldown;
         // Set their colors to default
-        _skillNameText.color = _defTextCol;
-        _skillDmgText.color = _defTextCol;
-        _skillRangeText.color = _defTextCol;
-        _skillCooldownText.color = _defTextCol;
+        _skillNameText.color = CharDetailedMenuController.DefTextCol;
+        _skillDmgText.color = CharDetailedMenuController.DefTextCol;
+        _skillRangeText.color = CharDetailedMenuController.DefTextCol;
+        _skillCooldownText.color = CharDetailedMenuController.DefTextCol;
     }
 
     /// <summary>
@@ -179,13 +175,13 @@ public class SkillPreviewController : MonoBehaviour
             _skillCooldownText.text = "Cooldown: " + skillCooldown.ToString();
             // Set the ones that were buffed to green
             if (isSkillNameBuff)
-                _skillNameText.color = _upgradeTextCol;
+                _skillNameText.color = CharDetailedMenuController.UpgradeTextCol;
             if (isSkillDmgBuff)
-                _skillDmgText.color = _upgradeTextCol;
+                _skillDmgText.color = CharDetailedMenuController.UpgradeTextCol;
             if (isSkillRangeBuff)
-                _skillRangeText.color = _upgradeTextCol;
+                _skillRangeText.color = CharDetailedMenuController.UpgradeTextCol;
             if (isSkillCooldownBuff)
-                _skillCooldownText.color = _upgradeTextCol;
+                _skillCooldownText.color = CharDetailedMenuController.UpgradeTextCol;
         }
     }
 }

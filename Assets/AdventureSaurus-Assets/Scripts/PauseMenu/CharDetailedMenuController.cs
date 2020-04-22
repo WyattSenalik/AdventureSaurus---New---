@@ -60,6 +60,11 @@ public class CharDetailedMenuController : MonoBehaviour
     // This is shown when the user tries to submit their changes without using all their points
     [SerializeField] private GameObject _unappliedChangesPrompt = null;
 
+    // Colors
+    public static readonly Color DefTextCol = new Color(0.207843137254902f, 0.2196078431372549f, 0.2823529411764706f);
+    public static readonly Color UpgradeTextCol = new Color(0.207843137254902f, 0.7450980392156863f, 0.2823529411764706f);
+    public static readonly Color DowngradeTextCol = new Color(0.7450980392156863f, 0.2196078431372549f, 0.2823529411764706f);
+
     // Reference to the SkillPreviewController
     private SkillPreviewController _skillPrevContRef;
 
