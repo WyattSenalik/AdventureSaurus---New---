@@ -18,6 +18,9 @@ public class SaveTest : MonoBehaviour
     // Stairs Prefab
     [SerializeField] private GameObject _stairsPrefab = null;
 
+    // Grid Prefab
+    [SerializeField] private GameObject _gridPrefab = null;
+
     public void TestLoad()
     {
         // Rooms
@@ -28,6 +31,8 @@ public class SaveTest : MonoBehaviour
         LoadWallsController.LoadWalls(_wallsParent, _wallPrefab);
         // Stairs
         LoadStairsController.LoadStairs(_stairsPrefab);
+        // Tilemap
+        LoadTilemapController.LoadTilemap(_gridPrefab);
     }
 
     public void TestSave()

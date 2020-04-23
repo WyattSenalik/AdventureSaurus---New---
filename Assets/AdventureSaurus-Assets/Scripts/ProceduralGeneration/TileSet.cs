@@ -179,7 +179,8 @@ public class TileSet : ScriptableObject
     {
         return _farRightInnerCornerWallTiles.Length;
     }
-    // Stair tiles
+
+    //// Stair tiles
     [SerializeField] private Tile[] _stairTiles = null;
     public Tile GetStairTile(int index)
     {
@@ -221,7 +222,7 @@ public class TileSet : ScriptableObject
     {
         return _singleTiledDecorationTiles.Length;
     }
-    // Floor tiles that take up multiple tiles that can be used
+    // Two tiled decorations
     // For in a line of length 2 from left to right
     [SerializeField] private Tile[] _twoTiledDecorationTiles = null;
     public Tile GetTwoTiledDecorationTile(int index)

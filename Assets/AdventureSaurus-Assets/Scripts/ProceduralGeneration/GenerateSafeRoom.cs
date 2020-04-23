@@ -65,7 +65,6 @@ public class GenerateSafeRoom : MonoBehaviour
         if (campfireRef != null)
         {
             campfireRef.LitCampfire = activeTilset.GetLitCampfire();
-            campfireRef.TilemapRef = tilemapRef;
         }
         else
             Debug.Log("No Campfire script attached to the spawned campfire");

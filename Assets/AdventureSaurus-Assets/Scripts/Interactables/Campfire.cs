@@ -14,11 +14,13 @@ public class Campfire : Interactable
 
     // Reference to the tilemap. Will also be set in procedural generation
     private Tilemap _tilemapRef;
-    public Tilemap TilemapRef
+
+
+    // Called on the first frame update
+    private void Start()
     {
-        set { _tilemapRef = value; }
+        _tilemapRef = GameObject.FindWithTag("Tilemap").GetComponent<Tilemap>();
     }
-  
 
     /// <summary>
     /// Starts the interaction with the campfire.
