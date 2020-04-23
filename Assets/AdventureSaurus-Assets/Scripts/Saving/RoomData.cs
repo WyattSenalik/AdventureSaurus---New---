@@ -56,7 +56,7 @@ public class RoomData
         // AdjacentRooms
         _adjRoomsSiblingIndices = new int[room.AdjacentRooms.Count];
         for (int i = 0; i < room.AdjacentRooms.Count; ++i)
-            _adjRoomsSiblingIndices[i] = room.ReceiveLights[i].transform.GetSiblingIndex();
+            _adjRoomsSiblingIndices[i] = room.AdjacentRooms[i].transform.GetSiblingIndex();
         // AlliesInRoom
         _alliesInRoomSiblingIndicies = new int[room.GetAlliesInRoom().Count];
         for (int i = 0; i < room.GetAlliesInRoom().Count; ++i)
