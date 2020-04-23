@@ -8,6 +8,8 @@ public class ParentSaving : MonoBehaviour
     private Transform _roomParent;
     // Parent of bleed lights
     private Transform _bleedLightParent;
+    // Parent of the walls
+    private Transform _wallParent;
 
 
     // Called when the component is set active
@@ -19,6 +21,8 @@ public class ParentSaving : MonoBehaviour
         // When the game saves, save the amount of rooms we currently have
         SaveSystem.OnSave += SaveRoomAmount;
         SaveSystem.OnSave += SaveBleedLightAmount;
+        // Also save the walls and the amount of walls
+        SaveSystem.OnSave += SaveWallsAndWallAmount;
     }
     // Called when the component is toggled off
     // Unsubscribe from events
@@ -27,6 +31,7 @@ public class ParentSaving : MonoBehaviour
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
         SaveSystem.OnSave -= SaveRoomAmount;
         SaveSystem.OnSave -= SaveBleedLightAmount;
+        SaveSystem.OnSave -= SaveWallsAndWallAmount;
     }
     // Called when the component is destroyed
     // Unsubscribe from ALL events
@@ -35,6 +40,7 @@ public class ParentSaving : MonoBehaviour
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
         SaveSystem.OnSave -= SaveRoomAmount;
         SaveSystem.OnSave -= SaveBleedLightAmount;
+        SaveSystem.OnSave -= SaveWallsAndWallAmount;
     }
 
     /// <summary>
@@ -46,6 +52,8 @@ public class ParentSaving : MonoBehaviour
         _roomParent = GameObject.Find(ProceduralGenerationController.roomParentName).transform;
         // Set the bleed light parent
         _bleedLightParent = GameObject.Find(ProceduralGenerationController.bleedLightParentName).transform;
+        // Set teh walls parent
+        _wallParent = GameObject.Find(ProceduralGenerationController.wallParentName).transform;
     }
 
     /// <summary>
@@ -62,5 +70,19 @@ public class ParentSaving : MonoBehaviour
     private void SaveBleedLightAmount()
     {
         SaveSystem.SaveBleedLightAmount(_bleedLightParent);
+    }
+
+    /// <summary>
+    /// Saves the amount of walls we have to a binary file.
+    /// Also saves each wall to a binary file.
+    /// </summary>
+    private void SaveWallsAndWallAmount()
+    {
+        SaveSystem.SaveWallAmount(_wallParent);
+        // Save each wall
+        foreach (Transform wall in _wallParent)
+        {
+            SaveSystem.SaveWall(wall);
+        }
     }
 }

@@ -32,7 +32,7 @@ public static class SaveSystem
         FileStream stream = new FileStream(path, FileMode.Create);
 
         // Data to put in the file
-        RoomAmountData data = new RoomAmountData(roomParent);
+        ChildAmountData data = new ChildAmountData(roomParent);
 
         // Write to the file
         formatter.Serialize(stream, data);
@@ -42,8 +42,8 @@ public static class SaveSystem
     /// <summary>
     /// Loads the amount of rooms from a binary file at /roomAmount.num
     /// </summary>
-    /// <returns>RoomAmountData. The data loaded from the file</returns>
-    public static RoomAmountData LoadRoomAmount()
+    /// <returns>ChildAmountData. The data loaded from the file</returns>
+    public static ChildAmountData LoadRoomAmount()
     {
         // The attempted path
         string path = Application.persistentDataPath + "/roomAmount.num";
@@ -55,7 +55,7 @@ public static class SaveSystem
             FileStream stream = new FileStream(path, FileMode.Open);
 
             // Create data from the file
-            RoomAmountData data = formatter.Deserialize(stream) as RoomAmountData;
+            ChildAmountData data = formatter.Deserialize(stream) as ChildAmountData;
             // Close the connection to the file
             stream.Close();
 
@@ -133,7 +133,7 @@ public static class SaveSystem
         FileStream stream = new FileStream(path, FileMode.Create);
 
         // Data to put in the file
-        BleedLightAmountData data = new BleedLightAmountData(bleedLightParent);
+        ChildAmountData data = new ChildAmountData(bleedLightParent);
 
         // Write to the file
         formatter.Serialize(stream, data);
@@ -143,8 +143,8 @@ public static class SaveSystem
     /// <summary>
     /// Loads the amount of bleed lights from a binary file at /bleedLightAmount.num
     /// </summary>
-    /// <returns>BleedLightAmountData. The data loaded from the file</returns>
-    public static BleedLightAmountData LoadBleedLightAmount()
+    /// <returns>ChildAmountData. The data loaded from the file</returns>
+    public static ChildAmountData LoadBleedLightAmount()
     {
         // The attempted path
         string path = Application.persistentDataPath + "/bleedLightAmount.num";
@@ -156,7 +156,7 @@ public static class SaveSystem
             FileStream stream = new FileStream(path, FileMode.Open);
 
             // Create data from the file
-            BleedLightAmountData data = formatter.Deserialize(stream) as BleedLightAmountData;
+            ChildAmountData data = formatter.Deserialize(stream) as ChildAmountData;
             // Close the connection to the file
             stream.Close();
 
@@ -207,6 +207,107 @@ public static class SaveSystem
 
             // Create data from the file
             BleedLightData data = formatter.Deserialize(stream) as BleedLightData;
+            // Close the connection to the file
+            stream.Close();
+
+            return data;
+        }
+        else
+        {
+            Debug.LogError("Save file not found in " + path);
+            return null;
+        }
+    }
+
+
+    //// Walls
+    /// <summary>
+    /// Saves the amount of walls in a binary file at /wallAmount.num
+    /// </summary>
+    /// <param name="wallParent"></param>
+    public static void SaveWallAmount(Transform wallParent)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        // Location of the file
+        string path = Application.persistentDataPath + "/wallAmount.num";
+        // Open a connection to the file
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        // Data to put in the file
+        ChildAmountData data = new ChildAmountData(wallParent);
+
+        // Write to the file
+        formatter.Serialize(stream, data);
+        // Close the connection to the file
+        stream.Close();
+    }
+    /// <summary>
+    /// Loads the amount of walls from a binary file at /wallAmount.num
+    /// </summary>
+    /// <returns>ChildAmountData. The data loaded from the file</returns>
+    public static ChildAmountData LoadWallAmount()
+    {
+        // The attempted path
+        string path = Application.persistentDataPath + "/wallAmount.num";
+        // If there is a file there
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            // Open a connection to the file
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            // Create data from the file
+            ChildAmountData data = formatter.Deserialize(stream) as ChildAmountData;
+            // Close the connection to the file
+            stream.Close();
+
+            return data;
+        }
+        else
+        {
+            Debug.LogError("Save file not found in " + path);
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Saves the data for a wall in a binary file at /wallX.wl where X is the sibling index of the room
+    /// </summary>
+    /// <param name="wall">Transform of wall whose data we want to save</param>
+    public static void SaveWall(Transform wall)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        // Location of the file
+        string path = Application.persistentDataPath + "/wall" + wall.GetSiblingIndex().ToString() + ".wl";
+        // Open a connection to the file
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        // Data to put in the file
+        WallData data = new WallData(wall);
+
+        // Write to the file
+        formatter.Serialize(stream, data);
+        // Close the connection to the file
+        stream.Close();
+    }
+    /// <summary>
+    /// Loads saved data for a wall from a binary file at /wallX.wl where X is the sibling index of the room
+    /// </summary>
+    /// <param name="wallSiblingIndex">Index of the wall we want to load</param>
+    /// <returns>WallData. The data loaded from the file</returns>
+    public static WallData LoadWall(int wallSiblingIndex)
+    {
+        // The attempted path
+        string path = Application.persistentDataPath + "/wall" + wallSiblingIndex.ToString() + ".wl";
+        // If there is a file there
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            // Open a connection to the file
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            // Create data from the file
+            WallData data = formatter.Deserialize(stream) as WallData;
             // Close the connection to the file
             stream.Close();
 

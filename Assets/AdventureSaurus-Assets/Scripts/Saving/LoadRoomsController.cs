@@ -12,8 +12,8 @@ public static class LoadRoomsController
     public static void LoadRooms(Transform roomsParent, GameObject roomPrefab)
     {
         // Get the amount of rooms
-        RoomAmountData roomAmData = SaveSystem.LoadRoomAmount();
-        int amountRooms = roomAmData.GetRoomAmount();
+        ChildAmountData roomAmData = SaveSystem.LoadRoomAmount();
+        int amountRooms = roomAmData.GetChildAmount();
 
         // Load each room
         for (int i = 0; i < amountRooms; ++i)
@@ -63,8 +63,8 @@ public static class LoadRoomsController
     public static void LoadBleedLights(Transform bleedLightParent, GameObject bleedLightPrefab)
     {
         // Get the amount of bleed lights
-        BleedLightAmountData bleedLightAmData = SaveSystem.LoadBleedLightAmount();
-        int amountBleedLights = bleedLightAmData.GetBleedLightAmount();
+        ChildAmountData bleedLightAmData = SaveSystem.LoadBleedLightAmount();
+        int amountBleedLights = bleedLightAmData.GetChildAmount();
 
         // Load each bleed light
         for (int i = 0; i < amountBleedLights; ++i)
@@ -165,8 +165,7 @@ public static class LoadRoomsController
     private static void LoadBleedLightReferences(Transform roomParent, Transform bleedLightsParent)
     {
         // Get the amount of bleed lights
-        BleedLightAmountData bleedLightAmData = SaveSystem.LoadBleedLightAmount();
-        int amountBleedLights = bleedLightAmData.GetBleedLightAmount();
+        int amountBleedLights = bleedLightsParent.childCount;
 
         // Load each bleed light
         for (int i = 0; i < amountBleedLights; ++i)
