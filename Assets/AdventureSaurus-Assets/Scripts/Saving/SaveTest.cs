@@ -15,6 +15,9 @@ public class SaveTest : MonoBehaviour
     [SerializeField] private Transform _wallsParent = null;
     [SerializeField] private GameObject _wallPrefab = null;
 
+    // Stairs Prefab
+    [SerializeField] private GameObject _stairsPrefab = null;
+
     public void TestLoad()
     {
         // Rooms
@@ -23,6 +26,8 @@ public class SaveTest : MonoBehaviour
         LoadRoomsController.LoadReferences(_roomsParent, _bleedLightsParent);
         // Walls
         LoadWallsController.LoadWalls(_wallsParent, _wallPrefab);
+        // Stairs
+        LoadStairsController.LoadStairs(_stairsPrefab);
     }
 
     public void TestSave()

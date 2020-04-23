@@ -319,4 +319,55 @@ public static class SaveSystem
             return null;
         }
     }
+
+
+    //// Stairs
+    /// <summary>
+    /// Saves the data for the stairs in a binary file at /stairs.st
+    /// </summary>
+    /// <param name="stairs">Transform of stairs whose data we want to save</param>
+    public static void SaveStairs(Transform stairs)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        // Location of the file
+        string path = Application.persistentDataPath + "/stairs.st";
+        // Open a connection to the file
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        // Data to put in the file
+        StairsData data = new StairsData(stairs);
+
+        // Write to the file
+        formatter.Serialize(stream, data);
+        // Close the connection to the file
+        stream.Close();
+    }
+    /// <summary>
+    /// Loads saved data for the stairs from a binary file at /stairs.st
+    /// </summary>
+    /// <returns>StairsData. The data loaded from the file</returns>
+    public static StairsData LoadStairs()
+    {
+        // The attempted path
+        string path = Application.persistentDataPath + "/stairs.st";
+        // If there is a file there
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            // Open a connection to the file
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            // Create data from the file
+            StairsData data = formatter.Deserialize(stream) as StairsData;
+            // Close the connection to the file
+            stream.Close();
+
+            return data;
+        }
+        else
+        {
+            Debug.LogError("Save file not found in " + path);
+            return null;
+        }
+    }
 }

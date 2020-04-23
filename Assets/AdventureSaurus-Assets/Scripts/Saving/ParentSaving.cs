@@ -10,6 +10,8 @@ public class ParentSaving : MonoBehaviour
     private Transform _bleedLightParent;
     // Parent of the walls
     private Transform _wallParent;
+    // Transform of the stairs
+    private Transform _stairsTrans;
 
 
     // Called when the component is set active
@@ -23,6 +25,8 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave += SaveBleedLightAmount;
         // Also save the walls and the amount of walls
         SaveSystem.OnSave += SaveWallsAndWallAmount;
+        // Also save the stairs
+        SaveSystem.OnSave += SaveStairs;
     }
     // Called when the component is toggled off
     // Unsubscribe from events
@@ -32,6 +36,7 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave -= SaveRoomAmount;
         SaveSystem.OnSave -= SaveBleedLightAmount;
         SaveSystem.OnSave -= SaveWallsAndWallAmount;
+        SaveSystem.OnSave -= SaveStairs;
     }
     // Called when the component is destroyed
     // Unsubscribe from ALL events
@@ -41,6 +46,7 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave -= SaveRoomAmount;
         SaveSystem.OnSave -= SaveBleedLightAmount;
         SaveSystem.OnSave -= SaveWallsAndWallAmount;
+        SaveSystem.OnSave -= SaveStairs;
     }
 
     /// <summary>
@@ -52,8 +58,10 @@ public class ParentSaving : MonoBehaviour
         _roomParent = GameObject.Find(ProceduralGenerationController.roomParentName).transform;
         // Set the bleed light parent
         _bleedLightParent = GameObject.Find(ProceduralGenerationController.bleedLightParentName).transform;
-        // Set teh walls parent
+        // Set the walls parent
         _wallParent = GameObject.Find(ProceduralGenerationController.wallParentName).transform;
+        // Set the stairs transform
+        _stairsTrans = GameObject.Find(ProceduralGenerationController.stairsName).transform;
     }
 
     /// <summary>
@@ -84,5 +92,13 @@ public class ParentSaving : MonoBehaviour
         {
             SaveSystem.SaveWall(wall);
         }
+    }
+
+    /// <summary>
+    /// Saves the stairs to a binary file
+    /// </summary>
+    private void SaveStairs()
+    {
+        SaveSystem.SaveStairs(_stairsTrans);
     }
 }

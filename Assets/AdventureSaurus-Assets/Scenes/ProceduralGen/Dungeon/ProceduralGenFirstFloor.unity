@@ -1049,6 +1049,8 @@ MonoBehaviour:
   _wallsParent: {fileID: 1359353338}
   _wallPrefab: {fileID: 908112855204680109, guid: edb3079cb7e3e144fa69fb4281c1e89d,
     type: 3}
+  _stairsPrefab: {fileID: 4041283491387904142, guid: 86b972068da24f445bd83b665dfbce4b,
+    type: 3}
 --- !u!4 &1652494246
 Transform:
   m_ObjectHideFlags: 0

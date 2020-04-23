@@ -144,10 +144,8 @@ public static class LoadRoomsController
             curRoom.SetReceiveLights(newReceiveLights);
             // Adjacent rooms
             List<Room> newAdjRooms = new List<Room>();
-            Debug.Log("ChildCount: " + roomParent.childCount + ", " + roomData.GetAdjRoomsSiblingIndices().Length);
             foreach (int siblingIndex in roomData.GetAdjRoomsSiblingIndices())
             {
-                Debug.Log("SiblingIndex: " + siblingIndex);
                 // Get the adjacent room with this sibling index
                 Room adjRoom = roomParent.GetChild(siblingIndex).GetComponent<Room>();
                 // Add it to the adjacent rooms
