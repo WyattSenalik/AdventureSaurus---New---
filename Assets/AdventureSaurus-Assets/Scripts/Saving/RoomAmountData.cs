@@ -4,11 +4,11 @@
 public class RoomAmountData
 {
     // Amount of rooms there are
-    private int roomAmount;
-    public int GetRoomAmount() { return roomAmount; }
+    private int _roomAmount;
+    public int GetRoomAmount() { return _roomAmount; }
 
     public RoomAmountData(Transform roomParent)
     {
-        roomAmount = roomParent.childCount; 
+        _roomAmount = roomParent.childCount; 
     }
 }

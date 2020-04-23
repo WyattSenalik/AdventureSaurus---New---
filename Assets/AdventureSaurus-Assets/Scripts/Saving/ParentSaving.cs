@@ -6,6 +6,8 @@ public class ParentSaving : MonoBehaviour
 {
     // Parent of rooms
     private Transform _roomParent;
+    // Parent of bleed lights
+    private Transform _bleedLightParent;
 
 
     // Called when the component is set active
@@ -16,6 +18,7 @@ public class ParentSaving : MonoBehaviour
         ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
         // When the game saves, save the amount of rooms we currently have
         SaveSystem.OnSave += SaveRoomAmount;
+        SaveSystem.OnSave += SaveBleedLightAmount;
     }
     // Called when the component is toggled off
     // Unsubscribe from events
@@ -23,6 +26,7 @@ public class ParentSaving : MonoBehaviour
     {
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
         SaveSystem.OnSave -= SaveRoomAmount;
+        SaveSystem.OnSave -= SaveBleedLightAmount;
     }
     // Called when the component is destroyed
     // Unsubscribe from ALL events
@@ -30,6 +34,7 @@ public class ParentSaving : MonoBehaviour
     {
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
         SaveSystem.OnSave -= SaveRoomAmount;
+        SaveSystem.OnSave -= SaveBleedLightAmount;
     }
 
     /// <summary>
@@ -39,6 +44,8 @@ public class ParentSaving : MonoBehaviour
     {
         // Set the room parent
         _roomParent = GameObject.Find(ProceduralGenerationController.roomParentName).transform;
+        // Set the bleed light parent
+        _bleedLightParent = GameObject.Find(ProceduralGenerationController.bleedLightParentName).transform;
     }
 
     /// <summary>
@@ -47,5 +54,13 @@ public class ParentSaving : MonoBehaviour
     private void SaveRoomAmount()
     {
         SaveSystem.SaveRoomAmount(_roomParent);
+    }
+
+    /// <summary>
+    /// Saves the amount of bleed lights we have to a binary file
+    /// </summary>
+    private void SaveBleedLightAmount()
+    {
+        SaveSystem.SaveBleedLightAmount(_bleedLightParent);
     }
 }

@@ -33,6 +33,7 @@ public class ProceduralGenerationController : MonoBehaviour
 
     // The names of the parents and transforms
     public const string roomParentName = "RoomParent";
+    public const string bleedLightParentName = "BleedLightParent";
     public const string wallParentName = "WallParent";
     public const string stairsName = "StairsTrans";
     public const string charParentName = "CharacterParent";
@@ -159,6 +160,7 @@ public class ProceduralGenerationController : MonoBehaviour
             // Set the names of the parents and transforms
             if (_roomParent != null)
                 _roomParent.name = roomParentName;
+            // Bleed light parent's name is set in generation
             if (_wallParent != null)
                 _wallParent.name = wallParentName;
             if (_stairsTrans != null)

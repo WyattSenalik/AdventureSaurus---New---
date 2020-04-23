@@ -6,60 +6,78 @@ public class RoomData
     /// Sibling Indices of references to other objects
     /// All of these are children of some parent
     // BleedLightParent children
-    public int[] broadcastLightSiblingIndices;
-    public int[] receiveLightSiblingIndices;
+    private int[] _broadcastLightSiblingIndices;
+    private int[] _receiveLightSiblingIndices;
     // RoomParent children
-    public int[] adjRoomsSiblingIndices;
+    private int[] _adjRoomsSiblingIndices;
     // CharacterParent children
-    public int[] alliesInRoomSiblingIndicies;
-    public int[] enemiesInRoomSiblingIndicies;
+    private int[] _alliesInRoomSiblingIndicies;
+    private int[] _enemiesInRoomSiblingIndicies;
     /// Simple primitives
-    public bool isRoomActive;
-    public float currentLightIntensity;
-    public bool clear;
-    public int roomWeight;
-    public int myRoomType;
-    public int roomDifficulty;
+    private bool _isRoomActive;
+    private float _currentLightIntensity;
+    private bool _clear;
+    private int _roomWeight;
+    private int _myRoomType;
+    private int _roomDifficulty;
     /// Essential parts of non primitives
-    public float[] sprRendColor;
-    public float[] position;
-    public float[] scale;
+    private float[] _sprRendColor;
+    private float[] _position;
+    private float[] _scale;
+
+    /// Getters
+    public int[] GetBroadcastLightSiblingIndices() { return _broadcastLightSiblingIndices.Clone() as int[]; }
+    public int[] GetReceiveLightSiblingIndices() { return _receiveLightSiblingIndices.Clone() as int[]; }
+    public int[] GetAdjRoomsSiblingIndices() { return _adjRoomsSiblingIndices.Clone() as int[]; }
+    public int[] GetAlliesInRoomSiblingIndices() { return _alliesInRoomSiblingIndicies.Clone() as int[]; }
+    public int[] GetEnemiesInRoomSiblingIndices() { return _enemiesInRoomSiblingIndicies.Clone() as int[]; }
+
+    public bool GetIsRoomActive() { return _isRoomActive; }
+    public float GetCurrentLightIntensity() { return _currentLightIntensity; }
+    public bool GetClear() { return _clear; }
+    public int GetRoomWeight() { return _roomWeight; }
+    public RoomType GetMyRoomType() { return (RoomType)_myRoomType; }
+    public int GetRoomDifficulty() { return _roomDifficulty; }
+
+    public Color GetSpriteRendererColor() { return new Color(_sprRendColor[0], _sprRendColor[1], _sprRendColor[2], _sprRendColor[3]); }
+    public Vector3 GetPosition() { return new Vector3(_position[0], _position[1], _position[2]); }
+    public Vector3 GetScale() { return new Vector3(_scale[0], _scale[1], _scale[2]); }
 
     public RoomData (Room room)
     {
         // BroadcastLights
-        broadcastLightSiblingIndices = new int[room.BroadcastLights.Count];
+        _broadcastLightSiblingIndices = new int[room.BroadcastLights.Count];
         for (int i = 0; i < room.BroadcastLights.Count; ++i)
-            broadcastLightSiblingIndices[i] = room.BroadcastLights[i].transform.GetSiblingIndex();
+            _broadcastLightSiblingIndices[i] = room.BroadcastLights[i].transform.GetSiblingIndex();
         // ReceiveLights
-        receiveLightSiblingIndices = new int[room.ReceiveLights.Count];
+        _receiveLightSiblingIndices = new int[room.ReceiveLights.Count];
         for (int i = 0; i < room.ReceiveLights.Count; ++i)
-            receiveLightSiblingIndices[i] = room.ReceiveLights[i].transform.GetSiblingIndex();
+            _receiveLightSiblingIndices[i] = room.ReceiveLights[i].transform.GetSiblingIndex();
         // AdjacentRooms
-        adjRoomsSiblingIndices = new int[room.AdjacentRooms.Count];
+        _adjRoomsSiblingIndices = new int[room.AdjacentRooms.Count];
         for (int i = 0; i < room.AdjacentRooms.Count; ++i)
-            adjRoomsSiblingIndices[i] = room.ReceiveLights[i].transform.GetSiblingIndex();
+            _adjRoomsSiblingIndices[i] = room.ReceiveLights[i].transform.GetSiblingIndex();
         // AlliesInRoom
-        alliesInRoomSiblingIndicies = new int[room.GetAlliesInRoom().Count];
+        _alliesInRoomSiblingIndicies = new int[room.GetAlliesInRoom().Count];
         for (int i = 0; i < room.GetAlliesInRoom().Count; ++i)
-            alliesInRoomSiblingIndicies[i] = room.GetAlliesInRoom()[i].transform.GetSiblingIndex();
+            _alliesInRoomSiblingIndicies[i] = room.GetAlliesInRoom()[i].transform.GetSiblingIndex();
         // EnemiesInRoom
-        enemiesInRoomSiblingIndicies = new int[room.GetEnemiesInRoom().Count];
+        _enemiesInRoomSiblingIndicies = new int[room.GetEnemiesInRoom().Count];
         for (int i = 0; i < room.GetEnemiesInRoom().Count; ++i)
-            enemiesInRoomSiblingIndicies[i] = room.GetEnemiesInRoom()[i].transform.GetSiblingIndex();
+            _enemiesInRoomSiblingIndicies[i] = room.GetEnemiesInRoom()[i].transform.GetSiblingIndex();
 
         // If the room is active
-        isRoomActive = room.GetIsRoomActive();
+        _isRoomActive = room.GetIsRoomActive();
         // The current light intensity
-        currentLightIntensity = room.GetCurrentLightIntensity();
+        _currentLightIntensity = room.GetCurrentLightIntensity();
         // If the room has been cleared
-        clear = room.GetClear();
+        _clear = room.GetClear();
         // The weight of the room
-        roomWeight = room.RoomWeight;
+        _roomWeight = room.RoomWeight;
         // The type of room it is
-        myRoomType = (int) room.MyRoomType;
+        _myRoomType = (int) room.MyRoomType;
         // The difficulty of the room
-        roomDifficulty = room.RoomDifficulty;
+        _roomDifficulty = room.RoomDifficulty;
 
         // Get the color from the spriteRenderer
         SpriteRenderer sprRendRef = room.GetComponent<SpriteRenderer>();
@@ -68,21 +86,21 @@ public class RoomData
             Debug.LogError("No Sprite Renderer on Room " + room.name);
         }
         else {
-            sprRendColor = new float[4];
-            sprRendColor[0] = sprRendRef.color.r;
-            sprRendColor[1] = sprRendRef.color.g;
-            sprRendColor[2] = sprRendRef.color.b;
-            sprRendColor[3] = sprRendRef.color.a;
+            _sprRendColor = new float[4];
+            _sprRendColor[0] = sprRendRef.color.r;
+            _sprRendColor[1] = sprRendRef.color.g;
+            _sprRendColor[2] = sprRendRef.color.b;
+            _sprRendColor[3] = sprRendRef.color.a;
         }
         // Get the position from the transform
-        position = new float[3];
-        position[0] = room.transform.position.x;
-        position[1] = room.transform.position.y;
-        position[2] = room.transform.position.z;
+        _position = new float[3];
+        _position[0] = room.transform.position.x;
+        _position[1] = room.transform.position.y;
+        _position[2] = room.transform.position.z;
         // Get the scale from the transform
-        scale = new float[3];
-        scale[0] = room.transform.localScale.x;
-        scale[1] = room.transform.localScale.y;
-        scale[2] = room.transform.localScale.z;
+        _scale = new float[3];
+        _scale[0] = room.transform.localScale.x;
+        _scale[1] = room.transform.localScale.y;
+        _scale[2] = room.transform.localScale.z;
     }
 }

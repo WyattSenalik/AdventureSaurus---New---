@@ -70,11 +70,11 @@ public class GenerateRooms : MonoBehaviour
         int breakOutLimit = _amountRoomsToSpawn * 100;
 
         // Create the rooms parent and center it
-        _roomParent = (new GameObject("RoomParent")).transform;
+        _roomParent = (new GameObject(ProceduralGenerationController.roomParentName)).transform;
         _roomParent.position = Vector3.zero;
 
         // Create the lights parent and center it
-        _bleedLightsParent = (new GameObject("BleedLightsParent")).transform;
+        _bleedLightsParent = (new GameObject(ProceduralGenerationController.bleedLightParentName)).transform;
         _bleedLightsParent.position = Vector3.zero;
 
         // Create the first room

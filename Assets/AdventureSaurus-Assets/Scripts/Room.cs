@@ -76,6 +76,20 @@ public class Room : MonoBehaviour
         get { return _roomDifficulty; }
     }
 
+    // Setters
+    public void SetBroadcastLights(List<BleedLight> newBroadcastLights)
+    {
+        _broadcastLights = new List<BleedLight>(newBroadcastLights);
+    }
+    public void SetReceiveLights(List<BleedLight> newReceiveLights)
+    {
+        _receiveLights = new List<BleedLight>(newReceiveLights);
+    }
+    public void SetAdjRooms(List<Room> newAdjRooms)
+    {
+        _adjacentRooms = new List<Room>(newAdjRooms);
+    }
+
     // Events
     // When a room is activated
     public delegate void RoomActivated(List<MoveAttack> enemiesInTheRoom);

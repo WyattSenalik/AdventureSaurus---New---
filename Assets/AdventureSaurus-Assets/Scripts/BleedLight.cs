@@ -6,11 +6,13 @@ public class BleedLight : MonoBehaviour
 {
     // Reference to the receiving room and broadcasting room
     private Room _broadcastRoom;
+    public Room GetBroadcastRoom() { return _broadcastRoom; }
     public Room BroadcastRoom
     {
         set { _broadcastRoom = value; }
     }
     private Room _receiveRoom;
+    public Room GetReceiveRoom() { return _receiveRoom; }
     public Room ReceiveRoom
     {
         set { _receiveRoom = value; }
@@ -19,6 +21,26 @@ public class BleedLight : MonoBehaviour
     // SpriteRenderer of the semi-circle
     private SpriteRenderer _fillCirc = null;
 
+
+    // Called when this component is set active
+    // Subscribe to events
+    private void OnEnable()
+    {
+        // Save this bleed light when the game saves
+        SaveSystem.OnSave += SaveBleedLight;
+    }
+    // Called when this component is toggled off
+    // Unsubscribe from ALL events
+    private void OnDisable()
+    {
+        SaveSystem.OnSave -= SaveBleedLight;
+    }
+    // Called when this gameobject is destroyed
+    // Unsubscribe from events
+    private void OnDestroy()
+    {
+        SaveSystem.OnSave -= SaveBleedLight;
+    }
 
     // Called before start
     // Set references
@@ -67,5 +89,13 @@ public class BleedLight : MonoBehaviour
 
         // Set the new color
         sprRend.color = col;
+    }
+
+    /// <summary>
+    /// Saves this bleed light's data in a file
+    /// </summary>
+    private void SaveBleedLight()
+    {
+        SaveSystem.SaveBleedLight(this);
     }
 }
