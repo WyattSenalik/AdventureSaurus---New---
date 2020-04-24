@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -28,6 +27,7 @@ public static class SaveTilemapController
     /// <summary>
     /// Creates the two hashtables to correspond to the given tile sets
     /// </summary>
+    /// <param name="allTileSets">The TileSets to base the hashtables on</param>
     public static void BuildHashtables(TileSet[] allTileSets)
     {
         _tileHash = new Hashtable();

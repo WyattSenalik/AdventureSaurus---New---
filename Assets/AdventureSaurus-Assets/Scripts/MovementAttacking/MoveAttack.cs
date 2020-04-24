@@ -476,7 +476,7 @@ public class MoveAttack : MonoBehaviour
                 // Get the interactable at that node
                 Interactable interactAtNode = _mAContRef.GetInteractableByNode(testNode);
                 // Only add the interactable to interact tiles if it can currently be interacted with
-                if (interactAtNode != null && interactAtNode.CanInteractWith)
+                if (interactAtNode != null && interactAtNode.GetCanInteractWith())
                     _interactTiles.Add(testNode);
             }
             // If I can reach with an attack

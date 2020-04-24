@@ -12,6 +12,8 @@ public class ParentSaving : MonoBehaviour
     private Transform _wallParent;
     // Transform of the stairs
     private Transform _stairsTrans;
+    // Parent of the interactables
+    private Transform _interactableParent;
 
 
     // Called when the component is set active
@@ -27,6 +29,8 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave += SaveWallsAndWallAmount;
         // Also save the stairs
         SaveSystem.OnSave += SaveStairs;
+        // Also save the amount of interactables
+        SaveSystem.OnSave += SaveInteractableAmount;
     }
     // Called when the component is toggled off
     // Unsubscribe from events
@@ -37,6 +41,7 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave -= SaveBleedLightAmount;
         SaveSystem.OnSave -= SaveWallsAndWallAmount;
         SaveSystem.OnSave -= SaveStairs;
+        SaveSystem.OnSave -= SaveInteractableAmount;
     }
     // Called when the component is destroyed
     // Unsubscribe from ALL events
@@ -47,6 +52,7 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave -= SaveBleedLightAmount;
         SaveSystem.OnSave -= SaveWallsAndWallAmount;
         SaveSystem.OnSave -= SaveStairs;
+        SaveSystem.OnSave -= SaveInteractableAmount;
     }
 
     /// <summary>
@@ -58,10 +64,12 @@ public class ParentSaving : MonoBehaviour
         _roomParent = GameObject.Find(ProceduralGenerationController.roomParentName).transform;
         // Set the bleed light parent
         _bleedLightParent = GameObject.Find(ProceduralGenerationController.bleedLightParentName).transform;
-        // Set the walls parent
+        // Set the wall parent
         _wallParent = GameObject.Find(ProceduralGenerationController.wallParentName).transform;
         // Set the stairs transform
         _stairsTrans = GameObject.Find(ProceduralGenerationController.stairsName).transform;
+        // Set the interactable parent
+        _interactableParent = GameObject.Find(ProceduralGenerationController.interactParentName).transform;
     }
 
     /// <summary>
@@ -100,5 +108,13 @@ public class ParentSaving : MonoBehaviour
     private void SaveStairs()
     {
         SaveSystem.SaveStairs(_stairsTrans);
+    }
+
+    /// <summary>
+    /// Saves the amount of interactables we have to a binary file
+    /// </summary>
+    private void SaveInteractableAmount()
+    {
+        SaveSystem.SaveInteractableAmount(_interactableParent);
     }
 }

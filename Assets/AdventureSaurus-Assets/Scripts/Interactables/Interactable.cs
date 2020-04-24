@@ -1,19 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
     // If the object can currently be interacted with
     protected bool _canInteractWith = true;
-    public bool CanInteractWith
-    {
-        get { return _canInteractWith; }
-    }
+    public bool GetCanInteractWith() { return _canInteractWith; }
+    public void SetCanInteractWith(bool newCanInteractWith) { _canInteractWith = newCanInteractWith; }
+    // The key of the interactable
+    [SerializeField] private int _key = -1;
+    public int GetKey() { return _key; }
     // Events
     // When this item is finished being interacted with
     public delegate void FinishInteraction();
     public static event FinishInteraction OnFinishInteraction;
+
+
+    // Called when the component is set active
+    // Subscribe to events
+    private void OnEnable()
+    {
+        SaveSystem.OnSave += SaveInteractable;
+    }
+    // Called when the component is toggled off
+    // Unsubscribe from events
+    private void OnDisable()
+    {
+        SaveSystem.OnSave -= SaveInteractable;
+    }
+    // Called when the component is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        SaveSystem.OnSave -= SaveInteractable;
+    }
 
     /// <summary>
     /// Starts the interaction with this object.
@@ -27,5 +46,13 @@ public class Interactable : MonoBehaviour
         // Call the finish interaction event
         if (OnFinishInteraction != null)
             OnFinishInteraction();
+    }
+
+    /// <summary>
+    /// Saves this interactables data in a binary file
+    /// </summary>
+    private void SaveInteractable()
+    {
+        SaveSystem.SaveInteractable(this);
     }
 }

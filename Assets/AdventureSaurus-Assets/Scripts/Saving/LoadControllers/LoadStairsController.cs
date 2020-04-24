@@ -19,6 +19,19 @@ public static class LoadStairsController
         // Set its transform components
         stairsObj.transform.position = stairsData.GetPosition();
 
+        // Give the stairs script the transform as a reference
+        GameObject gameController = GameObject.FindWithTag("GameController");
+        if (gameController != null)
+        {
+            Stairs stairsRef = gameController.GetComponent<Stairs>();
+            if (stairsRef != null)
+                stairsRef.SetStairsTrans(stairsObj.transform);
+            else
+                Debug.LogError("No Stairs script attached to " + gameController.name);
+        }
+        else
+            Debug.LogError("No GameObject with the tag 'GameController' was found");
+
         return stairsObj.transform;
     }
 }

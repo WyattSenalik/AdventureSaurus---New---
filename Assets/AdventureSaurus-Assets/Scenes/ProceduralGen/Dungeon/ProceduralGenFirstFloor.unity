@@ -1053,6 +1053,7 @@ MonoBehaviour:
     type: 3}
   _gridPrefab: {fileID: 4783568868112808690, guid: 523ee7f33ef4a8e4693eb5b18c0fe5ef,
     type: 3}
+  _interactableParent: {fileID: 2088104349}
 --- !u!4 &1652494246
 Transform:
   m_ObjectHideFlags: 0

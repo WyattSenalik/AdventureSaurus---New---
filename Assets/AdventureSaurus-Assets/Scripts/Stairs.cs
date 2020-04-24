@@ -17,6 +17,7 @@ public class Stairs : MonoBehaviour
     }
     // Transform of the stairs (to hold position)
     private Transform _stairsTrans;
+    public void SetStairsTrans(Transform newStairsTrans) { _stairsTrans = newStairsTrans; }
     // If a character is currently on the stairs
     private bool _touchedOnce;
     // The transform of the character on the stairs
@@ -90,7 +91,7 @@ public class Stairs : MonoBehaviour
         foreach (Transform player in _players)
         { 
             // If it exists and 
-            if (player != null && _whoIsOn == player)
+            if (player != null && _whoIsOn == player && _stairsTrans != null)
             {
                 if (player.transform.position != _stairsTrans.transform.position)
                 {
@@ -110,7 +111,7 @@ public class Stairs : MonoBehaviour
         {
             foreach (Transform player in _players)
             {
-                if (player != null && player.position == _stairsTrans.transform.position)
+                if (player != null && _stairsTrans != null && player.position == _stairsTrans.transform.position)
                 {
                     prompt();
                     _touchedOnce = true;

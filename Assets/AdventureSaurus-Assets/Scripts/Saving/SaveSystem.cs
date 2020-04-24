@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Tilemaps;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -327,6 +326,32 @@ public static class SaveSystem
     public static ChildAmountData LoadInteractableAmount()
     {
         return LoadChildAmount("/interactableAmount.num");
+    }
+
+    /// <summary>
+    /// Saves the data for an interactable in a binary file at /interactableX.inac where X is the interactable's sibling index
+    /// </summary>
+    /// <param name="interact">Interactable whose data we want to save</param>
+    public static void SaveInteractable(Interactable interact)
+    {
+        // Interact data to put in the file
+        InteractableData data = new InteractableData(interact);
+        // File name
+        string additionalPath = "/interactable" + interact.transform.GetSiblingIndex() + ".inac";
+        // Save the data
+        SaveData(data, additionalPath);
+    }
+    /// <summary>
+    /// Loads save data for an Interactable from a binary file at /interactableX.inac where X is the interactable's sibling index
+    /// </summary>
+    /// <param name="interactableSiblingIndex">Sibling index of the Interactable we want to load data for</param>
+    /// <returns>InteractableData. The data loaded from the file</returns>
+    public static InteractableData LoadInteractable(int interactableSiblingIndex)
+    {
+        // File name
+        string additionalPath = "/interactable" + interactableSiblingIndex.ToString() + ".inac";
+        // Return the data as InteractableData
+        return LoadData<InteractableData>(additionalPath);
     }
 
 }

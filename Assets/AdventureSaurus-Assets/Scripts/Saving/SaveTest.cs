@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SaveTest : MonoBehaviour
 {
@@ -21,6 +19,9 @@ public class SaveTest : MonoBehaviour
     // Grid Prefab
     [SerializeField] private GameObject _gridPrefab = null;
 
+    // Interactable Parent
+    [SerializeField] private Transform _interactableParent = null;
+
     public void TestLoad()
     {
         // Rooms
@@ -33,6 +34,8 @@ public class SaveTest : MonoBehaviour
         LoadStairsController.LoadStairs(_stairsPrefab);
         // Tilemap
         LoadTilemapController.LoadTilemap(_gridPrefab);
+        // Interactables
+        LoadInteractablesController.LoadInteractables(_interactableParent);
     }
 
     public void TestSave()
