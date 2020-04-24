@@ -19,21 +19,19 @@ public static class SaveSystem
             OnSave();
     }
 
-    //// Rooms
+    //// Base Save and Load
     /// <summary>
-    /// Saves the amount of rooms in a binary file at /roomAmount.num
+    /// Saves the passed in data in a binary file at the specified path
     /// </summary>
-    /// <param name="roomParent"></param>
-    public static void SaveRoomAmount(Transform roomParent)
+    /// <param name="data">Data to save</param>
+    /// <param name="additionalPath">What to save the file as. Must start with '/'</param>
+    private static void SaveData(System.Object data, string additionalPath)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         // Location of the file
-        string path = Application.persistentDataPath + "/roomAmount.num";
+        string path = Application.persistentDataPath + additionalPath;
         // Open a connection to the file
         FileStream stream = new FileStream(path, FileMode.Create);
-
-        // Data to put in the file
-        ChildAmountData data = new ChildAmountData(roomParent);
 
         // Write to the file
         formatter.Serialize(stream, data);
@@ -41,13 +39,14 @@ public static class SaveSystem
         stream.Close();
     }
     /// <summary>
-    /// Loads the amount of rooms from a binary file at /roomAmount.num
+    /// Loads data from a binary file with the specified path
     /// </summary>
-    /// <returns>ChildAmountData. The data loaded from the file</returns>
-    public static ChildAmountData LoadRoomAmount()
+    /// <param name="additionalPath">Name of the file to load. Must start with '/'</param>
+    /// <returns>Data as System.Object. Cast to the desired data type with an 'as DataType'</returns>
+    private static T LoadData<T>(string additionalPath)
     {
         // The attempted path
-        string path = Application.persistentDataPath + "/roomAmount.num";
+        string path = Application.persistentDataPath + additionalPath;
         // If there is a file there
         if (File.Exists(path))
         {
@@ -56,7 +55,7 @@ public static class SaveSystem
             FileStream stream = new FileStream(path, FileMode.Open);
 
             // Create data from the file
-            ChildAmountData data = formatter.Deserialize(stream) as ChildAmountData;
+            T data = (T) formatter.Deserialize(stream);
             // Close the connection to the file
             stream.Close();
 
@@ -65,8 +64,52 @@ public static class SaveSystem
         else
         {
             Debug.LogError("Save file not found in " + path);
-            return null;
+            return default;
         }
+    }
+
+
+    //// Child Amount
+    /// <summary>
+    /// Saves the amount of children of the passed in parent
+    /// </summary>
+    /// <param name="parent">Transform whose childCount we will save</param>
+    /// <param name="additionalPath">What to save the file as. Must start with '/'</param>
+    private static void SaveChildAmount(Transform parent, string additionalPath)
+    {
+        // Data to put in the file
+        ChildAmountData data = new ChildAmountData(parent);
+        // Save the data
+        SaveData(data, additionalPath);
+    }
+    /// <summary>
+    /// Loads the amount of children a parent had from a binary file at the specified additional path
+    /// </summary>
+    /// <param name="additionalPath">Path to load the data from</param>
+    /// <returns>ChildAmountData. The data loaded from the file</returns>
+    private static ChildAmountData LoadChildAmount(string additionalPath)
+    {
+        // Load the data as ChildAmountData
+        return LoadData<ChildAmountData>(additionalPath);
+    }
+
+
+    //// Rooms
+    /// <summary>
+    /// Saves the amount of rooms in a binary file at /roomAmount.num
+    /// </summary>
+    /// <param name="roomParent">Parent of the rooms to save</param>
+    public static void SaveRoomAmount(Transform roomParent)
+    {
+        SaveChildAmount(roomParent, "/roomAmount.num");
+    }
+    /// <summary>
+    /// Loads the amount of rooms from a binary file at /roomAmount.num
+    /// </summary>
+    /// <returns>ChildAmountData. The data loaded from the file</returns>
+    public static ChildAmountData LoadRoomAmount()
+    {
+        return LoadChildAmount("/roomAmount.num");
     }
 
     /// <summary>
@@ -75,19 +118,11 @@ public static class SaveSystem
     /// <param name="room">Room whose data we want to save</param>
     public static void SaveRoom(Room room)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        // Location of the file
-        string path = Application.persistentDataPath + "/room" + room.transform.GetSiblingIndex().ToString() + ".rm";
-        // Open a connection to the file
-        FileStream stream = new FileStream(path, FileMode.Create);
-
         // Data to put in the file
         RoomData data = new RoomData(room);
-
-        // Write to the file
-        formatter.Serialize(stream, data);
-        // Close the connection to the file
-        stream.Close();
+        // Save the data
+        string additionalPath = "/room" + room.transform.GetSiblingIndex().ToString() + ".rm";
+        SaveData(data, additionalPath);
     }
     /// <summary>
     /// Loads saved data for a room from a binary file at /roomX.rm where X is the sibling index of the room
@@ -96,27 +131,9 @@ public static class SaveSystem
     /// <returns>RoomData. The data loaded from the file</returns>
     public static RoomData LoadRoom(int roomSiblingIndex)
     {
-        // The attempted path
-        string path = Application.persistentDataPath + "/room" + roomSiblingIndex.ToString() + ".rm";
-        // If there is a file there
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            // Open a connection to the file
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            // Create data from the file
-            RoomData data = formatter.Deserialize(stream) as RoomData;
-            // Close the connection to the file
-            stream.Close();
-
-            return data;
-        }
-        else
-        {
-            Debug.LogError("Save file not found in " + path);
-            return null;
-        }
+        // Return the data as RoomData
+        string additionalPath = "/room" + roomSiblingIndex.ToString() + ".rm";
+        return LoadData<RoomData>(additionalPath);
     }
 
 
@@ -127,19 +144,7 @@ public static class SaveSystem
     /// <param name="bleedLightParent"></param>
     public static void SaveBleedLightAmount(Transform bleedLightParent)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        // Location of the file
-        string path = Application.persistentDataPath + "/bleedLightAmount.num";
-        // Open a connection to the file
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        // Data to put in the file
-        ChildAmountData data = new ChildAmountData(bleedLightParent);
-
-        // Write to the file
-        formatter.Serialize(stream, data);
-        // Close the connection to the file
-        stream.Close();
+        SaveChildAmount(bleedLightParent, "/bleedLightAmount.num");
     }
     /// <summary>
     /// Loads the amount of bleed lights from a binary file at /bleedLightAmount.num
@@ -147,27 +152,7 @@ public static class SaveSystem
     /// <returns>ChildAmountData. The data loaded from the file</returns>
     public static ChildAmountData LoadBleedLightAmount()
     {
-        // The attempted path
-        string path = Application.persistentDataPath + "/bleedLightAmount.num";
-        // If there is a file there
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            // Open a connection to the file
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            // Create data from the file
-            ChildAmountData data = formatter.Deserialize(stream) as ChildAmountData;
-            // Close the connection to the file
-            stream.Close();
-
-            return data;
-        }
-        else
-        {
-            Debug.LogError("Save file not found in " + path);
-            return null;
-        }
+        return LoadChildAmount("/bleedLightAmount.num");
     }
 
     /// <summary>
@@ -176,19 +161,12 @@ public static class SaveSystem
     /// <param name="bleedLight">Bleed light whose data we want to save</param>
     public static void SaveBleedLight(BleedLight bleedLight)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        // Location of the file
-        string path = Application.persistentDataPath + "/bleedLight" + bleedLight.transform.GetSiblingIndex().ToString() + ".bl";
-        // Open a connection to the file
-        FileStream stream = new FileStream(path, FileMode.Create);
-
         // Data to put in the file
         BleedLightData data = new BleedLightData(bleedLight);
-
-        // Write to the file
-        formatter.Serialize(stream, data);
-        // Close the connection to the file
-        stream.Close();
+        // File name
+        string additionalPath = "/bleedLight" + bleedLight.transform.GetSiblingIndex().ToString() + ".bl";
+        // Save the data
+        SaveData(data, additionalPath);
     }
     /// <summary>
     /// Loads saved data for a bleed light from a binary file at /bleedLightX.bl where X is the sibling index of the room
@@ -197,27 +175,10 @@ public static class SaveSystem
     /// <returns>BleedLightData. The data loaded from the file</returns>
     public static BleedLightData LoadBleedLight(int bleedLightSiblingIndex)
     {
-        // The attempted path
-        string path = Application.persistentDataPath + "/bleedLight" + bleedLightSiblingIndex.ToString() + ".bl";
-        // If there is a file there
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            // Open a connection to the file
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            // Create data from the file
-            BleedLightData data = formatter.Deserialize(stream) as BleedLightData;
-            // Close the connection to the file
-            stream.Close();
-
-            return data;
-        }
-        else
-        {
-            Debug.LogError("Save file not found in " + path);
-            return null;
-        }
+        // File name
+        string additionalPath = "/bleedLight" + bleedLightSiblingIndex.ToString() + ".bl";
+        // Return the data as BleedLightData
+        return LoadData<BleedLightData>(additionalPath);
     }
 
 
@@ -228,19 +189,7 @@ public static class SaveSystem
     /// <param name="wallParent">Parent of all the walls we will be saving</param>
     public static void SaveWallAmount(Transform wallParent)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        // Location of the file
-        string path = Application.persistentDataPath + "/wallAmount.num";
-        // Open a connection to the file
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        // Data to put in the file
-        ChildAmountData data = new ChildAmountData(wallParent);
-
-        // Write to the file
-        formatter.Serialize(stream, data);
-        // Close the connection to the file
-        stream.Close();
+        SaveChildAmount(wallParent, "/wallAmount.num");
     }
     /// <summary>
     /// Loads the amount of walls from a binary file at /wallAmount.num
@@ -248,27 +197,7 @@ public static class SaveSystem
     /// <returns>ChildAmountData. The data loaded from the file</returns>
     public static ChildAmountData LoadWallAmount()
     {
-        // The attempted path
-        string path = Application.persistentDataPath + "/wallAmount.num";
-        // If there is a file there
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            // Open a connection to the file
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            // Create data from the file
-            ChildAmountData data = formatter.Deserialize(stream) as ChildAmountData;
-            // Close the connection to the file
-            stream.Close();
-
-            return data;
-        }
-        else
-        {
-            Debug.LogError("Save file not found in " + path);
-            return null;
-        }
+        return LoadChildAmount("/wallAmount.num");
     }
 
     /// <summary>
@@ -277,19 +206,12 @@ public static class SaveSystem
     /// <param name="wall">Transform of wall whose data we want to save</param>
     public static void SaveWall(Transform wall)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        // Location of the file
-        string path = Application.persistentDataPath + "/wall" + wall.GetSiblingIndex().ToString() + ".wl";
-        // Open a connection to the file
-        FileStream stream = new FileStream(path, FileMode.Create);
-
         // Data to put in the file
         WallData data = new WallData(wall);
-
-        // Write to the file
-        formatter.Serialize(stream, data);
-        // Close the connection to the file
-        stream.Close();
+        // File Name
+        string additionalPath = "/wall" + wall.GetSiblingIndex().ToString() + ".wl";
+        // Save the data
+        SaveData(data, additionalPath);
     }
     /// <summary>
     /// Loads saved data for a wall from a binary file at /wallX.wl where X is the sibling index of the room
@@ -298,27 +220,10 @@ public static class SaveSystem
     /// <returns>WallData. The data loaded from the file</returns>
     public static WallData LoadWall(int wallSiblingIndex)
     {
-        // The attempted path
-        string path = Application.persistentDataPath + "/wall" + wallSiblingIndex.ToString() + ".wl";
-        // If there is a file there
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            // Open a connection to the file
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            // Create data from the file
-            WallData data = formatter.Deserialize(stream) as WallData;
-            // Close the connection to the file
-            stream.Close();
-
-            return data;
-        }
-        else
-        {
-            Debug.LogError("Save file not found in " + path);
-            return null;
-        }
+        // File Name
+        string additionalPath = "/wall" + wallSiblingIndex.ToString() + ".wl";
+        // Return the data as WallData
+        return LoadData<WallData>(additionalPath);
     }
 
 
@@ -329,19 +234,12 @@ public static class SaveSystem
     /// <param name="stairs">Transform of stairs whose data we want to save</param>
     public static void SaveStairs(Transform stairs)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        // Location of the file
-        string path = Application.persistentDataPath + "/stairs.st";
-        // Open a connection to the file
-        FileStream stream = new FileStream(path, FileMode.Create);
-
+        // File Name
+        string additionalPath = "/stairs.st";
         // Data to put in the file
         StairsData data = new StairsData(stairs);
-
-        // Write to the file
-        formatter.Serialize(stream, data);
-        // Close the connection to the file
-        stream.Close();
+        // Save the data
+        SaveData(data, additionalPath);
     }
     /// <summary>
     /// Loads saved data for the stairs from a binary file at /stairs.st
@@ -349,27 +247,10 @@ public static class SaveSystem
     /// <returns>StairsData. The data loaded from the file</returns>
     public static StairsData LoadStairs()
     {
-        // The attempted path
-        string path = Application.persistentDataPath + "/stairs.st";
-        // If there is a file there
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            // Open a connection to the file
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            // Create data from the file
-            StairsData data = formatter.Deserialize(stream) as StairsData;
-            // Close the connection to the file
-            stream.Close();
-
-            return data;
-        }
-        else
-        {
-            Debug.LogError("Save file not found in " + path);
-            return null;
-        }
+        // File Name
+        string additionalPath = "/stairs.st";
+        // Return the data as StairsData
+        return LoadData<StairsData>(additionalPath);
     }
 
 
@@ -381,19 +262,12 @@ public static class SaveSystem
     /// <param name="topRight">The topRight-most position of the tilemap</param>
     public static void SaveTilemapBounds(Vector2Int botLeft, Vector2Int topRight)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        // Location of the file
-        string path = Application.persistentDataPath + "/tilemapBounds.twopos";
-        // Open a connection to the file
-        FileStream stream = new FileStream(path, FileMode.Create);
-
         // Data to put in the file
         TilemapBoundsData data = new TilemapBoundsData(botLeft, topRight);
-
-        // Write to the file
-        formatter.Serialize(stream, data);
-        // Close the connection to the file
-        stream.Close();
+        // File Name
+        string additionalPath = "/tilemapBounds.twopos";
+        // Save the data
+        SaveData(data, additionalPath);
     }
     /// <summary>
     /// Loads the bounds of the tilemap from a binary file at /tilemapBounds.twopos
@@ -401,27 +275,10 @@ public static class SaveSystem
     /// <returns>TilemapBoundsData. The data loaded from the file</returns>
     public static TilemapBoundsData LoadTilemapBounds()
     {
-        // The attempted path
-        string path = Application.persistentDataPath + "/tilemapBounds.twopos";
-        // If there is a file there
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            // Open a connection to the file
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            // Create data from the file
-            TilemapBoundsData data = formatter.Deserialize(stream) as TilemapBoundsData;
-            // Close the connection to the file
-            stream.Close();
-
-            return data;
-        }
-        else
-        {
-            Debug.LogError("Save file not found in " + path);
-            return null;
-        }
+        // File Name
+        string additionalPath = "/tilemapBounds.twopos";
+        // Return the data as TilemapBoundsData
+        return LoadData<TilemapBoundsData>(additionalPath);
     }
 
     /// <summary>
@@ -431,20 +288,13 @@ public static class SaveSystem
     /// <param name="tileKey">Key of the tile we will save</param>
     public static void SaveTile(Vector3Int tilePos, int tileKey)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        // Location of the file
-        string path = Application.persistentDataPath + "/tile_" + tilePos.x.ToString() + "_" + tilePos.y.ToString() +
-           "_" + tilePos.z.ToString() + ".tl";
-        // Open a connection to the file
-        FileStream stream = new FileStream(path, FileMode.Create);
-
         // Data to put in the file
         TileSaveData data = new TileSaveData(tilePos, tileKey);
-
-        // Write to the file
-        formatter.Serialize(stream, data);
-        // Close the connection to the file
-        stream.Close();
+        // File Name
+        string additionalPath = "/tile_" + tilePos.x.ToString() + "_" + tilePos.y.ToString() +
+           "_" + tilePos.z.ToString() + ".tl";
+        // Save the data
+        SaveData(data, additionalPath);
     }
     /// <summary>
     /// Loads saved data for a tile from a binary file at /tileXYZ.tl where XYZ is the position of the tile
@@ -453,27 +303,30 @@ public static class SaveSystem
     /// <returns>TileSaveData. The data loaded from the file</returns>
     public static TileSaveData LoadTile(Vector3Int tilePos)
     {
-        // The attempted path
-        string path = Application.persistentDataPath + "/tile_" + tilePos.x.ToString() + "_" + tilePos.y.ToString() +
+        // File Name
+        string additionalPath = "/tile_" + tilePos.x.ToString() + "_" + tilePos.y.ToString() +
            "_" + tilePos.z.ToString() + ".tl";
-        // If there is a file there
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            // Open a connection to the file
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            // Create data from the file
-            TileSaveData data = formatter.Deserialize(stream) as TileSaveData;
-            // Close the connection to the file
-            stream.Close();
-
-            return data;
-        }
-        else
-        {
-            Debug.LogError("Save file not found in " + path);
-            return null;
-        }
+        // Return the data as TileSaveData
+        return LoadData<TileSaveData>(additionalPath);
     }
+
+
+    //// Interactables
+    /// <summary>
+    /// Saves the amount of interactables in a binary file at /interactableAmount.num
+    /// </summary>
+    /// <param name="interactablesParent">Parent of all the interactables we will be saving</param>
+    public static void SaveInteractableAmount(Transform interactablesParent)
+    {
+        SaveChildAmount(interactablesParent, "/interactableAmount.num");
+    }
+    /// <summary>
+    /// Loads the amount of interactables from a binary file at /interactableAmount.num
+    /// </summary>
+    /// <returns>ChildAmountData. The data loaded from the file</returns>
+    public static ChildAmountData LoadInteractableAmount()
+    {
+        return LoadChildAmount("/interactableAmount.num");
+    }
+
 }
