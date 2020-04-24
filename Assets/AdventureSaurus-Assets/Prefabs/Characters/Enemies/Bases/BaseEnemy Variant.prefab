@@ -41,7 +41,6 @@ MonoBehaviour:
   _strength: 0
   _magic: 0
   _speed: 0
-  _defense: 0
   _vitality: 0
   _statsDisplay: {fileID: 5455154681930454314}
   _nameText: {fileID: 5455154681749340615}
@@ -75,6 +74,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BaseEnemy Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413198228147627903, guid: 1bd44685ffcc8c243baaf88a3eb96f1f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4413198228147627902, guid: 1bd44685ffcc8c243baaf88a3eb96f1f,
         type: 3}

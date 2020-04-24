@@ -28,16 +28,18 @@ public class ProceduralGenerationController : MonoBehaviour
     [SerializeField] private Transform _stairsTrans;
     private Tilemap _tilemapRef;
     private Transform _fireTrans;
-    [SerializeField] private Transform _charParent;
+    [SerializeField] private Transform _enemyParent;
+    [SerializeField] private Transform _allyParent;
     [SerializeField] private Transform _interactParent;
 
     // The names of the parents and transforms
-    public const string roomParentName = "RoomParent";
-    public const string bleedLightParentName = "BleedLightParent";
-    public const string wallParentName = "WallParent";
-    public const string stairsName = "StairsTrans";
-    public const string charParentName = "CharacterParent";
-    public const string interactParentName = "InteractParent";
+    public const string ROOM_PARENT_NAME = "RoomParent";
+    public const string BLEEDLIGHT_PARENT_NAME = "BleedLightParent";
+    public const string WALL_PARENT_NAME = "WallParent";
+    public const string STAIRS_NAME = "StairsTrans";
+    public const string ENEMY_PARENT_NAME = "EnemyParent";
+    public const string ALLY_PARENT_NAME = "AllyParent";
+    public const string INTERACT_PARENT_NAME = "InteractParent";
 
     // References for generation
     private GenerateRooms _genRoomsRef;
@@ -132,7 +134,7 @@ public class ProceduralGenerationController : MonoBehaviour
                 _tilemapRef = _tilesGenRef.SpawnTileMap(_roomParent, _wallParent, _stairsTrans);
 
                 // Create a parent for the interactables
-                _interactParent = new GameObject(interactParentName).transform;
+                _interactParent = new GameObject(INTERACT_PARENT_NAME).transform;
                 _interactParent.position = Vector3.zero;
 
                 //Debug.Log("SpawnSafeRoom");
@@ -145,8 +147,8 @@ public class ProceduralGenerationController : MonoBehaviour
                 }
 
                 // Create the Character parent
-                _charParent = new GameObject(charParentName).transform;
-                _charParent.position = Vector3.zero;
+                _enemyParent = new GameObject().transform;
+                _enemyParent.position = Vector3.zero;
 
                 //Debug.Log("PlaceAllies");
                 // Place the allies randomly in the start room
@@ -154,29 +156,35 @@ public class ProceduralGenerationController : MonoBehaviour
 
                 //Debug.Log("SpawnEnemies");
                 // Spawn the enmies
-                _enemiesGenRef.SpawnEnemies(_charParent, _roomParent, _curFloorDiff);
+                _enemiesGenRef.SpawnEnemies(_enemyParent, _roomParent, _curFloorDiff);
+
+                // Create the ally parent
+                _allyParent = new GameObject().transform;
+                _allyParent.position = Vector3.zero;
             }
 
             // Set the names of the parents and transforms
             if (_roomParent != null)
-                _roomParent.name = roomParentName;
+                _roomParent.name = ROOM_PARENT_NAME;
             // Bleed light parent's name is set in generation
             if (_wallParent != null)
-                _wallParent.name = wallParentName;
+                _wallParent.name = WALL_PARENT_NAME;
             if (_stairsTrans != null)
-                _stairsTrans.name = stairsName;
-            if (_charParent != null)
-                _charParent.name = charParentName;
+                _stairsTrans.name = STAIRS_NAME;
+            if (_enemyParent != null)
+                _enemyParent.name = ENEMY_PARENT_NAME;
+            if (_allyParent != null)
+                _allyParent.name = ALLY_PARENT_NAME;
             if (_interactParent != null)
-                _interactParent.name = interactParentName;
+                _interactParent.name = INTERACT_PARENT_NAME;
 
             // Being extra careful
             int maxIterations = 100;
             int counter = 0;
-            // Place the allies in the character parent
+            // Place the allies in the ally parent
             while (_allyTempParent.childCount != 0)
             {
-                _allyTempParent.GetChild(0).SetParent(_charParent);
+                _allyTempParent.GetChild(0).SetParent(_allyParent);
                 // Avoid infinite loop
                 if (++counter > maxIterations)
                 {

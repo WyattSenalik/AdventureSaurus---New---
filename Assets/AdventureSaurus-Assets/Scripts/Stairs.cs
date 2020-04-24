@@ -10,11 +10,7 @@ public class Stairs : MonoBehaviour
     [SerializeField] private GameObject _promptMenu = null;
 
     // List of players
-    private List<Transform> _players;
-    public List<Transform> Players
-    {
-        set { _players = value; }
-    }
+    private Transform _allyParent;
     // Transform of the stairs (to hold position)
     private Transform _stairsTrans;
     public void SetStairsTrans(Transform newStairsTrans) { _stairsTrans = newStairsTrans; }
@@ -53,8 +49,7 @@ public class Stairs : MonoBehaviour
     // Called before start
     private void Awake()
     {
-        // Initialize the array of players
-        _players = new List<Transform>();
+        // Don't start out with a touch
         _touchedOnce = false;
     }
 
@@ -64,23 +59,11 @@ public class Stairs : MonoBehaviour
     /// </summary>
     private void Initialize()
     {
-        // Get the character parent
-        Transform charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
-
-        // Initialize the array of players
-        _players = new List<Transform>();
-        // Iterate over the characters to get the allies
-        foreach (Transform character in charParent)
-        {
-            MoveAttack mARef = character.GetComponent<MoveAttack>();
-            if (mARef != null && mARef.WhatAmI == CharacterType.Ally)
-            {
-                _players.Add(character);
-            }
-        }
+        // Get the ally parent
+        _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
 
         // Set the stairs transform
-        _stairsTrans = GameObject.Find(ProceduralGenerationController.stairsName).transform;
+        _stairsTrans = GameObject.Find(ProceduralGenerationController.STAIRS_NAME).transform;
     }
 
     // Called once per frame
@@ -88,7 +71,7 @@ public class Stairs : MonoBehaviour
     {
         touchStairs();
         // Iterate over the players
-        foreach (Transform player in _players)
+        foreach (Transform player in _allyParent)
         { 
             // If it exists and 
             if (player != null && _whoIsOn == player && _stairsTrans != null)
@@ -109,7 +92,7 @@ public class Stairs : MonoBehaviour
     {
         if (_touchedOnce == false)
         {
-            foreach (Transform player in _players)
+            foreach (Transform player in _allyParent)
             {
                 if (player != null && _stairsTrans != null && player.position == _stairsTrans.transform.position)
                 {

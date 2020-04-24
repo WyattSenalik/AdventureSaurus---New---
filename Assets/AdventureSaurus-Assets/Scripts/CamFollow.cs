@@ -10,7 +10,7 @@ public class CamFollow : MonoBehaviour
     //[SerializeField] private float _cameraDistance = 30.0f;
 
     // All allies
-    private List<Transform> _allies;
+    private Transform _allyParent;
 
     // Index of last ally followed
     private Transform _lastAllyFollowed;
@@ -86,19 +86,9 @@ public class CamFollow : MonoBehaviour
     /// </summary>
     private void Initialize()
     {
-        Transform charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
-
-        // Initialize the list
-        _allies = new List<Transform>();
         // Get the allies
-        foreach (Transform charTrans in charParent)
-        {
-            MoveAttack charMA = charTrans.GetComponent<MoveAttack>();
-            if (charMA != null && charMA.WhatAmI == CharacterType.Ally)
-            {
-                _allies.Add(charTrans);
-            }
-        }
+        _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
+
         // Default to following the player first
         _isOnEnemy = false;
         FollowFirstAlly();
@@ -212,14 +202,10 @@ public class CamFollow : MonoBehaviour
     private void FollowFirstAlly()
     {
         // Find the first enemy and follow it
-        foreach (Transform charTrans in _allies)
+        if (_allyParent.childCount > 0)
         {
-            if (charTrans != null)
-            {
-                _charToFollow = charTrans;
-                _lastAllyFollowed = charTrans;
-                break;
-            }
+            _charToFollow = _allyParent.GetChild(0);
+            _lastAllyFollowed = _charToFollow;
         }
     }
 
@@ -234,10 +220,10 @@ public class CamFollow : MonoBehaviour
         _isOnEnemy = false;
         _panFinished = true;
 
-        if (allyIndex < _allies.Count && _allies[allyIndex] != null)
+        if (allyIndex < _allyParent.childCount)
         {
-            _charToFollow = _allies[allyIndex];
-            _lastAllyFollowed = _allies[allyIndex];
+            _charToFollow = _allyParent.GetChild(allyIndex);
+            _lastAllyFollowed = _charToFollow;
         }
     }
 
@@ -251,7 +237,7 @@ public class CamFollow : MonoBehaviour
         _isOnEnemy = false;
         _panFinished = true;
 
-        if (allyToFollow != null && _allies.Contains(allyToFollow))
+        if (allyToFollow != null)
         {
             _charToFollow = allyToFollow;
             _lastAllyFollowed = allyToFollow;

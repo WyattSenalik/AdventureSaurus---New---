@@ -6,6 +6,7 @@ public class EnemyStats : Stats
 {
     // For determining how much xp the killer of this character should get
     [SerializeField] private int _baseXPToGive = 0;
+    public int GetBaseXpToGive() { return _baseXPToGive; }
 
     /// <summary>
     /// Calculates how much xp should be gained by the killer for killing this character

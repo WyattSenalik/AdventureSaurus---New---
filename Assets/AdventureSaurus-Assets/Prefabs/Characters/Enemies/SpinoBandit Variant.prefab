@@ -138,6 +138,11 @@ PrefabInstance:
       propertyPath: _vitality
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 252873807839094695, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _prefabKey
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2098535882787079964, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: charName

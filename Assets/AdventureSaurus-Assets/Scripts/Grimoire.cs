@@ -49,7 +49,7 @@ public class Grimoire : MonoBehaviour
     public void MagicIncrease()
     {
         // While we haven't read as many pages as we should have
-        while (_pagesRead < _statRef.Magic)
+        while (_pagesRead < _statRef.GetMagic())
         {
             // If we have read all the written pages, just increase damage
             if (_pagesRead >= _grimoirePages.Length)
@@ -129,7 +129,7 @@ public class Grimoire : MonoBehaviour
     public void MagicDecrease()
     {
         // While we have read too many pages
-        while (_pagesRead >= _statRef.Magic)
+        while (_pagesRead >= _statRef.GetMagic())
         {
             // If we have read none the written pages, do nothing
             if (_pagesRead <= 0)

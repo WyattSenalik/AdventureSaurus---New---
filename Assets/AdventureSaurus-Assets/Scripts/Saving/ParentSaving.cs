@@ -14,6 +14,8 @@ public class ParentSaving : MonoBehaviour
     private Transform _stairsTrans;
     // Parent of the interactables
     private Transform _interactableParent;
+    // Parent of the characters
+    private Transform _characterParent;
 
 
     // Called when the component is set active
@@ -31,6 +33,8 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave += SaveStairs;
         // Also save the amount of interactables
         SaveSystem.OnSave += SaveInteractableAmount;
+        // Also save the amount of enemies
+        SaveSystem.OnSave += SaveEnemyAmount;
     }
     // Called when the component is toggled off
     // Unsubscribe from events
@@ -42,6 +46,7 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave -= SaveWallsAndWallAmount;
         SaveSystem.OnSave -= SaveStairs;
         SaveSystem.OnSave -= SaveInteractableAmount;
+        SaveSystem.OnSave -= SaveEnemyAmount;
     }
     // Called when the component is destroyed
     // Unsubscribe from ALL events
@@ -53,6 +58,7 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave -= SaveWallsAndWallAmount;
         SaveSystem.OnSave -= SaveStairs;
         SaveSystem.OnSave -= SaveInteractableAmount;
+        SaveSystem.OnSave -= SaveEnemyAmount;
     }
 
     /// <summary>
@@ -61,15 +67,15 @@ public class ParentSaving : MonoBehaviour
     private void Initialize()
     {
         // Set the room parent
-        _roomParent = GameObject.Find(ProceduralGenerationController.roomParentName).transform;
+        _roomParent = GameObject.Find(ProceduralGenerationController.ROOM_PARENT_NAME).transform;
         // Set the bleed light parent
-        _bleedLightParent = GameObject.Find(ProceduralGenerationController.bleedLightParentName).transform;
+        _bleedLightParent = GameObject.Find(ProceduralGenerationController.BLEEDLIGHT_PARENT_NAME).transform;
         // Set the wall parent
-        _wallParent = GameObject.Find(ProceduralGenerationController.wallParentName).transform;
+        _wallParent = GameObject.Find(ProceduralGenerationController.WALL_PARENT_NAME).transform;
         // Set the stairs transform
-        _stairsTrans = GameObject.Find(ProceduralGenerationController.stairsName).transform;
+        _stairsTrans = GameObject.Find(ProceduralGenerationController.STAIRS_NAME).transform;
         // Set the interactable parent
-        _interactableParent = GameObject.Find(ProceduralGenerationController.interactParentName).transform;
+        _interactableParent = GameObject.Find(ProceduralGenerationController.INTERACT_PARENT_NAME).transform;
     }
 
     /// <summary>
@@ -116,5 +122,13 @@ public class ParentSaving : MonoBehaviour
     private void SaveInteractableAmount()
     {
         SaveSystem.SaveInteractableAmount(_interactableParent);
+    }
+
+    /// <summary>
+    /// Saves the amount of enemies we have to a binary file
+    /// </summary>
+    private void SaveEnemyAmount()
+    {
+        SaveSystem.SaveEnemyAmount(_characterParent);
     }
 }

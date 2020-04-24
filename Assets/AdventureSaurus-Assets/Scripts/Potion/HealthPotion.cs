@@ -59,24 +59,18 @@ public class HealthPotion : MonoBehaviour
 
     private void Initialize()
     {
-        Transform charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
+        Transform allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
 
         // Initialize ally stats
         _alliesHealth = new List<AllyHealth>();
-        // Iterate over the characters to find the allies
-        foreach (Transform singChar in charParent)
+        // Iterate over the allies to get their health
+        foreach (Transform allyTrans in allyParent)
         {
-            // Try to get the character's MoveAttack script
-            MoveAttack singMA = singChar.GetComponent<MoveAttack>();
-            // If the character is an ally, try to add its stats to the alliesStats list
-            if (singMA.WhatAmI == CharacterType.Ally)
-            {
-                // Try to ge tthe character's stats
-                AllyHealth singHealth = singChar.GetComponent<AllyHealth>();
-                // If the Health aren't null, add it to the list
-                if (singHealth != null)
-                    _alliesHealth.Add(singHealth);
-            }
+            // Try to ge the ally's health
+            AllyHealth allyHealth = allyTrans.GetComponent<AllyHealth>();
+            // If the Health aren't null, add it to the list
+            if (allyHealth != null)
+                _alliesHealth.Add(allyHealth);
         }
     }
     private void Start()

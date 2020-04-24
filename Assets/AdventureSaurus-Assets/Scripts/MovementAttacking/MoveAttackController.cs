@@ -18,8 +18,10 @@ public class MoveAttackController : MonoBehaviour
     }
     // Parent of all wall objects
     private Transform _wallParent;
-    // Parent of all character (ally and enemy) objects
-    private Transform _charParent;
+    // Parent of all ally objects
+    private Transform _allyParent;
+    // Parent of all eney objects
+    private Transform _enemyParent;
     // Parent of all the interactables
     private Transform _interactParent;
     // References to all the allies MoveAttack scripts
@@ -100,10 +102,11 @@ public class MoveAttackController : MonoBehaviour
     /// </summary>
     private void Initialize()
     {
-        _charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
-        _wallParent = GameObject.Find(ProceduralGenerationController.wallParentName).transform;
-        Transform roomParent = GameObject.Find(ProceduralGenerationController.roomParentName).transform;
-        _interactParent = GameObject.Find(ProceduralGenerationController.interactParentName).transform;
+        _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
+        _enemyParent = GameObject.Find(ProceduralGenerationController.ENEMY_PARENT_NAME).transform;
+        _wallParent = GameObject.Find(ProceduralGenerationController.WALL_PARENT_NAME).transform;
+        Transform roomParent = GameObject.Find(ProceduralGenerationController.ROOM_PARENT_NAME).transform;
+        _interactParent = GameObject.Find(ProceduralGenerationController.INTERACT_PARENT_NAME).transform;
 
         // Get the bounds of the grid
         _gridTopLeft = FindTopLeftPosition(roomParent);
@@ -132,12 +135,28 @@ public class MoveAttackController : MonoBehaviour
         // For each character create the visual tiles
         // based on their starting moveRange and attackRange.
         // Also initializes each character
-        foreach (Transform charTrans in _charParent)
+
+        // Do this for each ally
+        foreach (Transform allyTrans in _allyParent)
         {
-            MoveAttack mARef = charTrans.GetComponent<MoveAttack>();
+            MoveAttack mARef = allyTrans.GetComponent<MoveAttack>();
             if (mARef == null)
             {
-                Debug.Log(charTrans.name + " does not have a MoveAttack script attached to it");
+                Debug.Log(allyTrans.name + " does not have a MoveAttack script attached to it");
+            }
+            else
+            {
+                // Create the visual tiles ahead of time
+                CreateVisualTiles(mARef);
+            }
+        }
+        // Do this for each enemy
+        foreach (Transform enemyTrans in _enemyParent)
+        {
+            MoveAttack mARef = enemyTrans.GetComponent<MoveAttack>();
+            if (mARef == null)
+            {
+                Debug.Log(enemyTrans.name + " does not have a MoveAttack script attached to it");
             }
             else
             {
@@ -194,22 +213,35 @@ public class MoveAttackController : MonoBehaviour
         _enemyMA = new List<MoveAttack>();
 
         // Iterate over all characters
-        foreach (Transform character in _charParent)
+        // Allies
+        foreach (Transform allyTrans in _allyParent)
         {
-            MoveAttack charMA = character.GetComponent<MoveAttack>();
+            MoveAttack charMA = allyTrans.GetComponent<MoveAttack>();
             // If the character has no MoveAttack script
             if (charMA == null)
             {
-                Debug.Log(character.name + " has no MoveAttack script attached to it");
+                Debug.Log(allyTrans.name + " has no MoveAttack script attached to it");
                 continue;
             }
-            UpdateGrid(character, charMA.WhatAmI);
+            UpdateGrid(allyTrans, charMA.WhatAmI);
 
-            // Add the characters to their proper list
-            if (charMA.WhatAmI == CharacterType.Ally)
-                _allyMA.Add(charMA);
-            else if (charMA.WhatAmI == CharacterType.Enemy)
-                _enemyMA.Add(charMA);
+            // Add the ally to the ally list
+            _allyMA.Add(charMA);
+        }
+        // Enemeies
+        foreach (Transform enemyTrans in _enemyParent)
+        {
+            MoveAttack charMA = enemyTrans.GetComponent<MoveAttack>();
+            // If the character has no MoveAttack script
+            if (charMA == null)
+            {
+                Debug.Log(enemyTrans.name + " has no MoveAttack script attached to it");
+                continue;
+            }
+            UpdateGrid(enemyTrans, charMA.WhatAmI);
+
+            // Add enemy to the enemy list
+            _enemyMA.Add(charMA);
         }
     }
 
@@ -532,15 +564,13 @@ public class MoveAttackController : MonoBehaviour
     /// </summary>
     private void RecalculateAllyTiles()
     {
-        // Iterate over each character
-        foreach (Transform character in _charParent)
+        // Iterate over each ally
+        foreach (MoveAttack singleAllyMA in _allyMA)
         {
-            // Try to get that character's MoveAttack script
-            MoveAttack mARef = character.GetComponent<MoveAttack>();
-            // Recalculate the character's movement and attack tiles
-            if (mARef != null && mARef.WhatAmI == CharacterType.Ally)
+            // Recalculate the ally's movement and attack tiles
+            if (singleAllyMA != null)
             {
-                mARef.CalculateAllTiles();
+                singleAllyMA.CalculateAllTiles();
             }
         }
     }
@@ -588,14 +618,27 @@ public class MoveAttackController : MonoBehaviour
         {
             return null;
         }
-        foreach (Transform character in _charParent)
+        // Go over each character
+        // Allies
+        foreach (Transform allyTrans in _allyParent)
         {
             // Convert the character's position to grid point
-            Vector2Int charGridPos = new Vector2Int(Mathf.RoundToInt(character.position.x), Mathf.RoundToInt(character.position.y));
+            Vector2Int charGridPos = new Vector2Int(Mathf.RoundToInt(allyTrans.position.x), Mathf.RoundToInt(allyTrans.position.y));
             // If the character's position on the grid is the same as the testNode's position
             if (charGridPos == testNode.Position)
             {
-                return character.GetComponent<MoveAttack>();
+                return allyTrans.GetComponent<MoveAttack>();
+            }
+        }
+        // Enemies
+        foreach (Transform enemyTrans in _enemyParent)
+        {
+            // Convert the character's position to grid point
+            Vector2Int charGridPos = new Vector2Int(Mathf.RoundToInt(enemyTrans.position.x), Mathf.RoundToInt(enemyTrans.position.y));
+            // If the character's position on the grid is the same as the testNode's position
+            if (charGridPos == testNode.Position)
+            {
+                return enemyTrans.GetComponent<MoveAttack>();
             }
         }
         return null;

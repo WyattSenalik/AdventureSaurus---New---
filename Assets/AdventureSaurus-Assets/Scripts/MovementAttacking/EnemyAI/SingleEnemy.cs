@@ -22,22 +22,34 @@ public abstract class SingleEnemy : MonoBehaviour
     {
         get { return _standingNode; }
     }
-    // The parent of all the characters
-    private Transform _charParent;
-    protected Transform CharacterParent
-    {
-        get { return _charParent; }
-    }
+    // The parent of all the allies
+    private Transform _allyParent;
+    protected Transform GetAllyParent() { return _allyParent; }
+    
 
     // Events
     // When a single enemy finishes their turn
     public delegate void SingleEnemyFinish();
     public static event SingleEnemyFinish OnSingleEnemyFinish;
 
-    // Called when the gameobject is destroyed
+
+    // Called whe the component is toggled on
+    // Subscribe to events
+    private void OnEnable()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
+    }
+    // Called when the component is toggled off
+    // Unsubscribe from events
+    private void OnDisable()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+    }
+    // Called when the component is destroyed
     // Unsubscribe from ALL events
     private void OnDestroy()
     {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
         MoveAttack.OnCharacterFinishedMoving -= BeginAttemptAction;
         MoveAttack.OnCharacterFinishedAction -= BeginEndTurn;
     }
@@ -61,9 +73,14 @@ public abstract class SingleEnemy : MonoBehaviour
         _mARef = this.GetComponent<MoveAttack>();
         if (_mARef == null)
             Debug.Log("There is no MoveAttack script attached to " + this.name);
+    }
 
-        // TEMPORARAY FIX
-        _charParent = GameObject.Find("CharacterParent").transform;
+    /// <summary>
+    /// For initializing some things after generation
+    /// </summary>
+    private void Initialize()
+    {
+        _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
     }
 
     /// <summary>

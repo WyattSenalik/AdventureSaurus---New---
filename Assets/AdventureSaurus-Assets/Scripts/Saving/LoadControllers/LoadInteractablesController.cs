@@ -22,7 +22,7 @@ public static class LoadInteractablesController
             // Get the key to which prefab to spawn off the interactData
             int key = interactData.GetPrefabKey();
             // Use the key to get the prefab to load
-            GameObject interactPref = SaveInteractablesController.GetPrefab(key);
+            GameObject interactPref = SaveInteractablesController.GetInteractablePrefab(key);
             // Spawn the prefab as a child of the interactable parent
             GameObject interactObj = Object.Instantiate(interactPref, interactableParent);
 

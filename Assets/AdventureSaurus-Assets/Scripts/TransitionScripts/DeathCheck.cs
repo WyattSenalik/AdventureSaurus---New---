@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class DeathCheck : MonoBehaviour
 {
-    // The list of ally character transforms
-    private List<Transform> _players;
+    // Parent of the ally transforms
+    private Transform _allyParent;
     // If initialize has been called in this script yet.
     // To prevent checking if non existant players are dead
     private bool _hasInitialized;
@@ -46,17 +46,8 @@ public class DeathCheck : MonoBehaviour
     private void Initialize()
     {
         // Get the character parent
-        Transform charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
+        _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
 
-        _players = new List<Transform>();
-        // Iterate over the children of the players parent
-        foreach (Transform potAlly in charParent)
-        {
-            // Make sure its an ally, then add it
-            MoveAttack mARef = potAlly.GetComponent<MoveAttack>();
-            if (mARef != null && mARef.WhatAmI == CharacterType.Ally)
-                _players.Add(potAlly);
-        }
         // Allow the update function to check if everyone is dead
         _hasInitialized = true;
     }
@@ -70,7 +61,7 @@ public class DeathCheck : MonoBehaviour
             // Assume the player is dead
             bool gameOver = true;
             // Prove it wrong
-            foreach (Transform ally in _players)
+            foreach (Transform ally in _allyParent)
             {
                 if (ally != null)
                 {

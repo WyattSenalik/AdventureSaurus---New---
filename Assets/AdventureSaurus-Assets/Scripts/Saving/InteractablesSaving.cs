@@ -13,6 +13,6 @@ public class InteractablesSaving : MonoBehaviour
     {
         // Build the hashtbale for the Interactables' keys
         if (_allInteractablePrefabs != null)
-            SaveInteractablesController.BuildHashtables(_allInteractablePrefabs);
+            SaveInteractablesController.BuildHashtable(_allInteractablePrefabs);
     }
 }

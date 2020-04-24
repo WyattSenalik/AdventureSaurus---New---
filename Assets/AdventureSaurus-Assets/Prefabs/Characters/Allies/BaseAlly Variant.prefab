@@ -40,7 +40,6 @@ MonoBehaviour:
   _strength: 0
   _magic: 0
   _speed: 0
-  _defense: 0
   _vitality: 0
   _statsDisplay: {fileID: 6744302856601422850}
   _nameText: {fileID: 6744302856215320815}
@@ -90,6 +89,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BaseAlly Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413198228147627903, guid: 1bd44685ffcc8c243baaf88a3eb96f1f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4413198228147627902, guid: 1bd44685ffcc8c243baaf88a3eb96f1f,
         type: 3}

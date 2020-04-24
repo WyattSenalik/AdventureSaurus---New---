@@ -13,7 +13,10 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private GameObject _charDetailedMenuObj = null;
 
     // References for the team menu
-    private Transform _charParent = null;
+    // Parent of all allies
+    private Transform _allyParent;
+    // Parent of all enemies
+    private Transform _enemyParent;
     // The text that displays the character's names
     [SerializeField] private Text[] _alliesNameText = null;
     // The stats of each of the allies [0] = ally1, [1] = ally2, [2] = ally3
@@ -174,25 +177,18 @@ public class PauseMenuController : MonoBehaviour
     private void Initialize()
     {
         // Set the character parent
-        _charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
-        // Character Parent validation
-        if (_charParent == null)
-        {
-            Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
-                "charParent was not initialized properly");
-        }
+        _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
 
         // We make the list here so that other scripts can access it in Start
         _alliesStats = new List<AllyStats>();
         // Get the allies Stats (assumes there are three)
-        foreach (Transform charTrans in _charParent)
+        foreach (Transform allyTrans in _allyParent)
         {
-            MoveAttack charMA = charTrans.GetComponent<MoveAttack>();
-            if (charMA != null && charMA.WhatAmI == CharacterType.Ally)
-            {
-                AllyStats allyStatsRef = charMA.GetComponent<AllyStats>();
+            AllyStats allyStatsRef = allyTrans.GetComponent<AllyStats>();
+            if (allyStatsRef != null)
                 _alliesStats.Add(allyStatsRef);
-            }
+            else
+                Debug.LogError("No AllyStats attached to " + _allyParent);
         }
 
         // Set the character side picture for each ally

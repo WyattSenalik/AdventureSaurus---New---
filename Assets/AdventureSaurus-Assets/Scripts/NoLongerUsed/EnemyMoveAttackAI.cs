@@ -7,8 +7,8 @@ public class EnemyMoveAttackAI : MonoBehaviour
     // Range the enemies will aggro
     [SerializeField] private int _aggroRange = 16;
 
-    // The parent of all the characters
-    private Transform _charParent;
+    // The parent of all allies
+    private Transform _allyParent;
 
     // Reference to the MoveAttackController script
     private MoveAttackController _mAContRef;
@@ -97,11 +97,7 @@ public class EnemyMoveAttackAI : MonoBehaviour
     /// </summary>
     private void Initialize()
     {
-        Transform charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
-
-        // If its not null, set the character parent
-        if (charParent != null)
-            _charParent = charParent;
+        _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
 
         // Find all the characters
         FindCharacters();
@@ -115,21 +111,16 @@ public class EnemyMoveAttackAI : MonoBehaviour
     {
         _alliesMA = new List<MoveAttack>();
         _enemyIndex = 0;
-        // Iterate over each character to find all the allies
-        foreach (Transform character in _charParent)
+        // Iterate over each ally to add them to the list
+        foreach (Transform allyTrans in _allyParent)
         {
-            MoveAttack ma = character.GetComponent<MoveAttack>();
-            if (ma == null)
+            MoveAttack mA = allyTrans.GetComponent<MoveAttack>();
+            if (mA == null)
             {
-                //Debug.Log("There was no MoveAttack attached to " + character.name);
+                Debug.Log("There was no MoveAttack attached to " + allyTrans.name);
                 continue;
             }
-
-
-            if (ma.WhatAmI == CharacterType.Ally)
-            {
-                _alliesMA.Add(ma);
-            }
+            _alliesMA.Add(mA);
         }
         // Bring out your dead *rings bell* Bring out your dead
         // We have to go over the enemies list and remove any dead enemies

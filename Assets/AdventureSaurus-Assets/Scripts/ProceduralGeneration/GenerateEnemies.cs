@@ -27,9 +27,9 @@ public class GenerateEnemies : MonoBehaviour
     /// <summary>
     /// Spawns enemies in the rooms and saves them as children of the character parent
     /// </summary>
-    /// <param name="characterParent">Parent of all the characters</param>
+    /// <param name="enemyParent">Parent of all the enemies</param>
     /// <param name="roomParent">Parent of all the rooms</param>
-    public void SpawnEnemies(Transform characterParent, Transform roomParent, int floorBaseDiff)
+    public void SpawnEnemies(Transform enemyParent, Transform roomParent, int floorBaseDiff)
     {
         // Be careful of the infinite
         int maxRoomIterations = roomParent.childCount + 1;
@@ -143,14 +143,14 @@ public class GenerateEnemies : MonoBehaviour
 
                     /// Step 4d: Spawn the enemy
                     /// 
-                    spawnedEnemyObj = Instantiate(enemyPrefToSpawn, characterParent);
+                    spawnedEnemyObj = Instantiate(enemyPrefToSpawn, enemyParent);
                     spawnedEnemyObj.transform.position = spawnWorldPos;
 
                     /// Step 4e: If that enemy is too strong for the current difficulty we need, then destroy it and try to spawn
                     /// another enemy. We will pick a enemy further left in the list, since they are sorted by difficulty
                     /// 
                     enDiffScriptRef = spawnedEnemyObj.GetComponent<EnemyDifficulty>();
-                    if (enDiffScriptRef.Difficulty > curRoomScript.RoomDifficulty - currentDifficulty)
+                    if (enDiffScriptRef.GetDifficulty() > curRoomScript.RoomDifficulty - currentDifficulty)
                     {
                         Destroy(spawnedEnemyObj);
                         maxSpawnLength = enemyPrefIndex;
@@ -164,10 +164,10 @@ public class GenerateEnemies : MonoBehaviour
                 /// Step 4e: If that enemy is weaker than the avg difficulty, then we need to buff it
                 /// 
                 int extraDiff = 0;
-                if (avgDiff > enDiffScriptRef.Difficulty)
+                if (avgDiff > enDiffScriptRef.GetDifficulty())
                 {
                     // Get the difference in difficulty we need to compensate for
-                    extraDiff = avgDiff - enDiffScriptRef.Difficulty;
+                    extraDiff = avgDiff - enDiffScriptRef.GetDifficulty();
                     // Get the enemy stats we are going to change
                     EnemyStats enemyStats = spawnedEnemyObj.GetComponent<EnemyStats>();
 
@@ -195,10 +195,10 @@ public class GenerateEnemies : MonoBehaviour
                 if (enDiffScriptRef != null)
                 {
                     // Incase the enemy difficulty was set wrong
-                    if (enDiffScriptRef.Difficulty <= 0)
+                    if (enDiffScriptRef.GetDifficulty() <= 0)
                         currentDifficulty += 1;
                     else
-                        currentDifficulty += enDiffScriptRef.Difficulty + extraDiff;
+                        currentDifficulty += enDiffScriptRef.GetDifficulty() + extraDiff;
                 }
                 else
                     currentDifficulty += 1;
@@ -237,7 +237,7 @@ public class GenerateEnemies : MonoBehaviour
         {
             // Get the current enemies information
             EnemyDifficulty enemyDiffRef0 = _enemyPrefabs[i].GetComponent<EnemyDifficulty>();
-            int enemyDiff0 = enemyDiffRef0.Difficulty;
+            int enemyDiff0 = enemyDiffRef0.GetDifficulty();
             // Assume this enemy is the weakest
             int weakestEnemyIndex = i;
             int weakestEnemyDiff = enemyDiff0;
@@ -246,7 +246,7 @@ public class GenerateEnemies : MonoBehaviour
             {
                 // Get the next enemies information
                 EnemyDifficulty enemyDiffRef1 = _enemyPrefabs[k].GetComponent<EnemyDifficulty>();
-                int enemyDiff1 = enemyDiffRef1.Difficulty;
+                int enemyDiff1 = enemyDiffRef1.GetDifficulty();
 
                 // If we found an enemy weaker than the current enemy, make this enemy the new weakest
                 if (enemyDiff1 < weakestEnemyDiff)

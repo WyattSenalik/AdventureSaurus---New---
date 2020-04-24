@@ -272,24 +272,20 @@ public class CharDetailedMenuController : MonoBehaviour
     /// </summary>
     private void Initialize()
     {
-        Transform charParent = GameObject.Find(ProceduralGenerationController.charParentName).transform;
+        Transform allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
 
         // Initialize ally stats
         _alliesStats = new List<AllyStats>();
-        // Iterate over the characters to find the allies
-        foreach (Transform singChar in charParent)
+        // Iterate over the allies to get their stats
+        foreach (Transform allyTrans in allyParent)
         {
-            // Try to get the character's MoveAttack script
-            MoveAttack singMA = singChar.GetComponent<MoveAttack>();
-            // If the character is an ally, try to add its stats to the alliesStats list
-            if (singMA.WhatAmI == CharacterType.Ally)
-            {
-                // Try to ge tthe character's stats
-                AllyStats singStats = singChar.GetComponent<AllyStats>();
-                // If the stats aren't null, add it to the list
-                if (singStats != null)
-                    _alliesStats.Add(singStats);
-            }
+            // Try to get the ally's stats
+            AllyStats allyStats = allyTrans.GetComponent<AllyStats>();
+            // If the stats aren't null, add it to the list
+            if (allyStats != null)
+                _alliesStats.Add(allyStats);
+            else
+                Debug.LogError("There was no AllyStats attached to " + allyTrans.name);
         }
 
         // Set the level up buttons for the characters
@@ -322,10 +318,10 @@ public class CharDetailedMenuController : MonoBehaviour
         _characterPortrait.sprite = allyStats.CharacterSprite;
         _nameText.text = allyStats.CharacterName;
         _lvlText.text = "Lvl " + allyStats.Level.ToString();
-        _vitalityNums.text = allyStats.Vitality.ToString();
-        _magicNums.text = allyStats.Magic.ToString();
-        _strNums.text = allyStats.Strength.ToString();
-        _speedNums.text = allyStats.Speed.ToString();
+        _vitalityNums.text = allyStats.GetVitality().ToString();
+        _magicNums.text = allyStats.GetMagic().ToString();
+        _strNums.text = allyStats.GetStrength().ToString();
+        _speedNums.text = allyStats.GetSpeed().ToString();
 
         // Fill in the appropriate amount of bubbles for each stat
         //Debug.Log("Updating Vitality Bubbles");
@@ -385,7 +381,7 @@ public class CharDetailedMenuController : MonoBehaviour
         // For quick reference
         AllyStats allyStats = _alliesStats[_currentAllyIndex];
         // Increase the stat
-        IncrementStat(ref _vitalityAmountIncr, ref _vitalityNums, allyStats.Vitality, allyStats.VitalityBubblesFilled, _vitalityBubbles);
+        IncrementStat(ref _vitalityAmountIncr, ref _vitalityNums, allyStats.GetVitality(), allyStats.VitalityBubblesFilled, _vitalityBubbles);
     }
     /// <summary>
     /// Gives a plus 1 to magic temporarily
@@ -395,7 +391,7 @@ public class CharDetailedMenuController : MonoBehaviour
         // For quick reference
         AllyStats allyStats = _alliesStats[_currentAllyIndex];
         // Increase the stat
-        IncrementStat(ref _magicAmountIncr, ref _magicNums, allyStats.Magic, allyStats.MagicBubblesFilled, _magicBubbles);
+        IncrementStat(ref _magicAmountIncr, ref _magicNums, allyStats.GetMagic(), allyStats.MagicBubblesFilled, _magicBubbles);
 
         // Refelect temp magic changes in preview text
         if (_magicAmountIncr + allyStats.MagicBubblesFilled >= _magicBubbles.Count + 1)
@@ -415,7 +411,7 @@ public class CharDetailedMenuController : MonoBehaviour
         // For quick reference
         AllyStats allyStats = _alliesStats[_currentAllyIndex];
         // Increase the stat
-        IncrementStat(ref _strAmountIncr, ref _strNums, allyStats.Strength, allyStats.StrBubblesFilled, _strBubbles);
+        IncrementStat(ref _strAmountIncr, ref _strNums, allyStats.GetStrength(), allyStats.StrBubblesFilled, _strBubbles);
     }
     /// <summary>
     /// Gives a plus 1 to speed temporarily
@@ -428,7 +424,7 @@ public class CharDetailedMenuController : MonoBehaviour
         if (_speedNums.text[0] != allyStats.MaxSpeed + 48)
         {
             // Increase the stat
-            IncrementStat(ref _speedAmountIncr, ref _speedNums, allyStats.Speed, allyStats.SpeedBubblesFilled, _speedBubbles);
+            IncrementStat(ref _speedAmountIncr, ref _speedNums, allyStats.GetSpeed(), allyStats.SpeedBubblesFilled, _speedBubbles);
         }
         else
         {
@@ -489,13 +485,13 @@ public class CharDetailedMenuController : MonoBehaviour
         _pointsText.text = "Point: " + allyStats.AmountStatIncreases.ToString();
         // Reset all the increments to 0 and update their visuals
         _vitalityAmountIncr = 0;
-        _vitalityNums.text = allyStats.Vitality.ToString();
+        _vitalityNums.text = allyStats.GetVitality().ToString();
         _magicAmountIncr = 0;
-        _magicNums.text = allyStats.Magic.ToString();
+        _magicNums.text = allyStats.GetMagic().ToString();
         _strAmountIncr = 0;
-        _strNums.text = allyStats.Strength.ToString();
+        _strNums.text = allyStats.GetStrength().ToString();
         _speedAmountIncr = 0;
-        _speedNums.text = allyStats.Speed.ToString();
+        _speedNums.text = allyStats.GetSpeed().ToString();
         // Reset the bubbles
         UpdateBubbles(_vitalityBubbles, allyStats.VitalityBubblesFilled);
         UpdateBubbles(_magicBubbles, allyStats.MagicBubblesFilled);

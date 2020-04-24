@@ -11,4 +11,8 @@ public class ChildAmountData
     {
         _childAmount = parent.childCount;
     }
+    public ChildAmountData(int childAmount)
+    {
+        _childAmount = childAmount;
+    }
 }

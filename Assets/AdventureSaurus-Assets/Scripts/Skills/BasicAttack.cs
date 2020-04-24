@@ -27,7 +27,7 @@ public class BasicAttack : Skill
         _enemiesHP = new List<Health>();
 
         // Get the damage
-        _damage = _statsRef.Strength;
+        _damage = _statsRef.GetStrength();
 
         // We have to set the enemy to attack, we just need to validate a bit first
         Node nodeToAttack = _mAContRef.GetNodeAtPosition(attackNodePos);

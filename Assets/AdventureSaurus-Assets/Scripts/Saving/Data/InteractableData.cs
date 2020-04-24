@@ -17,7 +17,13 @@ public class InteractableData
 
     public InteractableData(Interactable interact)
     {
-        _prefKey = interact.GetKey();
+        // Try to pull prefab key off
+        PrefabKey prefabKeyScriptRef = interact.GetComponent<PrefabKey>();
+        if (prefabKeyScriptRef != null)
+            _prefKey = prefabKeyScriptRef.GetPrefabKey();
+        else
+            Debug.LogError("No PrefabKey attached to " + interact.name);
+
         _canInteractWith = interact.GetCanInteractWith();
 
         _position = new float[3];

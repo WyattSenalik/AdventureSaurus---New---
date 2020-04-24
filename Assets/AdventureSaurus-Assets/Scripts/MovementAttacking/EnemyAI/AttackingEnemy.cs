@@ -18,65 +18,62 @@ public class AttackingEnemy : SingleEnemy
         int closestAllyF = int.MaxValue;
         Node closestAttackNode = null;
         int closestAttackF = int.MaxValue;
-        // Iterate over each character to find the closest
-        foreach (Transform charTrans in CharacterParent)
+        // Iterate over each ally to find the closest
+        foreach (Transform charTrans in GetAllyParent())
         {
             // Get the node that character is on
             Node charNode = MAContRef.GetNodeByWorldPosition(charTrans.position);
-            // If that character is an ally
-            if (charNode.Occupying == CharacterType.Ally)
+            // Path to that ally
+            MAContRef.Pathing(StandingNode, charNode, CharacterType.Enemy, false);
+
+            // FOR TESTING
+            //Vector2Int printPos = new Vector2Int(int.MaxValue, int.MaxValue);
+            //if (closestAllyNode != null)
+            //    printPos = closestAllyNode.Position;
+            //Debug.Log(charNode.Position + " with " + charNode.F + " is being compared with " + printPos + " with " + closestAllyF);
+
+            // If it is closer than the currently closest ally
+            if (closestAllyF > charNode.F)
             {
-                // Path to that ally
-                MAContRef.Pathing(StandingNode, charNode, CharacterType.Enemy, false);
+                int charFVal = charNode.F;
+                //Debug.Log("It was closer in distance");
 
-                // FOR TESTING
-                //Vector2Int printPos = new Vector2Int(int.MaxValue, int.MaxValue);
-                //if (closestAllyNode != null)
-                //    printPos = closestAllyNode.Position;
-                //Debug.Log(charNode.Position + " with " + charNode.F + " is being compared with " + printPos + " with " + closestAllyF);
-
-                // If it is closer than the currently closest ally
-                if (closestAllyF > charNode.F)
+                // 2) Get the closest node this enemy could attack that ally from
+                // We know that is enemy is closer in walking distance, but we don't know if they have any openings to attack
+                // So we test to see if we can find any openings to attack
+                // Get the potential nodes to attack from
+                List<Node> potAttackNodes = MAContRef.GetNodesDistFromNode(charNode, MARef.AttackRange);
+                // Figure out which is closest to the standing positions
+                //Debug.Log("The attack nodes are at ");
+                foreach (Node curAdjNode in potAttackNodes)
                 {
-                    int charFVal = charNode.F;
-                    //Debug.Log("It was closer in distance");
-
-                    // 2) Get the closest node this enemy could attack that ally from
-                    // We know that is enemy is closer in walking distance, but we don't know if they have any openings to attack
-                    // So we test to see if we can find any openings to attack
-                    // Get the potential nodes to attack from
-                    List<Node> potAttackNodes = MAContRef.GetNodesDistFromNode(charNode, MARef.AttackRange);
-                    // Figure out which is closest to the standing positions
-                    //Debug.Log("The attack nodes are at ");
-                    foreach (Node curAdjNode in potAttackNodes)
+                    //Debug.Log(curAdjNode.Position);
+                    // If the node is not occupied by someone other than this enemy
+                    // since if this enemy is standing next to an ally, obvious that ally is the closest
+                    MoveAttack curAdjEnemyMARef = MAContRef.GetCharacterMAByNode(curAdjNode);
+                    if (curAdjNode.Occupying == CharacterType.None || curAdjEnemyMARef == MARef)
                     {
-                        //Debug.Log(curAdjNode.Position);
-                        // If the node is not occupied by someone other than this enemy
-                        // since if this enemy is standing next to an ally, obvious that ally is the closest
-                        MoveAttack curAdjEnemyMARef = MAContRef.GetCharacterMAByNode(curAdjNode);
-                        if (curAdjNode.Occupying == CharacterType.None || curAdjEnemyMARef == MARef)
+                        // Path there, if succesful, then see if it is closer than the current attackfrom node
+                        // We say we don't care if we can get there (shouldCare=false) because we have already 
+                        // checked if someone was there and if there is someone there, it would be this enemy
+                        if (MAContRef.Pathing(StandingNode, curAdjNode, CharacterType.Enemy, false))
                         {
-                            // Path there, if succesful, then see if it is closer than the current attackfrom node
-                            // We say we don't care if we can get there (shouldCare=false) because we have already 
-                            // checked if someone was there and if there is someone there, it would be this enemy
-                            if (MAContRef.Pathing(StandingNode, curAdjNode, CharacterType.Enemy, false))
+                            // If it is closer than the closest attack from node
+                            if (closestAttackF > curAdjNode.F)
                             {
-                                // If it is closer than the closest attack from node
-                                if (closestAttackF > curAdjNode.F)
-                                {
-                                    //Debug.Log("It was closer and could be attacked");
-                                    // It is the new closest enemy node
-                                    closestAllyNode = charNode;
-                                    closestAllyF = charFVal;
+                                //Debug.Log("It was closer and could be attacked");
+                                // It is the new closest enemy node
+                                closestAllyNode = charNode;
+                                closestAllyF = charFVal;
 
-                                    // It is the new closest attack node
-                                    closestAttackNode = curAdjNode;
-                                    closestAttackF = curAdjNode.F;
-                                }
+                                // It is the new closest attack node
+                                closestAttackNode = curAdjNode;
+                                closestAttackF = curAdjNode.F;
                             }
                         }
                     }
                 }
+                
             }
         }
         // If there is no closest attack from node, return the current Node

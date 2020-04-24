@@ -1,13 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyDifficulty : MonoBehaviour
 {
     // The enemies difficulty
     [SerializeField] private int _difficulty = 1;
-    public int Difficulty
-    {
-        get { return _difficulty; }
-    }
+    // Getter
+    public int GetDifficulty() { return _difficulty; }
 }

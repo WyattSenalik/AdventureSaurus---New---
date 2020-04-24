@@ -12,8 +12,10 @@ public class TurnSystem : MonoBehaviour
     public TurnState State {
         get { return _state; }
     }
-    // The parent of all the characters on the floor
-    private Transform _characterTeam;
+    // The parent of the allies
+    private Transform _allyParent;
+    // The parent of the enemies
+    private Transform _enemyParent;
 
     // References to other GameController scripts
     private EnemyTurnController _enTurnContRef;
@@ -88,7 +90,8 @@ public class TurnSystem : MonoBehaviour
     /// </summary>
     private void Initialize()
     {
-        _characterTeam = GameObject.Find(ProceduralGenerationController.charParentName).transform;
+        _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
+        _enemyParent = GameObject.Find(ProceduralGenerationController.ENEMY_PARENT_NAME).transform;
     }
 
     /// <summary>
@@ -101,17 +104,23 @@ public class TurnSystem : MonoBehaviour
         _endTurnButt.interactable = true;
         _state = TurnState.PLAYERTURN;
         // We reset the turns of all characters
-        foreach(Transform potAlly in _characterTeam)
+        // Allies
+        foreach (Transform allyTrans in _allyParent)
         {
-            MoveAttack potAllyMA = potAlly.GetComponent<MoveAttack>();
-            if (potAllyMA == null)
-            {
-                Debug.Log("There is a non character object in " + _characterTeam.name);
-            }
+            MoveAttack allyMA = allyTrans.GetComponent<MoveAttack>();
+            if (allyMA != null)
+                allyMA.ResetMyTurn();
             else
-            {
-                potAllyMA.ResetMyTurn();
-            }
+                Debug.LogError("There is no MoveAttack script attached to " + allyTrans.name);
+        }
+        // Enemies
+        foreach (Transform enemyTrans in _enemyParent)
+        {
+            MoveAttack enemyMA = enemyTrans.GetComponent<MoveAttack>();
+            if (enemyMA != null)
+                enemyMA.ResetMyTurn();
+            else
+                Debug.LogError("There is no MoveAttack script attached to " + enemyTrans.name);
         }
 
         // Call the event that the player's turn has begun
@@ -139,75 +148,6 @@ public class TurnSystem : MonoBehaviour
             _enTurnContRef.BeginFirstEnemyTurn();
         }
     }
-    ///// <summary>
-    ///// Called from 
-    ///// </summary>
-    //private void IsPlayerDone()//checks if player has done everything that they can do with thier characters
-    //{
-    //    bool areDone = true;
-    //    foreach (Transform player in _characterTeam)
-    //    {
-    //        MoveAttack ma = player.GetComponent<MoveAttack>();
-    //        if(ma == null)
-    //        {
-    //            Debug.Log("There was no move attack attached to " + player.name);
-    //            continue;
-    //        }
-
-    //        if(ma.WhatAmI == CharacterType.Ally)//checks if its a player character
-    //        {
-    //            if( !(ma.HasMoved && ma.HasAttacked))
-    //            {
-    //                areDone = false;
-    //                break;
-    //            }
-    //        }
-            
-    //    }
-    //    if(areDone)
-    //    {
-    //        EndPlayerTurn();
-    //    }
-    //}
-    ////checks all enemies to see if they are done with their turn
-    //private void IsEnemyDone()//gets called each time an enemy is done taking actions
-    //{
-    //    bool areDone = true;//Starts true to assume the player is done but if any have actions left sets it to false
-    //    foreach (Transform player in _characterTeam)
-    //    {
-    //        MoveAttack ma = player.GetComponent<MoveAttack>();
-    //        if (ma == null)
-    //        {
-    //            Debug.Log("There was no move attack attached to " + player.name);
-    //            continue;
-    //        }
-
-    //        if (ma.WhatAmI == CharacterType.Enemy)
-    //        {
-    //            if (!(ma.HasMoved && ma.HasAttacked))
-    //            {
-    //                areDone = false;
-    //                break;
-    //            }
-    //        }
-
-    //    }
-    //    if (areDone == true)
-    //    {
-
-    //        StartPlayerTurn();
-
-    //    }
-
-    //}
-
-    ///// <summary>
-    ///// Sets state to GameStop which will be used for pausing or cutscenes
-    ///// </summary>
-    //private void SetToGameStop()
-    //{
-    //    _state = TurnState.GAMESTOP;
-    //}
 
     /// <summary>
     /// Ends the player's turn and starts the enemy's turn

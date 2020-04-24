@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2098535882787079963, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: m_Name
-      value: MageBandit
+      value: MageBandit Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2098535882787079967, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
@@ -122,6 +122,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252873807839094695, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _prefabKey
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6405350bdbfbbc34b804d573219cc889, type: 3}

@@ -22,34 +22,16 @@ public abstract class Stats : MonoBehaviour
     // Stats
     // How much damage this character deals
     [SerializeField] protected int _strength = 0;
-    public int Strength
-    {
-        get { return _strength; }
-    }
+    public int GetStrength() { return _strength; }
     // Magic level affects spells
     [SerializeField] protected int _magic = 0;
-    public int Magic
-    {
-        get { return _magic; }
-    }
+    public int GetMagic() { return _magic; }
     // How many tiles this character can move
     [SerializeField] protected int _speed = 0;
-    public int Speed
-    {
-        get { return _speed; }
-    }
-    // How much damage this character deflects
-    [SerializeField] protected int _defense = 0;
-    public int Defense
-    {
-        get { return _defense; }
-    }
+    public int GetSpeed() { return _speed; }
     // Max health this character has
     [SerializeField] protected int _vitality = 0;
-    public int Vitality
-    {
-        get { return _vitality; }
-    }
+    public int GetVitality() { return _vitality; }
 
     
 
@@ -122,7 +104,7 @@ public abstract class Stats : MonoBehaviour
         {
             _nameText.text = _charName;
             _attackText.text = "A: " + _strength;
-            _defenseText.text = "D: " + _defense;
+            _defenseText.text = "M: " + _magic;
             _healthText.text = "H: " + _vitality;
             _speedText.text = "S: " + _speed;
             _statsDisplay.SetActive(shouldShow);

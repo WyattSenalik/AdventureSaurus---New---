@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7074634602748105369}
   - component: {fileID: -1987217173736762602}
+  - component: {fileID: -837228241819250635}
   m_Layer: 0
   m_Name: FirePlacePrefab
   m_TagString: Untagged
@@ -43,4 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e79b0aab7c22ad64c9e4947d30be811d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _key: 0
+--- !u!114 &-837228241819250635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7426554432366633556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d23276ada867845a7bc2da1c62cc05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabKey: 0

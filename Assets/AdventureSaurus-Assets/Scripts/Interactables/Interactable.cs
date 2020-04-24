@@ -6,9 +6,6 @@ public class Interactable : MonoBehaviour
     protected bool _canInteractWith = true;
     public bool GetCanInteractWith() { return _canInteractWith; }
     public void SetCanInteractWith(bool newCanInteractWith) { _canInteractWith = newCanInteractWith; }
-    // The key of the interactable
-    [SerializeField] private int _key = -1;
-    public int GetKey() { return _key; }
     // Events
     // When this item is finished being interacted with
     public delegate void FinishInteraction();

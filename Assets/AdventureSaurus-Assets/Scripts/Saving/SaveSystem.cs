@@ -354,4 +354,48 @@ public static class SaveSystem
         return LoadData<InteractableData>(additionalPath);
     }
 
+
+    //// Enemies
+    /// <summary>
+    /// Saves the amount of enemies in a binary file at /enemyAmount.num
+    /// </summary>
+    /// <param name="enemyParent">Parent of all the enemies</param>
+    public static void SaveEnemyAmount(Transform enemyParent)
+    {
+        SaveChildAmount(enemyParent, "/enemyAmount.num");
+    }
+    /// <summary>
+    /// Loads the amount of enemies from a binary file at /enemyAmount.num
+    /// </summary>
+    /// <returns>ChildAmountData. The data loaded from the file</returns>
+    public static ChildAmountData LoadEnemyAmount()
+    {
+        return LoadChildAmount("/enemyAmount.num");
+    }
+
+    /// <summary>
+    /// Saves the data for an enemy in a binary file at /enemyX.en where X is the enemy's sibling index
+    /// </summary>
+    /// <param name="enemy">Enemy whose data we want to save</param>
+    public static void SaveEnemy(GameObject enemy)
+    {
+        // Enemy data to put in the file
+        EnemyData data = new EnemyData(enemy);
+        // File name
+        string additionalPath = "/enemy" + enemy.transform.GetSiblingIndex() + ".en";
+        // Save the data
+        SaveData(data, additionalPath);
+    }
+    /// <summary>
+    /// Loads save data for an Enemy from a binary file at /enemyX.en where X is the enemy's sibling index
+    /// </summary>
+    /// <param name="enemySiblingIndex">Sibling index of the Enemy we want to load data for</param>
+    /// <returns>EnemyData. The data loaded from the file</returns>
+    public static EnemyData LoadEnemy(int enemySiblingIndex)
+    {
+        // File name
+        string additionalPath = "/enemy" + enemySiblingIndex + ".en";
+        // Return the data as InteractableData
+        return LoadData<EnemyData>(additionalPath);
+    }
 }
