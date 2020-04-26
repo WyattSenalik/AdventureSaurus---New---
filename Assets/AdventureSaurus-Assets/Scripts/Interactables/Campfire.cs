@@ -15,10 +15,21 @@ public class Campfire : Interactable
     // Reference to the tilemap. Will also be set in procedural generation
     private Tilemap _tilemapRef;
 
-
+    
     // Called on the first frame update
     private void Start()
     {
+        try
+        {
+            GameObject genContObj = GameObject.FindWithTag("GenerationController");
+            TileSet activeTileSet = genContObj.GetComponent<GenerateTiles>().ActiveTileSet;
+            _litCampfire = activeTileSet.GetLitCampfire();
+        }
+        catch
+        {
+            Debug.LogError("Error setting lit campfire");
+        }
+
         _tilemapRef = GameObject.FindWithTag("Tilemap").GetComponent<Tilemap>();
     }
 
@@ -48,6 +59,9 @@ public class Campfire : Interactable
 
         // Make it so that this interactable cannot be interacted with again
         _canInteractWith = false;
+
+        // Save a checkpoint
+        SaveSystem.SaveGame();
 
         // Call the base last, since it calls the event.
         base.StartInteract();

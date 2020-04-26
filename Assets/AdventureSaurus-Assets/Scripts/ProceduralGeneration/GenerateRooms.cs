@@ -48,8 +48,8 @@ public class GenerateRooms : MonoBehaviour
     /// <summary>
     /// Spawns and places normal rooms in valid locations such that no rooms will overlap
     /// </summary>
-    /// <returns>Transform roomParent</returns>
-    public Transform SpawnHallwaysAndRooms()
+    /// <returns>Transform[].0 = roomParent. 1 = bleedLightsParent</returns>
+    public Transform[] SpawnHallwaysAndRooms()
     {
         // Make sure there is enough space to spawn the rooms
         int maxRoomWidth = _maxRoomSize.x + _minSpaceBetweenRooms * 2;
@@ -70,12 +70,17 @@ public class GenerateRooms : MonoBehaviour
         int breakOutLimit = _amountRoomsToSpawn * 100;
 
         // Create the rooms parent and center it
-        _roomParent = (new GameObject(ProceduralGenerationController.ROOM_PARENT_NAME)).transform;
+        _roomParent = new GameObject().transform;
         _roomParent.position = Vector3.zero;
 
         // Create the lights parent and center it
-        _bleedLightsParent = (new GameObject(ProceduralGenerationController.BLEEDLIGHT_PARENT_NAME)).transform;
+        _bleedLightsParent = new GameObject().transform;
         _bleedLightsParent.position = Vector3.zero;
+
+        // This is the list that will eventually be returned
+        Transform[] rtnList = new Transform[2];
+        rtnList[0] = _roomParent;
+        rtnList[1] = _bleedLightsParent;
 
         // Create the first room
         // Define its dimensions
@@ -366,7 +371,7 @@ public class GenerateRooms : MonoBehaviour
                     if (prevRoomIndex < 0)
                     {
                         Debug.Log("Cannot create anymore rooms");
-                        return _roomParent;
+                        return rtnList;
                     }
                     // Otherwise, the room is valid, so we can set the prevRoom info to that room
                     else
@@ -392,8 +397,8 @@ public class GenerateRooms : MonoBehaviour
             }
         }
 
-        // Return the parent of the rooms
-        return _roomParent;
+        // Return the parent of the rooms and 
+        return rtnList;
     }
 
     /// <summary>

@@ -69,16 +69,20 @@ public class Stairs : MonoBehaviour
     // Called once per frame
     private void Update()
     {
-        touchStairs();
         // Iterate over the players
-        foreach (Transform player in _allyParent)
-        { 
-            // If it exists and 
-            if (player != null && _whoIsOn == player && _stairsTrans != null)
+        if (_allyParent != null)
+        {
+            touchStairs();
+            // Iterate over the players
+            foreach (Transform player in _allyParent)
             {
-                if (player.transform.position != _stairsTrans.transform.position)
+                // If it exists and 
+                if (player != null && _whoIsOn == player && _stairsTrans != null)
                 {
-                    _touchedOnce = false;
+                    if (player.transform.position != _stairsTrans.transform.position)
+                    {
+                        _touchedOnce = false;
+                    }
                 }
             }
         }

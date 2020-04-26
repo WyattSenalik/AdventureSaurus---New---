@@ -35,17 +35,12 @@ public class Grimoire : MonoBehaviour
         _allySkillContRef = this.GetComponent<AllySkillController>();
         if (_allySkillContRef == null)
             Debug.Log("There was no AllySkillController attached to " + this.name);
-    }
 
-    // Start is called before the first frame update
-    // Initialize variables
-    private void Start()
-    {
         _pagesRead = 0;
     }
 
     /// <summary>
-    /// Called when magic is increased by 1.
+    /// Called when magic is increased
     /// Handles how to upgrade the skill
     /// </summary>
     public void MagicIncrease()

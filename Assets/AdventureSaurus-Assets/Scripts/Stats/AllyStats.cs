@@ -20,23 +20,23 @@ public class AllyStats : Stats
 
     // Experience
     // The experience this character has (total)
-    private int _experience;
+    private int _experience = 0;
     public int GetExperience() { return _experience; }
     public void SetExperience(int newExperience) { _experience = newExperience; }
     // The experience this character has gained on the current level
-    private int _oneLevelExperience;
+    private int _oneLevelExperience = 0;
     public int GetOneLevelExperience() { return _oneLevelExperience; }
     public void SetOneLevelExperience(int newOneLvlExperience) { _oneLevelExperience = newOneLvlExperience; }
     // The current level of this character
-    private int _level;
+    private int _level = 1;
     public int GetLevel() { return _level; }
     public void SetLevel(int newLevel) { _level = newLevel; }
     // The amount of experience this character needs to level up (total)
-    private int _nextLevelThreshold;
+    private int _nextLevelThreshold = 3;
     public int GetNextLevelThreshold() { return _nextLevelThreshold; }
     public void SetNextLevelThreshold(int newNextLevelThreshold) { _nextLevelThreshold = newNextLevelThreshold; }
     // The experience this character needs to gain since the current level
-    private int _oneLevelNextLevelThreshold;
+    private int _oneLevelNextLevelThreshold = 3;
     public int GetOneLevelNextLevelThreshold() { return _oneLevelNextLevelThreshold; }
     public void SetOneLevelNextLevelThreshold(int newOneLevelNextLevelThreshold) { _oneLevelNextLevelThreshold = newOneLevelNextLevelThreshold; }
     // If the character is currently in the process of leveling up
@@ -48,7 +48,7 @@ public class AllyStats : Stats
         set { _levelUpButton = value; }
     }
     // The amount of stat increases that this character has left
-    private int _amountStatIncreases;
+    private int _amountStatIncreases = 0;
     public int AmountStatIncreases
     {
         get { return _amountStatIncreases; }
@@ -57,25 +57,25 @@ public class AllyStats : Stats
 
     // For determining how close towards a particular stat increase the character is.
     // Also the amount of bubbles that should be filled in
-    private int _vitalityBubblesFilled;
+    private int _vitalityBubblesFilled = 0;
     public int VitalityBubblesFilled
     {
         get { return _vitalityBubblesFilled; }
         set { _vitalityBubblesFilled = value; }
     }
-    private int _magicBubblesFilled;
+    private int _magicBubblesFilled = 0;
     public int MagicBubblesFilled
     {
         get { return _magicBubblesFilled; }
         set { _magicBubblesFilled = value; }
     }
-    private int _strBubblesFilled;
+    private int _strBubblesFilled = 0;
     public int StrBubblesFilled
     {
         get { return _strBubblesFilled; }
         set { _strBubblesFilled = value; }
     }
-    private int _speedBubblesFilled;
+    private int _speedBubblesFilled = 0;
     public int SpeedBubblesFilled
     {
         get { return _speedBubblesFilled; }
@@ -161,26 +161,14 @@ public class AllyStats : Stats
     // Inititalize variables and set beginning of game states
     private void Start()
     {
-        // These will have to be set once, since these we will need to keep the changes associated with them
-        // Start the character out at level 1 with no experience
-        _experience = 0;
-        _oneLevelExperience = _experience;
-        _level = 1;
         // Calculate how much xp to reach the next level
         _nextLevelThreshold = CalculateAmountToReachNextLevel(_level);
-        _oneLevelNextLevelThreshold = _nextLevelThreshold;
-        // Don't start the player out with any potential stat increases
-        _amountStatIncreases = 0;
+        _oneLevelNextLevelThreshold = _nextLevelThreshold - (_experience - _oneLevelExperience);
 
         // If this character has a level up button, hide it
         if (_levelUpButton != null)
             _levelUpButton.SetActive(false);
-
-        // Initialize the bubbles filled to 0
-        _vitalityBubblesFilled = 0;
-        _magicBubblesFilled = 0;
-        _strBubblesFilled = 0;
-        _speedBubblesFilled = 0;
+        StartCoroutine(CheckLevelUp());
     }
 
 

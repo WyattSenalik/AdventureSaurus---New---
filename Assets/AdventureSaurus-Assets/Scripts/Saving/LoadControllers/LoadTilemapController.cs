@@ -9,7 +9,8 @@ public static class LoadTilemapController
     /// Creates a new grid and loads the saved tiles into its tilemap
     /// </summary>
     /// <param name="gridPrefab">Prefab of the grid which holds the tilemap as a child of it</param>
-    public static void LoadTilemap(GameObject gridPrefab)
+    /// <returns>Tilemap. Reference to the loaded tilemap</returns>
+    public static Tilemap LoadTilemap(GameObject gridPrefab)
     {
         // Create the grid and get the tilemap
         Tilemap tilemap = Object.Instantiate(gridPrefab).transform.GetChild(0).GetComponent<Tilemap>();
@@ -43,5 +44,7 @@ public static class LoadTilemapController
                 }
             }
         }
+
+        return tilemap;
     }
 }

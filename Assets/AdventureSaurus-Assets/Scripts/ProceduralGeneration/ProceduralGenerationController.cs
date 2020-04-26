@@ -5,14 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class ProceduralGenerationController : MonoBehaviour
 {
-    // Reference to the Transform that will temporarily hold all allies
-    private Transform _allyTempParent = null;
-    public Transform AllyTempParent
-    {
-        set { _allyTempParent = value; }
-        get { return _allyTempParent; }
-    }
-
     // The current floor's base difficulty.
     // TODO set from persistant controller
     private int _curFloorDiff;
@@ -23,14 +15,15 @@ public class ProceduralGenerationController : MonoBehaviour
 
     // In the case we don't want to generate
     [SerializeField] private bool _shouldGenerate = true;
-    [SerializeField] private Transform _roomParent;
-    [SerializeField] private Transform _wallParent;
-    [SerializeField] private Transform _stairsTrans;
+    [SerializeField] private Transform _roomParent = null;
+    [SerializeField] private Transform _bleedLightParent = null;
+    [SerializeField] private Transform _wallParent = null;
+    [SerializeField] private Transform _stairsTrans = null;
     private Tilemap _tilemapRef;
     private Transform _fireTrans;
-    [SerializeField] private Transform _enemyParent;
-    [SerializeField] private Transform _allyParent;
-    [SerializeField] private Transform _interactParent;
+    [SerializeField] private Transform _enemyParent = null;
+    [SerializeField] private Transform _allyParent = null;
+    [SerializeField] private Transform _interactParent = null;
 
     // The names of the parents and transforms
     public const string ROOM_PARENT_NAME = "RoomParent";
@@ -95,7 +88,8 @@ public class ProceduralGenerationController : MonoBehaviour
     /// </summary>
     /// <param name="spawnFire">If we should put a safe room on this floor</param>
     /// <param name="amountRooms">The amount of rooms to spawn</param>
-    public void GenerateFloor(bool spawnFire, int amountRooms)
+    /// <param name="allyParent">Parent of the allies going into this floor</param>
+    public void GenerateFloor(bool spawnFire, int amountRooms, Transform allyParent)
     {
         //Debug.Log("GenerateFloor");
         if (_genRoomsRef != null && _wallsGenRef != null && _stairsGenRef != null && _tilesGenRef != null
@@ -105,9 +99,11 @@ public class ProceduralGenerationController : MonoBehaviour
             {
                 //Debug.Log("SpawnHallwaysAndRooms");
                 // Spawn the rooms, hallways, and lights
-                // Also get a reference to the parent of the rooms
+                // Also get a reference to the parent of the rooms and bleed lights
                 _genRoomsRef.AmountRoomsToSpawn = amountRooms;
-                _roomParent = _genRoomsRef.SpawnHallwaysAndRooms();
+                Transform[] roomRtnList = _genRoomsRef.SpawnHallwaysAndRooms();
+                _roomParent = roomRtnList[0];
+                _bleedLightParent = roomRtnList[1];
                 // Sort all the lights in the room so that they correspond to the correct adjacent room
                 foreach (Transform curRoomTrans in _roomParent)
                 {
@@ -151,22 +147,21 @@ public class ProceduralGenerationController : MonoBehaviour
                 _enemyParent.position = Vector3.zero;
 
                 //Debug.Log("PlaceAllies");
+                // Set the ally parent
+                _allyParent = allyParent;
                 // Place the allies randomly in the start room
-                _placeAlliesRef.PutAlliesInStartRoom(_roomParent, _allyTempParent);
+                _placeAlliesRef.PutAlliesInStartRoom(_roomParent, _allyParent);
 
                 //Debug.Log("SpawnEnemies");
                 // Spawn the enmies
                 _enemiesGenRef.SpawnEnemies(_enemyParent, _roomParent, _curFloorDiff);
-
-                // Create the ally parent
-                _allyParent = new GameObject().transform;
-                _allyParent.position = Vector3.zero;
             }
 
             // Set the names of the parents and transforms
             if (_roomParent != null)
                 _roomParent.name = ROOM_PARENT_NAME;
-            // Bleed light parent's name is set in generation
+            if (_bleedLightParent != null)
+                _bleedLightParent.name = BLEEDLIGHT_PARENT_NAME;
             if (_wallParent != null)
                 _wallParent.name = WALL_PARENT_NAME;
             if (_stairsTrans != null)
@@ -177,21 +172,6 @@ public class ProceduralGenerationController : MonoBehaviour
                 _allyParent.name = ALLY_PARENT_NAME;
             if (_interactParent != null)
                 _interactParent.name = INTERACT_PARENT_NAME;
-
-            // Being extra careful
-            int maxIterations = 100;
-            int counter = 0;
-            // Place the allies in the ally parent
-            while (_allyTempParent.childCount != 0)
-            {
-                _allyTempParent.GetChild(0).SetParent(_allyParent);
-                // Avoid infinite loop
-                if (++counter > maxIterations)
-                {
-                    Debug.Log("Forced a break");
-                    break;
-                }
-            }
 
             // Call the OnFinishGeneration event
             if (OnFinishGenerationNoParam != null)
@@ -275,5 +255,30 @@ public class ProceduralGenerationController : MonoBehaviour
         Transform hardRoomTrans = _roomParent.GetChild(_roomParent.childCount - 1);
         Room hardRoomScriptRef = hardRoomTrans.GetComponent<Room>();
         return hardRoomScriptRef.RoomDifficulty;
+    }
+
+    /// <summary>
+    /// Sets the essentials needed for the floor (parents, stairs, grid, etc.)
+    /// </summary>
+    /// <param name="roomParent">Parent of the rooms</param>
+    /// <param name="bleedLightParent">Parent of the bleed lights</param>
+    /// <param name="wallParent">Parent of the walls</param>
+    /// <param name="stairsTrans">Parent of the stairs</param>
+    /// <param name="tilemapRef">Parent of the tilemap</param>
+    /// <param name="enemyParent">Parent of the enemies</param>
+    /// <param name="allyParent">Parent of the allies</param>
+    /// <param name="interactParent">Parent of the interactables</param>
+    public void GiveEssentials(Transform roomParent, Transform bleedLightParent, Transform wallParent,
+        Transform stairsTrans, Tilemap tilemapRef, Transform enemyParent, Transform allyParent,
+        Transform interactParent)
+    {
+        _roomParent = roomParent;
+        _bleedLightParent = bleedLightParent;
+        _wallParent = wallParent;
+        _stairsTrans = stairsTrans;
+        _tilemapRef = tilemapRef;
+        _enemyParent = enemyParent;
+        _allyParent = allyParent;
+        _interactParent = interactParent;
     }
 }

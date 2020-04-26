@@ -122,13 +122,11 @@ public class PersistantController : MonoBehaviour
         ProceduralGenerationController genContScript = genCont.GetComponent<ProceduralGenerationController>();
         if (genContScript == null)
             Debug.Log("Could not a ProceduralGenerationController script attached to " + genCont.name);
-        // Give the procedural generator the ally temp parent
-        genContScript.AllyTempParent = _tempAllyParent;
         // Set the difficulty of the floor
         genContScript.CurrentFloorDifficulty = _nextFloorDiff;
 
         // Start the generation
-        genContScript.GenerateFloor(_shouldHaveCamfire, _nextFloorRoomAm);
+        genContScript.GenerateFloor(_shouldHaveCamfire, _nextFloorRoomAm, _tempAllyParent);
     }
 
     /// <summary>
@@ -142,7 +140,7 @@ public class PersistantController : MonoBehaviour
         {
             if (allyObj == null)
                 continue;
-            allyObj.transform.SetParent(_tempAllyParent);
+            //allyObj.transform.SetParent(_tempAllyParent);
             allyObj.transform.position = Vector3.zero;
         }
 
