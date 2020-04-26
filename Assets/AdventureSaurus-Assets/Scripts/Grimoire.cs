@@ -17,6 +17,8 @@ public class Grimoire : MonoBehaviour
     [SerializeField] private MagicBuff[] _grimoirePages = { MagicBuff.SKILLACQ, MagicBuff.DMGINC };
     // The amount of pages read already
     private int _pagesRead;
+    public int GetPagesRead() { return _pagesRead; }
+    public void SetPagesRead(int newPagesRead) { _pagesRead = newPagesRead; }
     // Reference to the ally's Stats
     private Stats _statRef;
     // Reference to the ally's AllySkillController

@@ -317,7 +317,7 @@ public class CharDetailedMenuController : MonoBehaviour
         // Set the normal things for the character stats
         _characterPortrait.sprite = allyStats.CharacterSprite;
         _nameText.text = allyStats.CharacterName;
-        _lvlText.text = "Lvl " + allyStats.Level.ToString();
+        _lvlText.text = "Lvl " + allyStats.GetLevel().ToString();
         _vitalityNums.text = allyStats.GetVitality().ToString();
         _magicNums.text = allyStats.GetMagic().ToString();
         _strNums.text = allyStats.GetStrength().ToString();

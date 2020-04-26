@@ -394,8 +394,53 @@ public static class SaveSystem
     public static EnemyData LoadEnemy(int enemySiblingIndex)
     {
         // File name
-        string additionalPath = "/enemy" + enemySiblingIndex + ".en";
+        string additionalPath = "/enemy" + enemySiblingIndex.ToString() + ".en";
         // Return the data as InteractableData
         return LoadData<EnemyData>(additionalPath);
+    }
+
+
+    //// Allies
+    /// <summary>
+    /// Saves the amount of allies in a binary file at /allyAmount.num
+    /// </summary>
+    /// <param name="allyParent">Parent of all the allies</param>
+    public static void SaveAllyAmount(Transform allyParent)
+    {
+        SaveChildAmount(allyParent, "/allyAmount.num");
+    }
+    /// <summary>
+    /// Loads the amount of allies from a binary file at /allyAmount.num
+    /// </summary>
+    /// <returns>ChildAmountData. The data loaded from the file</returns>
+    public static ChildAmountData LoadAllyAmount()
+    {
+        return LoadChildAmount("/allyAmount.num");
+    }
+
+    /// <summary>
+    /// Saves the data for an ally in a binary file at /allyX.ay where X is the ally's sibling index
+    /// </summary>
+    /// <param name="ally">Ally whose data we want to save</param>
+    public static void SaveAlly(GameObject ally)
+    {
+        // Ally data to put in the file
+        AllyData data = new AllyData(ally);
+        // File name
+        string additionalPath = "/ally" + ally.transform.GetSiblingIndex() + ".ay";
+        // Save the data
+        SaveData(data, additionalPath);
+    }
+    /// <summary>
+    /// Loads save data for an Ally from a binary file at /allyX.ay where X is the ally's sibling index
+    /// </summary>
+    /// <param name="allySiblingIndex">Sibling index of the Ally we want to load data for</param>
+    /// <returns>AllyData. The data loaded from the file</returns>
+    public static AllyData LoadAlly(int allySiblingIndex)
+    {
+        // File name
+        string additionalPath = "/ally" + allySiblingIndex.ToString() + ".ay";
+        // Return the data as InteractableData
+        return LoadData<AllyData>(additionalPath);
     }
 }

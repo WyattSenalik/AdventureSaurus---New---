@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ParentSaving : MonoBehaviour
 {
@@ -14,9 +12,10 @@ public class ParentSaving : MonoBehaviour
     private Transform _stairsTrans;
     // Parent of the interactables
     private Transform _interactableParent;
-    // Parent of the characters
-    private Transform _characterParent;
-
+    // Parent of the enemies
+    private Transform _enemyParent;
+    // Parent of the allies
+    private Transform _allyParent;
 
     // Called when the component is set active
     // Subscribe to events
@@ -33,8 +32,10 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave += SaveStairs;
         // Also save the amount of interactables
         SaveSystem.OnSave += SaveInteractableAmount;
-        // Also save the amount of enemies
-        SaveSystem.OnSave += SaveEnemyAmount;
+        // Also save the enemies and amount of enemies
+        SaveSystem.OnSave += SaveEnemiesAndEnemyAmount;
+        // Also save the allies and amount of allies
+        SaveSystem.OnSave += SaveAlliesAndAllyAmount;
     }
     // Called when the component is toggled off
     // Unsubscribe from events
@@ -46,7 +47,8 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave -= SaveWallsAndWallAmount;
         SaveSystem.OnSave -= SaveStairs;
         SaveSystem.OnSave -= SaveInteractableAmount;
-        SaveSystem.OnSave -= SaveEnemyAmount;
+        SaveSystem.OnSave -= SaveEnemiesAndEnemyAmount;
+        SaveSystem.OnSave -= SaveAlliesAndAllyAmount;
     }
     // Called when the component is destroyed
     // Unsubscribe from ALL events
@@ -58,7 +60,8 @@ public class ParentSaving : MonoBehaviour
         SaveSystem.OnSave -= SaveWallsAndWallAmount;
         SaveSystem.OnSave -= SaveStairs;
         SaveSystem.OnSave -= SaveInteractableAmount;
-        SaveSystem.OnSave -= SaveEnemyAmount;
+        SaveSystem.OnSave -= SaveEnemiesAndEnemyAmount;
+        SaveSystem.OnSave -= SaveAlliesAndAllyAmount;
     }
 
     /// <summary>
@@ -76,6 +79,10 @@ public class ParentSaving : MonoBehaviour
         _stairsTrans = GameObject.Find(ProceduralGenerationController.STAIRS_NAME).transform;
         // Set the interactable parent
         _interactableParent = GameObject.Find(ProceduralGenerationController.INTERACT_PARENT_NAME).transform;
+        // Set the enemy parent
+        _enemyParent = GameObject.Find(ProceduralGenerationController.ENEMY_PARENT_NAME).transform;
+        // Set the ally parent
+        _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
     }
 
     /// <summary>
@@ -125,10 +132,36 @@ public class ParentSaving : MonoBehaviour
     }
 
     /// <summary>
-    /// Saves the amount of enemies we have to a binary file
+    /// Saves the amount of enemies we have to a binary file.
+    /// Also saves each enemy to a binary file depending on their sibling index
     /// </summary>
-    private void SaveEnemyAmount()
+    private void SaveEnemiesAndEnemyAmount()
     {
-        SaveSystem.SaveEnemyAmount(_characterParent);
+        // Save the amount of enemies
+        SaveSystem.SaveEnemyAmount(_enemyParent);
+
+        // Iterate over each enemy
+        foreach (Transform enemyTrans in _enemyParent)
+        {
+            // Save the current enemy
+            SaveSystem.SaveEnemy(enemyTrans.gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Saves the amount of allies we have to a binary file.
+    /// Also saves each ally to a binary file depending on their sibling index
+    /// </summary>
+    private void SaveAlliesAndAllyAmount()
+    {
+        // Save the amount of allies
+        SaveSystem.SaveAllyAmount(_allyParent);
+
+        // Iterate over each ally
+        foreach (Transform allyTrans in _allyParent)
+        {
+            // Save the current ally
+            SaveSystem.SaveAlly(allyTrans.gameObject);
+        }
     }
 }

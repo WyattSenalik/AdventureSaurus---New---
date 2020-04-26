@@ -22,6 +22,12 @@ public class SaveTest : MonoBehaviour
     // Interactable Parent
     [SerializeField] private Transform _interactableParent = null;
 
+    // Enemy Parent
+    [SerializeField] private Transform _enemyParent = null;
+
+    // Ally Parent
+    [SerializeField] private Transform _allyParent = null;
+
     public void TestLoad()
     {
         // Rooms
@@ -36,6 +42,10 @@ public class SaveTest : MonoBehaviour
         LoadTilemapController.LoadTilemap(_gridPrefab);
         // Interactables
         LoadInteractablesController.LoadInteractables(_interactableParent);
+        // Enemies
+        LoadEnemiesController.LoadEnemies(_enemyParent);
+        // Allies
+        LoadAlliesController.LoadAllies(_allyParent);
     }
 
     public void TestSave()

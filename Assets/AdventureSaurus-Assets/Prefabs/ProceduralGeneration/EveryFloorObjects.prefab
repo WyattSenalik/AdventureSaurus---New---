@@ -1789,6 +1789,8 @@ GameObject:
   - component: {fileID: 300566050003756746}
   - component: {fileID: 7779685235611038295}
   - component: {fileID: 7639621910123614714}
+  - component: {fileID: 3718035747263324849}
+  - component: {fileID: 7535095466743129836}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -2103,6 +2105,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _allInteractablePrefabs:
   - {fileID: 7426554432366633556, guid: 03a4a6aaa7c2b3f40ae6c4c2d96809dc, type: 3}
+--- !u!114 &3718035747263324849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885554831325360137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9469922db798c274aa156a237af7ac73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _allEnemyPrefabs:
+  - {fileID: 821470870810363245, guid: e11294f02a2030d42ba490f163ce88e9, type: 3}
+  - {fileID: 9084426930260393326, guid: a59278f53514fca40a44af52fe1beffb, type: 3}
+  - {fileID: 9099408466769840702, guid: 6a03aa4d3014eff45a10ab916a8d5c5f, type: 3}
+--- !u!114 &7535095466743129836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885554831325360137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f501358f2c1207245a5f57f674d48e0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _allAllyPrefabs:
+  - {fileID: 6395254385892751031, guid: 4278b658950a1194d85a7b00a6d114c3, type: 3}
+  - {fileID: 8129528713394114395, guid: e9255b6a8fa73744dac62b3850185792, type: 3}
+  - {fileID: 7104636797418748056, guid: 631e9fa1faf20964c8fa8cddd04dd4e8, type: 3}
 --- !u!1 &1885554831385839149
 GameObject:
   m_ObjectHideFlags: 0
@@ -7583,7 +7617,8 @@ MonoBehaviour:
   _roomParent: {fileID: 0}
   _wallParent: {fileID: 0}
   _stairsTrans: {fileID: 0}
-  _charParent: {fileID: 0}
+  _enemyParent: {fileID: 0}
+  _allyParent: {fileID: 0}
   _interactParent: {fileID: 0}
 --- !u!114 &1885554832884344784
 MonoBehaviour:

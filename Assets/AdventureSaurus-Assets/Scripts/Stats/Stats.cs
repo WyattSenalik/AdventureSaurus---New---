@@ -23,15 +23,19 @@ public abstract class Stats : MonoBehaviour
     // How much damage this character deals
     [SerializeField] protected int _strength = 0;
     public int GetStrength() { return _strength; }
+    public void SetStrength(int newStrength) { _strength = newStrength; }
     // Magic level affects spells
     [SerializeField] protected int _magic = 0;
     public int GetMagic() { return _magic; }
+    public void SetMagic(int newMagic) { _magic = newMagic; }
     // How many tiles this character can move
     [SerializeField] protected int _speed = 0;
     public int GetSpeed() { return _speed; }
+    public void SetSpeed(int newSpeed) { _speed = newSpeed; }
     // Max health this character has
     [SerializeField] protected int _vitality = 0;
     public int GetVitality() { return _vitality; }
+    public void SetVitality(int newVitality) { _vitality = newVitality; }
 
     
 

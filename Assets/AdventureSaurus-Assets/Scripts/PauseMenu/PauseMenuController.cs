@@ -315,7 +315,7 @@ public class PauseMenuController : MonoBehaviour
                 // Update the names of the allies
                 _alliesNameText[i].text = _alliesStats[i].CharacterName;
                 // Set the sliders to be the allies current xp;
-                _allyXPBars[i].value = ((float)_alliesStats[i].OneLevelExperience) / _alliesStats[i].OneLevelNextLevelThreshold;
+                _allyXPBars[i].value = ((float)_alliesStats[i].GetOneLevelExperience()) / _alliesStats[i].GetOneLevelNextLevelThreshold();
                 // Update the portrait of the allies
                 _allyPortraits[i].sprite = _alliesStats[i].CharacterSprite;
             }

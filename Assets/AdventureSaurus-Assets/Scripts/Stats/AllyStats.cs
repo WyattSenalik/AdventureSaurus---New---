@@ -19,26 +19,26 @@ public class AllyStats : Stats
     }
 
     // Experience
-    // The experience this character has
-    private int _experience; // Total experience
-    private int _oneLevelExperience; // The experience this character has gained on the current level
-    public int OneLevelExperience
-    {
-        get { return _oneLevelExperience; }
-    }
+    // The experience this character has (total)
+    private int _experience;
+    public int GetExperience() { return _experience; }
+    public void SetExperience(int newExperience) { _experience = newExperience; }
+    // The experience this character has gained on the current level
+    private int _oneLevelExperience;
+    public int GetOneLevelExperience() { return _oneLevelExperience; }
+    public void SetOneLevelExperience(int newOneLvlExperience) { _oneLevelExperience = newOneLvlExperience; }
     // The current level of this character
     private int _level;
-    public int Level
-    {
-        get { return _level; }
-    }
-    // The amount of experience this character needs to level up
-    private int _nextLevelThreshold; // Total experience needed
-    private int _oneLevelNextLevelThreshold; // The experience this character needs to gain since the current level
-    public int OneLevelNextLevelThreshold
-    {
-        get { return _oneLevelNextLevelThreshold; }
-    }
+    public int GetLevel() { return _level; }
+    public void SetLevel(int newLevel) { _level = newLevel; }
+    // The amount of experience this character needs to level up (total)
+    private int _nextLevelThreshold;
+    public int GetNextLevelThreshold() { return _nextLevelThreshold; }
+    public void SetNextLevelThreshold(int newNextLevelThreshold) { _nextLevelThreshold = newNextLevelThreshold; }
+    // The experience this character needs to gain since the current level
+    private int _oneLevelNextLevelThreshold;
+    public int GetOneLevelNextLevelThreshold() { return _oneLevelNextLevelThreshold; }
+    public void SetOneLevelNextLevelThreshold(int newOneLevelNextLevelThreshold) { _oneLevelNextLevelThreshold = newOneLevelNextLevelThreshold; }
     // If the character is currently in the process of leveling up
     private bool _isLevelingUp;
     // Reference to this allies level up button. Null always for enemies
