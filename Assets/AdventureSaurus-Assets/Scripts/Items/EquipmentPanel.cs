@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class EquipmentPanel : MonoBehaviour
 {
-    [SerializeField] Transform equipmentSlotsParent;
-    [SerializeField] EquipSlot[] equipmentSlots;
+    [SerializeField] private Transform equipmentSlotsParent = null;
+    [SerializeField] private EquipSlot[] equipmentSlots = null;
 
     public event Action<Item> OnItemRightClickedEvent;
 

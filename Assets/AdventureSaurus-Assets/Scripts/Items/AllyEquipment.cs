@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AllyEquipment : MonoBehaviour
 {
-    [SerializeField] AllyStats AllyStatsREF;
+    [SerializeField] private AllyStats AllyStatsREF = null;
 
     private Item weapon;
     private Item armor;
