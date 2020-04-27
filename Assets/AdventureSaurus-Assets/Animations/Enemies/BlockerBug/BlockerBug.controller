@@ -585,9 +585,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: AttackDirection
     m_EventTreshold: 1
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: SkillNum
-    m_EventTreshold: 0
+    m_EventTreshold: -1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2444254068468638696}
   m_Solo: 0
@@ -694,25 +694,25 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: MoveState
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: -1
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: AttackDirection
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: SkillNum
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: -1
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -812,9 +812,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: AttackDirection
     m_EventTreshold: 4
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: SkillNum
-    m_EventTreshold: 0
+    m_EventTreshold: -1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3843695737925434236}
   m_Solo: 0
@@ -1187,9 +1187,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: AttackDirection
     m_EventTreshold: 4
-  - m_ConditionMode: 6
+  - m_ConditionMode: 3
     m_ConditionEvent: SkillNum
-    m_EventTreshold: 0
+    m_EventTreshold: -1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1342590181250830158}
   m_Solo: 0

@@ -173,11 +173,34 @@ public class BlockingEnemy : SingleEnemy
     /// <summary>
     /// Attempts to do whatever action this enemy does.
     /// Called after the character finishes moving.
-    /// Does nothing. It is a simple blocking enemy and cannot attack
+    /// If the enemy is within range of an ally, it will push them.
     /// </summary>
     protected override void AttemptAction()
     {
-        // Simply end the attack
-        MARef.EndAttack();
+        Node currentNode = MAContRef.GetNodeByWorldPosition(this.transform.position);
+        // Get the nodes it can push
+        List<Node> adjNodes = MAContRef.GetNodesDistFromNode(currentNode, 1);
+        // Try to find an ally to push at any of these nodes
+        Node nodeToAttack = null;
+        foreach (Node curNode in adjNodes)
+        {
+            // If we found a node containing an ally
+            if (curNode.Occupying == CharacterType.Ally)
+            {
+                nodeToAttack = curNode;
+                break;
+            }
+        }
+
+        // If we found an ally to push, push it
+        if (nodeToAttack != null)
+        {
+            MARef.StartAttack(nodeToAttack.Position);
+        }
+        // Otherwise, just end the attack
+        else
+        {
+            MARef.EndAttack();
+        }
     }
 }

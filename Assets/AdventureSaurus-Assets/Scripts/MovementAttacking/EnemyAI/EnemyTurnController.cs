@@ -114,7 +114,7 @@ public class EnemyTurnController : MonoBehaviour
         foreach (MoveAttack singEnemy in enemiesToAdd)
         {
             SingleEnemy singEnemyScriptRef = singEnemy.GetComponent<SingleEnemy>();
-            if (singEnemyScriptRef != null)
+            if (singEnemyScriptRef != null && !_allEnemies.Contains(singEnemyScriptRef))
             {
                 // Add the enemy
                 _allEnemies.Add(singEnemyScriptRef);
