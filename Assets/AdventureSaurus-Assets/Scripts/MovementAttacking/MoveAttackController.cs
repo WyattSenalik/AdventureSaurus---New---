@@ -717,9 +717,12 @@ public class MoveAttackController : MonoBehaviour
         // Make sure the node I want to go to is not occupied
         if (!shouldCare || endNode.Occupying == CharacterType.None)
         {
-            List<Node> inProgressNodes = new List<Node>();  // The nodes that are being tested
+            // The nodes that are being tested
+            List<Node> inProgressNodes = new List<Node>();
+            // The nodes that have already been tested
             List<Node> testedNodes = new List<Node>();
-            inProgressNodes.Add(endNode);   // We start with the one we want to reach
+            // We start with the one we want to reach
+            inProgressNodes.Add(endNode);
 
             // While we are still testing nodes
             while (inProgressNodes.Count != 0)

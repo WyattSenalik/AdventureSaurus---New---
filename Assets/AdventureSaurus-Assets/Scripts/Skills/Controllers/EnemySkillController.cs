@@ -12,7 +12,10 @@ public class EnemySkillController : CharacterSkills
     {
         // We want to set the enemies skill to the one skill they have
         Skill mySkill = this.GetComponent<Skill>();
-        SetSkill(mySkill);
-        mySkill.EquipSkill();
+        if (mySkill != null)
+        {
+            SetSkill(mySkill);
+            mySkill.EquipSkill();
+        }
     }
 }
