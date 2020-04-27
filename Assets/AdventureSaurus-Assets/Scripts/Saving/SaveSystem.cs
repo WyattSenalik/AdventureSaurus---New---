@@ -4,6 +4,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
+    // The folder we are to be saving in
+    private static string _folderDir = "";
+
     // Events
     // For saving the game
     public delegate void Save();
@@ -18,6 +21,46 @@ public static class SaveSystem
             OnSave();
     }
 
+    /// <summary>
+    /// For setting the folder we will be saving in.
+    /// If the folder exists, we destroy it.
+    /// We create a new folder with the given name.
+    /// All the files saved after this is called will be saved in that folder
+    /// </summary>
+    /// <param name="folderName">String name of the folder we will be saving in. Does not expect / before it</param>
+    public static void RefreshMainSaveFolder(string folderName)
+    {
+        // Set the folder directory
+        _folderDir = "/" + folderName;
+        // Get the fullPath
+        string fullPath = Application.persistentDataPath + _folderDir;
+        // Delete any already existing directory
+        if (Directory.Exists(fullPath))
+        {
+            DirectoryInfo dir = new DirectoryInfo(fullPath);
+            dir.Delete(true);
+        }
+        // Create a new folder with the path
+        Directory.CreateDirectory(fullPath);
+    }
+
+    /// <summary>
+    /// Checks if there is a checkpoint to be loaded or not
+    /// </summary>
+    /// <returns>True if there is a saved checpoint</returns>
+    public static bool CheckForCheckpoint()
+    {
+        // Get the fullPath to the starting room
+        string fullPath = Application.persistentDataPath + _folderDir + "/room0.rm";
+        // If the first room exists, there is a checkpoint
+        if (File.Exists(fullPath))
+        {
+            return true;
+        }
+        // Otherwise, if room0 does not exist, there is no checkpoint
+        return false;
+    }
+
     //// Base Save and Load
     /// <summary>
     /// Saves the passed in data in a binary file at the specified path
@@ -28,7 +71,7 @@ public static class SaveSystem
     {
         BinaryFormatter formatter = new BinaryFormatter();
         // Location of the file
-        string path = Application.persistentDataPath + additionalPath;
+        string path = Application.persistentDataPath + _folderDir + additionalPath;
         // Open a connection to the file
         FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -45,7 +88,7 @@ public static class SaveSystem
     private static T LoadData<T>(string additionalPath)
     {
         // The attempted path
-        string path = Application.persistentDataPath + additionalPath;
+        string path = Application.persistentDataPath + _folderDir + additionalPath;
         // If there is a file there
         if (File.Exists(path))
         {

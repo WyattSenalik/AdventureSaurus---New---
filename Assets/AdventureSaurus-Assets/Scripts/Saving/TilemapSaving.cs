@@ -93,11 +93,11 @@ public class TilemapSaving : MonoBehaviour
 
                 // Key of the tile (-1 means no tile at that location)
                 int key = -1;
-                // Pull off the sprite at the current position
-                Sprite tileSpr = _tilemap.GetSprite(tilePos);
+                // Pull off the TileBase at the current position
+                TileBase tileBase = _tilemap.GetTile(tilePos);
                 // If its not null, use the hashtable to get the corresponding key
-                if (tileSpr != null)
-                    key = SaveTilemapController.GetKey(tileSpr);
+                if (tileBase != null)
+                    key = SaveTilemapController.GetKey(tileBase);
 
                 // Save the current tile's data
                 SaveSystem.SaveTile(tilePos, key);

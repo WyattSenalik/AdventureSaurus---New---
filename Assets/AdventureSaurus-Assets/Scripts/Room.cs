@@ -160,8 +160,8 @@ public class Room : MonoBehaviour
     /// </summary>
     private void ShowStartRoom()
     {
-        // If this room is the first room
-        if (_myRoomType == RoomType.START)
+        // If this room is the first room and there are allies in it
+        if (_myRoomType == RoomType.START && _alliesInRoom.Count > 0)
         {
             // Since we just walked into the room, we want to turn it on
             _currentLightIntensity = 1f;

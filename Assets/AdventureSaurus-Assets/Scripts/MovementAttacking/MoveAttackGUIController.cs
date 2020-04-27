@@ -152,7 +152,7 @@ public class MoveAttackGUIController : MonoBehaviour
                 MoveAttack mARef = _mAContRef.GetCharacterMAByNode(selectedNode);
                 if (mARef != null && mARef == _charSelected)
                 {
-                    // If we aren't display stats, we want to do that
+                    // If we aren't displaying stats, we want to do that
                     if (!mARef.MyStats.AreStatsDisplayed())
                     {
                         mARef.MyStats.DisplayStats(true);
@@ -200,10 +200,12 @@ public class MoveAttackGUIController : MonoBehaviour
                     // If the character has moved, but not attacked yet
                     else if (!_charSelected.HasAttacked)
                     {
-                        // Try to attack, if successful, try to interact
+                        // Try to attack
                         if (AttemptAttack(selectedNode))
                             // Deselect the already selected character
                             Deselect();
+                        // Try to help/buff
+                        // Try to interact
                         else if (AttemptInteract(selectedNode))
                             // Deselect the already selected character
                             Deselect();
@@ -317,10 +319,12 @@ public class MoveAttackGUIController : MonoBehaviour
     /// <returns>Returns true if the attack was successful, false otherwise</returns>
     private bool AttemptAttack(Node selNode)
     {
-        // If the current character can attack there
+        // If the current character can attack there or is targetting friendlies and can heal/buff there
         MoveAttack charToAttack = _mAContRef.GetCharacterMAByNode(selNode);
-        if (_charSelected.AttackTiles.Contains(selNode) && selNode.Occupying == CharacterType.Enemy
-            && charToAttack != null && charToAttack.gameObject.activeInHierarchy)
+        if ((_charSelected.AttackTiles.Contains(selNode) && selNode.Occupying == CharacterType.Enemy
+            && charToAttack != null && charToAttack.gameObject.activeInHierarchy) 
+            ||
+            (_charSelected.TargetFriendly && selNode.Occupying == CharacterType.Ally))
         {
             // Set the node to attack
             _nodeToAttack = selNode;

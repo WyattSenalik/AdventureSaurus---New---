@@ -38,7 +38,7 @@ public static class LoadTilemapController
                 if (key >= 0)
                 {
                     // Get the tile by the saved key
-                    Tile tile = SaveTilemapController.GetTile(key);
+                    TileBase tile = SaveTilemapController.GetTile(key);
                     // Set the tile at the position to the correct one
                     tilemap.SetTile(tilePos, tile);
                 }

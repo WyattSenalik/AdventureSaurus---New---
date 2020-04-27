@@ -39,29 +39,46 @@ public class Campfire : Interactable
     /// </summary>
     public override void StartInteract()
     {
-        // Get the players
-        GameObject[] allyObjs = GameObject.FindGameObjectsWithTag("Player");
+        // Assume we will be starting the fire
+        bool shouldActivate = true;
 
-        // Pull off their health scripts and heal them by half their max hp
-        for (int i = 0; i < allyObjs.Length; ++i)
+        // Test if there are any active enemies. If there are, don't let the campfire activate
+        try
         {
-            AllyHealth healthRef = allyObjs[i].GetComponent<AllyHealth>();
-            if (healthRef != null)
-                healthRef.Heal(healthRef.MaxHP / 2);
+            GameObject gameContObj = GameObject.FindWithTag("GameController");
+            EnemyTurnController enTurnCont = gameContObj.GetComponent<EnemyTurnController>();
+            if (enTurnCont.GetAmountEnemies() > 0)
+                shouldActivate = false;
+        }
+        catch
+        {
+            Debug.LogError("Could not get the EnemyTurnController");
         }
 
-        /// Turn on the campfire and make it non interactable
-        // Get the position of this as a Vector3Int
-        Vector3Int tilemapPos = new Vector3Int(Mathf.RoundToInt(this.transform.position.x),
-            Mathf.RoundToInt(this.transform.position.y), 0);
-        // Set the tile at that spot to the active campfire
-        _tilemapRef.SetTile(tilemapPos, _litCampfire);
+        if (shouldActivate) {
+            // Get the players
+            GameObject[] allyObjs = GameObject.FindGameObjectsWithTag("Player");
+            // Pull off their health scripts and heal them by half their max hp
+            for (int i = 0; i < allyObjs.Length; ++i)
+            {
+                AllyHealth healthRef = allyObjs[i].GetComponent<AllyHealth>();
+                if (healthRef != null)
+                    healthRef.Heal(healthRef.MaxHP / 2);
+            }
 
-        // Make it so that this interactable cannot be interacted with again
-        _canInteractWith = false;
+            /// Turn on the campfire and make it non interactable
+            // Get the position of this as a Vector3Int
+            Vector3Int tilemapPos = new Vector3Int(Mathf.RoundToInt(this.transform.position.x),
+                Mathf.RoundToInt(this.transform.position.y), 0);
+            // Set the tile at that spot to the active campfire
+            _tilemapRef.SetTile(tilemapPos, _litCampfire);
 
-        // Save a checkpoint
-        SaveSystem.SaveGame();
+            // Make it so that this interactable cannot be interacted with again
+            _canInteractWith = false;
+
+            // Save a checkpoint
+            SaveSystem.SaveGame();
+        }
 
         // Call the base last, since it calls the event.
         base.StartInteract();
