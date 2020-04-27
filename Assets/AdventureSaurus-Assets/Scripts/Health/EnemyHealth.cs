@@ -28,11 +28,13 @@ public class EnemyHealth : Health
         // Iterate over the allies to get their stats
         foreach (Transform allyTrans in allyParent)
         {
+            int _numHelpers = 0;
             // Try to ge the ally's stats
             AllyStats allyStat = allyTrans.GetComponent<AllyStats>();
             // If the stats aren't null, add it to the list
             if (allyStat != null && _myKiller.name != allyTrans.name)
                 _helpers.Add(allyStat);
+
         }
 
         // Call the super's function
@@ -50,11 +52,11 @@ public class EnemyHealth : Health
         _myKiller.GainExperience(myStats.KillReward(_myKiller));
 
         //Give reduced xp to other allies
-        Debug.Log(_helpers[0].name+" is gaining shared xp");
-        Debug.Log(_helpers[1].name+" is gaining shared xp");
-        _helpers[0].GainReducedExperience(myStats.SharedKillReward(_helpers[0]));
-        _helpers[1].GainReducedExperience(myStats.SharedKillReward(_helpers[1]));
-
+        foreach (AllyStats _helper in _helpers)
+        {
+            _helper.GainReducedExperience(myStats.SharedKillReward(_helper));
+            Debug.Log(_helper);
+        }
         // Call the base's version
         // (make sure to do this last, since the object is destroyed by this call)
         base.Ascend();
