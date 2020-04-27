@@ -190,6 +190,7 @@ public class AllyStats : Stats
     /// <param name="reducedXpToGain">The amount of experience to gain</param>
     public void GainReducedExperience(int reducedXpToGain)
     {
+        Debug.Log(reducedXpToGain);
         _experience += reducedXpToGain;
         _oneLevelExperience += reducedXpToGain;
         //Debug.Log(this.name + " gained " + xpToGain + "shared XP");
