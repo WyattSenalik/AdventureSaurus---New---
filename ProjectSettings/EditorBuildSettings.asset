@@ -42,6 +42,18 @@ EditorBuildSettings:
     path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/Cave/CaveNextFloor.unity
     guid: 28b323e43c08bdc44a82e346522d7c26
   - enabled: 1
-    path: Assets/AdventureSaurus-Assets/Scenes/ReloadScene.unity
+    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/ReloadScene.unity
     guid: dea520c370dcdd84fbeed2b6f96ac772
+  - enabled: 1
+    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/InfiniteStart.unity
+    guid: 31139a0164170a74fb62ec3cc0da30a0
+  - enabled: 1
+    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/NextFloor.unity
+    guid: 8f5571005cb9a9d4d92fe129b0fe23f8
+  - enabled: 1
+    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/CampaignStart.unity
+    guid: eb8b360b64291d543b7e786836305af2
+  - enabled: 1
+    path: Assets/AdventureSaurus-Assets/Scenes/WinScene.unity
+    guid: 1cdd08345b27b8b4ab6d75b39b38ab1e
   m_configObjects: {}

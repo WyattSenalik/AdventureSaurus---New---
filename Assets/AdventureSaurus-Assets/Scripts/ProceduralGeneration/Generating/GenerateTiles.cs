@@ -13,10 +13,8 @@ public class GenerateTiles : MonoBehaviour
     [SerializeField] private int _twoTileDecorationChance = 50;
     // TileSet to be used
     [SerializeField] private TileSet _tileSet = null;
-    public TileSet ActiveTileSet
-    {
-        get { return _tileSet; }
-    }
+    public TileSet GetActiveTileSet() { return _tileSet; }
+    public void SetActiveTileSet(TileSet newTileSet) { _tileSet = newTileSet; }
 
     // Reference to the tile map
     private Tilemap _tileMapRef;

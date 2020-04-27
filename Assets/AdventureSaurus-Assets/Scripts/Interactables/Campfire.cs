@@ -22,7 +22,7 @@ public class Campfire : Interactable
         try
         {
             GameObject genContObj = GameObject.FindWithTag("GenerationController");
-            TileSet activeTileSet = genContObj.GetComponent<GenerateTiles>().ActiveTileSet;
+            TileSet activeTileSet = genContObj.GetComponent<GenerateTiles>().GetActiveTileSet();
             _litCampfire = activeTileSet.GetLitCampfire();
         }
         catch

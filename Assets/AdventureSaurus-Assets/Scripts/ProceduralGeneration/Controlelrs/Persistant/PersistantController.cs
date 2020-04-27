@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PersistantController : MonoBehaviour
+public abstract class PersistantController : MonoBehaviour
 {
     // Temporary parent of the allies
     [SerializeField] private Transform _tempAllyParent = null;
@@ -29,12 +29,16 @@ public class PersistantController : MonoBehaviour
     [SerializeField] private int _floorsUntilFire = 2;
     // What floor we are on
     private int _nextFloorNum;
+    protected int GetNextFloorNum() { return _nextFloorNum; }
 
     // What floor is win
     [SerializeField] private int _winFloorNum = int.MaxValue;
     // Scene to load when win
     [SerializeField] private string _winSceneName = "WinScene";
 
+    // What tile set we should use
+    protected TileSet _activeTileSet;
+    [SerializeField] protected TileSet[] _tileSets = null;
 
     /// <summary>
     /// Called when the script is set active.
@@ -117,11 +121,21 @@ public class PersistantController : MonoBehaviour
         // Get the procedural generation controller
         GameObject genCont = GameObject.FindWithTag("GenerationController");
         if (genCont == null)
-            Debug.Log("Could not find a gameobject with the tag GenerationController");
+            Debug.LogError("Could not find a gameobject with the tag GenerationController");
+
         // Get the procedural generation script attached to it
         ProceduralGenerationController genContScript = genCont.GetComponent<ProceduralGenerationController>();
         if (genContScript == null)
-            Debug.Log("Could not a ProceduralGenerationController script attached to " + genCont.name);
+            Debug.LogError("Could not a ProceduralGenerationController script attached to " + genCont.name);
+
+        // Set the active tileset
+        GenerateTiles genTilesRef = genContScript.GetComponent<GenerateTiles>();
+        if (genTilesRef == null)
+            Debug.LogError("Could not a GenerateTiles script attached to " + genCont.name);
+        // See if we should swap the tileset
+        CheckSwapTileset();
+        genTilesRef.SetActiveTileSet(_activeTileSet);
+
         // Set the difficulty of the floor
         genContScript.CurrentFloorDifficulty = _nextFloorDiff;
 
@@ -159,6 +173,7 @@ public class PersistantController : MonoBehaviour
         // Grab the difficulty of the last room of the last floor and base the difficulty for the next floor off it
         // Calculate the next floor's difficulty
         _nextFloorDiff = Mathf.RoundToInt(genContScript.GetMostDifficultFloor() * _difficultyToner);
+        Debug.Log("Next floor diff: " + _nextFloorDiff);
 
         // Update what floor this is
         ++_nextFloorNum;
@@ -181,9 +196,14 @@ public class PersistantController : MonoBehaviour
     /// Prepares to quit the game by destroying the persistant controller and the temp ally parent, so they
     /// do not persist into the main menu scene
     /// </summary>
-    private void PrepareForQuit()
+    public void PrepareForQuit()
     {
         Destroy(_tempAllyParent.gameObject);
         Destroy(this.gameObject);
     }
+
+    /// <summary>
+    /// Checks if we should swap the tileset to a different tileset
+    /// </summary>
+    protected abstract void CheckSwapTileset();
 }

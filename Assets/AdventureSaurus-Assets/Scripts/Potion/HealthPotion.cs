@@ -23,10 +23,7 @@ public class HealthPotion : MonoBehaviour
     
 
     //current ally
-    private int _allyIndex;
-
-    //list of ally health script
-    private List<AllyHealth> _alliesHealth;
+    private AllyHealth _allyToHeal;
 
 
     private void OnEnable()
@@ -60,18 +57,6 @@ public class HealthPotion : MonoBehaviour
     private void Initialize()
     {
         Transform allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
-
-        // Initialize ally stats
-        _alliesHealth = new List<AllyHealth>();
-        // Iterate over the allies to get their health
-        foreach (Transform allyTrans in allyParent)
-        {
-            // Try to ge the ally's health
-            AllyHealth allyHealth = allyTrans.GetComponent<AllyHealth>();
-            // If the Health aren't null, add it to the list
-            if (allyHealth != null)
-                _alliesHealth.Add(allyHealth);
-        }
         _charges = 3;
     }
     private void Start()
@@ -115,8 +100,6 @@ public class HealthPotion : MonoBehaviour
         else if(_isHolding == true)
         {
             _isHolding = false;
-
-
         }
     }
 
@@ -129,18 +112,9 @@ public class HealthPotion : MonoBehaviour
             // reduces the charges
             _charges--;
 
-            if (charMA.name == _alliesHealth[0].name)
-            {
-                _allyIndex = 0;
-            }
-            else if (charMA.name == _alliesHealth[1].name)
-            {
-                _allyIndex = 1;
-            }
-            else if (charMA.name == _alliesHealth[2].name)
-            {
-                _allyIndex = 2;
-            }
+            _allyToHeal = charMA.GetComponent<AllyHealth>();
+            if (_allyToHeal == null)
+                Debug.LogError("No AllyHealth attached to " + _allyToHeal.name);
 
             HealCharacter();
             _isHolding = false;
@@ -148,16 +122,10 @@ public class HealthPotion : MonoBehaviour
     }
 
     //Heals the ally that is listed under _allyIndex
-    public void HealCharacter()
+    private void HealCharacter()
     {
-        AllyHealth allyHealth = null;
-        // Check the index is valid and that the value is not null
-        if (_alliesHealth[_allyIndex] != null)
-            allyHealth = _alliesHealth[_allyIndex];
-        else
-            Debug.Log("Character you are trying to heal has no stats");
-        Debug.Log(allyHealth.name + " has been healed you no longer have a potion in hand");
-        allyHealth.ConsumePotion();
+        _allyToHeal.ConsumePotion();
+        _allyToHeal = null;
     }
 
     //refills potion back to three

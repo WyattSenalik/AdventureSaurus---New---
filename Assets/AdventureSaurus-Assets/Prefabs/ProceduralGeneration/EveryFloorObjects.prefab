@@ -1995,7 +1995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5258049b3bc3ee4cb858150e9630b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneToGoTo: ProceduralGenNextFloor
+  _sceneToGoTo: NextFloor
   _promptMenu: {fileID: 1885554831751484184}
 --- !u!114 &1885554831325360189
 MonoBehaviour:
@@ -6722,7 +6722,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd4ecc477e4a5c47ab1769fac0bc245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _smoothTime: 0.3
   _dragSpeed: 3
 --- !u!1 &1885554832668812981
 GameObject:

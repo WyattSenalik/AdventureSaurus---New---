@@ -80,4 +80,21 @@ public class ReloadController : MonoBehaviour
         // Allies
         LoadAlliesController.LoadAllies(_allyParent);
     }
+
+    /// <summary>
+    /// Finds the Persistant controller and calls PrepareNextFloor
+    /// </summary>
+    public void PrepareNextFloor()
+    {
+        try
+        {
+            GameObject persistObj = GameObject.FindWithTag("PersistantController");
+            PersistantController persistRef = persistObj.GetComponent<PersistantController>();
+            persistRef.PrepareNextFloor();
+        }
+        catch
+        {
+            Debug.LogError("Failed to Prepare Next Floor");
+        }
+    }
 }

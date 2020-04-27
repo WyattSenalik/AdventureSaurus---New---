@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class ProceduralGenerationController : MonoBehaviour
 {
     // The current floor's base difficulty.
-    // TODO set from persistant controller
+    // Set from persistant controller
     private int _curFloorDiff;
     public int CurrentFloorDifficulty
     {
@@ -137,7 +135,7 @@ public class ProceduralGenerationController : MonoBehaviour
                 // Make the safe room if we should have one
                 if (spawnFire)
                 {
-                    _fireTrans = _safeRoomGenRef.SpawnSafeRoom(_roomParent, _tilemapRef, _tilesGenRef.ActiveTileSet);
+                    _fireTrans = _safeRoomGenRef.SpawnSafeRoom(_roomParent, _tilemapRef, _tilesGenRef.GetActiveTileSet());
                     // Make it a child of the interactables parent
                     _fireTrans.SetParent(_interactParent);
                 }
