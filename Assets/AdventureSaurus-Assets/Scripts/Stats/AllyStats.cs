@@ -185,6 +185,18 @@ public class AllyStats : Stats
     }
 
     /// <summary>
+    /// Gives this character reduced experience like exp share. Called from Health by Ascend unction
+    /// </summary>
+    /// <param name="reducedXpToGain">The amount of experience to gain</param>
+    public void GainReducedExperience(int reducedXpToGain)
+    {
+        _experience += reducedXpToGain;
+        _oneLevelExperience += reducedXpToGain;
+        //Debug.Log(this.name + " gained " + xpToGain + "shared XP");
+        StartCoroutine(CheckLevelUp());
+    }
+
+    /// <summary>
     /// Checks if the character should level up or not after gaining experience
     /// Is called as a coroutine in case this character has enough experience to level up multiple times
     /// </summary>

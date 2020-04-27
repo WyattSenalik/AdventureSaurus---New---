@@ -72,11 +72,12 @@ public class HealthPotion : MonoBehaviour
             if (allyHealth != null)
                 _alliesHealth.Add(allyHealth);
         }
+        _charges = 3;
     }
     private void Start()
     {
         //starting charges
-        _charges = 3;
+        
         //start without potion in hand
         _isHolding = false;
         _defaultPos = _potionImage.transform.position;
@@ -109,8 +110,6 @@ public class HealthPotion : MonoBehaviour
         if (_isHolding == false && _charges!=0)
         {
             _isHolding = true;
-
-            
         }
         //if you are already holding the potion and reclick the potion icon it puts it back
         else if(_isHolding == true)
@@ -119,9 +118,6 @@ public class HealthPotion : MonoBehaviour
 
 
         }
-            
-       
-
     }
 
     //This is really cumbersome I'm going to fix this later but I want to have it working to some extent
@@ -154,7 +150,6 @@ public class HealthPotion : MonoBehaviour
     //Heals the ally that is listed under _allyIndex
     public void HealCharacter()
     {
-        Debug.Log("Someone is being healed");
         AllyHealth allyHealth = null;
         // Check the index is valid and that the value is not null
         if (_alliesHealth[_allyIndex] != null)
@@ -163,5 +158,12 @@ public class HealthPotion : MonoBehaviour
             Debug.Log("Character you are trying to heal has no stats");
         Debug.Log(allyHealth.name + " has been healed you no longer have a potion in hand");
         allyHealth.ConsumePotion();
+    }
+
+    //refills potion back to three
+    public void RefillPotion()
+    {
+        _charges = 3;
+        Debug.Log("Potions have been refilled");
     }
 }

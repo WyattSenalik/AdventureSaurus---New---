@@ -7,7 +7,7 @@ public class EnemyHealth : Health
     // Reference to the Stats component of who killed this character
     // For giving xp
     private AllyStats _myKiller;
-
+    private List<AllyStats> _helpers;
     /// <summary>
     /// Decrements curHP by dmgToTake.
     /// Also sets _myKiller to the dmg dealer
@@ -18,6 +18,22 @@ public class EnemyHealth : Health
     {
         // Set my killer, in the case this dies
         _myKiller = dmgDealer as AllyStats;
+
+
+        //Sets the helpers for shared xp
+        Transform allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
+
+        // Initialize ally stats
+        _helpers = new List<AllyStats>();
+        // Iterate over the allies to get their stats
+        foreach (Transform allyTrans in allyParent)
+        {
+            // Try to ge the ally's stats
+            AllyStats allyStat = allyTrans.GetComponent<AllyStats>();
+            // If the stats aren't null, add it to the list
+            if (allyStat != null && _myKiller.name != allyTrans.name)
+                _helpers.Add(allyStat);
+        }
 
         // Call the super's function
         base.TakeDamage(dmgToTake, dmgDealer);
@@ -32,6 +48,12 @@ public class EnemyHealth : Health
         // Give xp to the killer
         EnemyStats myStats = this.GetComponent<EnemyStats>();
         _myKiller.GainExperience(myStats.KillReward(_myKiller));
+
+        //Give reduced xp to other allies
+        Debug.Log(_helpers[0].name+" is gaining shared xp");
+        Debug.Log(_helpers[1].name+" is gaining shared xp");
+        _helpers[0].GainReducedExperience(myStats.SharedKillReward(_helpers[0]));
+        _helpers[1].GainReducedExperience(myStats.SharedKillReward(_helpers[1]));
 
         // Call the base's version
         // (make sure to do this last, since the object is destroyed by this call)

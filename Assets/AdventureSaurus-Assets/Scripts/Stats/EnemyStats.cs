@@ -25,6 +25,15 @@ public class EnemyStats : Stats
         return (((_vitality + _strength + _magic) / 3) + 1) * _baseXPToGive;
     }
 
+    public int SharedKillReward(Stats helpers)
+    {
+        if (_baseXPToGive == 0)
+        {
+            return 0;
+        }
+        // Do the calculation
+        return ((((_vitality + _strength + _magic) / 3) + 1)/2) * _baseXPToGive;
+    }
     /// <summary>
     /// Increases an enemies stats by the given amounts
     /// </summary>

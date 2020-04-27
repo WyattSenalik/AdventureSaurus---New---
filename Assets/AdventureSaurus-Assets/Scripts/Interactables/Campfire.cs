@@ -66,6 +66,10 @@ public class Campfire : Interactable
                     healthRef.Heal(healthRef.MaxHP / 2);
             }
 
+            //Refills Potion
+            GameObject refill = GameObject.FindGameObjectWithTag("PotionHolder");
+            refill.GetComponent<HealthPotion>().RefillPotion();
+            
             /// Turn on the campfire and make it non interactable
             // Get the position of this as a Vector3Int
             Vector3Int tilemapPos = new Vector3Int(Mathf.RoundToInt(this.transform.position.x),
