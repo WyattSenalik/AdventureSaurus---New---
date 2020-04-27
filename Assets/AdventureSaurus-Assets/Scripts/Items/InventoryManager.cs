@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] Inventory inventoryREF;
-    [SerializeField] EquipmentPanel equipmentPanelREF;
+    [SerializeField] private Inventory inventoryREF = null;
+    [SerializeField] private EquipmentPanel equipmentPanelREF = null;
 
     private AllyStats AllyStatsREF;
 

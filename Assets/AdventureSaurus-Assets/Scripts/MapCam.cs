@@ -5,7 +5,6 @@ using UnityEngine;
 public class MapCam : MonoBehaviour
 {
     //Camera Variables
-    [SerializeField] private float _smoothTime = 0.3f;
     [SerializeField] private float _dragSpeed = 3f;
 
     // Reference to the map camera
@@ -13,7 +12,6 @@ public class MapCam : MonoBehaviour
    
 
     private List<Transform> _allies;
-    private Transform _charToFollow;
     // Camera Velocity
     private Vector3 _camVel;
 
@@ -83,7 +81,6 @@ public class MapCam : MonoBehaviour
                 //right click was pressed    
                 _mouseOrigin = Input.mousePosition;
                 _isDragging = true;
-                _charToFollow = null;
             }
         }
         //checks when right click isn't pressed
