@@ -118,13 +118,13 @@ public class AllyHealth : Health
         // If we are lower than the current amount
         while (_sideSlider.value < targetAm)
         {
-            _sideSlider.value += Time.deltaTime;
+            _sideSlider.value += Time.deltaTime * _healthBarSpeed;
             yield return null;
         }
         // If we are higher than the current amount
         while (_sideSlider.value > targetAm)
         {
-            _sideSlider.value -= Time.deltaTime;
+            _sideSlider.value -= Time.deltaTime * _healthBarSpeed;
             yield return null;
         }
 

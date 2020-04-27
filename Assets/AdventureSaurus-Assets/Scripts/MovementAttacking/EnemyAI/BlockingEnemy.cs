@@ -116,10 +116,8 @@ public class BlockingEnemy : SingleEnemy
         // The settle node is the node we will get close to if we can't reach any of the nodes in the path
         Node settleNode = StandingNode;
         int settleF = int.MaxValue;
-        Debug.Log("Actual Ally Path: ");
         foreach (Node curNode in allyActualPathToExit)
         {
-            Debug.Log(curNode.Position);
             // If we are already there or could actually move to there right now, we found our node
             if (curNode == StandingNode || MARef.MoveTiles.Contains(curNode))
             {

@@ -18,7 +18,6 @@ public class Push : Skill
         _skillNum = 4;
         _range = 1;
         _cooldown = 0;
-        _damage = 1;
     }
 
     /// <summary>
@@ -27,7 +26,6 @@ public class Push : Skill
     /// <param name="attackNodesPos">The position of the node that will be attacked</param>
     override public void StartSkill(Vector2Int attackNodePos)
     {
-        Debug.Log("StartPush skill");
         // Initialize the list of targets
         _enemiesHP = new List<Health>();
         // Get the damage
@@ -38,7 +36,6 @@ public class Push : Skill
         
         if (_attackNode != null)
         {
-            Debug.Log("Attack Node: " + _attackNode.Position);
             MoveAttack charToAttack = _mAContRef.GetCharacterMAByNode(_attackNode);
             if (charToAttack != null)
             {
@@ -56,7 +53,6 @@ public class Push : Skill
         // This occurs when an enemy isn't close enough to an ally to attack. Call end attack and don't start playing an animation
         else
         {
-            Debug.Log("Node to attack does not exist");
             EndSkill();
             return;
         }
@@ -176,7 +172,6 @@ public class Push : Skill
             distance = Mathf.Abs(charToPush.transform.position.x - pushToNode.Position.x +
                 charToPush.transform.position.y - pushToNode.Position.y);
 
-            Debug.Log("Last Dist: " + lastDist + ". Cur Dist: " + distance);
             yield return null;
         }
 

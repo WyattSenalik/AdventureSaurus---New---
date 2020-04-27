@@ -10,6 +10,15 @@ public abstract class Health : MonoBehaviour
     [SerializeField] private Slider _healthBarSlider = null;
     // The text that display remaining health
     [SerializeField] private Text _healthText = null;
+    // Speed to update the heath bar
+    [Min(0.001f)]
+    [SerializeField] private float _healthBarSpeed = 1f;
+
+    // The color of red to change the sprite renderer to
+    [SerializeField] private Color _damageRed = new Color(0.6f, 0.0f, 0.0f);
+    // Speed to do the red pulse
+    [Min(0.001f)]
+    [SerializeField] private float _redPulseSpeed = 1f;
 
     // Maximum health of the character
     private int _maxHP = 1;
@@ -33,6 +42,8 @@ public abstract class Health : MonoBehaviour
     // References to things on this gameobject
     // Reference to the animator attached to this gameObject
     private Animator _animRef;
+    // Reference to the sprite renderer attached to this gameObject
+    private SpriteRenderer _sprRendRef;
 
     // Movement references
     // A reference to the MoveAttackController script, used to recalculate movement after death
@@ -49,7 +60,13 @@ public abstract class Health : MonoBehaviour
         _animRef = this.gameObject.GetComponent<Animator>();
         if (_animRef == null)
         {
-            Debug.Log("Could not find Animator attached to " + this.name);
+            Debug.LogError("Could not find Animator attached to " + this.name);
+        }
+        // Get the spriterenderer
+        _sprRendRef = this.gameObject.GetComponent<SpriteRenderer>();
+        if (_sprRendRef == null)
+        {
+            Debug.LogError("Could not find SpriteRenderer attached to " + this.name);
         }
 
         SetReferences();
@@ -85,9 +102,8 @@ public abstract class Health : MonoBehaviour
     /// Slowly increases the health bars visuals. Also tests if the enemy is going to die, if they are it calls Die.
     /// Also returns control to the correct autority if no one died
     /// </summary>
-    /// <param name="speed">scalar for how fast the health bar moves. Defaults to 1</param>
     /// <returns>IEnumerator</returns>
-    private IEnumerator UpdateHealth(float speed = 0.5f)
+    private IEnumerator UpdateHealth()
     {
         // Signal MoveAttack that a character's health bar is currently being updated.
         // We will remove it here after this ends or in Ascend if the damage is fatal
@@ -98,13 +114,13 @@ public abstract class Health : MonoBehaviour
         // If we are lower than the current amount
         while (_healthBarSlider.value < targetAm)
         {
-            _healthBarSlider.value += Time.deltaTime * speed;
+            _healthBarSlider.value += Time.deltaTime * _healthBarSpeed;
             yield return null;
         }
         // If we are higher than the current amount
         while (_healthBarSlider.value > targetAm)
         {
-            _healthBarSlider.value -= Time.deltaTime * speed;
+            _healthBarSlider.value -= Time.deltaTime * _healthBarSpeed;
             yield return null;
         }
 
@@ -147,6 +163,9 @@ public abstract class Health : MonoBehaviour
         {
             _curHP -= dmgToTake;
         }
+
+        // Flash red
+        StartCoroutine(BlinkRed());
 
         // If this unit has a health bar, update it to properly display the new health information
         if (_healthBarSlider != null)
@@ -221,5 +240,71 @@ public abstract class Health : MonoBehaviour
         //Debug.Log(this.gameObject.name + " has died");
         Destroy(graveyard);
         Destroy(this.gameObject);
+    }
+
+    /// <summary>
+    /// For flashing red when the character gets hurt
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    private IEnumerator BlinkRed()
+    {
+        // The starting color, so that we can return to it after turning red
+        Color originalCol = _sprRendRef.color;
+        // A short hand for the current color of the spriterenderer
+        Color curCol = _sprRendRef.color;
+        // Calculating the amount to increase the color every time
+        float steps = 20 / _redPulseSpeed;
+        Color incrCol = (_damageRed - curCol) / steps;
+
+        // Determine if r, g, and b are increasing or decreasing
+        bool isRedInc = incrCol.r >= 0;
+        bool isGreenInc = incrCol.g >= 0;
+        bool isBlueInc = incrCol.b >= 0;
+        // Change the color to red slowly
+        bool shouldContinue = true;
+        while (shouldContinue)
+        {
+            // Change color
+            curCol += incrCol;
+            _sprRendRef.color = curCol;
+
+            // If the color is has passed the values it was aiming for, end the loop
+            if ((curCol.r > _damageRed.r && isRedInc) ||
+                (curCol.r < _damageRed.r && !isRedInc) ||
+                (curCol.g > _damageRed.g && isGreenInc) ||
+                (curCol.g < _damageRed.g && !isGreenInc) ||
+                (curCol.b > _damageRed.b && isBlueInc) ||
+                (curCol.b < _damageRed.b && !isBlueInc))
+            {
+                shouldContinue = false;
+            }
+
+            yield return null;
+        }
+        // Change the color back
+        shouldContinue = true;
+        while (shouldContinue)
+        {
+            // Change color
+            curCol -= incrCol;
+            _sprRendRef.color = curCol;
+
+            // If the color is has passed the values it was aiming for, end the loop
+            if ((curCol.r > originalCol.r && !isRedInc) ||
+                (curCol.r < originalCol.r && isRedInc) ||
+                (curCol.g > originalCol.g && !isGreenInc) ||
+                (curCol.g < originalCol.g && isGreenInc) ||
+                (curCol.b > originalCol.b && !isBlueInc) ||
+                (curCol.b < originalCol.b && isBlueInc))
+            {
+                shouldContinue = false;
+            }
+
+            yield return null;
+        }
+
+        // Set the color back explicitly
+        _sprRendRef.color = originalCol;
+        yield return null;
     }
 }
