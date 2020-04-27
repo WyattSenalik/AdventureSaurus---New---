@@ -12,7 +12,7 @@ public abstract class Health : MonoBehaviour
     [SerializeField] private Text _healthText = null;
     // Speed to update the heath bar
     [Min(0.001f)]
-    [SerializeField] private float _healthBarSpeed = 1f;
+    [SerializeField] protected float _healthBarSpeed = 1f;
 
     // The color of red to change the sprite renderer to
     [SerializeField] private Color _damageRed = new Color(0.6f, 0.0f, 0.0f);
