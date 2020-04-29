@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Stairs : MonoBehaviour
 {
-    // Name of scene to transition to
-    [SerializeField] private string _sceneToGoTo = "Title Screen";
     // The prompt menu for if the player would like to go to the next floor
     [SerializeField] private GameObject _promptMenu = null;
 
@@ -122,15 +120,6 @@ public class Stairs : MonoBehaviour
         // to suspend the game
         if (OnPromptNextFloor != null)
             OnPromptNextFloor();
-    }
-
-    /// <summary>
-    /// Called from the yes button in the prompt.
-    /// Changes the scene
-    /// </summary>
-    public void yes()
-    {
-        SceneManager.LoadScene(_sceneToGoTo);
     }
 
     /// <summary>

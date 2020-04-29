@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public abstract class PersistantController : MonoBehaviour
 {
+    // Name of scene to transition to
+    [SerializeField] private string _nextFloorName = "NextFloor";
+
     // Temporary parent of the allies
     [SerializeField] private Transform _tempAllyParent = null;
 
@@ -177,11 +180,6 @@ public abstract class PersistantController : MonoBehaviour
         // Update what floor this is
         ++_nextFloorNum;
 
-        // If the next floor is win, load the win scene
-        if (_nextFloorNum == _winFloorNum)
-        {
-            SceneManager.LoadScene(_winSceneName);
-        }
 
         // Test if we should increment the amount of rooms
         if (_nextFloorRoomAm < _maxRooms && _nextFloorNum % _floorsUntilRoomAmInc == 0)
@@ -189,6 +187,18 @@ public abstract class PersistantController : MonoBehaviour
 
         // Test if the current floor should have a campfire
         _shouldHaveCamfire = _nextFloorNum % _floorsUntilFire == 0;
+
+        // If the next floor is win, load the win scene
+        if (_nextFloorNum == _winFloorNum)
+        {
+            SceneManager.LoadScene(_winSceneName);
+            PrepareForQuit();
+        }
+        // Otherwise load the next floor scene
+        else
+        {
+            SceneManager.LoadScene(_nextFloorName);
+        }
     }
 
     /// <summary>

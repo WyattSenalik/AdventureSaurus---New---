@@ -149,8 +149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb632c238cdd414a89bd54bb72b2883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nextFloorName: NextFloor
   _tempAllyParent: {fileID: 1431827292}
-  _difficultyToner: 0.625
+  _difficultyInc: 2
   _nextFloorRoomAm: 3
   _floorsUntilRoomAmInc: 2
   _maxRooms: 6
@@ -549,6 +550,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: PrepareNextFloor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885554831653323574, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1803751482795482986, guid: 70da1097b1dafad4a9fb162e686f4084,
         type: 3}
