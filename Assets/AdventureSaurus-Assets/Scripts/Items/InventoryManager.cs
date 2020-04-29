@@ -8,8 +8,9 @@ public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private Inventory inventoryREF = null;
     [SerializeField] private EquipmentPanel equipmentPanelREF = null;
+    [SerializeField] CharDetailedMenuController CharDetailedMenuControllerREF = null;
 
-    private AllyStats AllyStatsREF;
+    [SerializeField] AllyStats AllyStatsREF;
 
     public void setAllyStatsREF(AllyStats reference)
     {
@@ -46,6 +47,8 @@ public class InventoryManager : MonoBehaviour
                     previousItem.Unequip(AllyStatsREF);
                 }
                 equippingItem.Equip(AllyStatsREF);
+                CharDetailedMenuControllerREF.RefreshStats(AllyStatsREF);
+                
             }
             else
             {
@@ -60,6 +63,7 @@ public class InventoryManager : MonoBehaviour
         if (!inventoryREF.IsFull() && equipmentPanelREF.removeItem(unequipItem))
         {
             unequipItem.Unequip(AllyStatsREF);
+            CharDetailedMenuControllerREF.RefreshStats(AllyStatsREF);
             inventoryREF.addItem(unequipItem);
         }
     }

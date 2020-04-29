@@ -318,10 +318,7 @@ public class CharDetailedMenuController : MonoBehaviour
         _characterPortrait.sprite = allyStats.CharacterSprite;
         _nameText.text = allyStats.CharacterName;
         _lvlText.text = "Lvl " + allyStats.GetLevel().ToString();
-        _vitalityNums.text = allyStats.GetVitality().ToString();
-        _magicNums.text = allyStats.GetMagic().ToString();
-        _strNums.text = allyStats.GetStrength().ToString();
-        _speedNums.text = allyStats.GetSpeed().ToString();
+        RefreshStats(allyStats);
 
         // Fill in the appropriate amount of bubbles for each stat
         //Debug.Log("Updating Vitality Bubbles");
@@ -347,6 +344,17 @@ public class CharDetailedMenuController : MonoBehaviour
 
         // Update the skill preview
         _skillPrevContRef.DisplayUpdatePreviewMenu(allyStats);
+    }
+
+    /// <summary>
+    /// Refreshes the text to the current values in allyStats
+    /// </summary>
+    public void RefreshStats(AllyStats allyStats)
+    {
+        _vitalityNums.text = allyStats.GetVitality().ToString();
+        _magicNums.text = allyStats.GetMagic().ToString();
+        _strNums.text = allyStats.GetStrength().ToString();
+        _speedNums.text = allyStats.GetSpeed().ToString();
     }
 
     /// <summary>
