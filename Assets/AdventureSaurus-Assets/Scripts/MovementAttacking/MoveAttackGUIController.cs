@@ -558,7 +558,6 @@ public class MoveAttackGUIController : MonoBehaviour
         // Remove itself from the OnCharacterFinishedAction event
         MoveAttack.OnCharacterFinishedAction -= ReturnControlAfterAction;
 
-        ToggleSelect(true);
         AllowSelect();
     }
 
@@ -571,7 +570,6 @@ public class MoveAttackGUIController : MonoBehaviour
         // Remove itself from the OnCharacterFinishedMoving event
         MoveAttack.OnCharacterFinishedMoving -= ReturnControlAfterMove;
 
-        ToggleSelect(true);
         AllowSelect();
     }
 
@@ -584,7 +582,6 @@ public class MoveAttackGUIController : MonoBehaviour
         // Remove itself from the OnFinishInteraction event
         Interactable.OnFinishInteraction -= ReturnControlAfterInteract;
 
-        ToggleSelect(true);
         AllowSelect();
     }
 
@@ -632,6 +629,7 @@ public class MoveAttackGUIController : MonoBehaviour
         if (_charSelected != null)
         {
             _mAContRef.TurnOffVisuals(_charSelected);
+            _charSelected.CalculateAllTiles();
             _mAContRef.SetActiveVisuals(_charSelected);
         }
     }

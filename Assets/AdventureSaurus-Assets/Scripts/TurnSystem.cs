@@ -44,6 +44,11 @@ public class TurnSystem : MonoBehaviour
         Pause.OnPauseGame += HideScript;
         // Unsubscribe to the unpause event (since if this is active, the game is unpaused)
         Pause.OnUnpauseGame -= ShowScript;
+
+        // When there are no enemy characters active, let the player go again
+        MoveAttack.OnCharacterFinishedMoving += LetPlayerGoAgain;
+        MoveAttack.OnCharacterFinishedAction += LetPlayerGoAgain;
+        Health.OnCharacterDeath += LetPlayerGoAgain;
     }
 
     // Called when gameobject is toggled off
@@ -57,6 +62,10 @@ public class TurnSystem : MonoBehaviour
         Pause.OnPauseGame -= HideScript;
         // When the game is unpaused, re-enable this script
         Pause.OnUnpauseGame += ShowScript;
+
+        MoveAttack.OnCharacterFinishedMoving -= LetPlayerGoAgain;
+        MoveAttack.OnCharacterFinishedAction -= LetPlayerGoAgain;
+        Health.OnCharacterDeath -= LetPlayerGoAgain;
     }
 
     // Called when gameobject is destroyed
@@ -67,6 +76,9 @@ public class TurnSystem : MonoBehaviour
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
         Pause.OnPauseGame -= HideScript;
         Pause.OnUnpauseGame -= ShowScript;
+        MoveAttack.OnCharacterFinishedMoving -= LetPlayerGoAgain;
+        MoveAttack.OnCharacterFinishedAction -= LetPlayerGoAgain;
+        Health.OnCharacterDeath -= LetPlayerGoAgain;
     }
 
     // Called before Start
@@ -177,4 +189,12 @@ public class TurnSystem : MonoBehaviour
         this.enabled = true;
     }
 
+    /// <summary>
+    /// Checks if there are any enemies if there are not, restarts the player turn
+    /// </summary>
+    private void LetPlayerGoAgain()
+    {
+        if (_enTurnContRef.GetAmountEnemies() == 0)
+            StartPlayerTurn();
+    }
 }

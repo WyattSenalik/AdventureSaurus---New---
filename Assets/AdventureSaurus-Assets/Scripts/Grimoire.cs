@@ -60,19 +60,19 @@ public class Grimoire : MonoBehaviour
                 switch (_grimoirePages[_pagesRead])
                 {
                     case (MagicBuff.DMGINC):
-                        Debug.Log("Increase Damage");
+                        //Debug.Log("Increase Damage");
                         IncreaseDamage();
                         break;
                     case (MagicBuff.RANGEINC):
-                        Debug.Log("Increase Range");
+                        //Debug.Log("Increase Range");
                         IncreaseRange();
                         break;
                     case (MagicBuff.COOLLWR):
-                        Debug.Log("Lower Cooldown");
+                        //Debug.Log("Lower Cooldown");
                         LowerCooldown();
                         break;
                     case (MagicBuff.SKILLACQ):
-                        Debug.Log("Gain Skill");
+                        //Debug.Log("Gain Skill");
                         GainSkill();
                         break;
                     default:

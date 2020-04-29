@@ -49,6 +49,11 @@ public abstract class Health : MonoBehaviour
     // A reference to the MoveAttackController script, used to recalculate movement after death
     protected MoveAttackController _mAContRef;
 
+    // Events
+    // When a character dies
+    public delegate void CharacterDeath();
+    public static event CharacterDeath OnCharacterDeath;
+
 
     // Called before Start
     // Set references
@@ -233,6 +238,9 @@ public abstract class Health : MonoBehaviour
         this.transform.parent = graveyard.transform;
         // We then need to recreate all the visuals, so that the user can see they can move over the dead body
         //NEEDTOFIXmAContRef.CreateAllVisualTiles();
+
+        // Call the OnCharacterDeath event
+        OnCharacterDeath?.Invoke();
 
         // Remove the ongoing action to signal we are done
         MoveAttack.RemoveOngoingAction();

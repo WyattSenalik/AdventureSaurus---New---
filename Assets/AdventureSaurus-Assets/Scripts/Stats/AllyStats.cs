@@ -190,7 +190,6 @@ public class AllyStats : Stats
     /// <param name="reducedXpToGain">The amount of experience to gain</param>
     public void GainReducedExperience(int reducedXpToGain)
     {
-        Debug.Log(reducedXpToGain);
         _experience += reducedXpToGain;
         _oneLevelExperience += reducedXpToGain;
         //Debug.Log(this.name + " gained " + xpToGain + "shared XP");
@@ -242,8 +241,8 @@ public class AllyStats : Stats
         if (_expSlider != null)
             // Set the side exp bar
             _expSlider.value = ((float)_oneLevelExperience) / _oneLevelNextLevelThreshold;
-        else
-            Debug.Log("No exp slider found");
+        //else
+            //Debug.Log("No exp slider found");
     }
 
     /// <summary>

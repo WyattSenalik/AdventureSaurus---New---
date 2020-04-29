@@ -28,6 +28,8 @@ public class EnemyTurnController : MonoBehaviour
         Room.OnRoomActivate += AddEnemies;
         // When the camera has finished panning over an enemy;
         CamFollow.OnFinishEnemyPan += BeginTurnAfterPan;
+        // When an enemy dies, cull dead enemies
+        EnemyHealth.OnEnemyDeath += CullTheDead;
     }
 
     // Called when the gameobject is toggled off
@@ -37,6 +39,7 @@ public class EnemyTurnController : MonoBehaviour
         SingleEnemy.OnSingleEnemyFinish -= SingleEnemyTurn;
         Room.OnRoomActivate -= AddEnemies;
         CamFollow.OnFinishEnemyPan -= BeginTurnAfterPan;
+        EnemyHealth.OnEnemyDeath -= CullTheDead;
     }
 
     // Called when the gameobject is destroyed
@@ -46,6 +49,7 @@ public class EnemyTurnController : MonoBehaviour
         SingleEnemy.OnSingleEnemyFinish -= SingleEnemyTurn;
         Room.OnRoomActivate -= AddEnemies;
         CamFollow.OnFinishEnemyPan -= BeginTurnAfterPan;
+        EnemyHealth.OnEnemyDeath -= CullTheDead;
     }
 
     // Called before the first frame
@@ -134,7 +138,7 @@ public class EnemyTurnController : MonoBehaviour
         while (curIndex < _allEnemies.Count)
         {
             // If the enemy is null, remove it and do not increment the index
-            if (_allEnemies[curIndex] == null)
+            if (_allEnemies[curIndex] == null || _allEnemies[curIndex].GetComponent<Health>().CurHP == 0)
             {
                 _allEnemies.RemoveAt(curIndex);
             }

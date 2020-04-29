@@ -8,6 +8,12 @@ public class EnemyHealth : Health
     // For giving xp
     private AllyStats _myKiller;
     private List<AllyStats> _helpers;
+
+    // Events
+    // When an enemy dies
+    public delegate void EnemyDeath();
+    public static event EnemyDeath OnEnemyDeath;
+
     /// <summary>
     /// Decrements curHP by dmgToTake.
     /// Also sets _myKiller to the dmg dealer
@@ -28,7 +34,6 @@ public class EnemyHealth : Health
         // Iterate over the allies to get their stats
         foreach (Transform allyTrans in allyParent)
         {
-            int _numHelpers = 0;
             // Try to ge the ally's stats
             AllyStats allyStat = allyTrans.GetComponent<AllyStats>();
             // If the stats aren't null, add it to the list
@@ -55,8 +60,12 @@ public class EnemyHealth : Health
         foreach (AllyStats _helper in _helpers)
         {
             _helper.GainReducedExperience(myStats.SharedKillReward(_helper));
-            Debug.Log(_helper);
+           // Debug.Log(_helper);
         }
+
+        // Call the enemy death event
+        OnEnemyDeath?.Invoke();
+
         // Call the base's version
         // (make sure to do this last, since the object is destroyed by this call)
         base.Ascend();
