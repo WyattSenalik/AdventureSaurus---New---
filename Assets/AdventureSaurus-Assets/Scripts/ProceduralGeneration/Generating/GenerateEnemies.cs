@@ -13,6 +13,10 @@ public class GenerateEnemies : MonoBehaviour
     // Chance for a buffed enemy to be a rainbow enemy
     [SerializeField] private int _rainbowChance = 10;
 
+    // Range for max amount of enemies in the room
+    [SerializeField] private int _minMaxEnemiesInRoom = 3;
+    [SerializeField] private int _maxMaxEnemiesInRoom = 6;
+
     // Set references
     private void Awake()
     {
@@ -91,8 +95,7 @@ public class GenerateEnemies : MonoBehaviour
 
             /// Step 3: Determine the amount of enemies we want in this room
             /// 
-            // I'm just gonna say, we want to aim to fill max 1/4 of the room with enemies
-            int maxEnemies = availSpawnPositions.Count / 4;
+            int maxEnemies = Random.Range(_minMaxEnemiesInRoom, _maxMaxEnemiesInRoom);
 
             /// Step 4: Create the enemies for the room in compliance with the difficulty
             /// This algorithm may be edited by adding more steps between 1 and 2 to restrict the 
