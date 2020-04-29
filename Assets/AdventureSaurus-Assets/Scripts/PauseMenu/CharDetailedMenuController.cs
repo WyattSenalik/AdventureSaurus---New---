@@ -472,7 +472,7 @@ public class CharDetailedMenuController : MonoBehaviour
 
             // Increase the amount of points we spent and display the change
             ++amountPointsSpent;
-            _pointsText.text = "Point: " + (_amountPointsAvailable - amountPointsSpent).ToString();
+            _pointsText.text = "Points: " + (_amountPointsAvailable - amountPointsSpent).ToString();
         }
     }
 
