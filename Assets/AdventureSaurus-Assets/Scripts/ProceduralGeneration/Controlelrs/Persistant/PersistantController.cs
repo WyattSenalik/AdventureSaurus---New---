@@ -11,9 +11,8 @@ public abstract class PersistantController : MonoBehaviour
     // List of allies, we will want to make these persistant throughout scenes
     private List<GameObject> _allies;
 
-    // The amount to tone down the difficulty for the next floor (1 sets the base difficulty of the next floor
-    // to be the hardest difficulty of the last floor. 0 resets the difficulty back to 0)
-    [SerializeField] private float _difficultyToner = 0.625f;
+    // The amount to increase difficulty each floor
+    [SerializeField] private int _difficultyInc = 2;
     // The difficulty of the next floor
     private int _nextFloorDiff;
     // The amount of rooms the next floor will have.
@@ -94,8 +93,8 @@ public abstract class PersistantController : MonoBehaviour
         }
         //Debug.Log("Finished initializing allies");
         // Initialize the starting floors stuff
-        // Initialize the floor difficulty to 0
-        _nextFloorDiff = 0;
+        // Initialize the floor difficulty to 3
+        _nextFloorDiff = 3;
         _nextFloorNum = 1;
         _shouldHaveCamfire = _nextFloorNum % _floorsUntilFire == 0;
         // Start the first floor's generation
@@ -172,7 +171,7 @@ public abstract class PersistantController : MonoBehaviour
 
         // Grab the difficulty of the last room of the last floor and base the difficulty for the next floor off it
         // Calculate the next floor's difficulty
-        _nextFloorDiff = Mathf.RoundToInt(genContScript.GetMostDifficultFloor() * _difficultyToner);
+        _nextFloorDiff += _difficultyInc;
         Debug.Log("Next floor diff: " + _nextFloorDiff);
 
         // Update what floor this is

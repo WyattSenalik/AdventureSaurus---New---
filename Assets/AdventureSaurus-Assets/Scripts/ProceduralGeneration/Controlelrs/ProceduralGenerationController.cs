@@ -244,11 +244,11 @@ public class ProceduralGenerationController : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the difficulty of the most difficult floor.
+    /// Returns the difficulty of the most difficult room.
     /// Called from Persistant Controller when preparing the next floor.
     /// </summary>
-    /// <returns>int difficulty of the Floor with the hardest difficulty</returns>
-    public int GetMostDifficultFloor()
+    /// <returns>int difficulty of the Room with the hardest difficulty</returns>
+    public int GetMostDifficultRoom()
     {
         Transform hardRoomTrans = _roomParent.GetChild(_roomParent.childCount - 1);
         Room hardRoomScriptRef = hardRoomTrans.GetComponent<Room>();

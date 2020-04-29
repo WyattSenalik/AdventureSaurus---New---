@@ -50,13 +50,13 @@ public class GenerateEnemies : MonoBehaviour
 
             // If its a normal room
             if (curRoomScript.MyRoomType == RoomType.NORMAL)
-                curRoomScript.RoomDifficulty = floorBaseDiff + curRoomScript.RoomWeight * 2;
+                curRoomScript.RoomDifficulty = floorBaseDiff;
             // If its a hallway
             else if (curRoomScript.MyRoomType == RoomType.HALLWAY)
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + (curRoomScript.RoomWeight * 2)) * _hallwayScalar);
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff * _hallwayScalar);
             // If its the end
             else if (curRoomScript.MyRoomType == RoomType.END)
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + (curRoomScript.RoomWeight * 2)) * _endScalar);
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff * _endScalar);
             // If its the start or safe room, we don't spawn enemies
             else if (curRoomScript.MyRoomType == RoomType.SAFE || curRoomScript.MyRoomType == RoomType.START)
                 curRoomScript.RoomDifficulty = 0;

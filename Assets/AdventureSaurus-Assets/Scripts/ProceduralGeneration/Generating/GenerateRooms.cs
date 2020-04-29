@@ -397,7 +397,7 @@ public class GenerateRooms : MonoBehaviour
             }
         }
 
-        // Return the parent of the rooms and 
+        // Return the parent of the rooms and the parent of the bleed lights
         return rtnList;
     }
 
