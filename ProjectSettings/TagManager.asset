@@ -15,6 +15,7 @@ TagManager:
   - MapMenu
   - Campfire
   - Tilemap
+  - PotionHolder
   layers:
   - Default
   - TransparentFX
