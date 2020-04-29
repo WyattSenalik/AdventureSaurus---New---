@@ -14,7 +14,7 @@ public class CharDetailedMenuController : MonoBehaviour
     // Canvas display things
     //
     // These things will all get swapped when we hit the next and previous character buttons
-    [SerializeField] private Image _characterPortrait = null;
+    [SerializeField] private Image _characterBackground = null;
     [SerializeField] private Text _nameText = null;
     [SerializeField] private Text _lvlText = null;
     [SerializeField] private Text _vitalityNums = null;
@@ -122,7 +122,7 @@ public class CharDetailedMenuController : MonoBehaviour
         _deadAlly = deadAllyObj.AddComponent<AllyStats>();
 
         // Do a lot of validation
-        if (_characterPortrait == null)
+        if (_characterBackground == null)
         {
             Debug.Log("ERROR WARNING - from CharDetailedMenuController attached to " + this.name + ". " +
                 "characterPortrait was not initialized properly, please set it in the editor");
@@ -315,7 +315,7 @@ public class CharDetailedMenuController : MonoBehaviour
         }
 
         // Set the normal things for the character stats
-        _characterPortrait.sprite = allyStats.CharacterSprite;
+        _characterBackground.sprite = allyStats.GetTeamMenuSprite();
         _nameText.text = allyStats.CharacterName;
         _lvlText.text = "Lvl " + allyStats.GetLevel().ToString();
         RefreshStats(allyStats);

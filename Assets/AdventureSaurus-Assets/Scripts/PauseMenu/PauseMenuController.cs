@@ -199,7 +199,7 @@ public class PauseMenuController : MonoBehaviour
             if (i < _alliesStats.Count)
             {
                 // Change the side picture
-                _sidePortraits[i].sprite = _alliesStats[i].SideSprite;
+                _sidePortraits[i].sprite = _alliesStats[i].GetSideSprite();
                 // Set the side health bar
                 AllyHealth hpScriptRef = _alliesStats[i].GetComponent<AllyHealth>();
                 hpScriptRef.SideSlider = _sideHPBars[i];
@@ -317,7 +317,7 @@ public class PauseMenuController : MonoBehaviour
                 // Set the sliders to be the allies current xp;
                 _allyXPBars[i].value = ((float)_alliesStats[i].GetOneLevelExperience()) / _alliesStats[i].GetOneLevelNextLevelThreshold();
                 // Update the portrait of the allies
-                _allyPortraits[i].sprite = _alliesStats[i].CharacterSprite;
+                _allyPortraits[i].sprite = _alliesStats[i].GetCharacterPortrait();
             }
             // If that ally doesn't exist, they dead. Reflect that
             else

@@ -7,16 +7,12 @@ public class AllyStats : Stats
 {
     // Character's portrait picture
     [SerializeField] private Sprite _charPortrait = null;
-    public Sprite CharacterSprite
-    {
-        get { return _charPortrait; }
-    }
+    public Sprite GetCharacterPortrait() { return _charPortrait; }
     // Charcter's side picture
     [SerializeField] private Sprite _sideSpr = null;
-    public Sprite SideSprite
-    {
-        get { return _sideSpr; }
-    }
+    public Sprite GetSideSprite() { return _sideSpr; }
+    [SerializeField] private Sprite _teamMenuSpr = null;
+    public Sprite GetTeamMenuSprite() { return _teamMenuSpr; }
 
     // Experience
     // The experience this character has (total)
@@ -41,8 +37,8 @@ public class AllyStats : Stats
     public void SetOneLevelNextLevelThreshold(int newOneLevelNextLevelThreshold) { _oneLevelNextLevelThreshold = newOneLevelNextLevelThreshold; }
     // If the character is currently in the process of leveling up
     private bool _isLevelingUp;
-    // Reference to this allies level up button. Null always for enemies
-    [SerializeField] private GameObject _levelUpButton = null;
+    // Reference to this ally's level up button
+    private GameObject _levelUpButton = null;
     public GameObject LevelUpButton
     {
         set { _levelUpButton = value; }

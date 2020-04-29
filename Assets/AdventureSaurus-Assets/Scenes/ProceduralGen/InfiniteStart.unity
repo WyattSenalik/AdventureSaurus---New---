@@ -149,8 +149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb14375ad0e7f9f4da1bcf349e613e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nextFloorName: NextFloor
   _tempAllyParent: {fileID: 1431827292}
-  _difficultyToner: 0.625
+  _difficultyInc: 2
   _nextFloorRoomAm: 3
   _floorsUntilRoomAmInc: 2
   _maxRooms: 6
@@ -582,6 +583,11 @@ PrefabInstance:
     - target: {fileID: 8309526825881166101, guid: 70da1097b1dafad4a9fb162e686f4084,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885554832858778530, guid: 70da1097b1dafad4a9fb162e686f4084,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
