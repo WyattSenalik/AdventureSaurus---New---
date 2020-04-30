@@ -20,7 +20,12 @@ public class HealthPotion : MonoBehaviour
         set { _charges = value; }
     }
     private bool _isHolding;
-    
+
+    //Perstant stuff
+    //charges held in persist charges
+    public PersistCharges _chargesHeld;
+    //bool destroy
+    public bool _update;
 
     //current ally
     private AllyHealth _allyToHeal;
@@ -32,6 +37,7 @@ public class HealthPotion : MonoBehaviour
         MoveAttackGUIController.OnCharacterSelect += CharacterToHeal;
         // When the generation finishes, initialize this script
         ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
+        
     }
 
     // Called when the gameobject is toggled active
@@ -52,12 +58,16 @@ public class HealthPotion : MonoBehaviour
         // Subscribe to when a character is clicked, so that we can move to them
         MoveAttackGUIController.OnCharacterSelect -= CharacterToHeal;
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+        
     }
 
     private void Initialize()
     {
         Transform allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
-        _charges = 3;
+
+        _chargesHeld = GameObject.FindGameObjectWithTag("PersistantController").GetComponent<PersistCharges>();
+        _charges = _chargesHeld._potCharges;
+        _update = false;
     }
     private void Start()
     {
@@ -103,7 +113,6 @@ public class HealthPotion : MonoBehaviour
         }
     }
 
-    //This is really cumbersome I'm going to fix this later but I want to have it working to some extent
     // Gets character selected using the event and changes allyIndex to match the character selected character
     private void CharacterToHeal(MoveAttack charMA)
     {
@@ -126,12 +135,15 @@ public class HealthPotion : MonoBehaviour
     {
         _allyToHeal.ConsumePotion();
         _allyToHeal = null;
+        _update = true;
     }
 
     //refills potion back to three
     public void RefillPotion()
     {
         _charges = 3;
+        _update = true;
         Debug.Log("Potions have been refilled");
     }
+
 }
