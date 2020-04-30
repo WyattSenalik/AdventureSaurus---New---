@@ -199,8 +199,10 @@ public class Skill : MonoBehaviour
         _anime.SetInteger("AttackDirection", -_anime.GetInteger("AttackDirection"));
         _anime.SetInteger("SkillNum", -1);
 
+
         // Also puts the skill on cooldown
-        GoOnCooldown();
+        // Not anymore, we do this in end skill now
+        //GoOnCooldown();
     }
 
     /// <summary>
@@ -332,4 +334,10 @@ public class Skill : MonoBehaviour
             _maRef.CalculateAllTiles();
         }
     }
+
+    /// <summary>
+    /// Allows for it to overriden in other functions that spawn another
+    /// prefab to play an animation
+    /// </summary>
+    public virtual void SpawnSkillAddition() { }
 }

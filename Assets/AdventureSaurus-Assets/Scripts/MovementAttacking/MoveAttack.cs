@@ -704,7 +704,6 @@ public class MoveAttack : MonoBehaviour
         //Debug.Log("Ending attack1");
         if (_skillRef != null)
         {
-            //Debug.Log("End skill " + skillRef.SkillNum);
             _skillRef.EndSkill();
         }
 

@@ -1,32 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SmiteSpawn : MonoBehaviour
 {
-    private Health _dealDamageTo;
-    public Health DealDamageTo
-    {
-        set { _dealDamageTo = value; }
-    }
+    // Reference to the MoveAttack script on the character that spawned this object
+    private MoveAttack _spawner;
+    public void SetSpawner(MoveAttack newSpawner) { _spawner = newSpawner; }
 
-    private Stats _giveXPTo;
-    public Stats GiveXPTo
-    {
-        set { _giveXPTo = value; }
-    }
-
-    private int _damage;
-    public int Damage
-    {
-        set { _damage = value; }
-    }
-
+    /// <summary>
+    /// Calls the end attack function for the character that spawned this SmiteSpawn
+    /// </summary>
     public void SmiteThee()
     {
-        
-        _dealDamageTo.TakeDamage(_damage, _giveXPTo);
-        Destroy(this.gameObject);
+        _spawner.EndAttack();
+        // Destroy this object
+        Destroy(this.transform.parent.gameObject);
     }
-    
 }

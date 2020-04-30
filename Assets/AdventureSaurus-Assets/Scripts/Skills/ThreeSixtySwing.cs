@@ -134,5 +134,8 @@ public class ThreeSixtySwing : Skill
         // Get rid of the references of the enemies to hit, so that we do not hit them again on accident
         // after the next time this enemy moves
         _enemiesHP = new List<Health>();
+
+        // Go on cooldown
+        GoOnCooldown();
     }
 }

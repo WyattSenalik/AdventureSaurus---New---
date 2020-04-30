@@ -54,29 +54,22 @@ public class Smite : Skill
 
                 // Start the skill's animation
                 StartSkillAnimation(attackNodePos);
-                // Create the prefab to animate
-                _activeSkillAnimObj = Instantiate(_spawnPref);
-                // Center it on the character to attack
-                _activeSkillAnimObj.transform.SetParent(charToAtkHPScript.transform);
-                _activeSkillAnimObj.transform.localPosition = Vector3.zero;
             }
             else
                 Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
         }
         else
+        {
             Debug.Log("No node at " + attackNodePos + " for smite to be cast towards");
+            EndSkill();
+        }
     }
 
     /// <summary>
-    /// Ends the skills animaton (we don't deal damage here, that will be done in smite spawn)
+    /// Ends the skills animaton
     /// </summary>
     public override void EndSkill()
     {
-        // Start the end skill animation
-        EndSkillAnimation();
-        // Destroy the additional animation object
-        Destroy(_activeSkillAnimObj);
-
         // Deal the damage to each enemy
         for (int i = 0; i < _enemiesHP.Count; i++)
         {
@@ -88,5 +81,33 @@ public class Smite : Skill
         // Get rid of the references of the enemies to hit, so that we do not hit them again on accident
         // after the next time this enemy moves
         _enemiesHP = new List<Health>();
+
+        GoOnCooldown();
+    }
+
+    /// <summary>
+    /// Creates the prefab to do the smite
+    /// Called from the animation
+    /// </summary>
+    public override void SpawnSkillAddition()
+    {
+        try
+        {
+            // Create the prefab to animate
+            _activeSkillAnimObj = Instantiate(_spawnPref);
+            // Center it on the character to attack
+            _activeSkillAnimObj.transform.SetParent(_enemiesHP[0].transform);
+            _activeSkillAnimObj.transform.localPosition = Vector3.zero;
+            // Get the SmiteSpawn script attached to it and set its Spawner
+            SmiteSpawn smiteSpawn = _activeSkillAnimObj.transform.GetChild(0).GetComponent<SmiteSpawn>();
+            smiteSpawn.SetSpawner(_maRef);
+        }
+        catch
+        {
+            Debug.LogError("Failed to create the SmiteSpawn " + _activeSkillAnimObj.transform.GetChild(0).name);
+        }
+
+        // Start the end skill animation
+        EndSkillAnimation();
     }
 }
