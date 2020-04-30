@@ -1,17 +1,30 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillHolder : MonoBehaviour
 {
     // All of the skills obtainable in the game
-    [SerializeField] private static readonly string[] _skillNames = { "BasicAttack", "Heal", "Smite", "ThreeSixtySwing" };
+    private static readonly string[] _skillNames = { "BasicAttack", "Heal", "Smite", "ThreeSixtySwing", "Push" };
+    // The icons for each skill
+    private static Sprite[] _skillIcons;
+    [SerializeField] private Sprite[] _skillIconsEditor = null;
+    // Descriptions for each skill
+    private static readonly string[] _skillDescriptions = {"Simple attack. Its damage is based off strength.",
+        "Restores health to a friendly character.", "Ranged magic attack.",
+        "Hits all characters in a circle around the user.", "Moves a character away from the user."};
 
     public const byte BASIC_ATTACK = 0;
     public const byte HEAL = 1;
     public const byte SMITE = 2;
     public const byte THREE_SIXTY_SWING = 3;
+    public const byte PUSH = 4;
+
+
+    // Called before start
+    private void Awake()
+    {
+        _skillIcons = _skillIconsEditor;
+    }
 
     /// <summary>
     /// Bestoys a skill upon an ally
@@ -112,5 +125,25 @@ public class SkillHolder : MonoBehaviour
     public static string GetSkillName(int index)
     {
         return _skillNames[index];
+    }
+
+    /// <summary>
+    /// Returns the sprite icon of the skill with the given index
+    /// </summary>
+    /// <param name="index">Index of the skill</param>
+    /// <returns>Sprite icon of skill</returns>
+    public static Sprite GetSkillImage(int index)
+    {
+        return _skillIcons[index];
+    }
+
+    /// <summary>
+    /// Returns the description of the skill with the given index
+    /// </summary>
+    /// <param name="index">Index of the skill</param>
+    /// <returns>string description of skill</returns>
+    public static string GetSkillDescription(int index)
+    {
+        return _skillDescriptions[index];
     }
 }

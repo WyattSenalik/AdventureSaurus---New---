@@ -6,9 +6,8 @@ using UnityEngine;
 // Controls what skill is active for an ally
 // Attached to every ally
 public class AllySkillController : CharacterSkills
-{
-    // The skills this ally current has available to them to use
-    private List<Skill> _availableSkills;
+{ 
+    // This allies special skill
     public Skill SpecialSkill
     {
         get {
@@ -109,7 +108,7 @@ public class AllySkillController : CharacterSkills
     }
 
     /// <summary>
-    /// If we every want to let a character use more than 1 special skill
+    /// If we ever want to let a character use more than 1 special skill
     /// </summary>
     /// <param name="curIndex">Index of the skill in availableSkills</param>
     private void ChangeSkill(int curIndex)

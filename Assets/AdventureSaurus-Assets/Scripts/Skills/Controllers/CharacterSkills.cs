@@ -5,6 +5,9 @@ using UnityEngine;
 // This class is meant to be a parent of a similar script that will be attached to allies and enemies
 public class CharacterSkills : MonoBehaviour
 {
+    // The skills this character current has available to them to use
+    protected List<Skill> _availableSkills;
+    public List<Skill> GetAvailableSkills() { return new List<Skill>(_availableSkills); }
     // Reference to the MoveAttack script attached to this character
     protected MoveAttack _mARef;
     // Reference to the skill holder
