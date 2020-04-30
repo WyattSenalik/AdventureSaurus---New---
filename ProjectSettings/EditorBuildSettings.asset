@@ -26,21 +26,21 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
-    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/Dungeon/ProceduralGenFirstFloor.unity
-    guid: 009ca88c199006c41a77ef4b1038cf1a
-  - enabled: 1
-    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/ProceduralGenTest.unity
-    guid: d642f8b1566f888439f71243d2d7549c
-  - enabled: 1
-    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/Dungeon/ProceduralGenNextFloor.unity
-    guid: b5e24c2e1dab11d428d0c0ab6f2cb25a
-  - enabled: 1
-    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/Cave/CaveFirstFloor.unity
-    guid: a4737063266c0d14ab82520eee7a185b
-  - enabled: 1
-    path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/Cave/CaveNextFloor.unity
-    guid: 28b323e43c08bdc44a82e346522d7c26
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/AdventureSaurus-Assets/Scenes/ProceduralGen/ReloadScene.unity
     guid: dea520c370dcdd84fbeed2b6f96ac772

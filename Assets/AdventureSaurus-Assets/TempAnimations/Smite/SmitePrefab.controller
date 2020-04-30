@@ -10,8 +10,8 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: -4244041515717182942}
-    m_Position: {x: 300, y: 130, z: 0}
+    m_State: {fileID: -5043211437514202726}
+    m_Position: {x: 390, y: 30, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -21,16 +21,16 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: -4244041515717182942}
---- !u!1102 &-4244041515717182942
+  m_DefaultState: {fileID: -5043211437514202726}
+--- !u!1102 &-5043211437514202726
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SmiteAnimation
-  m_Speed: 1
+  m_Name: Smite
+  m_Speed: 2.0833333
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -42,7 +42,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: baf10298a2d2f0c43807e6b26a9b3fd6, type: 2}
+  m_Motion: {fileID: 7400000, guid: d00f7d95d87d58b45b234139b1703653, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
