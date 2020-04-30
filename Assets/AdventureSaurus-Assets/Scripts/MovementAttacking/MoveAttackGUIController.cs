@@ -712,6 +712,7 @@ public class MoveAttackGUIController : MonoBehaviour
     /// </summary>
     public void RefreshSelectedVisualTiles()
     {
+        Deselect();
         // Reselect the character (they have been unselected because of button click)
         AttemptSelect(_mAContRef.GetNodeByWorldPosition(_recentCharSel.transform.position));
     }

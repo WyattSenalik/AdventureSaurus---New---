@@ -8,12 +8,19 @@ public class SkillPreviewController : MonoBehaviour
     // The skill preview stuff
     // Name text
     [SerializeField] private Text _skillNameText = null;
+    // Description text
+    [SerializeField] private Text _skillDescriptionText = null;
     // Damage text
     [SerializeField] private Text _skillDmgText = null;
     // Range text
     [SerializeField] private Text _skillRangeText = null;
     // Cooldown text
     [SerializeField] private Text _skillCooldownText = null;
+    // Skill icon
+    [SerializeField] private Image _skillIconImage = null;
+
+    // Default skill text color
+    [SerializeField] private Color _defSkillTextCol = new Color(1, 1, 1);
 
     // Reference to SkillHolder for if the upgrade is to get a skill
     private SkillHolder _skillHolderRef;
@@ -59,10 +66,12 @@ public class SkillPreviewController : MonoBehaviour
     public void DisplayUpdatePreviewMenu(AllyStats allyStats)
     {
         // Update the skill preview
-        string skillName = "Upgrade magic to gain a skill";
-        string skillDmg = "";
-        string skillRange = "";
-        string skillCooldown = "";
+        string skillName = " None";
+        string skillDescription = "Upgrade magic to gain a skill";
+        string skillDmg = "0";
+        string skillRange = "0";
+        string skillCooldown = "0";
+        Sprite skillIcon = null;
         // Get the reference to the skill
         if (allyStats != null)
         {
@@ -72,23 +81,32 @@ public class SkillPreviewController : MonoBehaviour
                 Skill activeSkill = skillContRef.SpecialSkill;
                 if (activeSkill != null)
                 {
-                    skillName = "Skill: " + SkillHolder.GetSkillName(activeSkill.SkillNum);
-                    skillDmg = "Damage: " + activeSkill.Damage.ToString();
-                    skillRange = "Range: " + activeSkill.Range.ToString();
-                    skillCooldown = "Cooldown: " + activeSkill.Cooldown.ToString();
+                    skillName = " " + SkillHolder.GetSkillName(activeSkill.SkillNum);
+                    skillDescription = SkillHolder.GetSkillDescription(activeSkill.SkillNum);
+                    skillDmg = activeSkill.Damage.ToString();
+                    skillRange = activeSkill.Range.ToString();
+                    skillCooldown = activeSkill.Cooldown.ToString();
+                    skillIcon = SkillHolder.GetSkillImage(activeSkill.SkillNum);
                 }
             }
         }
         // Set the values
         _skillNameText.text = skillName;
+        _skillDescriptionText.text = skillDescription;
         _skillDmgText.text = skillDmg;
         _skillRangeText.text = skillRange;
         _skillCooldownText.text = skillCooldown;
+        _skillIconImage.sprite = skillIcon;
+        if (skillIcon == null)
+            _skillIconImage.color = new Color(0, 0, 0, 0);
+        else
+            _skillIconImage.color = new Color(1, 1, 1, 1);
         // Set their colors to default
-        _skillNameText.color = CharDetailedMenuController.DefTextCol;
-        _skillDmgText.color = CharDetailedMenuController.DefTextCol;
-        _skillRangeText.color = CharDetailedMenuController.DefTextCol;
-        _skillCooldownText.color = CharDetailedMenuController.DefTextCol;
+        _skillNameText.color = _defSkillTextCol;
+        _skillDescriptionText.color = _defSkillTextCol;
+        _skillDmgText.color = _defSkillTextCol;
+        _skillRangeText.color = _defSkillTextCol;
+        _skillCooldownText.color = _defSkillTextCol;
     }
 
     /// <summary>
@@ -99,10 +117,12 @@ public class SkillPreviewController : MonoBehaviour
     public void PreviewSkillUpgrade(Grimoire allyGrim, int amountIncrease)
     {
         // Default values
-        string skillName = "Upgrade magic to gain a skill";
+        string skillName = " None";
+        string skillDescription = "Upgrade magic to gain a skill";
         int skillDmg = 0;
         int skillRange = 0;
         int skillCooldown = 0;
+        Sprite skillIcon = null;
 
         // For if the values were changed at all
         bool isSkillNameBuff = false;
@@ -117,7 +137,9 @@ public class SkillPreviewController : MonoBehaviour
             Skill activeSkill = skillContRef.SpecialSkill;
             if (activeSkill != null)
             {
-                skillName = "Skill: " + SkillHolder.GetSkillName(activeSkill.SkillNum);
+                skillName = " " + SkillHolder.GetSkillName(activeSkill.SkillNum);
+                skillDescription = SkillHolder.GetSkillDescription(activeSkill.SkillNum);
+                skillIcon = SkillHolder.GetSkillImage(activeSkill.SkillNum);
                 skillDmg = activeSkill.Damage;
                 skillRange = activeSkill.Range;
                 skillCooldown = activeSkill.Cooldown;
@@ -137,7 +159,9 @@ public class SkillPreviewController : MonoBehaviour
                         // We are going to temporarily give this character the skill in question to get the starting values
                         Skill gainSkill = _skillHolderRef.GiveSkill(skillContRef, allyGrim.SkillToGain);
 
-                        skillName = "Skill: " + SkillHolder.GetSkillName(allyGrim.SkillToGain);
+                        skillName = " " + SkillHolder.GetSkillName(allyGrim.SkillToGain);
+                        skillDescription = SkillHolder.GetSkillDescription(allyGrim.SkillToGain);
+                        skillIcon = SkillHolder.GetSkillImage(allyGrim.SkillToGain);
                         skillDmg = gainSkill.Damage;
                         skillRange = gainSkill.Range;
                         skillCooldown = gainSkill.Cooldown;
@@ -170,9 +194,15 @@ public class SkillPreviewController : MonoBehaviour
             }
             // Set the values
             _skillNameText.text = skillName;
-            _skillDmgText.text = "Damage: " + skillDmg.ToString();
-            _skillRangeText.text = "Range: " + skillRange.ToString();
-            _skillCooldownText.text = "Cooldown: " + skillCooldown.ToString();
+            _skillDescriptionText.text = skillDescription;
+            _skillIconImage.sprite = skillIcon;
+            if (skillIcon == null)
+                _skillIconImage.color = new Color(0, 0, 0, 0);
+            else
+                _skillIconImage.color = new Color(1, 1, 1, 1);
+            _skillDmgText.text = skillDmg.ToString();
+            _skillRangeText.text = skillRange.ToString();
+            _skillCooldownText.text = skillCooldown.ToString();
             // Set the ones that were buffed to green
             if (isSkillNameBuff)
                 _skillNameText.color = CharDetailedMenuController.UpgradeTextCol;

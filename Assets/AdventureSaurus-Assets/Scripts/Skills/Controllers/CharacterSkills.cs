@@ -28,6 +28,13 @@ public class CharacterSkills : MonoBehaviour
             Debug.Log("WARNING - There was no SkillHolder script attached to " + gameContObj.name);
     }
 
+    // Called before the first frame update
+    protected void Start()
+    {
+        // Initialize the list
+        _availableSkills = new List<Skill>();
+    }
+
     /// <summary>
     /// Sets the character's active skill in MoveAttack
     /// </summary>

@@ -25,10 +25,9 @@ public class AllySkillController : CharacterSkills
 
     // Called before the first frame
     // Initialize some variables
-    private void Start()
+    protected new void Start()
     {
-        // Initialize the list
-        _availableSkills = new List<Skill>();
+        base.Start();
         // Basic attack should already be on every ally, so add that skill as the first one
         _availableSkills.Add(this.GetComponent<BasicAttack>());
         // Set the default first skill to basic attack

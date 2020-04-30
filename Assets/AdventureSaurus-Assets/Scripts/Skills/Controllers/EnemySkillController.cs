@@ -8,14 +8,16 @@ public class EnemySkillController : CharacterSkills
 {
     // Called before the first frame
     // Initializes skill
-    private void Start()
+    protected new void Start()
     {
+        base.Start();
         // We want to set the enemies skill to the one skill they have
         Skill mySkill = this.GetComponent<Skill>();
         if (mySkill != null)
         {
             SetSkill(mySkill);
             mySkill.EquipSkill();
+            _availableSkills.Add(mySkill);
         }
     }
 }

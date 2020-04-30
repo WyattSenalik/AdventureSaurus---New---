@@ -9,6 +9,8 @@ public class SkillMenu : MonoBehaviour
     [SerializeField] private List<GameObject> _sideSkillObjs = new List<GameObject>();
     // List of the Images of the skill icons to show which one is active
     [SerializeField] private List<Image> _sideSkillIcons = new List<Image>();
+    // List of Text that displays the cooldown of each skill
+    [SerializeField] private List<Text> _skillCoolTexts = new List<Text>();
     // The color of an active and inactive skill
     [SerializeField] private Color _inactiveCol = new Color(1, 1, 1, 0.5f);
     [SerializeField] private Color _activeCol = new Color(1, 1, 1, 1);
@@ -34,18 +36,22 @@ public class SkillMenu : MonoBehaviour
     {
         // When a new character is selected, update the side skill icons to reflect the new character
         MoveAttackGUIController.OnCharacterSelect += UpdateSkillButtons;
+        // When a character finishes using a skill, update teh side skill icons in case one just went on cooldown
+        MoveAttack.OnCharacterFinishedAction += RefreshSkillButtons;
     }
     // Called when the component is disabled
     // Unsubscribe from events
     private void OnDisable()
     {
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButtons;
+        MoveAttack.OnCharacterFinishedAction -= RefreshSkillButtons;
     }
     // Called then the component is destroyed
     // Unsubscribe from ALL events
     private void OnDestroy()
     {
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButtons;
+        MoveAttack.OnCharacterFinishedAction -= RefreshSkillButtons;
     }
 
     // Called before Start
@@ -92,7 +98,7 @@ public class SkillMenu : MonoBehaviour
 
         // Set the display information to go with the skill
         _skillIcon.sprite = SkillHolder.GetSkillImage(skillToCareAbout.SkillNum);
-        _skillNameText.text = SkillHolder.GetSkillName(skillToCareAbout.SkillNum);
+        _skillNameText.text = " " + SkillHolder.GetSkillName(skillToCareAbout.SkillNum);
         _skillDescription.text = SkillHolder.GetSkillDescription(skillToCareAbout.SkillNum);
         _damageText.text = skillToCareAbout.Damage.ToString();
         _rangeText.text = skillToCareAbout.Range.ToString();
@@ -105,7 +111,9 @@ public class SkillMenu : MonoBehaviour
     private void UpdateSkillButtons(MoveAttack selChara)
     {
         // Get the current character's available skills
-        List<Skill> availSkills = selChara.GetComponent<CharacterSkills>().GetAvailableSkills();
+        List<Skill> availSkills = new List<Skill>();
+        if (selChara != null)
+            availSkills = selChara.GetComponent<CharacterSkills>().GetAvailableSkills();
         // Determine how many skills they have
         int amountSkills = availSkills.Count;
         if (amountSkills > _sideSkillObjs.Count)
@@ -119,6 +127,10 @@ public class SkillMenu : MonoBehaviour
         {
             _sideSkillObjs[i].SetActive(true);
             _sideSkillIcons[i].sprite = SkillHolder.GetSkillImage(availSkills[i].SkillNum);
+            if (availSkills[i].CooldownTimer > 0)
+                _skillCoolTexts[i].text = availSkills[i].CooldownTimer.ToString();
+            else
+                _skillCoolTexts[i].text = "";
             // If the skill is the active one, make it have the active color
             if (availSkills[i] == selChara.SkillRef)
                 _sideSkillIcons[i].color = _activeCol;
@@ -142,8 +154,13 @@ public class SkillMenu : MonoBehaviour
         MoveAttack charMA = _mAGUIContRef.RecentCharSelectedMA;
         // Get the current character's available skills
         List<Skill> availSkills = charMA.GetComponent<CharacterSkills>().GetAvailableSkills();
+        // If the skill is on cooldown, don't swap to it
+        if (availSkills[index].CooldownTimer > 0)
+        {
+
+        }
         // If the character does not already have that skill active, swap their skills
-        if (charMA.SkillRef != availSkills[index])
+        else if (charMA.SkillRef != availSkills[index])
         {
             // Get a refrence to the currently selected ally's skill controller
             AllySkillController curAllySkillCont = charMA.GetComponent<AllySkillController>();
@@ -152,5 +169,16 @@ public class SkillMenu : MonoBehaviour
             // Reselect the character
             _mAGUIContRef.RefreshSelectedVisualTiles();
         }
+    }
+
+    /// <summary>
+    /// Calls UpdateSkillButtons with the most recently selected character.
+    /// Refreshes the skill buttons to reflect any changes
+    /// </summary>
+    private void RefreshSkillButtons()
+    {
+        // Get the current selected allies skill controller
+        MoveAttack charMA = _mAGUIContRef.RecentCharSelectedMA;
+        UpdateSkillButtons(charMA);
     }
 }

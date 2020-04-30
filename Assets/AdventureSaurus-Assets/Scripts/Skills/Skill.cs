@@ -58,6 +58,9 @@ public class Skill : MonoBehaviour
     // When the cooldown changes
     public delegate void CooldownChange();
     public static event CooldownChange OnCooldownChange;
+    // When the cooldown starts
+    public delegate void CooldownStart();
+    public static event CooldownStart OnCooldownStart;
 
     // Called when the component is set active
     // Subscribe to events
@@ -229,6 +232,8 @@ public class Skill : MonoBehaviour
                 // De activate the special skill (if it was one)
                 allyskillContRef.DeactivateSkill();
             }
+
+            OnCooldownStart?.Invoke();
         }
     }
 
