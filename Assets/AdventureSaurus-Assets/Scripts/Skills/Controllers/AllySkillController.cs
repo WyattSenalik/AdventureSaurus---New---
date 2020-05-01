@@ -6,7 +6,8 @@ using UnityEngine;
 // Controls what skill is active for an ally
 // Attached to every ally
 public class AllySkillController : CharacterSkills
-{ 
+{
+
     // This allies special skill
     public Skill SpecialSkill
     {
@@ -22,6 +23,11 @@ public class AllySkillController : CharacterSkills
     {
         get { return _specialActive; }
     }
+
+    // Events
+    // When an ally gains a skill
+    public delegate void SkillGain();
+    public static event SkillGain OnSkillGain;
 
     // Called before the first frame
     // Initialize some variables
@@ -54,6 +60,9 @@ public class AllySkillController : CharacterSkills
         // Make sure its a valid skill
         if (gottenSkill != null)
             _availableSkills.Add(gottenSkill);
+
+        // Call the OnSkillGain event
+        OnSkillGain?.Invoke();
     }
 
     /// <summary>

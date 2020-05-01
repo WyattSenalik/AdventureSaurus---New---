@@ -3035,10 +3035,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillIconsEditor:
   - {fileID: 21300000, guid: 317eea9527b8b83449808e4b6b6d37f5, type: 3}
-  - {fileID: 21300000, guid: 317eea9527b8b83449808e4b6b6d37f5, type: 3}
+  - {fileID: 21300000, guid: 1791a25c7c6821b46875e449f1d3ac24, type: 3}
   - {fileID: 21300000, guid: 0257b635a1a468249a340ad0c87f995f, type: 3}
-  - {fileID: 21300000, guid: 317eea9527b8b83449808e4b6b6d37f5, type: 3}
-  - {fileID: 21300000, guid: 317eea9527b8b83449808e4b6b6d37f5, type: 3}
+  - {fileID: 21300000, guid: a3bbf1d12a4301841875af33733adb26, type: 3}
+  - {fileID: 21300000, guid: ff5ca43c0b870124897890c735c02758, type: 3}
 --- !u!114 &300566050003756746
 MonoBehaviour:
   m_ObjectHideFlags: 0

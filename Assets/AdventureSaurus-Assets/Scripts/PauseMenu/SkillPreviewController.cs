@@ -25,7 +25,6 @@ public class SkillPreviewController : MonoBehaviour
     // Reference to SkillHolder for if the upgrade is to get a skill
     private SkillHolder _skillHolderRef;
 
-
     // Called before start
     private void Awake()
     {

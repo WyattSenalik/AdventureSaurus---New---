@@ -11,7 +11,7 @@ public class SkillHolder : MonoBehaviour
     // Descriptions for each skill
     private static readonly string[] _skillDescriptions = {"Simple attack. Its damage is based off strength.",
         "Restores health to a friendly character.", "Ranged magic attack.",
-        "Hits all characters in a circle around the user.", "Moves a character away from the user."};
+        "Hits all characters in a circle around the user.", "Pushes a character 1 tile. Deals damage when target can't be pushed."};
 
     public const byte BASIC_ATTACK = 0;
     public const byte HEAL = 1;

@@ -38,6 +38,8 @@ public class SkillMenu : MonoBehaviour
         MoveAttackGUIController.OnCharacterSelect += UpdateSkillButtons;
         // When a character finishes using a skill, update teh side skill icons in case one just went on cooldown
         MoveAttack.OnCharacterFinishedAction += RefreshSkillButtons;
+        // When an ally gains a skill, upate the side skill icons
+        AllySkillController.OnSkillGain += RefreshSkillButtons;
     }
     // Called when the component is disabled
     // Unsubscribe from events
@@ -45,6 +47,7 @@ public class SkillMenu : MonoBehaviour
     {
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButtons;
         MoveAttack.OnCharacterFinishedAction -= RefreshSkillButtons;
+        AllySkillController.OnSkillGain -= RefreshSkillButtons;
     }
     // Called then the component is destroyed
     // Unsubscribe from ALL events
@@ -52,6 +55,7 @@ public class SkillMenu : MonoBehaviour
     {
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButtons;
         MoveAttack.OnCharacterFinishedAction -= RefreshSkillButtons;
+        AllySkillController.OnSkillGain -= RefreshSkillButtons;
     }
 
     // Called before Start
