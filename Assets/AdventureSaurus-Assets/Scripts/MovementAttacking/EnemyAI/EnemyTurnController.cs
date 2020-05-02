@@ -118,13 +118,16 @@ public class EnemyTurnController : MonoBehaviour
         // Add each enemy to the list
         foreach (MoveAttack singEnemy in enemiesToAdd)
         {
-            SingleEnemy singEnemyScriptRef = singEnemy.GetComponent<SingleEnemy>();
-            if (singEnemyScriptRef != null && !_allEnemies.Contains(singEnemyScriptRef))
+            if (singEnemy != null)
             {
-                // Add the enemy
-                _allEnemies.Add(singEnemyScriptRef);
-                // Turn them active
-                singEnemy.gameObject.SetActive(true);
+                SingleEnemy singEnemyScriptRef = singEnemy.GetComponent<SingleEnemy>();
+                if (singEnemyScriptRef != null && !_allEnemies.Contains(singEnemyScriptRef))
+                {
+                    // Add the enemy
+                    _allEnemies.Add(singEnemyScriptRef);
+                    // Turn them active
+                    singEnemy.gameObject.SetActive(true);
+                }
             }
         }
     }

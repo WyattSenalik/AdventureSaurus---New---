@@ -90,6 +90,9 @@ public class MoveAttackGUIController : MonoBehaviour
         MoveAttack.OnCharacterFinishedMoving -= BeginAttackAfterMove;
         MoveAttack.OnCharacterFinishedAction -= ReturnControlAfterAction;
         Interactable.OnFinishInteraction -= ReturnControlAfterInteract;
+
+        // When we transition to a new floor we don't want a character already selected
+        Deselect();
     }
 
     // Set references
