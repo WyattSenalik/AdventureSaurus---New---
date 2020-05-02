@@ -7,6 +7,7 @@ public class EnemyTurnController : MonoBehaviour
     // A list of all the active enemies
     private List<SingleEnemy> _allEnemies;
     public int GetAmountEnemies() { return _allEnemies.Count; }
+    public List<SingleEnemy> GetActiveEnemies() { return new List<SingleEnemy>(_allEnemies); }
     // Index of the current enemy
     private int _curEnIndex;
 

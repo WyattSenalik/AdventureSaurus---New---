@@ -3100,6 +3100,7 @@ MonoBehaviour:
   - {fileID: 3919230273590212330, guid: d7173a833c8c8b64aae7325f5fe92550, type: 3}
   - {fileID: 5728777700180614790, guid: 8e9622c4feb57e5418a46846cfcc6700, type: 3}
   - {fileID: 5148855237507561941, guid: b38283b98e731d34598ebf54ca972386, type: 3}
+  - {fileID: 6343036489314815924, guid: 89b0e673dd985854d8bcfeca2ca27c35, type: 3}
 --- !u!114 &7535095466743129836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9510,6 +9511,7 @@ MonoBehaviour:
   - {fileID: 3919230273590212330, guid: d7173a833c8c8b64aae7325f5fe92550, type: 3}
   - {fileID: 5728777700180614790, guid: 8e9622c4feb57e5418a46846cfcc6700, type: 3}
   - {fileID: 5148855237507561941, guid: b38283b98e731d34598ebf54ca972386, type: 3}
+  - {fileID: 6343036489314815924, guid: 89b0e673dd985854d8bcfeca2ca27c35, type: 3}
   _hallwayScalar: 0.5
   _endScalar: 1.2
   _rainbowChance: 1

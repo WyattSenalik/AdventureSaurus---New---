@@ -7,7 +7,7 @@ public abstract class Stats : MonoBehaviour
 {
     // Mostly for performance reasons, but there should probably be a limit
     protected const int _maxSpeed = 7;
-    public int MaxSpeed
+    public static int MaxSpeed
     {
         get { return _maxSpeed; }
     }
