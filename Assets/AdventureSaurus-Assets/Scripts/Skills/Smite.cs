@@ -84,7 +84,8 @@ public class Smite : Skill
             // after the next time this enemy moves
             _enemiesHP = new List<Health>();
 
-            GoOnCooldown();
+            if (_maRef.WhatAmI == CharacterType.Ally)
+                GoOnCooldown();
         }
     }
 

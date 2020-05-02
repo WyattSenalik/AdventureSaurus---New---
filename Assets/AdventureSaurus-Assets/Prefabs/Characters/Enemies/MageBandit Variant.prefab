@@ -12,6 +12,32 @@ PrefabInstance:
       propertyPath: m_Name
       value: MageBandit Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2643914374026145984, guid: 934fd594bc095f948b847ea2e0335eb1,
+        type: 3}
+      propertyPath: _difficulty
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096930282427371217, guid: 934fd594bc095f948b847ea2e0335eb1,
+        type: 3}
+      propertyPath: _prefabKey
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 253563721468046953, guid: 934fd594bc095f948b847ea2e0335eb1,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: f71608451a4f74a4e876f0e69324f91b, type: 2}
+    - target: {fileID: 253563721468046955, guid: 934fd594bc095f948b847ea2e0335eb1,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 253563721468046955, guid: 934fd594bc095f948b847ea2e0335eb1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6932249810010488496, guid: dbcd73dbc134b6e4eb91c035390d994f,
+        type: 3}
     - target: {fileID: 253563721468046956, guid: 934fd594bc095f948b847ea2e0335eb1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -66,32 +92,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 253563721468046955, guid: 934fd594bc095f948b847ea2e0335eb1,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 253563721468046955, guid: 934fd594bc095f948b847ea2e0335eb1,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 6932249810010488496, guid: dbcd73dbc134b6e4eb91c035390d994f,
-        type: 3}
-    - target: {fileID: 253563721468046953, guid: 934fd594bc095f948b847ea2e0335eb1,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: f71608451a4f74a4e876f0e69324f91b, type: 2}
-    - target: {fileID: 2096930282427371217, guid: 934fd594bc095f948b847ea2e0335eb1,
-        type: 3}
-      propertyPath: _prefabKey
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2643914374026145984, guid: 934fd594bc095f948b847ea2e0335eb1,
-        type: 3}
-      propertyPath: _difficulty
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8935716611250658467, guid: 934fd594bc095f948b847ea2e0335eb1,
         type: 3}
