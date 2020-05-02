@@ -24,6 +24,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f70d11a800029043b41e491047b6bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5008861472137508662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6554880860860618104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 719e5577974c0ee47baabeadee1ff8a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _grimoirePages: 00000000010000000000000001000000000000000100000000000000
 --- !u!1001 &1243845818006045705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34,7 +47,7 @@ PrefabInstance:
     - target: {fileID: 5455154680550232433, guid: 3b430c822a268ca47bf97a1ba462003e,
         type: 3}
       propertyPath: m_Name
-      value: HealingEnemy
+      value: HealingEnemy Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5455154680550232432, guid: 3b430c822a268ca47bf97a1ba462003e,
         type: 3}

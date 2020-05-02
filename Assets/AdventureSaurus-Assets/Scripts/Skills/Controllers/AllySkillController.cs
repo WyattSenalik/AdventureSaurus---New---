@@ -42,7 +42,7 @@ public class AllySkillController : CharacterSkills
         _specialActive = false;
 
         // Check if this character should start out with any skills by calling Grimoire's Magic increase
-        Grimoire myGrim = this.GetComponent<Grimoire>();
+        AllyGrimoire myGrim = this.GetComponent<AllyGrimoire>();
         if (myGrim != null)
             myGrim.MagicIncrease();
         else

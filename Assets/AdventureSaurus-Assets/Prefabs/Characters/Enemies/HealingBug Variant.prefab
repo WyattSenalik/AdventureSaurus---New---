@@ -12,6 +12,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealingBug Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2698009530360063926, guid: 62a246d6c81c4f34fb1bddfab8b38140,
+        type: 3}
+      propertyPath: _charName
+      value: Healing Bug
+      objectReference: {fileID: 0}
+    - target: {fileID: 2698009530360063926, guid: 62a246d6c81c4f34fb1bddfab8b38140,
+        type: 3}
+      propertyPath: _speed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2698009530360063926, guid: 62a246d6c81c4f34fb1bddfab8b38140,
+        type: 3}
+      propertyPath: _vitality
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929894917478168004, guid: 62a246d6c81c4f34fb1bddfab8b38140,
+        type: 3}
+      propertyPath: _prefabKey
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6554880860860618108, guid: 62a246d6c81c4f34fb1bddfab8b38140,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c41ad6fecb65910408c29caacf286080, type: 2}
+    - target: {fileID: 6554880860860618110, guid: 62a246d6c81c4f34fb1bddfab8b38140,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 5256660642679070724, guid: 02d395fc89657c04da636dc11dc0d754,
+        type: 3}
+    - target: {fileID: 6554880860860618110, guid: 62a246d6c81c4f34fb1bddfab8b38140,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6554880860860618105, guid: 62a246d6c81c4f34fb1bddfab8b38140,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -66,47 +102,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6554880860860618110, guid: 62a246d6c81c4f34fb1bddfab8b38140,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 5256660642679070724, guid: 02d395fc89657c04da636dc11dc0d754,
-        type: 3}
-    - target: {fileID: 6554880860860618110, guid: 62a246d6c81c4f34fb1bddfab8b38140,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6554880860860618108, guid: 62a246d6c81c4f34fb1bddfab8b38140,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: c41ad6fecb65910408c29caacf286080, type: 2}
-    - target: {fileID: 4929894917478168004, guid: 62a246d6c81c4f34fb1bddfab8b38140,
-        type: 3}
-      propertyPath: _prefabKey
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2698009530360063926, guid: 62a246d6c81c4f34fb1bddfab8b38140,
-        type: 3}
-      propertyPath: _charName
-      value: Healing Bug
-      objectReference: {fileID: 0}
-    - target: {fileID: 2698009530360063926, guid: 62a246d6c81c4f34fb1bddfab8b38140,
-        type: 3}
-      propertyPath: _magic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2698009530360063926, guid: 62a246d6c81c4f34fb1bddfab8b38140,
-        type: 3}
-      propertyPath: _speed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2698009530360063926, guid: 62a246d6c81c4f34fb1bddfab8b38140,
-        type: 3}
-      propertyPath: _vitality
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5850757872877598939, guid: 62a246d6c81c4f34fb1bddfab8b38140,
         type: 3}

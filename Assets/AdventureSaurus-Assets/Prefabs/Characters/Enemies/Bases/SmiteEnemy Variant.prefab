@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3917125145346737744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 253563721468046957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59c4861897ae8eb408f2f9be42c13a85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1709782344841870863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24,6 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f67eb36b25d9ae468911583fc365bb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3917125145346737744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253563721468046957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59c4861897ae8eb408f2f9be42c13a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7966214712228270938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253563721468046957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 719e5577974c0ee47baabeadee1ff8a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _grimoirePages: 000000000100000000000000000000000100000000000000000000000100000000000000
 --- !u!1001 &5201741802428104476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34,7 +47,7 @@ PrefabInstance:
     - target: {fileID: 5455154680550232433, guid: 3b430c822a268ca47bf97a1ba462003e,
         type: 3}
       propertyPath: m_Name
-      value: SmiteEnemy
+      value: SmiteEnemy Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5455154680550232432, guid: 3b430c822a268ca47bf97a1ba462003e,
         type: 3}

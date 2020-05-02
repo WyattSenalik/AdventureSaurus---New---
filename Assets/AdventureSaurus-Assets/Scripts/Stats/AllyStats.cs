@@ -88,7 +88,7 @@ public class AllyStats : Stats
 
     // References to itself
     // Reference to the Grimoire script attached to this character
-    private Grimoire _grimRef;
+    private AllyGrimoire _grimRef;
 
     // Reference to the MoveAttackController. Used when updating speed
     private MoveAttackController _mAContRef;
@@ -126,7 +126,7 @@ public class AllyStats : Stats
         // These references are attached to foreign objects and will need to be set multiple times [allies only]
         SetReferences();
         // These references are attached to this game object, so they will only need to be set once
-        _grimRef = this.GetComponent<Grimoire>();
+        _grimRef = this.GetComponent<AllyGrimoire>();
         if (_grimRef == null)
         {
             if (this.name != "DeadAllyStats")

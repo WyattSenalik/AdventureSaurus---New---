@@ -136,6 +136,7 @@ public class ThreeSixtySwing : Skill
         _enemiesHP = new List<Health>();
 
         // Go on cooldown
-        GoOnCooldown();
+        if (_maRef.WhatAmI == CharacterType.Ally)
+            GoOnCooldown();
     }
 }

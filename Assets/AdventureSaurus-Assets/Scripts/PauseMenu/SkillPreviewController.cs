@@ -113,7 +113,7 @@ public class SkillPreviewController : MonoBehaviour
     /// </summary>
     /// <param name="allyGrim">Grimoire of the selected</param>
     /// <param name="previewMagicStat">The amount the magic will potentially increase</param>
-    public void PreviewSkillUpgrade(Grimoire allyGrim, int amountIncrease)
+    public void PreviewSkillUpgrade(AllyGrimoire allyGrim, int amountIncrease)
     {
         // Default values
         string skillName = " None";

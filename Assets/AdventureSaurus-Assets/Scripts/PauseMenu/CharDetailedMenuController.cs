@@ -405,7 +405,7 @@ public class CharDetailedMenuController : MonoBehaviour
         if (_magicAmountIncr + allyStats.MagicBubblesFilled >= _magicBubbles.Count + 1)
         {
             // Get the grimoire of the current ally
-            Grimoire allyGrim = allyStats.GetComponent<Grimoire>();
+            AllyGrimoire allyGrim = allyStats.GetComponent<AllyGrimoire>();
             // Preview the skill increase
             _skillPrevContRef.PreviewSkillUpgrade(allyGrim, Mathf.FloorToInt((_magicAmountIncr + allyStats.MagicBubblesFilled + 0.0f) / _magicBubbles.Count));
         }

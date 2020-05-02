@@ -725,7 +725,7 @@ public class MoveAttack : MonoBehaviour
             if (infiniteAvoid < ++counter)
             {
                 GameObject nullObj = null;
-                Grimoire errorCause = nullObj.GetComponent<Grimoire>();
+                AllyGrimoire errorCause = nullObj.GetComponent<AllyGrimoire>();
             }
             yield return null;
         }

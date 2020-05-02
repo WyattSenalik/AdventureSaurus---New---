@@ -75,6 +75,9 @@ public class Heal : Skill
             // Get rid of the references of the enemies to hit, so that we do not hit them again on accident
             // after the next time this enemy moves
             _enemiesHP = new List<Health>();
+
+            if (_maRef.WhatAmI == CharacterType.Ally)
+                GoOnCooldown();
         }
         catch
         {
