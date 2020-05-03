@@ -43,4 +43,12 @@ public class CharacterSkills : MonoBehaviour
     {
         _mARef.SkillRef = skillToSet;
     }
+
+    /// <summary>
+    /// Calls the SpawnSkillAddition that spawns a prefab with another animation on it
+    /// </summary>
+    public void SpawnSkillAdditionForActive()
+    {
+        _mARef.SkillRef.SpawnSkillAddition();
+    }
 }

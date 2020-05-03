@@ -1,11 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // Controls what skill is active for an enemy
 // Attached to every enemy
 public class EnemySkillController : CharacterSkills
 {
+    // The (non-basic attack) skill of this character
+    private Skill _specialSkill;
+    public Skill GetSpecialSkill() { return _specialSkill; }
+
     // Called before the first frame
     // Initializes skill
     protected new void Start()
@@ -19,5 +21,7 @@ public class EnemySkillController : CharacterSkills
             mySkill.EquipSkill();
             _availableSkills.Add(mySkill);
         }
+        if (mySkill.SkillNum != SkillHolder.BASIC_ATTACK)
+            _specialSkill = mySkill;
     }
 }

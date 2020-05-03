@@ -70,19 +70,23 @@ public class Smite : Skill
     /// </summary>
     public override void EndSkill()
     {
-        // Deal the damage to each enemy
-        for (int i = 0; i < _enemiesHP.Count; i++)
+        if (_enemiesHP != null)
         {
-            if (_enemiesHP[i] != null)
+            // Deal the damage to each enemy
+            for (int i = 0; i < _enemiesHP.Count; i++)
             {
-                _enemiesHP[i].TakeDamage(_damage, this.GetComponent<Stats>());
+                if (_enemiesHP[i] != null)
+                {
+                    _enemiesHP[i].TakeDamage(_damage, this.GetComponent<Stats>());
+                }
             }
-        }
-        // Get rid of the references of the enemies to hit, so that we do not hit them again on accident
-        // after the next time this enemy moves
-        _enemiesHP = new List<Health>();
+            // Get rid of the references of the enemies to hit, so that we do not hit them again on accident
+            // after the next time this enemy moves
+            _enemiesHP = new List<Health>();
 
-        GoOnCooldown();
+            if (_maRef.WhatAmI == CharacterType.Ally)
+                GoOnCooldown();
+        }
     }
 
     /// <summary>

@@ -405,7 +405,7 @@ public class CharDetailedMenuController : MonoBehaviour
         if (_magicAmountIncr + allyStats.MagicBubblesFilled >= _magicBubbles.Count + 1)
         {
             // Get the grimoire of the current ally
-            Grimoire allyGrim = allyStats.GetComponent<Grimoire>();
+            AllyGrimoire allyGrim = allyStats.GetComponent<AllyGrimoire>();
             // Preview the skill increase
             _skillPrevContRef.PreviewSkillUpgrade(allyGrim, Mathf.FloorToInt((_magicAmountIncr + allyStats.MagicBubblesFilled + 0.0f) / _magicBubbles.Count));
         }
@@ -429,7 +429,7 @@ public class CharDetailedMenuController : MonoBehaviour
         // For quick reference
         AllyStats allyStats = _alliesStats[_currentAllyIndex];
         // Check if there is the ASCII version of the max speed displayed, if ther is, don't increase it anymore
-        if (_speedNums.text[0] != allyStats.MaxSpeed + 48)
+        if (_speedNums.text[0] != Stats.MaxSpeed + 48)
         {
             // Increase the stat
             IncrementStat(ref _speedAmountIncr, ref _speedNums, allyStats.GetSpeed(), allyStats.SpeedBubblesFilled, _speedBubbles);

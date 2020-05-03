@@ -88,11 +88,6 @@ PrefabInstance:
       propertyPath: _prefabKey
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 4191368584528173494, guid: 6405350bdbfbbc34b804d573219cc889,
-        type: 3}
-      propertyPath: _difficulty
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: _charName

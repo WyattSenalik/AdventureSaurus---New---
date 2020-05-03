@@ -90,6 +90,9 @@ public class MoveAttackGUIController : MonoBehaviour
         MoveAttack.OnCharacterFinishedMoving -= BeginAttackAfterMove;
         MoveAttack.OnCharacterFinishedAction -= ReturnControlAfterAction;
         Interactable.OnFinishInteraction -= ReturnControlAfterInteract;
+
+        // When we transition to a new floor we don't want a character already selected
+        Deselect();
     }
 
     // Set references
@@ -148,31 +151,30 @@ public class MoveAttackGUIController : MonoBehaviour
             // Otherwise, they have a character selected already
             else
             {
-                // If the selected node is the one housing the currently selected character
                 MoveAttack mARef = _mAContRef.GetCharacterMAByNode(selectedNode);
-                if (mARef != null && mARef == _charSelected)
-                {
-                    // If we aren't displaying stats, we want to do that
-                    if (!mARef.MyStats.AreStatsDisplayed())
-                    {
-                        mARef.MyStats.DisplayStats(true);
-                    }
-                    // If we are, we want to stop
-                    else
-                    {
-                        mARef.MyStats.DisplayStats(false);
-                    }
-                }
+                // We no longer display stats
+                //// If the selected node is the one housing the currently selected character
+                //if (mARef != null && mARef == _charSelected)
+                //{
+                //    //// If we aren't displaying stats, we want to do that
+                //    //if (!mARef.MyStats.AreStatsDisplayed())
+                //    //{
+                //    //    mARef.MyStats.DisplayStats(true);
+                //    //}
+                //    //// If we are, we want to stop
+                //    //else
+                //    //{
+                //    //    mARef.MyStats.DisplayStats(false);
+                //    //}
+                //}
                 // If the selected node contains an ally (and the currently selected ally isn't targetting friendlies), 
                 // deselect the current selected character, and select the new character.
                 // Or if the selected node contains an enemy and we have an enemy selected
-                else if ((selectedNode.Occupying == CharacterType.Ally && !_charSelected.TargetFriendly) ||
-                    (selectedNode.Occupying == CharacterType.Enemy && _charSelected.WhatAmI == CharacterType.Enemy))
+                if ((selectedNode.Occupying == CharacterType.Ally && !_charSelected.TargetFriendly) ||
+                    _charSelected.WhatAmI == CharacterType.Enemy)
                 {
-                    if (mARef == null)
-                        Debug.Log("There was no MoveAttack script associated with this node, yet it was occupied by an Ally");
                     // If that ally is not the currently selected ally, attempt to select them
-                    if (_charSelected == null || mARef.gameObject != _charSelected.gameObject)
+                    if (_charSelected == null || (mARef != null && mARef.gameObject != _charSelected.gameObject))
                     {
                         Deselect();
                         AttemptSelect(selectedNode);

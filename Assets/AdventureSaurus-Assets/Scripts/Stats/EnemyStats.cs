@@ -44,8 +44,6 @@ public class EnemyStats : Stats
     public void BuffEnemy(int str, int mgc, int spd, int vit)
     {
         _strength += str;
-        // TODO, if we ever make enemies with skills besides basic attack, after
-        // updating magic, we will need to have an enemy grimoire of sorts be updated
         _magic += mgc;
         _speed += spd;
         _vitality += vit;

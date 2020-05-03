@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GenerateEnemies : MonoBehaviour
 {
+    private const float _diffScalar = 1.5f;
+
     // List of potential enemies to spawn. Sorted by difficulty
     [SerializeField] private GameObject[] _enemyPrefabs = null;
     // For reducing the hallway's difficulty
@@ -54,13 +56,13 @@ public class GenerateEnemies : MonoBehaviour
 
             // If its a normal room
             if (curRoomScript.MyRoomType == RoomType.NORMAL)
-                curRoomScript.RoomDifficulty = floorBaseDiff;
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff * _diffScalar);
             // If its a hallway
             else if (curRoomScript.MyRoomType == RoomType.HALLWAY)
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff * _hallwayScalar);
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff * _hallwayScalar * _diffScalar);
             // If its the end
             else if (curRoomScript.MyRoomType == RoomType.END)
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff * _endScalar);
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff * _endScalar * _diffScalar);
             // If its the start or safe room, we don't spawn enemies
             else if (curRoomScript.MyRoomType == RoomType.SAFE || curRoomScript.MyRoomType == RoomType.START)
                 curRoomScript.RoomDifficulty = 0;

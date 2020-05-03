@@ -23,7 +23,10 @@ public abstract class SingleEnemy : MonoBehaviour
     // The parent of all the allies
     private Transform _allyParent;
     protected Transform GetAllyParent() { return _allyParent; }
-    
+    // Parent of all the enemies
+    private Transform _enemyParent;
+    protected Transform GetEnemyParent() { return _enemyParent; }
+
 
     // Events
     // When a single enemy finishes their turn
@@ -56,21 +59,26 @@ public abstract class SingleEnemy : MonoBehaviour
     // Set references
     private void Awake()
     {
-        // GameController references
-        GameObject gameContObj = GameObject.FindWithTag("GameController");
-        if (gameContObj == null)
-            Debug.Log("Could not find any gameobject with the tag GameController");
-        else
+        try
         {
+            // GameController references
+            GameObject gameContObj = GameObject.FindWithTag("GameController");
             _mAContRef = gameContObj.GetComponent<MoveAttackController>();
-            if (_mAContRef == null)
-                Debug.Log("There is no MoveAttackController script attached to " + gameContObj.name);
+        }
+        catch
+        {
+            Debug.LogError("Could not set references to GameController");
         }
 
-        // Self references
-        _mARef = this.GetComponent<MoveAttack>();
-        if (_mARef == null)
-            Debug.Log("There is no MoveAttack script attached to " + this.name);
+        try
+        {
+            // Self references
+            _mARef = this.GetComponent<MoveAttack>();
+        }
+        catch
+        {
+            Debug.Log("Could not set reference to self");
+        }
     }
 
     /// <summary>
@@ -78,7 +86,15 @@ public abstract class SingleEnemy : MonoBehaviour
     /// </summary>
     private void Initialize()
     {
-        _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
+        try
+        {
+            _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
+            _enemyParent = GameObject.Find(ProceduralGenerationController.ENEMY_PARENT_NAME).transform;
+        }
+        catch
+        {
+            Debug.LogError("Could not initialize properly");
+        }
     }
 
     /// <summary>

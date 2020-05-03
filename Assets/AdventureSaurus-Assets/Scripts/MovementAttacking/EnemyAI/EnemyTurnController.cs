@@ -7,6 +7,7 @@ public class EnemyTurnController : MonoBehaviour
     // A list of all the active enemies
     private List<SingleEnemy> _allEnemies;
     public int GetAmountEnemies() { return _allEnemies.Count; }
+    public List<SingleEnemy> GetActiveEnemies() { return new List<SingleEnemy>(_allEnemies); }
     // Index of the current enemy
     private int _curEnIndex;
 
@@ -117,13 +118,16 @@ public class EnemyTurnController : MonoBehaviour
         // Add each enemy to the list
         foreach (MoveAttack singEnemy in enemiesToAdd)
         {
-            SingleEnemy singEnemyScriptRef = singEnemy.GetComponent<SingleEnemy>();
-            if (singEnemyScriptRef != null && !_allEnemies.Contains(singEnemyScriptRef))
+            if (singEnemy != null)
             {
-                // Add the enemy
-                _allEnemies.Add(singEnemyScriptRef);
-                // Turn them active
-                singEnemy.gameObject.SetActive(true);
+                SingleEnemy singEnemyScriptRef = singEnemy.GetComponent<SingleEnemy>();
+                if (singEnemyScriptRef != null && !_allEnemies.Contains(singEnemyScriptRef))
+                {
+                    // Add the enemy
+                    _allEnemies.Add(singEnemyScriptRef);
+                    // Turn them active
+                    singEnemy.gameObject.SetActive(true);
+                }
             }
         }
     }
