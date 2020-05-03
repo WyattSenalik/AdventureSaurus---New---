@@ -123,6 +123,8 @@ public class MoveAttack : MonoBehaviour
 
     // Which direction this character was moving previously
     private Vector2 _lastVel;
+    // Which direction this character should be moving
+    private Vector3 _moveDir;
 
     // For the things that happen after using a skill (like lowering health), 
     // to determine if we should signal the if the character is finished
@@ -539,11 +541,12 @@ public class MoveAttack : MonoBehaviour
         // If the currentNode exists
         if (_currentNode.WhereToGo != null)
         {
+            Vector3 nextPos = this.gameObject.transform.position + _moveDir * _transSpeed * Time.deltaTime;
             // If not finished moving in the x
             if (!_doneTransX)
             {
                 // While this is left of the node it wants to get to
-                if (_currentNode.WhereToGo.Position.x - this.gameObject.transform.position.x > 0.03f && _lastVel.x <= 0)
+                if (_currentNode.WhereToGo.Position.x - nextPos.x > 0.03f && _lastVel.x <= 0)
                 {
                     _animRef.SetInteger("MoveState", 1);
                     _sprRendRef.flipX = false;
@@ -552,7 +555,7 @@ public class MoveAttack : MonoBehaviour
                     //this.gameObject.transform.position += Vector3.right * transSpeed * Time.deltaTime;
                 }
                 // While this is right of the node it wants to get to
-                else if (this.gameObject.transform.position.x - _currentNode.WhereToGo.Position.x > 0.03f && _lastVel.x >= 0)
+                else if (_currentNode.WhereToGo.Position.x - nextPos.x < -0.03f && _lastVel.x >= 0)
                 {
                     _animRef.SetInteger("MoveState", 1);
                     _sprRendRef.flipX = true;
@@ -573,7 +576,7 @@ public class MoveAttack : MonoBehaviour
             if (!_doneTransY)
             {
                 // While the node this wants to get to is above where this is
-                if (_currentNode.WhereToGo.Position.y - this.gameObject.transform.position.y > 0.03f && _lastVel.y >= 0)
+                if (_currentNode.WhereToGo.Position.y - nextPos.y > 0.03f && _lastVel.y >= 0)
                 {
                     _sprRendRef.flipX = false;
                     _animRef.SetInteger("MoveState", 2);
@@ -582,7 +585,7 @@ public class MoveAttack : MonoBehaviour
                     //this.gameObject.transform.position += Vector3.up * transSpeed * Time.deltaTime;
                 }
                 // While the node this wants to get to is below where this is
-                else if (this.gameObject.transform.position.y - _currentNode.WhereToGo.Position.y > 0.03f && _lastVel.y <= 0)
+                else if (_currentNode.WhereToGo.Position.y - nextPos.y < -0.03f && _lastVel.y <= 0)
                 {
                     _sprRendRef.flipX = false;
                     _animRef.SetInteger("MoveState", 0);
@@ -605,7 +608,9 @@ public class MoveAttack : MonoBehaviour
                 // If that node is the last node, stop moving
                 if (_currentNode.WhereToGo == _currentNode)
                 { 
-                    this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(_currentNode.WhereToGo.Position.x), Mathf.RoundToInt(_currentNode.WhereToGo.Position.y), this.gameObject.transform.position.z);
+                    this.gameObject.transform.position = new Vector3(Mathf.RoundToInt(_currentNode.WhereToGo.Position.x), 
+                                                                     Mathf.RoundToInt(_currentNode.WhereToGo.Position.y),
+                                                                     this.gameObject.transform.position.z);
                     EndMove();
                 }
                 // Otherwise, find the next node
@@ -618,8 +623,8 @@ public class MoveAttack : MonoBehaviour
                     }
                     //animRef.SetInteger("MoveState", -1);
                     _currentNode = _currentNode.WhereToGo;
-                    _doneTransX = false;
-                    _doneTransY = false;
+
+                    CalculateMoveDirection();
                 }
             }
         }
@@ -643,14 +648,36 @@ public class MoveAttack : MonoBehaviour
         {
             //Debug.Log("currentNode at " + currentNode.position + " wants to move to the node at " + currentNode.whereToGo.position);
             _lastVel = Vector2.zero;
-            _doneTransX = false;
-            _doneTransY = false;
             _transition = true;
+
+            CalculateMoveDirection();
         }
         else
         {
             Debug.Log("That node does not exist");
         }
+    }
+
+    /// <summary>
+    /// Calculates where the character should be moving next time
+    /// </summary>
+    private void CalculateMoveDirection()
+    {
+        // Direction of each component
+        int xDir = _currentNode.WhereToGo.Position.x - _currentNode.Position.x;
+        int yDir = _currentNode.WhereToGo.Position.y - _currentNode.Position.y;
+        _moveDir = new Vector3(xDir, yDir, 0);
+
+        // If the direction is zero, we are done moving in the x direction
+        if (xDir == 0)
+            _doneTransX = true;
+        else
+            _doneTransX = false;
+        // If the directions is zero, we are done moving in the y direction
+        if (yDir == 0)
+            _doneTransY = true;
+        else
+            _doneTransY = false;
     }
 
     /// <summary>
