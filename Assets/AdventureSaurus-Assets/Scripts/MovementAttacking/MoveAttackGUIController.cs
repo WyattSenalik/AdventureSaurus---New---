@@ -257,8 +257,11 @@ public class MoveAttackGUIController : MonoBehaviour
             }
 
             // Call the character selected event
-            if (OnCharacterSelect != null)
-                OnCharacterSelect(_charSelected);
+            OnCharacterSelect?.Invoke(_charSelected);
+            if (_charSelected != null)
+                Debug.Log(_charSelected.name);
+            else
+                Debug.Log("Null Char sel");
         }
     }
     
