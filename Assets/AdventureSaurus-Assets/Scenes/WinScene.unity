@@ -782,7 +782,7 @@ MonoBehaviour:
   m_Text: 'You Beat the Campaign!
 
 
-    Thank you forplaying'
+    Thank you for playing'
 --- !u!222 &1326945153
 CanvasRenderer:
   m_ObjectHideFlags: 0
