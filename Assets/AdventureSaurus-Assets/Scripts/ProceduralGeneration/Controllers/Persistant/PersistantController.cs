@@ -199,7 +199,8 @@ public abstract class PersistantController : MonoBehaviour
         if (_nextFloorNum == _winFloorNum)
         {
             SceneManager.LoadScene(_winSceneName);
-            PrepareForQuit();
+
+           // PrepareForQuit();
         }
         // Otherwise load the next floor scene
         else

@@ -5,13 +5,13 @@ using UnityEngine;
 public class BleedLight : MonoBehaviour
 {
     // Reference to the receiving room and broadcasting room
-    private Room _broadcastRoom;
+    [SerializeField] private Room _broadcastRoom = null;
     public Room GetBroadcastRoom() { return _broadcastRoom; }
     public Room BroadcastRoom
     {
         set { _broadcastRoom = value; }
     }
-    private Room _receiveRoom;
+    [SerializeField] private Room _receiveRoom = null;
     public Room GetReceiveRoom() { return _receiveRoom; }
     public Room ReceiveRoom
     {

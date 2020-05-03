@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaceAllies : MonoBehaviour
@@ -39,5 +38,34 @@ public class PlaceAllies : MonoBehaviour
             occupiedTiles.Add(curPos);
             allyTrans.position = new Vector3(curPos.x, curPos.y, 0);
         }
+    }
+
+    /// <summary>
+    /// Puts allies at positions closest to x=0 where y=0, z=0
+    /// </summary>
+    /// <param name="allyParent"></param>
+    public void PutAlliesAroundZero(Transform allyParent)
+    {
+        int placeX = 0;
+        // Place initial ally at 0
+        if (allyParent.childCount > 0)
+            allyParent.GetChild(0).transform.position = new Vector3(placeX, 0);
+        // Place enemies until we have placed them all
+        int alliesPlaced = 1;
+        while (alliesPlaced < allyParent.childCount)
+        {
+            // Increment x by 1 and place an ally
+            placeX += 1;
+            allyParent.GetChild(alliesPlaced).transform.position = new Vector3(placeX, 0);
+            ++alliesPlaced;
+            // Make sure that was not the last ally
+            if (alliesPlaced < allyParent.childCount)
+            {
+                // Flip the x sign and place the next ally
+                allyParent.GetChild(alliesPlaced).transform.position = new Vector3(-placeX, 0);
+                ++alliesPlaced;
+            }
+        }
+
     }
 }

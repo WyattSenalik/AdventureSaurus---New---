@@ -147,6 +147,7 @@ public class ProceduralGenerationController : MonoBehaviour
                 //Debug.Log("PlaceAllies");
                 // Set the ally parent
                 _allyParent = allyParent;
+
                 // Place the allies randomly in the start room
                 _placeAlliesRef.PutAlliesInStartRoom(_roomParent, _allyParent);
 
@@ -166,10 +167,15 @@ public class ProceduralGenerationController : MonoBehaviour
                 _stairsTrans.name = STAIRS_NAME;
             if (_enemyParent != null)
                 _enemyParent.name = ENEMY_PARENT_NAME;
-            if (_allyParent != null)
-                _allyParent.name = ALLY_PARENT_NAME;
             if (_interactParent != null)
                 _interactParent.name = INTERACT_PARENT_NAME;
+            if (_allyParent != null)
+                _allyParent.name = ALLY_PARENT_NAME;
+            else
+            {
+                _allyParent = GameObject.Find(ALLY_PARENT_NAME).transform;
+                _placeAlliesRef.PutAlliesAroundZero(_allyParent);
+            }
 
             // Call the OnFinishGeneration event
             if (OnFinishGenerationNoParam != null)
