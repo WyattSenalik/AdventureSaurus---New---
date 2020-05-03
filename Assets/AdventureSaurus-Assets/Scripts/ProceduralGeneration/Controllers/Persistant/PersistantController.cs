@@ -18,6 +18,8 @@ public abstract class PersistantController : MonoBehaviour
     [SerializeField] private int _difficultyInc = 2;
     // The difficulty of the next floor
     private int _nextFloorDiff;
+    public int GetNextFloorDifficulty() { return _nextFloorDiff; }
+    public void SetNextFloorDifficulty(int newNextFloorDiff) { _nextFloorDiff = newNextFloorDiff; }
     // The amount of rooms the next floor will have.
     // Starts out as the beginning number of floors.
     [SerializeField] private int _nextFloorRoomAm = 5;
@@ -31,7 +33,8 @@ public abstract class PersistantController : MonoBehaviour
     [SerializeField] private int _floorsUntilFire = 2;
     // What floor we are on
     private int _nextFloorNum;
-    protected int GetNextFloorNum() { return _nextFloorNum; }
+    public int GetNextFloorNum() { return _nextFloorNum; }
+    public void SetNextFloorNum(int newNextFloorNum) { _nextFloorNum = newNextFloorNum; }
 
     // What floor is win
     [SerializeField] private int _winFloorNum = int.MaxValue;
@@ -50,6 +53,8 @@ public abstract class PersistantController : MonoBehaviour
     {
         // When the game is quit, get rid of the persistant objects
         PauseMenuController.OnQuitGame += PrepareForQuit;
+        // When the game saves, save this
+        SaveSystem.OnSave += SavePersistantController;
     }
 
     /// <summary>
@@ -59,6 +64,7 @@ public abstract class PersistantController : MonoBehaviour
     private void OnDisable()
     {
         PauseMenuController.OnQuitGame -= PrepareForQuit;
+        SaveSystem.OnSave -= SavePersistantController;
     }
 
     /// <summary>
@@ -68,6 +74,7 @@ public abstract class PersistantController : MonoBehaviour
     private void OnDestroy()
     {
         PauseMenuController.OnQuitGame -= PrepareForQuit;
+        SaveSystem.OnSave -= SavePersistantController;
     }
 
     // Called before start
@@ -215,4 +222,12 @@ public abstract class PersistantController : MonoBehaviour
     /// Checks if we should swap the tileset to a different tileset
     /// </summary>
     protected abstract void CheckSwapTileset();
+
+    /// <summary>
+    /// Saves the data for this PersistantController in a binary file
+    /// </summary>
+    private void SavePersistantController()
+    {
+        SaveSystem.SavePersistantFloorData(this);
+    }
 }

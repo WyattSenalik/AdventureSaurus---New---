@@ -486,4 +486,30 @@ public static class SaveSystem
         // Return the data as InteractableData
         return LoadData<AllyData>(additionalPath);
     }
+
+
+    /// <summary>
+    /// Saves the data for the PersistantController in a binary file at /persist.cont
+    /// </summary>
+    /// <param name="persistCont">PersistantController whose data we want to save</param>
+    public static void SavePersistantFloorData(PersistantController persistCont)
+    {
+        // PersistantController data to put in the file
+        PersistantFloorData data = new PersistantFloorData(persistCont);
+        // File name
+        string additionalPath = "/persist.cont";
+        // Save the data
+        SaveData(data, additionalPath);
+    }
+    /// <summary>
+    /// Loads save data for the PersistantController from a binary file at /persist.cont
+    /// </summary>
+    /// <returns>PersistantFloorData. The data loaded from the file</returns>
+    public static PersistantFloorData LoadPersistantFloorData()
+    {
+        // File name
+        string additionalPath = "/persist.cont";
+        // Return the data as PersistantFloorData
+        return LoadData<PersistantFloorData>(additionalPath);
+    }
 }

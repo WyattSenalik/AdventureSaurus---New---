@@ -383,11 +383,6 @@ PrefabInstance:
       propertyPath: vitality
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 4816152497077162484, guid: 4278b658950a1194d85a7b00a6d114c3,
-        type: 3}
-      propertyPath: _magic
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4278b658950a1194d85a7b00a6d114c3, type: 3}
 --- !u!4 &1122760988 stripped

@@ -3033,6 +3033,7 @@ MonoBehaviour:
   - {fileID: 5728777700180614790, guid: 8e9622c4feb57e5418a46846cfcc6700, type: 3}
   - {fileID: 5148855237507561941, guid: b38283b98e731d34598ebf54ca972386, type: 3}
   - {fileID: 6343036489314815924, guid: 89b0e673dd985854d8bcfeca2ca27c35, type: 3}
+  - {fileID: 6046713512364286810, guid: 8b3b949e6aa0cce49bb00613dc3ca9b2, type: 3}
 --- !u!114 &7535095466743129836
 MonoBehaviour:
   m_ObjectHideFlags: 0

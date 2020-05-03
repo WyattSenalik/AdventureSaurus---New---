@@ -20,12 +20,26 @@ public class ReloadController : MonoBehaviour
     // Other necessities
     private Transform _stairsTrans;
     private Tilemap _tilemap;
+    private PersistantController _persistCont;
 
     // Called before the first frame
     private void Start()
     {
-        // Load everything
+        /// Get stuff we need
+        // Get parents
         CreateParents();
+        // Get the persistant controller
+        try
+        {
+            GameObject persistContObj = GameObject.FindWithTag("PersistantController");
+            _persistCont = persistContObj.GetComponent<PersistantController>();
+        }
+        catch
+        {
+            Debug.LogError("Error setting persistant controller");
+        }
+
+        // Load everything
         LoadFloor();
         // Get the procedural generation controller from the generation controller
         GameObject genContObj = GameObject.FindWithTag("GenerationController");
@@ -79,6 +93,8 @@ public class ReloadController : MonoBehaviour
         LoadEnemiesController.LoadEnemies(_enemyParent);
         // Allies
         LoadAlliesController.LoadAllies(_allyParent);
+        // PersistantController
+        LoadPersistantFloorData.LoadPersistantController(_persistCont);
     }
 
     /// <summary>
