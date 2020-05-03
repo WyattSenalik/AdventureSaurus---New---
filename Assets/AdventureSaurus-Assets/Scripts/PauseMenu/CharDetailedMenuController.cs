@@ -512,7 +512,7 @@ public class CharDetailedMenuController : MonoBehaviour
 
         // Give back the points and update that visual
         _amountPointsAvailable = allyStats.AmountStatIncreases;
-        _pointsText.text = "Point: " + allyStats.AmountStatIncreases.ToString();
+        _pointsText.text = "Points: " + allyStats.AmountStatIncreases.ToString();
         // Reset all the increments to 0 and update their visuals
         _vitalityAmountIncr = 0;
         _vitalityNums.text = allyStats.GetVitality().ToString();

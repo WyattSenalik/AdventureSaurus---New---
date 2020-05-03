@@ -24,6 +24,8 @@ public class MoveAttackController : MonoBehaviour
     private Transform _enemyParent;
     // Parent of all the interactables
     private Transform _interactParent;
+    // Position of the stairs
+    private Vector2Int _stairsPos;
     // References to all the allies MoveAttack scripts
     private List<MoveAttack> _allyMA;
     // References to all the allies MoveAttack script
@@ -125,6 +127,10 @@ public class MoveAttackController : MonoBehaviour
 
         // Create the initial visual tiles
         InitialCreateVisuals();
+
+        // Get the stairs transform
+        Transform stairsTrans = GameObject.Find(ProceduralGenerationController.STAIRS_NAME).transform;
+        _stairsPos = new Vector2Int(Mathf.RoundToInt(stairsTrans.position.x), Mathf.RoundToInt(stairsTrans.position.y));
     }
 
     /// <summary>
@@ -477,8 +483,12 @@ public class MoveAttackController : MonoBehaviour
                 // Pull the sprite renderer off it
                 SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
 
-                // We set the sprite to the move sprite
-                tileSprRend.sprite = _moveTileSprite;
+                // If the tile is over the stairs, make it look like an interactable
+                if (_stairsPos == moveNode.Position)
+                    tileSprRend.sprite = _interactTileSprite;
+                else
+                    // We set the sprite to the move sprite
+                    tileSprRend.sprite = _moveTileSprite;
 
                 // All movement tiles are opaque
                 tileSprRend.color = new Color(tileSprRend.color.r, tileSprRend.color.g, tileSprRend.color.b, opaqueVal);
