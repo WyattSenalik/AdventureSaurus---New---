@@ -37,6 +37,13 @@ public class PauseMenuController : MonoBehaviour
     // Name of the title screen
     [SerializeField] private string _titleSceneName = "Title Screen";
 
+    // Portrait of a deceased character
+    [SerializeField] private Sprite _deceasedPortrait = null;
+    // Things that need to be turned on/off for alive/dead characters
+    [SerializeField] private GameObject[] _expBorders = null;
+    // Side Portrait of a deceased character
+    [SerializeField] private Sprite _sidePortraitDeceased = null;
+
     // Events
     // For when the character detailed menu is shown
     public delegate void CharDetailedMenuShown(int index);
@@ -53,6 +60,8 @@ public class PauseMenuController : MonoBehaviour
         Pause.OnPauseGame += UpdateValues;
         // When generation is finished, initialize this script
         ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
+        // When an ally dies, re set the side info 
+        Health.OnCharacterDeath += SetSideInfo;
     }
 
     // Called when the script is toggled off
@@ -61,6 +70,7 @@ public class PauseMenuController : MonoBehaviour
     {
         Pause.OnPauseGame -= UpdateValues;
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+       Health.OnCharacterDeath -= SetSideInfo;
     }
 
     // Called when the gameobject is destroyed
@@ -69,6 +79,7 @@ public class PauseMenuController : MonoBehaviour
     {
         Pause.OnPauseGame -= UpdateValues;
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+        Health.OnCharacterDeath -= SetSideInfo;
     }
 
     // Start is called before the first frame update
@@ -193,26 +204,7 @@ public class PauseMenuController : MonoBehaviour
 
         // Set the character side picture for each ally
         // Also give the character's health script the side slider
-        for (int i = 0; i < 3; ++i)
-        {
-            // If there is an ally at this point in the list
-            if (i < _alliesStats.Count)
-            {
-                // Change the side picture
-                _sidePortraits[i].sprite = _alliesStats[i].GetSideSprite();
-                // Set the side health bar
-                AllyHealth hpScriptRef = _alliesStats[i].GetComponent<AllyHealth>();
-                hpScriptRef.SideSlider = _sideHPBars[i];
-                // Set the side exp bar
-                _alliesStats[i].ExpSlider = _sideExpBars[i];
-                _alliesStats[i].UpdateExpSlider();
-            }
-            // If there is not ally at this point, they dead
-            else
-            {
-                // TODO
-            }
-        }
+        SetSideInfo();
 
         // Ally Stats validation
         if (_alliesStats == null)
@@ -220,11 +212,11 @@ public class PauseMenuController : MonoBehaviour
             Debug.Log("ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
                 "alliesStats was not initialized properly");
         }
-        else if (_alliesStats.Count != 3)
-        {
-            Debug.Log("POTENTIAL ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
-                "3 allies were not found. Instead " + _alliesStats.Count + " allies were found.");
-        }
+        //else if (_alliesStats.Count != 3)
+        //{
+        //    Debug.Log("POTENTIAL ERROR WARNING - from PauseMenuController attached to " + this.name + ". " +
+        //        "3 allies were not found. Instead " + _alliesStats.Count + " allies were found.");
+        //}
     }
 
     /// <summary>
@@ -318,14 +310,22 @@ public class PauseMenuController : MonoBehaviour
                 _allyXPBars[i].value = ((float)_alliesStats[i].GetOneLevelExperience()) / _alliesStats[i].GetOneLevelNextLevelThreshold();
                 // Update the portrait of the allies
                 _allyPortraits[i].sprite = _alliesStats[i].GetCharacterPortrait();
+
+                // Turn on stuff that was off when a character was dead
+                TurnOnOffForAliveCharacter(true, i);
             }
             // If that ally doesn't exist, they dead. Reflect that
             else
             {
-                // Update the names of the allies
+                // Deceased ally
                 _alliesNameText[i].text = "Deceased";
-                // Set the sliders to be the allies current xp;
+                // No xp for deceased allies
                 _allyXPBars[i].value = 0;
+                // Set the sprite to the deceased sprite
+                _allyPortraits[i].sprite = _deceasedPortrait;
+
+                // Turn off stuff that was on when a character was alive
+                TurnOnOffForAliveCharacter(false, i);
             }
         }
     }
@@ -343,5 +343,52 @@ public class PauseMenuController : MonoBehaviour
 
         // Load the main menu
         SceneManager.LoadScene(_titleSceneName);
+    }
+
+    /// <summary>
+    /// Turns the stuff a character should see on or off depending on if they are dead
+    /// </summary>
+    /// <param name="onOff">True - character is alive. False - character is dead</param>
+    private void TurnOnOffForAliveCharacter(bool onOff, int charIndex)
+    {
+        // Turn on if alive
+        _allyXPBars[charIndex].gameObject.SetActive(onOff);
+        _expBorders[charIndex].gameObject.SetActive(onOff);
+    }
+
+    /// <summary>
+    /// Sets the side portraits, hp, and exp for the characters
+    /// </summary>
+    private void SetSideInfo()
+    {
+        // Dying enemies are removed from the ally parent, so we will test if this is their parent when determining if they are dead
+        GameObject allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME);
+
+        // Set the character side picture for each ally
+        // Also give the character's health script the side slider
+        for (int i = 0; i < _sidePortraits.Length; ++i)
+        {
+            // If there is an ally at this point in the list
+            if (i < _alliesStats.Count && _alliesStats[i] != null && _alliesStats[i].transform.parent == allyParent.transform)
+            {
+                // Change the side picture
+                _sidePortraits[i].sprite = _alliesStats[i].GetSideSprite();
+                // Set the side health bar
+                AllyHealth hpScriptRef = _alliesStats[i].GetComponent<AllyHealth>();
+                hpScriptRef.SideSlider = _sideHPBars[i];
+                // Set the side exp bar
+                _alliesStats[i].ExpSlider = _sideExpBars[i];
+                _alliesStats[i].UpdateExpSlider();
+            }
+            // If there is not ally at this point, they dead
+            else
+            {
+                // Change the side picture
+                _sidePortraits[i].sprite = _sidePortraitDeceased;
+                // Change the sliders to be 0
+                _sideHPBars[i].value = 0;
+                _sideExpBars[i].value = 0;
+            }
+        }
     }
 }

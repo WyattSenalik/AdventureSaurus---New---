@@ -36,6 +36,12 @@ public class CharDetailedMenuController : MonoBehaviour
     [SerializeField] private Button _speedIncrButt = null;
     [SerializeField] private Button _resetButt = null;
     [SerializeField] private Button _confirmButt = null;
+    // Stuff for the dead enemy
+    [SerializeField] private Sprite _deadAllyBackground = null;
+    // Parents of UI things to turn on or off when a character is alive or dead
+    [SerializeField] private GameObject _statsTextParent = null;
+    [SerializeField] private GameObject _skillPreview = null;
+    [SerializeField] private GameObject _deadCharacterText = null;
 
     // The level up buttons (for allies 1, 2, and 3 in order)
     [SerializeField] private GameObject[] _levelUpButtons = null;
@@ -301,49 +307,65 @@ public class CharDetailedMenuController : MonoBehaviour
     /// <param name="allyIndex">Index of the ally to be displayed</param>
     private void DisplayCharacterDetails(int allyIndex)
     {
-        _currentAllyIndex = allyIndex; // This is the new ally we are viewing
+        // Assume the character is alive
+        bool charAlive = true;
 
-        AllyStats allyStats = null;
+        // This is the new ally we are viewing
+        _currentAllyIndex = allyIndex; 
+
         // Check the index is valid and that the value is not null
-        if (_alliesStats.Count > allyIndex && _alliesStats[allyIndex] != null)
-            allyStats = _alliesStats[allyIndex]; // For quick reference
+        if (_alliesStats.Count > allyIndex && _alliesStats[allyIndex] != null) {
+            // For quick reference
+            AllyStats allyStats = _alliesStats[allyIndex];
+
+            // Set the normal things for the character stats
+            _characterBackground.sprite = allyStats.GetTeamMenuSprite();
+            _nameText.text = allyStats.CharacterName;
+            _lvlText.text = "Lvl " + allyStats.GetLevel().ToString();
+            RefreshStats(allyStats);
+
+            // Fill in the appropriate amount of bubbles for each stat
+            //Debug.Log("Updating Vitality Bubbles");
+            UpdateBubbles(_vitalityBubbles, allyStats.VitalityBubblesFilled);
+            //Debug.Log("Updating Magic Bubbles");
+            UpdateBubbles(_magicBubbles, allyStats.MagicBubblesFilled);
+            //Debug.Log("Updating Strength Bubbles");
+            UpdateBubbles(_strBubbles, allyStats.StrBubblesFilled);
+            //Debug.Log("Updating Speed Bubbles");
+            UpdateBubbles(_speedBubbles, allyStats.SpeedBubblesFilled);
+
+            // Do this just in case
+            ResetStatChoices();
+
+            // Deactive the unapplied changes screen in case it was active when we quit
+            _unappliedChangesPrompt.SetActive(false);
+
+            // Test if the character has points to spend, if they do we set a bunch of stuff active, if they don't we turn off a bunch of stuff
+            _amountPointsAvailable = allyStats.AmountStatIncreases;
+            bool arePointsAvailable = _amountPointsAvailable > 0;
+            // Set things active or inactive
+            LevelUpUISetActive(arePointsAvailable);
+
+            // Update the skill preview
+            _skillPrevContRef.DisplayUpdatePreviewMenu(allyStats);
+        }
         // If the index is invalid, we make allyStats be a dead ally
         else
         {
-            allyStats = _deadAlly;
-            Debug.Log("This character is dead");
+            charAlive = false;
+            // Set the background to the dead character background
+            _characterBackground.sprite = _deadAllyBackground;
+            // Set all the texts to empty
+            _nameText.text = "";
+            _lvlText.text = "";
+            _pointsText.text = "";
+            // Hide the buttons
+            _resetButt.gameObject.SetActive(false);
+            _confirmButt.gameObject.SetActive(false);
         }
 
-        // Set the normal things for the character stats
-        _characterBackground.sprite = allyStats.GetTeamMenuSprite();
-        _nameText.text = allyStats.CharacterName;
-        _lvlText.text = "Lvl " + allyStats.GetLevel().ToString();
-        RefreshStats(allyStats);
-
-        // Fill in the appropriate amount of bubbles for each stat
-        //Debug.Log("Updating Vitality Bubbles");
-        UpdateBubbles(_vitalityBubbles, allyStats.VitalityBubblesFilled);
-        //Debug.Log("Updating Magic Bubbles");
-        UpdateBubbles(_magicBubbles, allyStats.MagicBubblesFilled);
-        //Debug.Log("Updating Strength Bubbles");
-        UpdateBubbles(_strBubbles, allyStats.StrBubblesFilled);
-        //Debug.Log("Updating Speed Bubbles");
-        UpdateBubbles(_speedBubbles, allyStats.SpeedBubblesFilled);
-
-        // Do this just in case
-        ResetStatChoices();
-
-        // Deactive the unapplied changes screen in case it was active when we quit
-        _unappliedChangesPrompt.SetActive(false);
-
-        // Test if the character has points to spend, if they do we set a bunch of stuff active, if they don't we turn off a bunch of stuff
-        _amountPointsAvailable = allyStats.AmountStatIncreases;
-        bool arePointsAvailable = _amountPointsAvailable > 0;
-        // Set things active or inactive
-        LevelUpUISetActive(arePointsAvailable);
-
-        // Update the skill preview
-        _skillPrevContRef.DisplayUpdatePreviewMenu(allyStats);
+        // Turn on/off all the things we should not show when a character is dead
+        TurnOnOffAliveCharacterDetails(charAlive);
     }
 
     /// <summary>
@@ -634,5 +656,18 @@ public class CharDetailedMenuController : MonoBehaviour
 
         // Reset all the variables
         ResetStatChoices();
+    }
+
+    /// <summary>
+    /// Turns the stuff a character should see on or off depending on if they are dead
+    /// </summary>
+    /// <param name="onOff">True - character is alive. False - character is dead</param>
+    private void TurnOnOffAliveCharacterDetails(bool onOff)
+    {
+        // Turn on if alive
+        _statsTextParent.SetActive(onOff);
+        _skillPreview.SetActive(onOff);
+        // Turn off if alive
+        _deadCharacterText.SetActive(!onOff);
     }
 }

@@ -2911,6 +2911,13 @@ MonoBehaviour:
   - {fileID: 2694005181173898218}
   - {fileID: 6763028904810205555}
   _titleSceneName: Title Screen
+  _deceasedPortrait: {fileID: 21300000, guid: 3917bfb4916e58d44b08be336abb3732, type: 3}
+  _expBorders:
+  - {fileID: 8459963331867036895}
+  - {fileID: 5188500541403503445}
+  - {fileID: 7364627959602062411}
+  _sidePortraitDeceased: {fileID: 21300000, guid: 1c6c4079b36d07543a0ea897426daa8d,
+    type: 3}
 --- !u!114 &1885554831325360176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2965,6 +2972,11 @@ MonoBehaviour:
   _speedIncrButt: {fileID: 1885554832179923969}
   _resetButt: {fileID: 1885554833331476128}
   _confirmButt: {fileID: 1885554832094352385}
+  _deadAllyBackground: {fileID: 21300000, guid: 94a41863f9f6d8c479ffe54087cacc73,
+    type: 3}
+  _statsTextParent: {fileID: 1885554833041236054}
+  _skillPreview: {fileID: 2474929108385843958}
+  _deadCharacterText: {fileID: 4414478795542313973}
   _levelUpButtons:
   - {fileID: 6059469175758393037}
   - {fileID: 3150456722835772424}
@@ -7860,6 +7872,7 @@ RectTransform:
   - {fileID: 1885554832960054060}
   - {fileID: 3434027747995625719}
   - {fileID: 1885554831563005114}
+  - {fileID: 52674854970980854}
   m_Father: {fileID: 1885554832858778531}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14950,6 +14963,87 @@ MonoBehaviour:
   _potionImage: {fileID: 2142106111260937209}
   _chargesHeld: {fileID: 0}
   _update: 0
+--- !u!1 &4414478795542313973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 52674854970980854}
+  - component: {fileID: 5030036417776965799}
+  - component: {fileID: 1846832223831057044}
+  m_Layer: 5
+  m_Name: DeadCharacterText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &52674854970980854
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4414478795542313973}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1885554832472032863}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -80, y: 59.39}
+  m_SizeDelta: {x: 1000, y: 300}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5030036417776965799
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4414478795542313973}
+  m_CullTransparentMesh: 0
+--- !u!114 &1846832223831057044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4414478795542313973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.20784314, g: 0.21960784, b: 0.28235295, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 22e56d6917a032f4e862bee088c66ae8, type: 3}
+    m_FontSize: 300
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 300
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 'Character
+
+    Deceased'
 --- !u!1 &4419137982075733028
 GameObject:
   m_ObjectHideFlags: 0
