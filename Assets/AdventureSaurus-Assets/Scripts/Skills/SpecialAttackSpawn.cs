@@ -13,7 +13,6 @@ public class SpecialAttackSpawn : MonoBehaviour
     {
         if (_spawner != null)
         {
-            Debug.Log("EndAttackAnimationDestroyParent");
             _spawner.EndAttack();
             // Destroy this object's parent
             Destroy(this.transform.parent.gameObject);

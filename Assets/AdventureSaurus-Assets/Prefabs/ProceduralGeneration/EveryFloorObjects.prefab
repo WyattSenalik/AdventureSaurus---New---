@@ -2771,6 +2771,8 @@ MonoBehaviour:
   - {fileID: 2673671814188965846}
   - {fileID: 8976395468093148040}
   - {fileID: 7278598015233142385}
+  - {fileID: 7717230028391077638}
+  - {fileID: 5863388214574700895}
   _imagesToTurnOff:
   - {fileID: 7429080405101626187}
   - {fileID: 395957450761884103}
@@ -2939,8 +2941,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a0e8b49a0cce24ea0246d17b698199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _swapButt: {fileID: 0}
-  _cooldownText: {fileID: 0}
 --- !u!114 &2116340598207365938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13424,7 +13424,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -18353,7 +18353,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
