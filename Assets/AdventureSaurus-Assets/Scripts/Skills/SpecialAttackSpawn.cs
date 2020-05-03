@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SmiteSpawn : MonoBehaviour
+public class SpecialAttackSpawn : MonoBehaviour
 {
     // Reference to the MoveAttack script on the character that spawned this object
     private MoveAttack _spawner;
@@ -9,10 +9,13 @@ public class SmiteSpawn : MonoBehaviour
     /// <summary>
     /// Calls the end attack function for the character that spawned this SmiteSpawn
     /// </summary>
-    public void SmiteThee()
+    public void EndAttackAnimation()
     {
-        _spawner.EndAttack();
-        // Destroy this object
-        Destroy(this.transform.parent.gameObject);
+        if (_spawner != null)
+        {
+            _spawner.EndAttack();
+            // Destroy this object
+            Destroy(this.transform.parent.gameObject);
+        }
     }
 }

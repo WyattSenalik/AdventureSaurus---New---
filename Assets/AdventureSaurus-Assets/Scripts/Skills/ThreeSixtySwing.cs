@@ -6,8 +6,6 @@ public class ThreeSixtySwing : Skill
 {
     // The prefab that displays the animation
     private GameObject _spawnPref = null;
-    // Reference tot he spawned prefab, for deletion purposes
-    private GameObject _activeSkillAnimObj = null;
 
     // Called before start
     // Set the skill specific variables
@@ -68,7 +66,7 @@ public class ThreeSixtySwing : Skill
                     {
                         // Get the health script from that enemy
                         Health charToAtkHPScript = charToAttack.GetComponent<Health>();
-                        
+
                         // Make sure they have a health script
                         if (charToAtkHPScript == null)
                             Debug.Log("Enemy to attack does not have a Health script attached to it");
@@ -83,11 +81,6 @@ public class ThreeSixtySwing : Skill
             {
                 // Start the animation of the character
                 StartSkillAnimation(attackNodePos);
-                // Create the prefab to animate
-                _activeSkillAnimObj = Instantiate(_spawnPref);
-                // Center it on the character
-                _activeSkillAnimObj.transform.SetParent(this.transform);
-                _activeSkillAnimObj.transform.localPosition = Vector3.zero;
             }
             else
                 Debug.Log("There were no enemies for ThreeSixtySwing to hit");
@@ -111,8 +104,7 @@ public class ThreeSixtySwing : Skill
             //Debug.Log("EndAnimation");
             // End the skills animation
             EndSkillAnimation();
-            // Destroy the additional animation prefab
-            Destroy(_activeSkillAnimObj);
+
 
             //Debug.Log("Deal damage");
             // Deal the damage to each enemy
@@ -138,5 +130,23 @@ public class ThreeSixtySwing : Skill
         // Go on cooldown
         if (_maRef.WhatAmI == CharacterType.Ally)
             GoOnCooldown();
+    }
+
+    /// <summary>
+    /// Creates the prefab to do the animation
+    /// Called from the animation
+    /// </summary>
+    public override void SpawnSkillAddition()
+    {
+        // Create the prefabs to animate
+        foreach (Health enemyHPRef in _enemiesHP)
+        {
+            Transform enTrans = enemyHPRef.transform;
+            // Create the prefab
+            GameObject curPref = Instantiate(_spawnPref);
+            // Center it on the character
+            curPref.transform.SetParent(enTrans);
+            curPref.transform.localPosition = Vector3.zero;
+        }
     }
 }

@@ -102,8 +102,8 @@ public class Smite : Skill
             // Center it on the character to attack
             _activeSkillAnimObj.transform.SetParent(_enemiesHP[0].transform);
             _activeSkillAnimObj.transform.localPosition = Vector3.zero;
-            // Get the SmiteSpawn script attached to it and set its Spawner
-            SmiteSpawn smiteSpawn = _activeSkillAnimObj.transform.GetChild(0).GetComponent<SmiteSpawn>();
+            // Get the SpecialAttackSpawn script attached to it and set its Spawner
+            SpecialAttackSpawn smiteSpawn = _activeSkillAnimObj.transform.GetChild(0).GetComponent<SpecialAttackSpawn>();
             smiteSpawn.SetSpawner(_maRef);
         }
         catch
