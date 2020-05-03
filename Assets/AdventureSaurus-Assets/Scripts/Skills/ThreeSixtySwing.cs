@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ThreeSixtySwing : Skill
 {
     // The prefab that displays the animation
-    private GameObject _spawnPref = null;
+    private GameObject _spawnPref;
 
     // Called before start
     // Set the skill specific variables
@@ -17,7 +16,6 @@ public class ThreeSixtySwing : Skill
         _diagnols = true;
         _cooldown = 4;
 
-        // Load the spawn predfab
         _spawnPref = Resources.Load<GameObject>("ThreeSixtyPrefab");
     }
 

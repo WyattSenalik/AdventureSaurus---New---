@@ -23,9 +23,6 @@ public class SkillMenu : MonoBehaviour
     [SerializeField] private Text _rangeText = null;
     [SerializeField] private Text _cooldownText = null;
 
-    // If the currently selected character is an ally
-    private bool _isAlly;
-
     // Reference to the MoveAttackGUIController to get the selected character
     private MoveAttackGUIController _mAGUIContRef;
 
@@ -63,29 +60,6 @@ public class SkillMenu : MonoBehaviour
     private void Awake()
     {
         _mAGUIContRef = this.GetComponent<MoveAttackGUIController>();
-    }
-
-    /// <summary>
-    /// Engages a different skill to be the active skill of the selected ally
-    /// </summary>
-    /// <param name="skillIndex">The index of the skill that was selected</param>
-    public void SwapSkill(int skillIndex)
-    {
-        if (skillIndex >= _sideSkillIcons.Count || skillIndex < 0)
-            Debug.LogError("Invalid skillIndex");
-        else
-        {
-            // Only change which skill is active for allies
-            if (_isAlly)
-            {
-                // Change the skill icon of the selected one to active and the rest to inactive
-                _sideSkillIcons[skillIndex].color = _activeCol;
-                for (int i = 0; i < skillIndex; ++i)
-                    _sideSkillIcons[i].color = _inactiveCol;
-                for (int i = skillIndex + 1; i < _sideSkillIcons.Count; ++i)
-                    _sideSkillIcons[i].color = _inactiveCol;
-            }
-        }
     }
 
     /// <summary>

@@ -218,7 +218,9 @@ public class HealingEnemy : SingleEnemy
             Debug.LogError("AttackTiles are null");
         // If there is no node to attack, just end the attack
         if (nodeToAttack.x == int.MaxValue && nodeToAttack.y == int.MaxValue)
+        {
             MARef.EndAttack();
+        }
         // If there is a node being attacked, start the attack
         else
             MARef.StartAttack(nodeToAttack);

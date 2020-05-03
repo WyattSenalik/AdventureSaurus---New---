@@ -1,9 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Heal : Skill
 {
+    // The prefab that displays the animation
+    private GameObject _spawnPref = null;
+
     // Called before start
     // Set the skill specific variables
     private new void Awake()
@@ -13,6 +15,8 @@ public class Heal : Skill
         _skillNum = 1;
         _healing = true;
         _cooldown = 6;
+
+        _spawnPref = Resources.Load<GameObject>("HealPrefab");
     }
 
     /// <summary>
@@ -43,6 +47,10 @@ public class Heal : Skill
                 else
                     Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
             }
+            else
+            {
+                EndSkill();
+            }
         }
         catch
         {
@@ -61,8 +69,6 @@ public class Heal : Skill
             // If we have a character to heal
             if (_enemiesHP != null && _enemiesHP.Count > 0 && _enemiesHP[0] != null)
             {
-                // End the skills animation
-                EndSkillAnimation();
                 // Heal the character and get rid of our reference to the enemyHP
                 _enemiesHP[0].Heal(_damage);
             }
@@ -85,4 +91,26 @@ public class Heal : Skill
         }
     }
 
+    /// <summary>
+    /// Creates the prefab to do the animation
+    /// Called from the animation
+    /// </summary>
+    public override void SpawnSkillAddition()
+    {
+        // Create the prefab to animate
+        if (_enemiesHP != null && _enemiesHP.Count > 0 && _enemiesHP[0] != null) { 
+            Transform enTrans = _enemiesHP[0].transform;
+            // Create the prefab
+            GameObject curPref = Instantiate(_spawnPref);
+            // Center it on the character
+            curPref.transform.SetParent(enTrans);
+            curPref.transform.localPosition = Vector3.zero;
+            // Get the SpecialAttackSpawn script attached to it and set its Spawner
+            SpecialAttackSpawn specialAttackSpawn = curPref.GetComponent<SpecialAttackSpawn>();
+            specialAttackSpawn.SetSpawner(_maRef);
+        }
+
+        // End the skills animation
+        EndSkillAnimation();
+    }
 }

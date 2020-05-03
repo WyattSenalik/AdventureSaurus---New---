@@ -9,13 +9,27 @@ public class SpecialAttackSpawn : MonoBehaviour
     /// <summary>
     /// Calls the end attack function for the character that spawned this SmiteSpawn
     /// </summary>
-    public void EndAttackAnimation()
+    public void EndAttackAnimationDestroyParent()
+    {
+        if (_spawner != null)
+        {
+            Debug.Log("EndAttackAnimationDestroyParent");
+            _spawner.EndAttack();
+            // Destroy this object's parent
+            Destroy(this.transform.parent.gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Calls the end attack function for the character that spawned this SmiteSpawn
+    /// </summary>
+    public void EndAttackAnimationDestroyThis()
     {
         if (_spawner != null)
         {
             _spawner.EndAttack();
-            // Destroy this object
-            Destroy(this.transform.parent.gameObject);
+            // Destroy this object's parent
+            Destroy(this.gameObject);
         }
     }
 }

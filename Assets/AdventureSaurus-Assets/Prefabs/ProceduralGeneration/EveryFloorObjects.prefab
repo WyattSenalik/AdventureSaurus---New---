@@ -2854,7 +2854,6 @@ MonoBehaviour:
   _uIElementsToTurnOff:
   - {fileID: 1885554832063714005}
   - {fileID: 1885554832303467010}
-  - {fileID: 0}
   - {fileID: 5249622099314096910}
   - {fileID: 1469098756736581793}
   _pauseMenuElements:
