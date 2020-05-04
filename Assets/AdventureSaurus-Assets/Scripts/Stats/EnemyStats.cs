@@ -23,7 +23,7 @@ public class EnemyStats : Stats
     public int KillReward()
     {
         // Do the calculation
-        return _difficulty * 2;
+        return (_difficulty + _baseXPToGive) * 2;
     }
 
     public int SharedKillReward(Stats helpers)

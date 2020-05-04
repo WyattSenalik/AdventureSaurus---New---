@@ -35,7 +35,7 @@ MonoBehaviour:
   _defenseText: {fileID: 5455154681092099193}
   _healthText: {fileID: 5455154680885768944}
   _speedText: {fileID: 5455154682430309221}
-  _baseXPToGive: 1
+  _baseXPToGive: 0
   _difficulty: 1
 --- !u!114 &9223248820529631812
 MonoBehaviour:

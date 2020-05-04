@@ -29,7 +29,8 @@ public class EnemyGrimoire : Grimoire
     /// </summary>
     protected override void IncreaseDamage()
     {
-        _enemySkillContRef.GetSpecialSkill().UpgradeDamage();
+        if (_enemySkillContRef.GetSpecialSkill() != null)
+            _enemySkillContRef.GetSpecialSkill().UpgradeDamage();
     }
 
     /// <summary>
@@ -37,7 +38,8 @@ public class EnemyGrimoire : Grimoire
     /// </summary>
     protected override void IncreaseRange()
     {
-        _enemySkillContRef.GetSpecialSkill().UpgradeRange();
+        if (_enemySkillContRef.GetSpecialSkill() != null)
+            _enemySkillContRef.GetSpecialSkill().UpgradeRange();
     }
 
     /// <summary>
@@ -45,7 +47,8 @@ public class EnemyGrimoire : Grimoire
     /// </summary>
     protected override void LowerCooldown()
     {
-        _enemySkillContRef.GetSpecialSkill().UpgradeCooldown();
+        if (_enemySkillContRef.GetSpecialSkill() != null)
+            _enemySkillContRef.GetSpecialSkill().UpgradeCooldown();
     }
 
     /// <summary>

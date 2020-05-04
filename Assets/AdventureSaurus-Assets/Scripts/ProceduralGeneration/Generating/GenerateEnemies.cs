@@ -187,8 +187,8 @@ public class GenerateEnemies : MonoBehaviour
                     // Get the amounts to buff the enemy by
                     int strBuff = Mathf.RoundToInt((float) enemyStats.GetStrength() / enemyStats.GetDifficulty() * extraDiff);
                     int mgcBuff = Mathf.RoundToInt((float) enemyStats.GetMagic() / enemyStats.GetDifficulty() * extraDiff);
-                    int spdBuff = Mathf.RoundToInt((float) enemyStats.GetSpeed() / enemyStats.GetDifficulty() * extraDiff);
-                    int hpBuff = Mathf.RoundToInt((float) enemyStats.GetVitality() / enemyStats.GetDifficulty() * extraDiff * _speedScalar);
+                    int spdBuff = Mathf.RoundToInt((float) enemyStats.GetSpeed() / enemyStats.GetDifficulty() * extraDiff * _speedScalar);
+                    int hpBuff = Mathf.RoundToInt((float) enemyStats.GetVitality() / enemyStats.GetDifficulty() * extraDiff);
                     // Increase the stats
                     enemyStats.BuffEnemy(strBuff, mgcBuff, spdBuff, hpBuff);
 

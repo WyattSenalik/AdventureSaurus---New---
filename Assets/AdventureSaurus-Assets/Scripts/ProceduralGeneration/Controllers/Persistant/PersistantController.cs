@@ -40,6 +40,10 @@ public abstract class PersistantController : MonoBehaviour
     [SerializeField] private int _winFloorNum = int.MaxValue;
     // Scene to load when win
     [SerializeField] private string _winSceneName = "WinScene";
+    // What floor is boss
+    [SerializeField] private int _bossFloorNum = int.MaxValue;
+    // Scene to load when boss
+    [SerializeField] private string _bossSceneName = "KiranFight";
 
     // What tile set we should use
     protected TileSet _activeTileSet;
@@ -195,12 +199,18 @@ public abstract class PersistantController : MonoBehaviour
         // Test if the current floor should have a campfire
         _shouldHaveCamfire = _nextFloorNum % _floorsUntilFire == 0;
 
-        // If the next floor is win, load the win scene
-        if (_nextFloorNum == _winFloorNum)
+        // If the next floor is boss, load the boss scene
+        if (_nextFloorNum == _bossFloorNum)
         {
+            Debug.Log("Load Boss");
+            SceneManager.LoadScene(_bossSceneName);
+        }
+        // If the next floor is win, load the win scene
+        else if (_nextFloorNum == _winFloorNum)
+        {
+            Debug.Log("Load Win");
             SceneManager.LoadScene(_winSceneName);
-
-           // PrepareForQuit();
+            PrepareForQuit();
         }
         // Otherwise load the next floor scene
         else

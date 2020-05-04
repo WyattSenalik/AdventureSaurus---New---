@@ -24,8 +24,8 @@ public class MoveAttackController : MonoBehaviour
     private Transform _enemyParent;
     // Parent of all the interactables
     private Transform _interactParent;
-    // Position of the stairs
-    private Vector2Int _stairsPos;
+    // Transfom of the stairs
+    private Transform _stairsTrans;
     // References to all the allies MoveAttack scripts
     private List<MoveAttack> _allyMA;
     // References to all the allies MoveAttack script
@@ -129,8 +129,7 @@ public class MoveAttackController : MonoBehaviour
         InitialCreateVisuals();
 
         // Get the stairs transform
-        Transform stairsTrans = GameObject.Find(ProceduralGenerationController.STAIRS_NAME).transform;
-        _stairsPos = new Vector2Int(Mathf.RoundToInt(stairsTrans.position.x), Mathf.RoundToInt(stairsTrans.position.y));
+        _stairsTrans = GameObject.Find(ProceduralGenerationController.STAIRS_NAME).transform;
     }
 
     /// <summary>
@@ -319,11 +318,7 @@ public class MoveAttackController : MonoBehaviour
         CreateSingleVisualTile(0, 0, mARef, true, moveTileParent.transform);
 
         // The depth of tiles to make
-        int totalTileDepth = mARef.MoveRange + mARef.AttackRange;
-        if (mARef.WhatAmI == CharacterType.Ally)
-        {
-            totalTileDepth = MAX_RANGE;
-        }
+        int totalTileDepth = MAX_RANGE;
 
         // Make the rest of the movement tiles around the character
         bool isMoveTile = true;
@@ -483,8 +478,10 @@ public class MoveAttackController : MonoBehaviour
                 // Pull the sprite renderer off it
                 SpriteRenderer tileSprRend = tileTrans.GetComponent<SpriteRenderer>();
 
+                Vector2Int stairsPos = new Vector2Int(Mathf.RoundToInt(_stairsTrans.position.x),
+                                                      Mathf.RoundToInt(_stairsTrans.position.y));
                 // If the tile is over the stairs, make it look like an interactable
-                if (_stairsPos == moveNode.Position)
+                if (stairsPos == moveNode.Position)
                     tileSprRend.sprite = _interactTileSprite;
                 else
                     // We set the sprite to the move sprite

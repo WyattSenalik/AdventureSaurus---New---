@@ -28,11 +28,11 @@ public class AllyStats : Stats
     public int GetLevel() { return _level; }
     public void SetLevel(int newLevel) { _level = newLevel; }
     // The amount of experience this character needs to level up (total)
-    private int _nextLevelThreshold = 3;
+    private int _nextLevelThreshold = 0;
     public int GetNextLevelThreshold() { return _nextLevelThreshold; }
     public void SetNextLevelThreshold(int newNextLevelThreshold) { _nextLevelThreshold = newNextLevelThreshold; }
     // The experience this character needs to gain since the current level
-    private int _oneLevelNextLevelThreshold = 3;
+    private int _oneLevelNextLevelThreshold = 0;
     public int GetOneLevelNextLevelThreshold() { return _oneLevelNextLevelThreshold; }
     public void SetOneLevelNextLevelThreshold(int newOneLevelNextLevelThreshold) { _oneLevelNextLevelThreshold = newOneLevelNextLevelThreshold; }
     // If the character is currently in the process of leveling up
@@ -158,8 +158,8 @@ public class AllyStats : Stats
     private void Start()
     {
         // Calculate how much xp to reach the next level
-        _nextLevelThreshold = CalculateAmountToReachNextLevel(_level);
-        _oneLevelNextLevelThreshold = _nextLevelThreshold - (_experience - _oneLevelExperience);
+        _oneLevelNextLevelThreshold = CalculateAmountToReachNextLevel(_level);
+        _nextLevelThreshold += _oneLevelNextLevelThreshold;
 
         // If this character has a level up button, hide it
         if (_levelUpButton != null)
@@ -214,8 +214,8 @@ public class AllyStats : Stats
 
                 // Set the oneLevel variables accordingly
                 _oneLevelExperience = _experience - _nextLevelThreshold;
-                _nextLevelThreshold = CalculateAmountToReachNextLevel(_level); // Make sure we do this so that the next loop test works as intended
-                _oneLevelNextLevelThreshold = _nextLevelThreshold - (_experience - _oneLevelExperience);
+                _oneLevelNextLevelThreshold = CalculateAmountToReachNextLevel(_level);
+                _nextLevelThreshold += _oneLevelNextLevelThreshold;
 
                 StartCoroutine(LevelUp());
             }

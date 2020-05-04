@@ -141,12 +141,12 @@ PrefabInstance:
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: _vitality
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: _difficulty
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}

@@ -56,15 +56,17 @@ public class RoomData
         // AdjacentRooms
         _adjRoomsSiblingIndices = new int[room.AdjacentRooms.Count];
         for (int i = 0; i < room.AdjacentRooms.Count; ++i)
-            _adjRoomsSiblingIndices[i] = room.AdjacentRooms[i].transform.GetSiblingIndex();
+             _adjRoomsSiblingIndices[i] = room.AdjacentRooms[i].transform.GetSiblingIndex();
         // AlliesInRoom
         _alliesInRoomSiblingIndicies = new int[room.GetAlliesInRoom().Count];
         for (int i = 0; i < room.GetAlliesInRoom().Count; ++i)
-            _alliesInRoomSiblingIndicies[i] = room.GetAlliesInRoom()[i].transform.GetSiblingIndex();
+            if (room.GetAlliesInRoom()[i] != null)
+                _alliesInRoomSiblingIndicies[i] = room.GetAlliesInRoom()[i].transform.GetSiblingIndex();
         // EnemiesInRoom
         _enemiesInRoomSiblingIndicies = new int[room.GetEnemiesInRoom().Count];
         for (int i = 0; i < room.GetEnemiesInRoom().Count; ++i)
-            _enemiesInRoomSiblingIndicies[i] = room.GetEnemiesInRoom()[i].transform.GetSiblingIndex();
+            if (room.GetEnemiesInRoom()[i] != null)
+                _enemiesInRoomSiblingIndicies[i] = room.GetEnemiesInRoom()[i].transform.GetSiblingIndex();
 
         // If the room is active
         _isRoomActive = room.GetIsRoomActive();
