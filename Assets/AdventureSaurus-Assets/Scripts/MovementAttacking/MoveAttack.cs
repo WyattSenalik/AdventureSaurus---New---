@@ -139,6 +139,9 @@ public class MoveAttack : MonoBehaviour
     }
 
     // Events
+    // When a character beings moving
+    public delegate void CharacterBeginMoving();
+    public static event CharacterBeginMoving OnCharacterBeginMoving;
     // When a character finishes moving
     public delegate void CharacterFinishedMoving();
     public static event CharacterFinishedMoving OnCharacterFinishedMoving;
@@ -651,6 +654,9 @@ public class MoveAttack : MonoBehaviour
             _transition = true;
 
             CalculateMoveDirection();
+
+            // Call the event to begin moving
+            OnCharacterBeginMoving?.Invoke();
         }
         else
         {
