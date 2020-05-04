@@ -95,6 +95,8 @@ public class AllyStats : Stats
     // Reference to the MoveAttackController. Used when updating speed
     private MoveAttackController _mAContRef;
 
+    private AudioManager _audManRef;
+
 
     // Called when the component is set active
     // Subscribe to events
@@ -162,6 +164,8 @@ public class AllyStats : Stats
                 Debug.Log("Could not find MoveAttackController attached to " + gameController.name);
             }
         }
+
+        _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     // Inititalize variables and set beginning of game states
@@ -215,8 +219,7 @@ public class AllyStats : Stats
             // Test if the character has enough exp to level up and isn't already currently leveling up
             if (!_isLevelingUp && _experience >= _nextLevelThreshold)
             {
-                AudioManager levelUp = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-                levelUp.PlaySound("LevelUp");
+                _audManRef.PlaySound("LevelUp");
                 // Start leveling the character up
                 _isLevelingUp = true;
                 ++_level; // Increment level

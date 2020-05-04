@@ -55,8 +55,7 @@ public class Smite : Skill
                 StartSkillAnimation(attackNodePos);
 
                 //sound effect
-                AudioManager smite = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-                smite.PlaySound("Smite");
+                _audioManRef.PlaySound("Smite");
             }
             else
                 Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");

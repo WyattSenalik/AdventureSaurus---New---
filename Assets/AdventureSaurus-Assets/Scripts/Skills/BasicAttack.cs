@@ -60,11 +60,15 @@ public class BasicAttack : Skill
 
         // We have to set the enemy to attack, we just need to validate a bit first
         Node nodeToAttack = _mAContRef.GetNodeAtPosition(attackNodePos);
+        Debug.Log("Node to attack (BasicAttack): " + nodeToAttack);
         if (nodeToAttack != null)
         {
+            Debug.Log(nodeToAttack.Position);
             MoveAttack charToAttack = _mAContRef.GetCharacterMAByNode(nodeToAttack);
+            Debug.Log("CharToAttack: " + charToAttack);
             if (charToAttack != null)
             {
+                Debug.Log(charToAttack.name);
                 // Add the one enemy we will be hitting
                 _enemiesHP.Add(charToAttack.GetComponent<Health>());
                 if (_enemiesHP[0] == null)
@@ -73,8 +77,7 @@ public class BasicAttack : Skill
                 // Start the skill's animation
                 StartSkillAnimation(attackNodePos);
                 //sound effect
-                AudioManager slash = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-                slash.PlaySound("Slash");
+                _audioManRef.PlaySound("Slash");
             }
             else
                 Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
@@ -82,7 +85,7 @@ public class BasicAttack : Skill
         // This occurs when an enemy isn't close enough to an ally to attack. Call end attack and don't start playing an animation
         else
         {
-            //Debug.Log("Node to attack does not exist");
+            Debug.Log("Node to attack does not exist");
             EndSkill();
             return;
         }

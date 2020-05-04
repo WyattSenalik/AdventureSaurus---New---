@@ -30,6 +30,8 @@ public class HealthPotion : MonoBehaviour
     //current ally
     private AllyHealth _allyToHeal;
 
+    private AudioManager _audManRef;
+
 
     private void OnEnable()
     {
@@ -68,6 +70,8 @@ public class HealthPotion : MonoBehaviour
         _chargesHeld = GameObject.FindGameObjectWithTag("PersistantController").GetComponent<PersistCharges>();
         _charges = _chargesHeld._potCharges;
         _update = false;
+
+        _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
     }
     private void Start()
     {
@@ -136,8 +140,7 @@ public class HealthPotion : MonoBehaviour
         _allyToHeal.ConsumePotion();
         _allyToHeal = null;
         _update = true;
-        AudioManager heal = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-        heal.PlaySound("Heal");
+        _audManRef.PlaySound("Heal");
     }
 
     //refills potion back to three

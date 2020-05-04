@@ -54,6 +54,8 @@ public class Skill : MonoBehaviour
         get { return _range; }
     }
 
+    protected AudioManager _audioManRef;
+
     // Events
     // When the cooldown changes
     public delegate void CooldownChange();
@@ -130,6 +132,8 @@ public class Skill : MonoBehaviour
                 Debug.Log("Could not find MoveAttackController attached to " + gameControllerObj.name);
             }
         }
+
+        GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     // Initialize some variables

@@ -56,6 +56,8 @@ public class MoveAttack : MonoBehaviour
 
     // A reference to the MoveAttackController script
     private MoveAttackController _mAContRef;
+    // A reference to the AudioManager
+    private AudioManager _audManRef;
 
 
     // For actual movement calculations/animations
@@ -239,6 +241,8 @@ public class MoveAttack : MonoBehaviour
                 Debug.Log("Could not find MoveAttackController attached to " + gameControllerObj.name);
             }
         }
+
+        _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     // Called before the first frame
@@ -657,8 +661,7 @@ public class MoveAttack : MonoBehaviour
 
             // Call the event to begin moving
             OnCharacterBeginMoving?.Invoke();
-            AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-            test.PlaySound("Walk");
+            _audManRef.PlaySound("Walk");
         }
         else
         {
@@ -694,8 +697,7 @@ public class MoveAttack : MonoBehaviour
     private void EndMove()
     {
         //play walking sound
-        AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-        test.StopSound("Walk");
+        _audManRef.StopSound("Walk");
 
         //Debug.Log("Finished Moving");
         // Set the node I am ending on to occupied with my type
@@ -725,12 +727,12 @@ public class MoveAttack : MonoBehaviour
     /// <param name="attackNodePos">The grid position of the center of the attack</param>
     public void StartAttack(Vector2Int attackNodePos)
     {
-        //Debug.Log("Start Attack");
+        Debug.Log("Start Attack at " + attackNodePos);
         if (_skillRef != null)
         {
             // We have attacked
             _hasAttacked = true;
-            //Debug.Log("Start Skill");
+            Debug.Log("Start Skill");
             _skillRef.StartSkill(attackNodePos);
         }
     }

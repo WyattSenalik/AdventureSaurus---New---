@@ -2812,6 +2812,7 @@ MonoBehaviour:
   - {fileID: 1469098756736581793}
   _pauseMenuElements:
   - {fileID: 1885554832858778530}
+  - {fileID: 5992976485501140406}
 --- !u!114 &1885554831325360190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8343,6 +8344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dragSpeed: 3
+  _mapCamObjs: {fileID: 5992976485501140406}
 --- !u!1 &1885554832668812981
 GameObject:
   m_ObjectHideFlags: 0

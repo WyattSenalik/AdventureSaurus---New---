@@ -16,6 +16,8 @@ public class Pause : MonoBehaviour
     // If the game is paused or not
     private bool _isPaused;
 
+    private AudioManager _audManRef;
+
     // Events
     // When the game is paused
     public delegate void GamePause();
@@ -63,6 +65,8 @@ public class Pause : MonoBehaviour
         {
             _uIElementsActiveStatus[i] = _uIElementsToTurnOff[i].activeSelf;
         }
+
+        _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     /// <summary>
@@ -80,9 +84,8 @@ public class Pause : MonoBehaviour
             if (OnPauseGame != null)
             {
                 OnPauseGame();
-                AudioManager pauseM = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-                pauseM.StopMusic(pauseM._levelMusic);
-                pauseM.PlayMusic(1);
+                _audManRef.StopMusic(_audManRef.LevelMusic);
+                _audManRef.PlayMusic(1);
             }
         }
         else
@@ -93,9 +96,8 @@ public class Pause : MonoBehaviour
             if (OnUnpauseGame != null)
             {
                 OnUnpauseGame();
-                AudioManager pauseM = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-                pauseM.StopMusic(1);
-                pauseM.PlayMusic(pauseM._levelMusic);
+                _audManRef.StopMusic(1);
+                _audManRef.PlayMusic(_audManRef.LevelMusic);
             }
         }
         // Turn on/off game-state ui elements

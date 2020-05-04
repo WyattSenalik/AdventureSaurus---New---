@@ -7,6 +7,8 @@ public class MapCam : MonoBehaviour
     //Camera Variables
     [SerializeField] private float _dragSpeed = 3f;
 
+    [SerializeField] private GameObject _mapCamObjs = null;
+
     // Reference to the map camera
     private Camera _camToWorkOn;
    
@@ -66,6 +68,10 @@ public class MapCam : MonoBehaviour
             _camToWorkOn.orthographicSize = xDist;
         else
             _camToWorkOn.orthographicSize = yDist;
+
+
+        // Turn off the map cam by default
+        _mapCamObjs.SetActive(false);
     }
  
     private void LateUpdate()

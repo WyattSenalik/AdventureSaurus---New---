@@ -203,7 +203,7 @@ public class MoveAttackGUIController : MonoBehaviour
                     else if (!_charSelected.HasAttacked)
                     {
                         // Try to attack
-                        if (AttemptAttack(selectedNode))
+                        if (AttemptAttack(selectedNode, mARef))
                             // Deselect the already selected character
                             Deselect();
                         // Try to help/buff
@@ -318,10 +318,11 @@ public class MoveAttackGUIController : MonoBehaviour
     /// </summary>
     /// <param name="selNode">The node that was selected</param>
     /// <returns>Returns true if the attack was successful, false otherwise</returns>
-    private bool AttemptAttack(Node selNode)
+    private bool AttemptAttack(Node selNode, MoveAttack charToAttack)
     {
+        Debug.Log("Attempt Attack");
+        Debug.Log(charToAttack);
         // If the current character can attack there or is targetting friendlies and can heal/buff there
-        MoveAttack charToAttack = _mAContRef.GetCharacterMAByNode(selNode);
         if ((_charSelected.AttackTiles.Contains(selNode) && selNode.Occupying == CharacterType.Enemy
             && charToAttack != null && charToAttack.gameObject.activeInHierarchy) 
             ||
@@ -335,9 +336,10 @@ public class MoveAttackGUIController : MonoBehaviour
 
             // Have the ally attack that node
             DoAttack();
-
+            Debug.Log("Attempt Attack True");
             return true;
         }
+        Debug.Log("Attempt Attack False");
         return false;
     }
 
@@ -490,6 +492,7 @@ public class MoveAttackGUIController : MonoBehaviour
         // Make it so that the player cannot select whilst something is attacking
         ToggleSelect(false);
         // Start the attack
+        Debug.Log("NodeToAttackPos " + _nodeToAttack.Position);
         _charSelected.StartAttack(_nodeToAttack.Position);
         // Unselect and untarget everything that we saved for this move attack
         _nodeToAttack = null;

@@ -49,6 +49,8 @@ public abstract class Health : MonoBehaviour
     // A reference to the MoveAttackController script, used to recalculate movement after death
     protected MoveAttackController _mAContRef;
 
+    private AudioManager _audManRef;
+
     // Events
     // When a character dies
     public delegate void CharacterDeath();
@@ -136,8 +138,7 @@ public abstract class Health : MonoBehaviour
         if (_curHP == 0)
         {
             //sound effect
-        AudioManager die = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-            die.PlaySound("Death");
+            _audManRef.PlaySound("Death");
             Die();
         }
         // Signal MoveAttack that a character's health bar is finished being updated
