@@ -356,7 +356,7 @@ MonoBehaviour:
     loop: 0
   - name: Death
     clip: {fileID: 8300000, guid: ceb0b9b6f0d80b84abff72feb1c9b064, type: 3}
-    volume: 0
+    volume: 0.15
     pitch: 1
     source: {fileID: 0}
     loop: 0
