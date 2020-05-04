@@ -134,7 +134,12 @@ public abstract class Health : MonoBehaviour
 
         // If the character died. We call it here so that health goes down first
         if (_curHP == 0)
+        {
+            //sound effect
+        AudioManager die = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+            die.PlaySound("Death");
             Die();
+        }
         // Signal MoveAttack that a character's health bar is finished being updated
         else
         {

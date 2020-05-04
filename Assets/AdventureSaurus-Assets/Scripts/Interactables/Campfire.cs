@@ -15,7 +15,9 @@ public class Campfire : Interactable
     // Reference to the tilemap. Will also be set in procedural generation
     private Tilemap _tilemapRef;
 
-    
+    //delays campfire sound turnoff
+    float currentTime;
+
     // Called on the first frame update
     private void Start()
     {
@@ -33,7 +35,14 @@ public class Campfire : Interactable
         _tilemapRef = GameObject.FindWithTag("Tilemap").GetComponent<Tilemap>();
 
     }
-
+    private void Update()
+    {
+        if(currentTime+15.0<=(Time.time))
+        {
+            AudioManager fire = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+            fire.StopSound("Fire");
+        }
+    }
     /// <summary>
     /// Starts the interaction with the campfire.
     /// Restore health to all ally characters
@@ -67,9 +76,9 @@ public class Campfire : Interactable
                     healthRef.Heal(healthRef.MaxHP / 2);
             }
 
-            AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-            test.PlaySound("Fire");
-
+            AudioManager fire = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+            fire.PlaySound("Fire");
+            currentTime = Time.time;
             //Refills Potion
             GameObject refill = GameObject.FindGameObjectWithTag("PotionHolder");
             refill.GetComponent<HealthPotion>().RefillPotion();

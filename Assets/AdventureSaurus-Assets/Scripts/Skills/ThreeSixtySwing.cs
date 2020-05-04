@@ -79,6 +79,9 @@ public class ThreeSixtySwing : Skill
             {
                 // Start the animation of the character
                 StartSkillAnimation(attackNodePos);
+                //sound effect
+                AudioManager noScope = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+                noScope.PlaySound("360");
             }
             else
                 Debug.Log("There were no enemies for ThreeSixtySwing to hit");
@@ -101,6 +104,8 @@ public class ThreeSixtySwing : Skill
         {
             //Debug.Log("EndAnimation");
             // End the skills animation
+            AudioManager noScope = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+            noScope.StopSound("360");
             EndSkillAnimation();
 
 
