@@ -43,6 +43,7 @@ public class BasicAttack : Skill
 
                 // Start the skill's animation
                 StartSkillAnimation(attackNodePos);
+                
             }
             else
                 Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
@@ -66,6 +67,9 @@ public class BasicAttack : Skill
         {
             //Debug.Log("Ending attack on " + enemiesHP[0].name);
             // End the skills animation
+            //sound effect
+            AudioManager slash = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+            slash.PlaySound("Slash");
             EndSkillAnimation();
             // Deal the damage and get rid of our reference to the enemyHP
             _enemiesHP[0].TakeDamage(_damage, this.GetComponent<Stats>());

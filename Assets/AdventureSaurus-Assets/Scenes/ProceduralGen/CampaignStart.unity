@@ -380,7 +380,7 @@ MonoBehaviour:
     loop: 0
   - name: Slash
     clip: {fileID: 8300000, guid: a10eb76941c73ab4c9457f3d5ae17d5a, type: 3}
-    volume: 0
+    volume: 0.14
     pitch: 1
     source: {fileID: 0}
     loop: 0
@@ -392,32 +392,38 @@ MonoBehaviour:
     loop: 1
   - name: Smite
     clip: {fileID: 8300000, guid: 99d3fbdef96c79b4eaa8b6dfae61f2aa, type: 3}
-    volume: 0
+    volume: 0.27
+    pitch: 1.44
+    source: {fileID: 0}
+    loop: 0
+  - name: Bump
+    clip: {fileID: 8300000, guid: 213950058d905b541bd6e0f3e5998254, type: 3}
+    volume: 0.49
     pitch: 1
     source: {fileID: 0}
     loop: 0
   playlist:
   - name: DungeonMusic
     clip: {fileID: 8300000, guid: 9c313c6758be2aa4284fe411e8693f12, type: 3}
-    volume: 0.5
+    volume: 0.36
     pitch: 1
     source: {fileID: 0}
     loop: 1
   - name: SafeRoom
     clip: {fileID: 8300000, guid: 6c96e59850218c84b9ea96388300324d, type: 3}
-    volume: 0.5
+    volume: 0.39
     pitch: 1.02
     source: {fileID: 0}
     loop: 1
   - name: BossMusic
     clip: {fileID: 8300000, guid: 03bed0484638ea44a9e2f804ea3e80ba, type: 3}
-    volume: 0.5
+    volume: 0.39
     pitch: 1
     source: {fileID: 0}
     loop: 1
   - name: GameOver
     clip: {fileID: 8300000, guid: 9f256ac0a59c8394b9412a827e1c692d, type: 3}
-    volume: 0.5
+    volume: 0.41
     pitch: 1
     source: {fileID: 0}
     loop: 1

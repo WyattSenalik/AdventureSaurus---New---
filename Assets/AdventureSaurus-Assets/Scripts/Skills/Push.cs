@@ -68,6 +68,10 @@ public class Push : Skill
         if (_enemiesHP != null && _enemiesHP.Count > 0 && _enemiesHP[0] != null && _attackNode != null)
         {
             //Debug.Log("Ending attack on " + enemiesHP[0].name);
+            //sound effect
+            AudioManager bump = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+            bump.PlaySound("Bump");
+            
             // End the skills animation
             EndSkillAnimation();
 
