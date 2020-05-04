@@ -101,6 +101,7 @@ public class AudioManager : MonoBehaviour
 
     void Update()
     {
+        /*
         // if we are playing a track from the playlist && it has stopped playing
         if (currentPlayingIndex != 999 && !playlist[currentPlayingIndex].source.isPlaying)
         {
@@ -113,6 +114,7 @@ public class AudioManager : MonoBehaviour
         }
         //checks scene for current level music
         CurrentSong();
+        */
     }
 
     // get the song name

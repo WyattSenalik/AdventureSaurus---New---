@@ -54,7 +54,7 @@ public class Skill : MonoBehaviour
         get { return _range; }
     }
 
-    protected AudioManager _audioManRef;
+    protected AudioManager _audManRef;
 
     // Events
     // When the cooldown changes
@@ -70,6 +70,7 @@ public class Skill : MonoBehaviour
     {
         // When generation is done, do some initialization
         ProceduralGenerationController.OnFinishGenerationNoParam += SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
     }
 
     // Called when the component is toggled off
@@ -77,6 +78,7 @@ public class Skill : MonoBehaviour
     private void OnDisable()
     {
         ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Called when the gameobject is destroyed
@@ -84,6 +86,7 @@ public class Skill : MonoBehaviour
     private void OnDestroy()
     {
         ProceduralGenerationController.OnFinishGenerationNoParam -= SetReferences;
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
     }
 
     // Called before start
@@ -133,7 +136,23 @@ public class Skill : MonoBehaviour
             }
         }
 
-        GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        // Get the audio manager
+        try
+        {
+            _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+        catch
+        {
+            Debug.Log("Could not get AudioManager");
+        }
+    }
+
+    /// <summary>
+    /// Initializes some things for children
+    /// </summary>
+    protected virtual void Initialize()
+    {
+        // TODO in children if needed
     }
 
     // Initialize some variables

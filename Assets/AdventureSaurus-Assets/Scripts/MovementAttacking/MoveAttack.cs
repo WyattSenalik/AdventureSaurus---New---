@@ -56,8 +56,6 @@ public class MoveAttack : MonoBehaviour
 
     // A reference to the MoveAttackController script
     private MoveAttackController _mAContRef;
-    // A reference to the AudioManager
-    private AudioManager _audManRef;
 
 
     // For actual movement calculations/animations
@@ -127,6 +125,8 @@ public class MoveAttack : MonoBehaviour
     private Vector2 _lastVel;
     // Which direction this character should be moving
     private Vector3 _moveDir;
+
+    private AudioManager _audManRef;
 
     // For the things that happen after using a skill (like lowering health), 
     // to determine if we should signal the if the character is finished
@@ -242,7 +242,15 @@ public class MoveAttack : MonoBehaviour
             }
         }
 
-        _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        // Get the audio manager
+        try
+        {
+            _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+        catch
+        {
+            Debug.Log("Could not get AudioManager");
+        }
     }
 
     // Called before the first frame
@@ -727,12 +735,11 @@ public class MoveAttack : MonoBehaviour
     /// <param name="attackNodePos">The grid position of the center of the attack</param>
     public void StartAttack(Vector2Int attackNodePos)
     {
-        Debug.Log("Start Attack at " + attackNodePos);
         if (_skillRef != null)
         {
             // We have attacked
             _hasAttacked = true;
-            Debug.Log("Start Skill");
+            //Debug.Log("Start Skill");
             _skillRef.StartSkill(attackNodePos);
         }
     }

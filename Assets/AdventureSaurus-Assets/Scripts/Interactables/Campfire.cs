@@ -15,11 +15,11 @@ public class Campfire : Interactable
     // Reference to the tilemap. Will also be set in procedural generation
     private Tilemap _tilemapRef;
 
+    private AudioManager _audManRef;
+
     //delays campfire sound turnoff
     private float _currentTime;
     private const float _waitTimer = 7;
-
-    private AudioManager _audManRef;
 
     // Called on the first frame update
     private void Start()
@@ -37,7 +37,15 @@ public class Campfire : Interactable
 
         _tilemapRef = GameObject.FindWithTag("Tilemap").GetComponent<Tilemap>();
 
-        _audManRef = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        // Get the audio manager
+        try
+        {
+            _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+        catch
+        {
+            Debug.Log("Could not get AudioManager");
+        }
 
     }
     /// <summary>
@@ -107,7 +115,7 @@ public class Campfire : Interactable
 
         if (_currentTime >= _waitTimer)
         {
-            _audManRef.StopSound("Fire");
+            //AudioManager.StopSound("Fire");
         }
         else
         {

@@ -101,7 +101,7 @@ public class ThreeSixtySwing : Skill
         {
             //Debug.Log("EndAnimation");
             // End the skills animation
-            _audioManRef.StopSound("360");
+            _audManRef.StopSound("360");
             EndSkillAnimation();
 
 

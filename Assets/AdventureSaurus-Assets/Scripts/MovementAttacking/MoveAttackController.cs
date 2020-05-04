@@ -106,7 +106,6 @@ public class MoveAttackController : MonoBehaviour
     {
         _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
         _enemyParent = GameObject.Find(ProceduralGenerationController.ENEMY_PARENT_NAME).transform;
-        Debug.Log("EnemyParent: " + _enemyParent);
         _wallParent = GameObject.Find(ProceduralGenerationController.WALL_PARENT_NAME).transform;
         Transform roomParent = GameObject.Find(ProceduralGenerationController.ROOM_PARENT_NAME).transform;
         _interactParent = GameObject.Find(ProceduralGenerationController.INTERACT_PARENT_NAME).transform;
@@ -596,10 +595,22 @@ public class MoveAttackController : MonoBehaviour
     {
         // Make sure its not out of bounds
         if (pos.x < _gridTopLeft.x || pos.x > _gridBotRight.x || pos.y < _gridBotRight.y || pos.y > _gridTopLeft.y)
+        {
+            Debug.Log("Node was invalid");
+            if (pos.x < _gridTopLeft.x)
+                Debug.Log("X lower than left: " + pos.x + " < " + _gridTopLeft.x);
+            if (pos.x > _gridBotRight.x)
+                Debug.Log("X higher than right: " + pos.x + " > " + _gridBotRight.x);
+            if (pos.y < _gridBotRight.y)
+                Debug.Log("Y lower than bot: " + pos.y + " < " + _gridBotRight.y);
+            if (pos.y > _gridTopLeft.y)
+                Debug.Log("Y higher than top: " + pos.y + " > " + _gridTopLeft.y);
             return null;
+        }
 
         int rowIndex = pos.y - _gridBotRight.y;
         int colIndex = pos.x - _gridTopLeft.x;
+
         return _grid[rowIndex][colIndex];
     }
 

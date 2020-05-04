@@ -6529,7 +6529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9904f93f185add54d9c9abe762a06d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxZoomSize: 7
+  _maxZoomSize: 6
   _minZoomSize: 2
   _zoomSpeed: 1
 --- !u!1 &1885554832161824715

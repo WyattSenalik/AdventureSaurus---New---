@@ -90,6 +90,16 @@ public abstract class Health : MonoBehaviour
         _mAContRef = gameContObj.GetComponent<MoveAttackController>();
         if (_mAContRef == null)
             Debug.Log("Could not MoveAttackController attached to " + gameContObj.name);
+
+        // Get the audio manager
+        try
+        {
+            _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+        catch
+        {
+            Debug.Log("Could not get AudioManager");
+        }
     }
 
     /// <summary>

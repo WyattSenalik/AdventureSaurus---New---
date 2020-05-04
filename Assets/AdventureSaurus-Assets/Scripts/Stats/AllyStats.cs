@@ -165,7 +165,15 @@ public class AllyStats : Stats
             }
         }
 
-        _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        // Get the audio manager
+        try
+        {
+            _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+        catch
+        {
+            Debug.Log("Could not get AudioManager");
+        }
     }
 
     // Inititalize variables and set beginning of game states

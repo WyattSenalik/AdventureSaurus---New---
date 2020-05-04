@@ -53,6 +53,20 @@ public class Pause : MonoBehaviour
         PauseMenuController.OnQuitGame -= ResumeTime;
     }
 
+    // Called before Start
+    private void Awake()
+    {
+        // Get the audio manager
+        try
+        {
+            _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+        catch
+        {
+            Debug.Log("Could not get AudioManager");
+        }
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -65,8 +79,6 @@ public class Pause : MonoBehaviour
         {
             _uIElementsActiveStatus[i] = _uIElementsToTurnOff[i].activeSelf;
         }
-
-        _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     /// <summary>

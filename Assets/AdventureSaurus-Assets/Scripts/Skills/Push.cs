@@ -69,7 +69,7 @@ public class Push : Skill
         {
             //Debug.Log("Ending attack on " + enemiesHP[0].name);
             //sound effect
-            _audioManRef.PlaySound("Bump");
+            _audManRef.PlaySound("Bump");
             
             // End the skills animation
             EndSkillAnimation();

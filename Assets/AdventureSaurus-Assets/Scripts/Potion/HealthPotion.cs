@@ -71,7 +71,15 @@ public class HealthPotion : MonoBehaviour
         _charges = _chargesHeld._potCharges;
         _update = false;
 
-        _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        // Get the audio manager
+        try
+        {
+            _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+        catch
+        {
+            Debug.Log("Could not get AudioManager");
+        }
     }
     private void Start()
     {
