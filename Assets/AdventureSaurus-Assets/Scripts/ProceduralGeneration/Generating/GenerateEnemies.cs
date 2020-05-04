@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GenerateEnemies : MonoBehaviour
 {
-    private const float _diffScalar = 1.5f;
+    private const float _speedScalar = 0.2f;
 
     // List of potential enemies to spawn. Sorted by difficulty
     [SerializeField] private GameObject[] _enemyPrefabs = null;
@@ -56,16 +56,24 @@ public class GenerateEnemies : MonoBehaviour
 
             // If its a normal room
             if (curRoomScript.MyRoomType == RoomType.NORMAL)
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff * _diffScalar);
+            {
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff + curRoomScript.RoomWeight);
+            }
             // If its a hallway
             else if (curRoomScript.MyRoomType == RoomType.HALLWAY)
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff * _hallwayScalar * _diffScalar);
+            {
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + curRoomScript.RoomWeight + 1) / 2);
+            }
             // If its the end
             else if (curRoomScript.MyRoomType == RoomType.END)
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff * _endScalar * _diffScalar);
+            {
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt(floorBaseDiff + curRoomScript.RoomWeight);
+            }
             // If its the start or safe room, we don't spawn enemies
             else if (curRoomScript.MyRoomType == RoomType.SAFE || curRoomScript.MyRoomType == RoomType.START)
+            {
                 curRoomScript.RoomDifficulty = 0;
+            }
             // If its an unhandled room type
             else
             {
@@ -134,7 +142,7 @@ public class GenerateEnemies : MonoBehaviour
                 // Reference to the GameObject of the enemy spawned
                 GameObject spawnedEnemyObj;
                 // Reference to the EnemyDifficulty script attached to the spawned enemy
-                EnemyDifficulty enDiffScriptRef;
+                EnemyStats enStatsScriptRef;
 
                 int maxSpawnLength = _enemyPrefabs.Length;
                 // We will do c-e until we get an enemy that is not stronger than we need
@@ -154,8 +162,8 @@ public class GenerateEnemies : MonoBehaviour
                     /// Step 4e: If that enemy is too strong for the current difficulty we need, then destroy it and try to spawn
                     /// another enemy. We will pick a enemy further left in the list, since they are sorted by difficulty
                     /// 
-                    enDiffScriptRef = spawnedEnemyObj.GetComponent<EnemyDifficulty>();
-                    if (enDiffScriptRef.GetDifficulty() > curRoomScript.RoomDifficulty - currentDifficulty)
+                    enStatsScriptRef = spawnedEnemyObj.GetComponent<EnemyStats>();
+                    if (enStatsScriptRef.GetDifficulty() > curRoomScript.RoomDifficulty - currentDifficulty)
                     {
                         Destroy(spawnedEnemyObj);
                         maxSpawnLength = enemyPrefIndex;
@@ -169,18 +177,18 @@ public class GenerateEnemies : MonoBehaviour
                 /// Step 4e: If that enemy is weaker than the avg difficulty, then we need to buff it
                 /// 
                 int extraDiff = 0;
-                if (avgDiff > enDiffScriptRef.GetDifficulty())
+                if (avgDiff > enStatsScriptRef.GetDifficulty())
                 {
                     // Get the difference in difficulty we need to compensate for
-                    extraDiff = avgDiff - enDiffScriptRef.GetDifficulty();
+                    extraDiff = avgDiff - enStatsScriptRef.GetDifficulty();
                     // Get the enemy stats we are going to change
                     EnemyStats enemyStats = spawnedEnemyObj.GetComponent<EnemyStats>();
 
                     // Get the amounts to buff the enemy by
-                    int strBuff = avgDiff / 6;
-                    int mgcBuff = avgDiff / 6;
-                    int spdBuff = avgDiff / 12;
-                    int hpBuff = avgDiff / 2;
+                    int strBuff = Mathf.RoundToInt((float) enemyStats.GetStrength() / enemyStats.GetDifficulty() * extraDiff);
+                    int mgcBuff = Mathf.RoundToInt((float) enemyStats.GetMagic() / enemyStats.GetDifficulty() * extraDiff);
+                    int spdBuff = Mathf.RoundToInt((float) enemyStats.GetSpeed() / enemyStats.GetDifficulty() * extraDiff);
+                    int hpBuff = Mathf.RoundToInt((float) enemyStats.GetVitality() / enemyStats.GetDifficulty() * extraDiff * _speedScalar);
                     // Increase the stats
                     enemyStats.BuffEnemy(strBuff, mgcBuff, spdBuff, hpBuff);
 
@@ -197,13 +205,13 @@ public class GenerateEnemies : MonoBehaviour
                 /// Step 4f: Increment the current difficulty
                 /// 
                 // If the enemy for some reason has no EnemyDifficulty script attached to it
-                if (enDiffScriptRef != null)
+                if (enStatsScriptRef != null)
                 {
                     // Incase the enemy difficulty was set wrong
-                    if (enDiffScriptRef.GetDifficulty() <= 0)
+                    if (enStatsScriptRef.GetDifficulty() <= 0)
                         currentDifficulty += 1;
                     else
-                        currentDifficulty += enDiffScriptRef.GetDifficulty() + extraDiff;
+                        currentDifficulty += enStatsScriptRef.GetDifficulty() + extraDiff;
                 }
                 else
                     currentDifficulty += 1;
@@ -241,7 +249,7 @@ public class GenerateEnemies : MonoBehaviour
         for (int i = 0; i < _enemyPrefabs.Length; ++i)
         {
             // Get the current enemies information
-            EnemyDifficulty enemyDiffRef0 = _enemyPrefabs[i].GetComponent<EnemyDifficulty>();
+            EnemyStats enemyDiffRef0 = _enemyPrefabs[i].GetComponent<EnemyStats>();
             int enemyDiff0 = enemyDiffRef0.GetDifficulty();
             // Assume this enemy is the weakest
             int weakestEnemyIndex = i;
@@ -250,7 +258,7 @@ public class GenerateEnemies : MonoBehaviour
             for (int k = i + 1; k < _enemyPrefabs.Length; ++k)
             {
                 // Get the next enemies information
-                EnemyDifficulty enemyDiffRef1 = _enemyPrefabs[k].GetComponent<EnemyDifficulty>();
+                EnemyStats enemyDiffRef1 = _enemyPrefabs[k].GetComponent<EnemyStats>();
                 int enemyDiff1 = enemyDiffRef1.GetDifficulty();
 
                 // If we found an enemy weaker than the current enemy, make this enemy the new weakest

@@ -101,7 +101,7 @@ PrefabInstance:
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: _strength
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
@@ -111,7 +111,12 @@ PrefabInstance:
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: _vitality
-      value: 20
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _difficulty
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1646896228317113016, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}

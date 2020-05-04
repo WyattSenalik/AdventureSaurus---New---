@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1404737676939735076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5455154680550232433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fea80010e12c5c04baab6f9cf1791911, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _difficulty: 1
 --- !u!114 &614125337581185595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38,17 +25,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _charName: Deceased
-  _strength: 0
-  _magic: 0
-  _speed: 0
-  _vitality: 0
+  _strength: 1
+  _magic: 1
+  _speed: 2
+  _vitality: 2
   _statsDisplay: {fileID: 5455154681930454314}
   _nameText: {fileID: 5455154681749340615}
   _attackText: {fileID: 5455154681147227914}
   _defenseText: {fileID: 5455154681092099193}
   _healthText: {fileID: 5455154680885768944}
   _speedText: {fileID: 5455154682430309221}
-  _baseXPToGive: 2
+  _baseXPToGive: 1
+  _difficulty: 1
 --- !u!114 &9223248820529631812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +51,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthBarSlider: {fileID: 4418174275068780014}
   _healthText: {fileID: 4329494049049426183}
+  _healthBarSpeed: 1
+  _damageRed: {r: 0.6, g: 0, b: 0, a: 1}
+  _redPulseSpeed: 1
 --- !u!1001 &8541725609332504078
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2098535882787079963, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: m_Name
-      value: Speedy Bug Variant
+      value: SpeedyBug Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2098535882787079967, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
@@ -95,18 +95,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
-      propertyPath: _strength
-      value: 1
+      propertyPath: _speed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
-      propertyPath: _speed
-      value: 4
+      propertyPath: _difficulty
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _strength
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _magic
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: _vitality
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1646896228317113016, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}

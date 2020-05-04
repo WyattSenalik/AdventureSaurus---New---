@@ -27,28 +27,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1414025192404068684, guid: ca6c2aaf61fa38e4f82dc3d7a9a9977e,
         type: 3}
-      propertyPath: _speed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1414025192404068684, guid: ca6c2aaf61fa38e4f82dc3d7a9a9977e,
-        type: 3}
-      propertyPath: _baseXPToGive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1414025192404068684, guid: ca6c2aaf61fa38e4f82dc3d7a9a9977e,
-        type: 3}
       propertyPath: _charName
       value: Blocker Bug
       objectReference: {fileID: 0}
     - target: {fileID: 1414025192404068684, guid: ca6c2aaf61fa38e4f82dc3d7a9a9977e,
         type: 3}
-      propertyPath: _vitality
-      value: 5
+      propertyPath: _speed
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1414025192404068684, guid: ca6c2aaf61fa38e4f82dc3d7a9a9977e,
         type: 3}
-      propertyPath: _strength
-      value: 1
+      propertyPath: _vitality
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7789393772903848836, guid: ca6c2aaf61fa38e4f82dc3d7a9a9977e,
         type: 3}

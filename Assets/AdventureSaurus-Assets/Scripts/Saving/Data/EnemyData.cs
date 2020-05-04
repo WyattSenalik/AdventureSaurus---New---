@@ -37,13 +37,6 @@ public class EnemyData
         else
             Debug.LogError("No PrefabKey script was attached to " + enemy.name);
 
-        // Try to pull an EnemyDifficulty script off the enemy (it should have one)
-        EnemyDifficulty enemyDiffScriptRef = enemy.GetComponent<EnemyDifficulty>();
-        if (enemyDiffScriptRef != null)
-            _difficulty = enemyDiffScriptRef.GetDifficulty();
-        else
-            Debug.LogError("No EnemyDifficulty script was attached to " + enemy.name);
-
         // Try to pull an EnemyStats script off the enemy (it should have one)
         EnemyStats enemyStatsScriptRef = enemy.GetComponent<EnemyStats>();
         if (enemyStatsScriptRef != null)
@@ -53,6 +46,7 @@ public class EnemyData
             _speed = enemyStatsScriptRef.GetSpeed();
             _vitality = enemyStatsScriptRef.GetVitality();
             _baseXpToGive = enemyStatsScriptRef.GetBaseXpToGive();
+            _difficulty = enemyStatsScriptRef.GetDifficulty();
         }
         else
             Debug.LogError("No EnemyStats script was attached to " + enemy.name);

@@ -95,17 +95,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
-      propertyPath: _strength
-      value: 1
+      propertyPath: _difficulty
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
-      propertyPath: _vitality
+      propertyPath: _strength
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _magic
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
         type: 3}
       propertyPath: _speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104889597994153429, guid: 6405350bdbfbbc34b804d573219cc889,
+        type: 3}
+      propertyPath: _vitality
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1646896228317113016, guid: 6405350bdbfbbc34b804d573219cc889,

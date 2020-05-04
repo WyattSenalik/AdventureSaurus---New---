@@ -424,12 +424,12 @@ public class CharDetailedMenuController : MonoBehaviour
         IncrementStat(ref _magicAmountIncr, ref _magicNums, allyStats.GetMagic(), allyStats.MagicBubblesFilled, _magicBubbles);
 
         // Refelect temp magic changes in preview text
-        if (_magicAmountIncr + allyStats.MagicBubblesFilled >= _magicBubbles.Count + 1)
+        if ((_magicAmountIncr + allyStats.MagicBubblesFilled) % (_magicBubbles.Count + 1) == 0)
         {
             // Get the grimoire of the current ally
             AllyGrimoire allyGrim = allyStats.GetComponent<AllyGrimoire>();
             // Preview the skill increase
-            _skillPrevContRef.PreviewSkillUpgrade(allyGrim, Mathf.FloorToInt((_magicAmountIncr + allyStats.MagicBubblesFilled + 0.0f) / _magicBubbles.Count));
+            _skillPrevContRef.PreviewSkillUpgrade(allyGrim, Mathf.FloorToInt((_magicAmountIncr + allyStats.MagicBubblesFilled) / (_magicBubbles.Count + 1)));
         }
 
     }

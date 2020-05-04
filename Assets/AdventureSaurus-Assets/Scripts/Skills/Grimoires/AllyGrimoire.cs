@@ -148,6 +148,10 @@ public class AllyGrimoire : Grimoire
     /// <returns>MagicBuff at current page + pagesAhead</returns>
     public MagicBuff PeekForward(int pagesAhead)
     {
-        return _grimoirePages[_pagesRead - 1 + pagesAhead];
+        if (_pagesRead - 1 + pagesAhead < _grimoirePages.Length)
+        {
+            return _grimoirePages[_pagesRead - 1 + pagesAhead];
+        }
+        return MagicBuff.DMGINC;
     }
 }

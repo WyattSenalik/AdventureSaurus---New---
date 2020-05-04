@@ -104,7 +104,7 @@ public abstract class PersistantController : MonoBehaviour
         //Debug.Log("Finished initializing allies");
         // Initialize the starting floors stuff
         // Initialize the floor difficulty to 3
-        _nextFloorDiff = 3;
+        _nextFloorDiff = 4;
         _nextFloorNum = 1;
         _shouldHaveCamfire = _nextFloorNum % _floorsUntilFire == 0;
         // Start the first floor's generation
@@ -181,7 +181,7 @@ public abstract class PersistantController : MonoBehaviour
 
         // Grab the difficulty of the last room of the last floor and base the difficulty for the next floor off it
         // Calculate the next floor's difficulty
-        _nextFloorDiff += _difficultyInc;
+        _nextFloorDiff = genContScript.GetMostDifficultRoom();
         Debug.Log("Next floor diff: " + _nextFloorDiff);
 
         // Update what floor this is

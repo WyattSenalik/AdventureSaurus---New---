@@ -265,8 +265,8 @@ public class AllyStats : Stats
     /// <returns>The amount of xp needed to reach level (currentLevel + 1)</returns>
     private int CalculateAmountToReachNextLevel(int currentLevel)
     {
-        // Do the simple calculaiton (n^3)
-        return currentLevel * currentLevel * currentLevel + 2;
+        // Do the simple calculaiton 5x - 1
+        return 5 * currentLevel - 1;
     }
 
     // The following 4 functions are for increasing stats upon a level up

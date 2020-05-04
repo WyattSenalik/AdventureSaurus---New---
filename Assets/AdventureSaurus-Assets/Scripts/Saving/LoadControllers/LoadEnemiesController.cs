@@ -27,13 +27,6 @@ public static class LoadEnemiesController
             // Set its transform components
             enemyObj.transform.position = enemyData.GetPosition();
 
-            // Get its EnemyDifficulty script
-            EnemyDifficulty enemyDiffRef = enemyObj.GetComponent<EnemyDifficulty>();
-            if (enemyDiffRef != null)
-                enemyDiffRef.SetDifficulty(enemyData.GetDifficulty());
-            else
-                Debug.LogError("There is no EnemyDifficulty script attached to " + enemyObj.name);
-
             // Get its EnemyStats script
             EnemyStats enemyStatsRef = enemyObj.GetComponent<EnemyStats>();
             if (enemyStatsRef != null)
@@ -43,6 +36,7 @@ public static class LoadEnemiesController
                 enemyStatsRef.SetSpeed(enemyData.GetSpeed());
                 enemyStatsRef.SetVitality(enemyData.GetVitality());
                 enemyStatsRef.SetBaseXpToGive(enemyData.GetBaseXpToGive());
+                enemyStatsRef.SetDifficulty(enemyData.GetDifficulty());
             }
             else
                 Debug.LogError("There is no EnemyStats script attached to " + enemyObj.name);

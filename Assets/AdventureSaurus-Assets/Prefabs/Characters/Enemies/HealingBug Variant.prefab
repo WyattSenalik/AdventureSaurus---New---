@@ -27,6 +27,21 @@ PrefabInstance:
       propertyPath: _vitality
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2698009530360063926, guid: 62a246d6c81c4f34fb1bddfab8b38140,
+        type: 3}
+      propertyPath: _difficulty
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2698009530360063926, guid: 62a246d6c81c4f34fb1bddfab8b38140,
+        type: 3}
+      propertyPath: _magic
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2698009530360063926, guid: 62a246d6c81c4f34fb1bddfab8b38140,
+        type: 3}
+      propertyPath: _strength
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4929894917478168004, guid: 62a246d6c81c4f34fb1bddfab8b38140,
         type: 3}
       propertyPath: _prefabKey

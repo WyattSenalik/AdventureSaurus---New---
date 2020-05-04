@@ -54,7 +54,7 @@ public class EnemyHealth : Health
     {
         // Give xp to the killer
         EnemyStats myStats = this.GetComponent<EnemyStats>();
-        _myKiller.GainExperience(myStats.KillReward(_myKiller));
+        _myKiller.GainExperience(myStats.KillReward());
 
         //Give reduced xp to other allies
         foreach (AllyStats _helper in _helpers)

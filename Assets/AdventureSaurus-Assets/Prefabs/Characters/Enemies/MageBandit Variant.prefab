@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 2643914374026145984, guid: 934fd594bc095f948b847ea2e0335eb1,
         type: 3}
       propertyPath: _difficulty
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2096930282427371217, guid: 934fd594bc095f948b847ea2e0335eb1,
         type: 3}
@@ -100,8 +100,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8935716611250658467, guid: 934fd594bc095f948b847ea2e0335eb1,
         type: 3}
+      propertyPath: _difficulty
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8935716611250658467, guid: 934fd594bc095f948b847ea2e0335eb1,
+        type: 3}
       propertyPath: _strength
-      value: 1
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8935716611250658467, guid: 934fd594bc095f948b847ea2e0335eb1,
+        type: 3}
+      propertyPath: _magic
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8935716611250658467, guid: 934fd594bc095f948b847ea2e0335eb1,
         type: 3}
@@ -111,7 +121,7 @@ PrefabInstance:
     - target: {fileID: 8935716611250658467, guid: 934fd594bc095f948b847ea2e0335eb1,
         type: 3}
       propertyPath: _vitality
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 594856668281275342, guid: 934fd594bc095f948b847ea2e0335eb1,
         type: 3}
