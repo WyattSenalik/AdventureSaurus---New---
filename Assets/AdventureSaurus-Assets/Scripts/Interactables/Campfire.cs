@@ -31,6 +31,7 @@ public class Campfire : Interactable
         }
 
         _tilemapRef = GameObject.FindWithTag("Tilemap").GetComponent<Tilemap>();
+
     }
 
     /// <summary>
@@ -65,6 +66,9 @@ public class Campfire : Interactable
                 if (healthRef != null)
                     healthRef.Heal(healthRef.MaxHP / 2);
             }
+
+            AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+            test.PlaySound("Fire");
 
             //Refills Potion
             GameObject refill = GameObject.FindGameObjectWithTag("PotionHolder");

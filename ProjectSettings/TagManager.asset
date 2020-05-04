@@ -16,6 +16,8 @@ TagManager:
   - Campfire
   - Tilemap
   - PotionHolder
+  - AudioManager
+  - AudioItem
   layers:
   - Default
   - TransparentFX

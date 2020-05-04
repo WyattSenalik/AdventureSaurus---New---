@@ -78,16 +78,25 @@ public class Pause : MonoBehaviour
 
             // Pause the game
             if (OnPauseGame != null)
+            {
                 OnPauseGame();
+                AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+                test.StopMusic(0);
+                test.PlayMusic(1);
+            }
         }
         else
         {
             // Restart time
             ResumeTime();
-
             // Unpause the game
             if (OnUnpauseGame != null)
+            {
                 OnUnpauseGame();
+                AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+                test.StopMusic(1);
+                test.PlayMusic(0);
+            }
         }
         // Turn on/off game-state ui elements
         ToggleUIElementsActivity(_isPaused);
@@ -97,6 +106,7 @@ public class Pause : MonoBehaviour
 
         // Turn off/on the pause menu
         TogglePauseMenu(_isPaused);
+
     }
 
     /// <summary>

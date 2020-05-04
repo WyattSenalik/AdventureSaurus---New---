@@ -136,6 +136,8 @@ public class HealthPotion : MonoBehaviour
         _allyToHeal.ConsumePotion();
         _allyToHeal = null;
         _update = true;
+        AudioManager heal = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        heal.PlaySound("Heal");
     }
 
     //refills potion back to three

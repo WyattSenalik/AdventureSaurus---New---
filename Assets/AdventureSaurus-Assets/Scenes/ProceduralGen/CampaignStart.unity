@@ -176,7 +176,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 853814947}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -260,6 +261,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7694131260984240152, guid: e9255b6a8fa73744dac62b3850185792,
+        type: 3}
+      propertyPath: _strength
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694131260984240152, guid: e9255b6a8fa73744dac62b3850185792,
+        type: 3}
+      propertyPath: _vitality
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8868836069372273400, guid: e9255b6a8fa73744dac62b3850185792,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -285,16 +296,6 @@ PrefabInstance:
       propertyPath: vitality
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 7694131260984240152, guid: e9255b6a8fa73744dac62b3850185792,
-        type: 3}
-      propertyPath: _strength
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 7694131260984240152, guid: e9255b6a8fa73744dac62b3850185792,
-        type: 3}
-      propertyPath: _vitality
-      value: 100
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9255b6a8fa73744dac62b3850185792, type: 3}
 --- !u!4 &456140658 stripped
@@ -303,6 +304,123 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 456140657}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &853814946
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 853814947}
+  - component: {fileID: 853814948}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: AudioManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &853814947
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853814946}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 449665926}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &853814948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853814946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da16737af90228c44a5b19d70ea5fc98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Click
+    clip: {fileID: 8300000, guid: afad17d621e02924c92ab2646009a7b4, type: 3}
+    volume: 0.26
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Death
+    clip: {fileID: 8300000, guid: ceb0b9b6f0d80b84abff72feb1c9b064, type: 3}
+    volume: 0
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Fire
+    clip: {fileID: 8300000, guid: 00551f9f233e4ab40a94cdbadcc2c1e0, type: 3}
+    volume: 0.15
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: Heal
+    clip: {fileID: 8300000, guid: 3383623f551001d4fb06231a3ba7267b, type: 3}
+    volume: 0.2
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: LevelUp
+    clip: {fileID: 8300000, guid: 8fc28002f54e94947a65dea9fbdc9b19, type: 3}
+    volume: 0.11
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Slash
+    clip: {fileID: 8300000, guid: a10eb76941c73ab4c9457f3d5ae17d5a, type: 3}
+    volume: 0
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Walk
+    clip: {fileID: 8300000, guid: 8ac54763aa4eef8409288e182637dc54, type: 3}
+    volume: 0.15
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: Smite
+    clip: {fileID: 8300000, guid: 99d3fbdef96c79b4eaa8b6dfae61f2aa, type: 3}
+    volume: 0
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  playlist:
+  - name: DungeonMusic
+    clip: {fileID: 8300000, guid: 9c313c6758be2aa4284fe411e8693f12, type: 3}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: SafeRoom
+    clip: {fileID: 8300000, guid: 6c96e59850218c84b9ea96388300324d, type: 3}
+    volume: 0.5
+    pitch: 1.02
+    source: {fileID: 0}
+    loop: 1
+  - name: BossMusic
+    clip: {fileID: 8300000, guid: 03bed0484638ea44a9e2f804ea3e80ba, type: 3}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  - name: GameOver
+    clip: {fileID: 8300000, guid: 9f256ac0a59c8394b9412a827e1c692d, type: 3}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
 --- !u!1001 &1122760987
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -370,6 +488,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4816152497077162484, guid: 4278b658950a1194d85a7b00a6d114c3,
+        type: 3}
+      propertyPath: _strength
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816152497077162484, guid: 4278b658950a1194d85a7b00a6d114c3,
+        type: 3}
+      propertyPath: _vitality
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5982202911869868820, guid: 4278b658950a1194d85a7b00a6d114c3,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -394,16 +522,6 @@ PrefabInstance:
         type: 3}
       propertyPath: vitality
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4816152497077162484, guid: 4278b658950a1194d85a7b00a6d114c3,
-        type: 3}
-      propertyPath: _strength
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4816152497077162484, guid: 4278b658950a1194d85a7b00a6d114c3,
-        type: 3}
-      propertyPath: _vitality
-      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4278b658950a1194d85a7b00a6d114c3, type: 3}
@@ -480,16 +598,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7592279140002878779, guid: 631e9fa1faf20964c8fa8cddd04dd4e8,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7592279140002878779, guid: 631e9fa1faf20964c8fa8cddd04dd4e8,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8686974539022753755, guid: 631e9fa1faf20964c8fa8cddd04dd4e8,
         type: 3}
       propertyPath: _strength
@@ -499,6 +607,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _vitality
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592279140002878779, guid: 631e9fa1faf20964c8fa8cddd04dd4e8,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592279140002878779, guid: 631e9fa1faf20964c8fa8cddd04dd4e8,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 631e9fa1faf20964c8fa8cddd04dd4e8, type: 3}
