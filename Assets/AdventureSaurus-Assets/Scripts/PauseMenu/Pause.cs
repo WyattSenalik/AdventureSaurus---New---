@@ -80,9 +80,9 @@ public class Pause : MonoBehaviour
             if (OnPauseGame != null)
             {
                 OnPauseGame();
-                AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-                test.StopMusic(0);
-                test.PlayMusic(1);
+                AudioManager pauseM = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+                pauseM.StopMusic(pauseM._levelMusic);
+                pauseM.PlayMusic(1);
             }
         }
         else
@@ -93,9 +93,9 @@ public class Pause : MonoBehaviour
             if (OnUnpauseGame != null)
             {
                 OnUnpauseGame();
-                AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-                test.StopMusic(1);
-                test.PlayMusic(0);
+                AudioManager pauseM = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+                pauseM.StopMusic(1);
+                pauseM.PlayMusic(pauseM._levelMusic);
             }
         }
         // Turn on/off game-state ui elements

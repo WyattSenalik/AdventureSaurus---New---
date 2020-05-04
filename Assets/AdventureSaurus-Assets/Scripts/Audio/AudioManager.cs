@@ -2,14 +2,14 @@
 using UnityEngine;
 using System;
 using UnityEngine.Audio;
- 
+using UnityEngine.SceneManagement; 
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;      // store all our sounds
     public Sound[] playlist;    // store all our music
 
     private int currentPlayingIndex = 999; // set high to signify no song playing
-
+    public int _levelMusic;
     // a play music flag so we can stop playing music during cutscenes etc
     private bool shouldPlayMusic = false;
 
@@ -21,9 +21,10 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         //start the music
-        PlayMusic(0);
+        CurrentSong();
+        PlayMusic(_levelMusic);
     }
-
+    
 
     private void Awake()
     {
@@ -110,6 +111,8 @@ public class AudioManager : MonoBehaviour
             }
             playlist[currentPlayingIndex].source.Play(); // play that funky music
         }
+        //checks scene for current level music
+        CurrentSong();
     }
 
     // get the song name
@@ -137,5 +140,47 @@ public class AudioManager : MonoBehaviour
             s.source.volume = s.volume * evol;
         }
         sounds[0].source.Play(); // play an effect so user can her effect volume
+    }
+
+    public void CurrentSong()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
+            if (sceneName == "CampaignStart" && _levelMusic != 0)
+            {
+            StopMusic(_levelMusic);
+            PlayMusic(0);
+            _levelMusic = 0;
+        }
+            else if (sceneName == "InfiniteStart" && _levelMusic != 0)
+            {
+            StopMusic(_levelMusic);
+            PlayMusic(0);
+            _levelMusic = 0;
+        }
+            else if (sceneName == "GameOver"&&_levelMusic != 3)
+            {
+            StopMusic(_levelMusic);
+            PlayMusic(3);
+            _levelMusic = 3;
+            }
+            else if (sceneName == "WinScreen" && _levelMusic != 4)
+            {
+            StopMusic(_levelMusic);
+            PlayMusic(4);
+            _levelMusic = 4;
+        }
+            else if (sceneName == "KiranFight" && _levelMusic != 2)
+            {
+            StopMusic(_levelMusic);
+            PlayMusic(2);
+            _levelMusic = 2;
+        }
+            else if (sceneName == "ReloadScene" && _levelMusic != 0)
+            {
+                StopMusic(_levelMusic);
+                PlayMusic(0);
+                _levelMusic = 0;
+            }
     }
 }

@@ -423,6 +423,13 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 1
+  - name: TitleSceen
+    clip: {fileID: 8300000, guid: cc6632bed19fc664a8109c6507772b0f, type: 3}
+    volume: 0.41
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+  _levelMusic: 0
 --- !u!1001 &1122760987
 PrefabInstance:
   m_ObjectHideFlags: 0
