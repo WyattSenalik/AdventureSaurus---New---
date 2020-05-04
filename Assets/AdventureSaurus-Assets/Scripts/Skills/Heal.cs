@@ -43,6 +43,9 @@ public class Heal : Skill
 
                     // Start the skill's animation
                     StartSkillAnimation(healNodePos);
+                    //sound effect
+                    AudioManager heal = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+                    heal.PlaySound("Heal");
                 }
                 else
                     Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");
@@ -70,9 +73,7 @@ public class Heal : Skill
             if (_enemiesHP != null && _enemiesHP.Count > 0 && _enemiesHP[0] != null)
             {
                 // Heal the character and get rid of our reference to the enemyHP
-                //sound effect
-                AudioManager heal = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-                heal.PlaySound("Heal");
+
                 _enemiesHP[0].Heal(_damage);
             }
             else

@@ -77,6 +77,8 @@ public class Smite : Skill
         if (_enemiesHP != null)
         {
             // Deal the damage to each enemy
+            //sound effect
+
             for (int i = 0; i < _enemiesHP.Count; i++)
             {
                 if (_enemiesHP[i] != null)

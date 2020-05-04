@@ -215,6 +215,8 @@ public class AllyStats : Stats
             // Test if the character has enough exp to level up and isn't already currently leveling up
             if (!_isLevelingUp && _experience >= _nextLevelThreshold)
             {
+                AudioManager levelUp = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+                levelUp.PlaySound("LevelUp");
                 // Start leveling the character up
                 _isLevelingUp = true;
                 ++_level; // Increment level

@@ -53,6 +53,7 @@ public class EnemyHealth : Health
     protected override void Ascend()
     {
         // Give xp to the killer
+        
         EnemyStats myStats = this.GetComponent<EnemyStats>();
         _myKiller.GainExperience(myStats.KillReward());
 
