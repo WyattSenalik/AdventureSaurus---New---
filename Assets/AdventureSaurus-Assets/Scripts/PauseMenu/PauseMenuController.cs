@@ -190,18 +190,6 @@ public class PauseMenuController : MonoBehaviour
         // Set the character parent
         _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
 
-        // We make the list here so that other scripts can access it in Start
-        _alliesStats = new List<AllyStats>();
-        // Get the allies Stats (assumes there are three)
-        foreach (Transform allyTrans in _allyParent)
-        {
-            AllyStats allyStatsRef = allyTrans.GetComponent<AllyStats>();
-            if (allyStatsRef != null)
-                _alliesStats.Add(allyStatsRef);
-            else
-                Debug.LogError("No AllyStats attached to " + _allyParent);
-        }
-
         // Set the character side picture for each ally
         // Also give the character's health script the side slider
         SetSideInfo();
@@ -361,23 +349,34 @@ public class PauseMenuController : MonoBehaviour
     /// </summary>
     private void SetSideInfo()
     {
-        // Dying enemies are removed from the ally parent, so we will test if this is their parent when determining if they are dead
-        GameObject allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME);
+        // We make the list here so that other scripts can access it in Start
+        _alliesStats = new List<AllyStats>();
+        // Get the allies Stats (assumes there are three)
+        foreach (Transform allyTrans in _allyParent)
+        {
+            AllyStats allyStatsRef = allyTrans.GetComponent<AllyStats>();
+            if (allyStatsRef != null)
+                _alliesStats.Add(allyStatsRef);
+            else
+                Debug.LogError("No AllyStats attached to " + _allyParent);
+        }
 
         // Set the character side picture for each ally
         // Also give the character's health script the side slider
         for (int i = 0; i < _sidePortraits.Length; ++i)
         {
             // If there is an ally at this point in the list
-            if (i < _alliesStats.Count && _alliesStats[i] != null && _alliesStats[i].transform.parent == allyParent.transform)
+            if (i < _alliesStats.Count && _alliesStats[i] != null && _alliesStats[i].transform.parent == _allyParent.transform)
             {
                 // Change the side picture
                 _sidePortraits[i].sprite = _alliesStats[i].GetSideSprite();
                 // Set the side health bar
                 AllyHealth hpScriptRef = _alliesStats[i].GetComponent<AllyHealth>();
                 hpScriptRef.SideSlider = _sideHPBars[i];
+                _sideHPBars[i].value = (float)hpScriptRef.CurHP / hpScriptRef.MaxHP;
                 // Set the side exp bar
                 _alliesStats[i].ExpSlider = _sideExpBars[i];
+                _sideExpBars[i].value = (float)_alliesStats[i].GetOneLevelExperience() / _alliesStats[i].GetOneLevelNextLevelThreshold();
                 _alliesStats[i].UpdateExpSlider();
             }
             // If there is not ally at this point, they dead

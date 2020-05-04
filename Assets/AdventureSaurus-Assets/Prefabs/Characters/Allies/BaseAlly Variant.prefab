@@ -40,7 +40,7 @@ MonoBehaviour:
   _strength: 0
   _magic: 0
   _speed: 0
-  _vitality: 0
+  _vitality: 1
   _statsDisplay: {fileID: 6744302856601422850}
   _nameText: {fileID: 6744302856215320815}
   _attackText: {fileID: 6744302858032752162}
@@ -49,7 +49,7 @@ MonoBehaviour:
   _speedText: {fileID: 6744302857169017421}
   _charPortrait: {fileID: 0}
   _sideSpr: {fileID: 0}
-  _levelUpButton: {fileID: 0}
+  _teamMenuSpr: {fileID: 0}
 --- !u!114 &7403486460727856957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,8 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e598aae522701b4f9f419722a71c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skillToGain: 3
   _grimoirePages: 0300000000000000
+  _skillToGain: 3
 --- !u!114 &9023985725185723736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,6 +78,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthBarSlider: {fileID: 3133533273437308102}
   _healthText: {fileID: 3042597262080696367}
+  _healthBarSpeed: 1
+  _damageRed: {r: 0.6, g: 0, b: 0, a: 1}
+  _redPulseSpeed: 1
 --- !u!1001 &6964332898006183718
 PrefabInstance:
   m_ObjectHideFlags: 0
