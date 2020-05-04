@@ -85,6 +85,19 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    //stop sound
+    public void StopSound(string name)
+    {
+        // here we get the Sound from our array with the name passed in the methods parameters
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogError("Unable to play sound " + name);
+            return;
+        }
+        s.source.Pause(); // play the sound
+    }
+
     void Update()
     {
         // if we are playing a track from the playlist && it has stopped playing

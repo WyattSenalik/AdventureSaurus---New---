@@ -657,6 +657,8 @@ public class MoveAttack : MonoBehaviour
 
             // Call the event to begin moving
             OnCharacterBeginMoving?.Invoke();
+            AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+            test.PlaySound("Walk");
         }
         else
         {
@@ -691,6 +693,10 @@ public class MoveAttack : MonoBehaviour
     /// </summary>
     private void EndMove()
     {
+        //play walking sound
+        AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        test.StopSound("Walk");
+
         //Debug.Log("Finished Moving");
         // Set the node I am ending on to occupied with my type
         _currentNode.Occupying = _whatAmI;
