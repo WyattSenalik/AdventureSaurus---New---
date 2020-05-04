@@ -186,7 +186,6 @@ public abstract class PersistantController : MonoBehaviour
         // Grab the difficulty of the last room of the last floor and base the difficulty for the next floor off it
         // Calculate the next floor's difficulty
         _nextFloorDiff = genContScript.GetMostDifficultRoom();
-        Debug.Log("Next floor diff: " + _nextFloorDiff);
 
         // Update what floor this is
         ++_nextFloorNum;

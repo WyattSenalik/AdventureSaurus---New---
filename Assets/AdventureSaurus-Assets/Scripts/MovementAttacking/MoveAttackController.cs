@@ -106,6 +106,7 @@ public class MoveAttackController : MonoBehaviour
     {
         _allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
         _enemyParent = GameObject.Find(ProceduralGenerationController.ENEMY_PARENT_NAME).transform;
+        Debug.Log("EnemyParent: " + _enemyParent);
         _wallParent = GameObject.Find(ProceduralGenerationController.WALL_PARENT_NAME).transform;
         Transform roomParent = GameObject.Find(ProceduralGenerationController.ROOM_PARENT_NAME).transform;
         _interactParent = GameObject.Find(ProceduralGenerationController.INTERACT_PARENT_NAME).transform;
@@ -637,9 +638,17 @@ public class MoveAttackController : MonoBehaviour
                 return allyTrans.GetComponent<MoveAttack>();
             }
         }
-        // Enemies
-        foreach (Transform enemyTrans in _enemyParent)
+        if (_enemyParent == null)
         {
+            //Debug.LogError("EnemyParent does not exist");
+            _enemyParent = GameObject.Find(ProceduralGenerationController.ENEMY_PARENT_NAME).transform;
+        }
+        // Enemies
+        for (int i = 0; i < _enemyParent.childCount; ++i)
+        {
+            Transform enemyTrans = _enemyParent.GetChild(i);
+            if (enemyTrans == null)
+                Debug.LogError("Enemy transform does not exist");
             // Convert the character's position to grid point
             Vector2Int charGridPos = new Vector2Int(Mathf.RoundToInt(enemyTrans.position.x), Mathf.RoundToInt(enemyTrans.position.y));
             // If the character's position on the grid is the same as the testNode's position
