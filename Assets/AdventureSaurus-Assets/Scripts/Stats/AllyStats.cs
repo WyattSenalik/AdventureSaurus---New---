@@ -89,6 +89,8 @@ public class AllyStats : Stats
     // References to itself
     // Reference to the Grimoire script attached to this character
     private AllyGrimoire _grimRef;
+    // Reference to the Baisc attack skill attached tot his character
+    private BasicAttack _basicAttackRef;
 
     // Reference to the MoveAttackController. Used when updating speed
     private MoveAttackController _mAContRef;
@@ -131,6 +133,14 @@ public class AllyStats : Stats
         {
             if (this.name != "DeadAllyStats")
                 Debug.Log("Could not find Grimoire attached to " + this.name);
+        }
+        try
+        {
+            _basicAttackRef = this.GetComponent<BasicAttack>();
+        }
+        catch
+        {
+            Debug.LogError("No Basic attack attached to " + this.name);
         }
     }
 
@@ -470,6 +480,17 @@ public class AllyStats : Stats
             DecreaseStrength(-amountToChange);//Change amount to its opposite(which should be positive) for decrease function
 
         //Amount value 0 does nothing
+
+        // Update basic attack's damage as well
+        try
+        {
+            for (int i = 0; i < amountToChange; ++i)
+                _basicAttackRef.UpgradeDamage();
+        }
+        catch
+        {
+            Debug.LogError("Could not update basic attack's damage for " + this.name);
+        }
     }
 
     /// <summary>
