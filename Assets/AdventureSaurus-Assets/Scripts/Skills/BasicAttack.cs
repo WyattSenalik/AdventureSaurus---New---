@@ -4,6 +4,26 @@ using UnityEngine;
 
 public class BasicAttack : Skill
 {
+    // Called when the component is set active
+    // Subscribe to events
+    private void OnEnable()
+    {
+        // When generation is done, initialize
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
+    }
+    // Called when the component is toggled off
+    // Unsubscribe from events
+    private void OnDisable()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+    }
+    // Called when the component is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+    }
+
     // Called before Start. Sets references.
     private new void Awake()
     {
@@ -15,6 +35,15 @@ public class BasicAttack : Skill
         // Set the attack range of the character, since if basic attack is on a character,
         // it will be the first one equipped
         _maRef.AttackRange = _range;
+    }
+
+    /// <summary>
+    /// Initialize some things after generation
+    /// </summary>
+    private void Initialize()
+    {
+        // Get the damage
+        _damage = _statsRef.GetStrength();
     }
 
     /// <summary>

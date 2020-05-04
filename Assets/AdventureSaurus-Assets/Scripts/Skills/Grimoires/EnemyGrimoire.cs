@@ -6,6 +6,26 @@ public class EnemyGrimoire : Grimoire
     private EnemySkillController _enemySkillContRef;
 
 
+    // Called when the component is set active
+    // Subscribe to events
+    private void OnEnable()
+    {
+        // When generation is done, initialize
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
+    }
+    // Called when the component is toggled off
+    // Unsubscribe from events
+    private void OnDisable()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+    }
+    // Called when the component is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+    }
+
     // Called before start
     // Set references to itself
     protected override void Awake()
@@ -17,8 +37,8 @@ public class EnemyGrimoire : Grimoire
             Debug.Log("There was no AllySkillController attached to " + this.name);
     }
 
-    // Called before the first frame update
-    private void Start()
+    // Initialize some things after generation
+    private void Initialize()
     {
         // See if we should increase magic
         MagicIncrease();
