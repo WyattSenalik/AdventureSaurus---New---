@@ -1,10 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GenerateEnemies : MonoBehaviour
 {
-    private const float _speedScalar = 0.2f;
+    private const float _strengthPerDiff = 1f/3f;
+    private const float _magicPerDiff = 1f/3f;
+    private const float _vitalityPerDiff = 2f/3f;
+    private const float _speedPerDiff = 1f/4f;
 
     // List of potential enemies to spawn. Sorted by difficulty
     [SerializeField] private GameObject[] _enemyPrefabs = null;
@@ -183,10 +185,10 @@ public class GenerateEnemies : MonoBehaviour
                     EnemyStats enemyStats = spawnedEnemyObj.GetComponent<EnemyStats>();
 
                     // Get the amounts to buff the enemy by
-                    int strBuff = Mathf.RoundToInt((float) enemyStats.GetStrength() / enemyStats.GetDifficulty() * extraDiff);
-                    int mgcBuff = Mathf.RoundToInt((float) enemyStats.GetMagic() / enemyStats.GetDifficulty() * extraDiff);
-                    int spdBuff = Mathf.RoundToInt((float) enemyStats.GetSpeed() / enemyStats.GetDifficulty() * extraDiff * _speedScalar);
-                    int hpBuff = Mathf.RoundToInt((float) enemyStats.GetVitality() / enemyStats.GetDifficulty() * extraDiff);
+                    int strBuff = Mathf.RoundToInt(_strengthPerDiff * extraDiff);
+                    int mgcBuff = Mathf.RoundToInt(_magicPerDiff * extraDiff);
+                    int spdBuff = Mathf.RoundToInt(_speedPerDiff * extraDiff);
+                    int hpBuff = Mathf.RoundToInt(_vitalityPerDiff * extraDiff);
                     // Increase the stats
                     enemyStats.BuffEnemy(strBuff, mgcBuff, spdBuff, hpBuff);
 

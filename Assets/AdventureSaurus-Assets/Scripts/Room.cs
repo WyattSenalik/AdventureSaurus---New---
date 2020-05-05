@@ -307,7 +307,7 @@ public class Room : MonoBehaviour
                 CalmRoom(mARef);
         }
         // If it was an enemy and the room is active
-        else if (mARef.WhatAmI == CharacterType.Enemy && _isRoomActive)
+        else if (mARef.WhatAmI == CharacterType.Enemy && mARef.gameObject.activeInHierarchy)
         {
             _enemiesInRoom.Remove(mARef);
             // If it was the last enemy

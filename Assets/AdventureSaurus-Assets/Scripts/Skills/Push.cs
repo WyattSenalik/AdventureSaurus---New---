@@ -21,6 +21,15 @@ public class Push : Skill
     }
 
     /// <summary>
+    /// Initializes some things for children
+    /// Set damage so that it looks correct upon investigating the skill
+    /// </summary>
+    protected override void Initialize()
+    {
+        _damage = _statsRef.GetStrength();
+    }
+
+    /// <summary>
     /// Starts the skills animation and gets a reference to the enemy that will be hit.
     /// </summary>
     /// <param name="attackNodesPos">The position of the node that will be attacked</param>

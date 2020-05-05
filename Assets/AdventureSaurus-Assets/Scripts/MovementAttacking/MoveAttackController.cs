@@ -405,7 +405,7 @@ public class MoveAttackController : MonoBehaviour
     /// <summary>
     /// Turns on the range visuals for movement and attack for this character
     /// </summary>
-    /// <param name="shouldTurnOn">Is true, turn on the visuals. If false, turn them off</param>
+    /// <param name="mARef">Character to turn on the visual tiles for</param>
     public void SetActiveVisuals(MoveAttack mARef)
     {
         //// New algorithm attemp

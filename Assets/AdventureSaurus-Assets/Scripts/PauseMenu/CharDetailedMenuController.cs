@@ -74,6 +74,11 @@ public class CharDetailedMenuController : MonoBehaviour
     // Reference to the SkillPreviewController
     private SkillPreviewController _skillPrevContRef;
 
+    // Events
+    // When stats are confirmed
+    public delegate void StatConfirm();
+    public static event StatConfirm OnStatConfirm;
+
 
     // Called when the gameobject is toggled active
     // Subscribe to events
@@ -462,7 +467,7 @@ public class CharDetailedMenuController : MonoBehaviour
         }
         else
         {
-            _speedNums.text = _speedNums.text[0] + " MAX";
+            _speedNums.text = "MAX";
         }
     }
     /// <summary>
@@ -660,6 +665,9 @@ public class CharDetailedMenuController : MonoBehaviour
 
         // Reset all the variables
         ResetStatChoices();
+
+        // Call the event for stats confirm
+        OnStatConfirm?.Invoke();
     }
 
     /// <summary>

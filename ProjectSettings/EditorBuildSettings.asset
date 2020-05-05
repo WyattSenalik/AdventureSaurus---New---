@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/AdventureSaurus-Assets/Scenes/Title Screen.unity
     guid: 75425501fecb9984fb744dfdc65a15c3
-  - enabled: 1
+  - enabled: 0
     path: Assets/AdventureSaurus-Assets/Scenes/WyattScene.unity
     guid: 864ea7ef5ca3cf94eb85915a8c7d8b33
-  - enabled: 1
+  - enabled: 0
     path: Assets/AdventureSaurus-Assets/Scenes/NewMelbyScene.unity
     guid: 6d1a5da0609e5c445b2eab0f32f1f02d
   - enabled: 1

@@ -56,6 +56,8 @@ public class MoveAttackGUIController : MonoBehaviour
         TurnSystem.OnFinishPlayerTurn += Deselect;
         // When the enemy's turn begins, deny the user from selecting
         TurnSystem.OnBeginEnemyTurn += DenySelect;
+        // When we confirm stat changes, try to reselect the character (if we have one selected)
+        CharDetailedMenuController.OnStatConfirm += ReselectCurrentCharacter;
         
         // When the game is paused, disable this script
         Pause.OnPauseGame += HideScript;
@@ -70,6 +72,7 @@ public class MoveAttackGUIController : MonoBehaviour
         TurnSystem.OnBeginPlayerTurn -= AllowSelect;
         TurnSystem.OnFinishPlayerTurn -= Deselect;
         TurnSystem.OnBeginEnemyTurn -= DenySelect;
+        CharDetailedMenuController.OnStatConfirm -= ReselectCurrentCharacter;
 
         // Unsubscribe to the pause event (since if this is inactive, the game is paused)
         Pause.OnPauseGame -= HideScript;
@@ -84,6 +87,7 @@ public class MoveAttackGUIController : MonoBehaviour
         TurnSystem.OnBeginPlayerTurn -= AllowSelect;
         TurnSystem.OnBeginEnemyTurn -= DenySelect;
         TurnSystem.OnFinishPlayerTurn -= Deselect;
+        CharDetailedMenuController.OnStatConfirm -= ReselectCurrentCharacter;
         Pause.OnPauseGame -= HideScript;
         Pause.OnUnpauseGame -= ShowScript;
         MoveAttack.OnCharacterFinishedMoving -= ReturnControlAfterMove;
@@ -717,5 +721,17 @@ public class MoveAttackGUIController : MonoBehaviour
         Deselect();
         // Reselect the character (they have been unselected because of button click)
         AttemptSelect(_mAContRef.GetNodeByWorldPosition(_recentCharSel.transform.position));
+    }
+
+    /// <summary>
+    /// Reselects the currently selected character if there is one
+    /// </summary>
+    private void ReselectCurrentCharacter()
+    {
+        if (_charSelected != null)
+        {
+            Deselect();
+            AttemptSelect(_mAContRef.GetNodeByWorldPosition(_charSelected.transform.position));
+        }
     }
 }

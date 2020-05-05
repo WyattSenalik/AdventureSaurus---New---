@@ -186,11 +186,11 @@ public class AudioManager : MonoBehaviour
                 PlayMusic(0);
                 LevelMusic = 0;
             }
-        else if (sceneName == "NextFloor" && _levelMusic != 0)
+        else if (sceneName == "NextFloor" && LevelMusic != 0)
         {
-            StopMusic(_levelMusic);
+            StopMusic(LevelMusic);
             PlayMusic(0);
-            _levelMusic = 0;
+            LevelMusic = 0;
         }
     }
 }

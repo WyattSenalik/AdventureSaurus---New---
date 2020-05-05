@@ -19,7 +19,7 @@ public class Campfire : Interactable
 
     //delays campfire sound turnoff
     private float _currentTime;
-    private const float _waitTimer = 7;
+    private const float _waitTimer = 5f;
 
     // Called on the first frame update
     private void Start()
@@ -113,15 +113,13 @@ public class Campfire : Interactable
     {
         _currentTime = 0;
 
-        if (_currentTime >= _waitTimer)
-        {
-            //AudioManager.StopSound("Fire");
-        }
-        else
+        while (_currentTime < _waitTimer)
         {
             _currentTime += Time.deltaTime;
             yield return null;
         }
+
+         _audManRef.StopSound("Fire");
 
         yield return null;
     }

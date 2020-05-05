@@ -13,17 +13,9 @@ public class HealthPotion : MonoBehaviour
     Vector3 _defaultPos;
 
     //current charges on the potion
-    private int _charges;
-    public int Charges
-    {
-        get { return _charges; }
-        set { _charges = value; }
-    }
     private bool _isHolding;
 
     //Perstant stuff
-    //charges held in persist charges
-    public PersistCharges _chargesHeld;
     //bool destroy
     public bool _update;
 
@@ -67,8 +59,7 @@ public class HealthPotion : MonoBehaviour
     {
         Transform allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
 
-        _chargesHeld = GameObject.FindGameObjectWithTag("PersistantController").GetComponent<PersistCharges>();
-        _charges = _chargesHeld._potCharges;
+        PersistCharges.PotCharges = 3;
         _update = false;
 
         // Get the audio manager
@@ -93,7 +84,7 @@ public class HealthPotion : MonoBehaviour
     private void LateUpdate()
     {
         //updates the charges whenever it is changed
-        _chargesText.text = _charges.ToString();
+        _chargesText.text = PersistCharges.PotCharges.ToString();
 
         //updates potion image to follow mouse
         if(_isHolding==true)
@@ -114,7 +105,7 @@ public class HealthPotion : MonoBehaviour
     public void HoldingPotion()
     {
         //if you aren't holding the potion you will pick it up
-        if (_isHolding == false && _charges!=0)
+        if (_isHolding == false && PersistCharges.PotCharges != 0)
         {
             _isHolding = true;
         }
@@ -131,7 +122,7 @@ public class HealthPotion : MonoBehaviour
         if (charMA.WhatAmI == CharacterType.Ally &&_isHolding==true)
         {
             // reduces the charges
-            _charges--;
+            PersistCharges.PotCharges--;
 
             _allyToHeal = charMA.GetComponent<AllyHealth>();
             if (_allyToHeal == null)
@@ -154,7 +145,7 @@ public class HealthPotion : MonoBehaviour
     //refills potion back to three
     public void RefillPotion()
     {
-        _charges = 3;
+        PersistCharges.PotCharges = 3;
         _update = true;
         Debug.Log("Potions have been refilled");
     }
