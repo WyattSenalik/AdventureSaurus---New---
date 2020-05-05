@@ -59,7 +59,6 @@ public class HealthPotion : MonoBehaviour
     {
         Transform allyParent = GameObject.Find(ProceduralGenerationController.ALLY_PARENT_NAME).transform;
 
-        PersistCharges.PotCharges = 3;
         _update = false;
 
         // Get the audio manager

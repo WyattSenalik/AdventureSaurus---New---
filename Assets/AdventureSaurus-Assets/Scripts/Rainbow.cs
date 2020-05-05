@@ -70,6 +70,7 @@ public class Rainbow : MonoBehaviour
 
             _hasSpawned = true;
         }
+        StopAllCoroutines();
         // Start the rainbow effect
         StartCoroutine(StarPowerUpdate());
     }
