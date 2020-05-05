@@ -142,6 +142,8 @@ public class AudioManager : MonoBehaviour
         sounds[0].source.Play(); // play an effect so user can her effect volume
     }
 
+    // this is kind of bad but i don't think I have enough time or know how to fix it right now
+    //gets current song needed for the scene and pauses other music to play it
     public void CurrentSong()
     {
         Scene currentScene = SceneManager.GetActiveScene();
@@ -182,5 +184,11 @@ public class AudioManager : MonoBehaviour
                 PlayMusic(0);
                 _levelMusic = 0;
             }
+        else if (sceneName == "NextFloor" && _levelMusic != 0)
+        {
+            StopMusic(_levelMusic);
+            PlayMusic(0);
+            _levelMusic = 0;
+        }
     }
 }
