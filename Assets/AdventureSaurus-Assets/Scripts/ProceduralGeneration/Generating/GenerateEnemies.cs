@@ -10,8 +10,6 @@ public class GenerateEnemies : MonoBehaviour
     [SerializeField] private GameObject[] _enemyPrefabs = null;
     // For reducing the hallway's difficulty
     [SerializeField] private float _hallwayScalar = 0.5f;
-    // For increasing the end room's difficulty
-    [SerializeField] private float _endScalar = 1.2f;
     // Chance for a buffed enemy to be a rainbow enemy
     [SerializeField] private int _rainbowChance = 10;
 
@@ -62,7 +60,7 @@ public class GenerateEnemies : MonoBehaviour
             // If its a hallway
             else if (curRoomScript.MyRoomType == RoomType.HALLWAY)
             {
-                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + curRoomScript.RoomWeight + 1) / 2);
+                curRoomScript.RoomDifficulty = Mathf.RoundToInt((floorBaseDiff + curRoomScript.RoomWeight + 1) * _hallwayScalar);
             }
             // If its the end
             else if (curRoomScript.MyRoomType == RoomType.END)

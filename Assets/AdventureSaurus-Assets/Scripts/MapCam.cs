@@ -6,7 +6,8 @@ public class MapCam : MonoBehaviour
 {
     //Camera Variables
     [SerializeField] private float _dragSpeed = 3f;
-
+    // Objects that will be turned on to see the map
+    // and are turned off when we don't need to see the map
     [SerializeField] private GameObject _mapCamObjs = null;
 
     // Reference to the map camera
