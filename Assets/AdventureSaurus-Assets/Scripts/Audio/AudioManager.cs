@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
     public Sound[] playlist;    // store all our music
 
     private int currentPlayingIndex = 999; // set high to signify no song playing
-    public int _levelMusic;
+    public int LevelMusic;
     // a play music flag so we can stop playing music during cutscenes etc
     private bool shouldPlayMusic = false;
 
@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
     {
         //start the music
         CurrentSong();
-        PlayMusic(_levelMusic);
+        PlayMusic(LevelMusic);
     }
     
 
@@ -101,6 +101,7 @@ public class AudioManager : MonoBehaviour
 
     void Update()
     {
+        /*
         // if we are playing a track from the playlist && it has stopped playing
         if (currentPlayingIndex != 999 && !playlist[currentPlayingIndex].source.isPlaying)
         {
@@ -113,6 +114,7 @@ public class AudioManager : MonoBehaviour
         }
         //checks scene for current level music
         CurrentSong();
+        */
     }
 
     // get the song name
@@ -148,41 +150,41 @@ public class AudioManager : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
-            if (sceneName == "CampaignStart" && _levelMusic != 0)
+            if (sceneName == "CampaignStart" && LevelMusic != 0)
             {
-            StopMusic(_levelMusic);
+            StopMusic(LevelMusic);
             PlayMusic(0);
-            _levelMusic = 0;
+            LevelMusic = 0;
         }
-            else if (sceneName == "InfiniteStart" && _levelMusic != 0)
+            else if (sceneName == "InfiniteStart" && LevelMusic != 0)
             {
-            StopMusic(_levelMusic);
+            StopMusic(LevelMusic);
             PlayMusic(0);
-            _levelMusic = 0;
+            LevelMusic = 0;
         }
-            else if (sceneName == "GameOver"&&_levelMusic != 3)
+            else if (sceneName == "GameOver"&&LevelMusic != 3)
             {
-            StopMusic(_levelMusic);
+            StopMusic(LevelMusic);
             PlayMusic(3);
-            _levelMusic = 3;
+            LevelMusic = 3;
             }
-            else if (sceneName == "WinScreen" && _levelMusic != 4)
+            else if (sceneName == "WinScreen" && LevelMusic != 4)
             {
-            StopMusic(_levelMusic);
+            StopMusic(LevelMusic);
             PlayMusic(4);
-            _levelMusic = 4;
+            LevelMusic = 4;
         }
-            else if (sceneName == "KiranFight" && _levelMusic != 2)
+            else if (sceneName == "KiranFight" && LevelMusic != 2)
             {
-            StopMusic(_levelMusic);
+            StopMusic(LevelMusic);
             PlayMusic(2);
-            _levelMusic = 2;
+            LevelMusic = 2;
         }
-            else if (sceneName == "ReloadScene" && _levelMusic != 0)
+            else if (sceneName == "ReloadScene" && LevelMusic != 0)
             {
-                StopMusic(_levelMusic);
+                StopMusic(LevelMusic);
                 PlayMusic(0);
-                _levelMusic = 0;
+                LevelMusic = 0;
             }
         else if (sceneName == "NextFloor" && _levelMusic != 0)
         {

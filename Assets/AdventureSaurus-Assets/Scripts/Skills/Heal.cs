@@ -44,8 +44,7 @@ public class Heal : Skill
                     // Start the skill's animation
                     StartSkillAnimation(healNodePos);
                     //sound effect
-                    AudioManager heal = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-                    heal.PlaySound("Heal");
+                    _audManRef.PlaySound("Heal");
                 }
                 else
                     Debug.Log("Enemy to attack does not have a MoveAttack script attached to it");

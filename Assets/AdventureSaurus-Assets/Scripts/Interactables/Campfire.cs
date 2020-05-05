@@ -15,8 +15,11 @@ public class Campfire : Interactable
     // Reference to the tilemap. Will also be set in procedural generation
     private Tilemap _tilemapRef;
 
+    private AudioManager _audManRef;
+
     //delays campfire sound turnoff
-    float currentTime;
+    private float _currentTime;
+    private const float _waitTimer = 7;
 
     // Called on the first frame update
     private void Start()
@@ -34,14 +37,16 @@ public class Campfire : Interactable
 
         _tilemapRef = GameObject.FindWithTag("Tilemap").GetComponent<Tilemap>();
 
-    }
-    private void Update()
-    {
-        if(currentTime+15.0<=(Time.time))
+        // Get the audio manager
+        try
         {
-            AudioManager fire = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-            fire.StopSound("Fire");
+            _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
         }
+        catch
+        {
+            Debug.Log("Could not get AudioManager");
+        }
+
     }
     /// <summary>
     /// Starts the interaction with the campfire.
@@ -76,9 +81,8 @@ public class Campfire : Interactable
                     healthRef.Heal(healthRef.MaxHP / 2);
             }
 
-            AudioManager fire = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-            fire.PlaySound("Fire");
-            currentTime = Time.time;
+            _audManRef.PlaySound("Fire");
+            StartCoroutine(StopCampfireSound());
             //Refills Potion
             GameObject refill = GameObject.FindGameObjectWithTag("PotionHolder");
             refill.GetComponent<HealthPotion>().RefillPotion();
@@ -99,5 +103,26 @@ public class Campfire : Interactable
 
         // Call the base last, since it calls the event.
         base.StartInteract();
+    }
+
+    /// <summary>
+    /// Stops the campfire sounds after waittimer amount of seconds
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator StopCampfireSound()
+    {
+        _currentTime = 0;
+
+        if (_currentTime >= _waitTimer)
+        {
+            //AudioManager.StopSound("Fire");
+        }
+        else
+        {
+            _currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return null;
     }
 }

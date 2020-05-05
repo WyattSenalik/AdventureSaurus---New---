@@ -14,8 +14,6 @@ public abstract class PersistantController : MonoBehaviour
     // List of allies, we will want to make these persistant throughout scenes
     private List<GameObject> _allies;
 
-    // The amount to increase difficulty each floor
-    [SerializeField] private int _difficultyInc = 2;
     // The difficulty of the next floor
     private int _nextFloorDiff;
     public int GetNextFloorDifficulty() { return _nextFloorDiff; }
@@ -186,7 +184,6 @@ public abstract class PersistantController : MonoBehaviour
         // Grab the difficulty of the last room of the last floor and base the difficulty for the next floor off it
         // Calculate the next floor's difficulty
         _nextFloorDiff = genContScript.GetMostDifficultRoom();
-        Debug.Log("Next floor diff: " + _nextFloorDiff);
 
         // Update what floor this is
         ++_nextFloorNum;

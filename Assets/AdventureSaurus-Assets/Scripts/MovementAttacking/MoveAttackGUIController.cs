@@ -203,7 +203,7 @@ public class MoveAttackGUIController : MonoBehaviour
                     else if (!_charSelected.HasAttacked)
                     {
                         // Try to attack
-                        if (AttemptAttack(selectedNode))
+                        if (AttemptAttack(selectedNode, mARef))
                             // Deselect the already selected character
                             Deselect();
                         // Try to help/buff
@@ -273,13 +273,13 @@ public class MoveAttackGUIController : MonoBehaviour
         // If the current character can move there
         if (_charSelected.MoveTiles.Contains(selNode) && selNode.Occupying == CharacterType.None)
         {
-            // Start moving the ally
-            Node startNode = _mAContRef.GetNodeByWorldPosition(_charSelected.transform.position);
-            DoMove(startNode, selNode);
-
             // We want the user to be able to select after moving, so
             // when the ally finishes moving, return control
             MoveAttack.OnCharacterFinishedMoving += ReturnControlAfterMove;
+
+            // Start moving the ally
+            Node startNode = _mAContRef.GetNodeByWorldPosition(_charSelected.transform.position);
+            DoMove(startNode, selNode);
 
             return true;
         }
@@ -294,7 +294,7 @@ public class MoveAttackGUIController : MonoBehaviour
         // If the current character can heal/buff there (and wants to), and there is an ally there.
         // Then we want the current character to walk to the closest node to there and heal/buff
         else if (_charSelected.AttackTiles.Contains(selNode) && _charSelected.TargetFriendly && charAtNode != null &&
-            charAtNode.WhatAmI == CharacterType.Ally)
+            charAtNode.WhatAmI == CharacterType.Ally && charAtNode != _charSelected)
         {
             AttemptMoveAndAttack(selNode);
             return true;
@@ -318,14 +318,14 @@ public class MoveAttackGUIController : MonoBehaviour
     /// </summary>
     /// <param name="selNode">The node that was selected</param>
     /// <returns>Returns true if the attack was successful, false otherwise</returns>
-    private bool AttemptAttack(Node selNode)
+    private bool AttemptAttack(Node selNode, MoveAttack charToAttack)
     {
+        Debug.Log(charToAttack);
         // If the current character can attack there or is targetting friendlies and can heal/buff there
-        MoveAttack charToAttack = _mAContRef.GetCharacterMAByNode(selNode);
         if ((_charSelected.AttackTiles.Contains(selNode) && selNode.Occupying == CharacterType.Enemy
             && charToAttack != null && charToAttack.gameObject.activeInHierarchy) 
             ||
-            (_charSelected.TargetFriendly && selNode.Occupying == CharacterType.Ally))
+            (_charSelected.TargetFriendly && selNode.Occupying == CharacterType.Ally && charToAttack != _charSelected))
         {
             // Set the node to attack
             _nodeToAttack = selNode;
@@ -335,7 +335,6 @@ public class MoveAttackGUIController : MonoBehaviour
 
             // Have the ally attack that node
             DoAttack();
-
             return true;
         }
         return false;
@@ -414,11 +413,12 @@ public class MoveAttackGUIController : MonoBehaviour
             return;
         }
 
-        // Move the character
-        DoMove(charSelectedNode, nodeToMoveTo);
 
         // When the ally finished moving, attack
         MoveAttack.OnCharacterFinishedMoving += BeginAttackAfterMove;
+
+        // Move the character
+        DoMove(charSelectedNode, nodeToMoveTo);
     }
 
     /// <summary>
@@ -457,11 +457,12 @@ public class MoveAttackGUIController : MonoBehaviour
             return;
         }
 
-        // Move the character
-        DoMove(charSelectedNode, nodeToMoveTo);
 
         // When the ally finished moving, interact
         MoveAttack.OnCharacterFinishedMoving += BeginInteractAfterMove;
+
+        // Move the character
+        DoMove(charSelectedNode, nodeToMoveTo);
     }
 
     /// <summary>

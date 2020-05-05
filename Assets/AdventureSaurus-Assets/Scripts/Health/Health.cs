@@ -49,6 +49,8 @@ public abstract class Health : MonoBehaviour
     // A reference to the MoveAttackController script, used to recalculate movement after death
     protected MoveAttackController _mAContRef;
 
+    private AudioManager _audManRef;
+
     // Events
     // When a character dies
     public delegate void CharacterDeath();
@@ -88,6 +90,16 @@ public abstract class Health : MonoBehaviour
         _mAContRef = gameContObj.GetComponent<MoveAttackController>();
         if (_mAContRef == null)
             Debug.Log("Could not MoveAttackController attached to " + gameContObj.name);
+
+        // Get the audio manager
+        try
+        {
+            _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+        catch
+        {
+            Debug.Log("Could not get AudioManager");
+        }
     }
 
     /// <summary>
@@ -136,8 +148,7 @@ public abstract class Health : MonoBehaviour
         if (_curHP == 0)
         {
             //sound effect
-        AudioManager die = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-            die.PlaySound("Death");
+            _audManRef.PlaySound("Death");
             Die();
         }
         // Signal MoveAttack that a character's health bar is finished being updated

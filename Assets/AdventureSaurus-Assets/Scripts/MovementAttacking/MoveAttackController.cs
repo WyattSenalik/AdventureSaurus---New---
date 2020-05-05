@@ -595,10 +595,22 @@ public class MoveAttackController : MonoBehaviour
     {
         // Make sure its not out of bounds
         if (pos.x < _gridTopLeft.x || pos.x > _gridBotRight.x || pos.y < _gridBotRight.y || pos.y > _gridTopLeft.y)
+        {
+            Debug.Log("Node was invalid");
+            if (pos.x < _gridTopLeft.x)
+                Debug.Log("X lower than left: " + pos.x + " < " + _gridTopLeft.x);
+            if (pos.x > _gridBotRight.x)
+                Debug.Log("X higher than right: " + pos.x + " > " + _gridBotRight.x);
+            if (pos.y < _gridBotRight.y)
+                Debug.Log("Y lower than bot: " + pos.y + " < " + _gridBotRight.y);
+            if (pos.y > _gridTopLeft.y)
+                Debug.Log("Y higher than top: " + pos.y + " > " + _gridTopLeft.y);
             return null;
+        }
 
         int rowIndex = pos.y - _gridBotRight.y;
         int colIndex = pos.x - _gridTopLeft.x;
+
         return _grid[rowIndex][colIndex];
     }
 
@@ -637,9 +649,17 @@ public class MoveAttackController : MonoBehaviour
                 return allyTrans.GetComponent<MoveAttack>();
             }
         }
-        // Enemies
-        foreach (Transform enemyTrans in _enemyParent)
+        if (_enemyParent == null)
         {
+            //Debug.LogError("EnemyParent does not exist");
+            _enemyParent = GameObject.Find(ProceduralGenerationController.ENEMY_PARENT_NAME).transform;
+        }
+        // Enemies
+        for (int i = 0; i < _enemyParent.childCount; ++i)
+        {
+            Transform enemyTrans = _enemyParent.GetChild(i);
+            if (enemyTrans == null)
+                Debug.LogError("Enemy transform does not exist");
             // Convert the character's position to grid point
             Vector2Int charGridPos = new Vector2Int(Mathf.RoundToInt(enemyTrans.position.x), Mathf.RoundToInt(enemyTrans.position.y));
             // If the character's position on the grid is the same as the testNode's position

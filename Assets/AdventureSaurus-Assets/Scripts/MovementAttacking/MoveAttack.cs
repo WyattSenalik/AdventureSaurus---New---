@@ -126,6 +126,8 @@ public class MoveAttack : MonoBehaviour
     // Which direction this character should be moving
     private Vector3 _moveDir;
 
+    private AudioManager _audManRef;
+
     // For the things that happen after using a skill (like lowering health), 
     // to determine if we should signal the if the character is finished
     private static List<bool> _ongoingActions = new List<bool>();
@@ -238,6 +240,16 @@ public class MoveAttack : MonoBehaviour
             {
                 Debug.Log("Could not find MoveAttackController attached to " + gameControllerObj.name);
             }
+        }
+
+        // Get the audio manager
+        try
+        {
+            _audManRef = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+        catch
+        {
+            Debug.Log("Could not get AudioManager");
         }
     }
 
@@ -657,8 +669,7 @@ public class MoveAttack : MonoBehaviour
 
             // Call the event to begin moving
             OnCharacterBeginMoving?.Invoke();
-            AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-            test.PlaySound("Walk");
+            _audManRef.PlaySound("Walk");
         }
         else
         {
@@ -694,8 +705,7 @@ public class MoveAttack : MonoBehaviour
     private void EndMove()
     {
         //play walking sound
-        AudioManager test = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-        test.StopSound("Walk");
+        _audManRef.StopSound("Walk");
 
         //Debug.Log("Finished Moving");
         // Set the node I am ending on to occupied with my type
@@ -725,7 +735,6 @@ public class MoveAttack : MonoBehaviour
     /// <param name="attackNodePos">The grid position of the center of the attack</param>
     public void StartAttack(Vector2Int attackNodePos)
     {
-        //Debug.Log("Start Attack");
         if (_skillRef != null)
         {
             // We have attacked

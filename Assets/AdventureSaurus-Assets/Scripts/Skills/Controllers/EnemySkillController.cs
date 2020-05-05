@@ -23,5 +23,11 @@ public class EnemySkillController : CharacterSkills
         }
         if (mySkill.SkillNum != SkillHolder.BASIC_ATTACK)
             _specialSkill = mySkill;
+        // See if we should increase magic at all
+        EnemyGrimoire enGrim = this.GetComponent<EnemyGrimoire>();
+        if (enGrim != null)
+        {
+            enGrim.MagicIncrease();
+        }
     }
 }

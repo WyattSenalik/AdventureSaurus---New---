@@ -83,6 +83,8 @@ public class CharDetailedMenuController : MonoBehaviour
         PauseMenuController.OnCharDetailedMenuShown += DisplayCharacterDetails;
         // When the generation finishes, initialize this script
         ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
+        // When a character dies, reinitialize to get set the new level up buttons
+        Health.OnCharacterDeath += Initialize;
     }
 
     // Called when the gameobject is toggled active
@@ -91,6 +93,7 @@ public class CharDetailedMenuController : MonoBehaviour
     {
         PauseMenuController.OnCharDetailedMenuShown -= DisplayCharacterDetails;
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+        Health.OnCharacterDeath -= Initialize;
     }
 
     // Called when the gameobject is destroyed
@@ -99,6 +102,7 @@ public class CharDetailedMenuController : MonoBehaviour
     {
         PauseMenuController.OnCharDetailedMenuShown -= DisplayCharacterDetails;
         ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+        Health.OnCharacterDeath -= Initialize;
     }
 
     // Called before start.
