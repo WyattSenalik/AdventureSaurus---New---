@@ -20,9 +20,14 @@ public class Grimoire : MonoBehaviour
     // Set references to itself
     protected virtual void Awake()
     {
-        _statRef = this.GetComponent<Stats>();
-        if (_statRef == null)
+        try
+        {
+            _statRef = this.GetComponent<Stats>();
+        }
+        catch
+        {
             Debug.Log("There was no Stats attached to " + this.name);
+        }
 
         _pagesRead = 0;
     }
