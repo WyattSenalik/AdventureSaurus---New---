@@ -12,5 +12,6 @@ public static class LoadPersistantFloorData
         // Set the values of the PersistantController
         persistCont.SetNextFloorDifficulty(persistFloorData.GetNextFloorDifficulty());
         persistCont.SetNextFloorNum(persistFloorData.GetNextFloor());
+        PersistantController.SetPotCharges(persistFloorData.GetPotCharges());
     }
 }

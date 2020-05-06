@@ -83,7 +83,7 @@ public class HealthPotion : MonoBehaviour
     private void LateUpdate()
     {
         //updates the charges whenever it is changed
-        _chargesText.text = PersistCharges.PotCharges.ToString();
+        _chargesText.text = PersistantController.GetPotCharges().ToString();
 
         //updates potion image to follow mouse
         if(_isHolding==true)
@@ -104,7 +104,7 @@ public class HealthPotion : MonoBehaviour
     public void HoldingPotion()
     {
         //if you aren't holding the potion you will pick it up
-        if (_isHolding == false && PersistCharges.PotCharges != 0)
+        if (_isHolding == false && PersistantController.GetPotCharges() != 0)
         {
             _isHolding = true;
         }
@@ -121,7 +121,7 @@ public class HealthPotion : MonoBehaviour
         if (charMA.WhatAmI == CharacterType.Ally &&_isHolding==true)
         {
             // reduces the charges
-            PersistCharges.PotCharges--;
+            PersistantController.SetPotCharges(PersistantController.GetPotCharges() - 1);
 
             _allyToHeal = charMA.GetComponent<AllyHealth>();
             if (_allyToHeal == null)
@@ -144,7 +144,7 @@ public class HealthPotion : MonoBehaviour
     //refills potion back to three
     public void RefillPotion()
     {
-        PersistCharges.PotCharges = 3;
+        PersistantController.SetPotCharges(3);
         _update = true;
         Debug.Log("Potions have been refilled");
     }

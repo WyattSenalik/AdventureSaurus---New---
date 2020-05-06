@@ -47,6 +47,11 @@ public abstract class PersistantController : MonoBehaviour
     protected TileSet _activeTileSet;
     [SerializeField] protected TileSet[] _tileSets = null;
 
+    // The amount of potions the player has
+    private static int _potCharges = 3;
+    public static int GetPotCharges() { return _potCharges; }
+    public static void SetPotCharges(int newPotCharges) { _potCharges = newPotCharges; } 
+
     /// <summary>
     /// Called when the script is set active.
     /// Subscribe to events.
