@@ -71,17 +71,13 @@ public class EnemyTurnController : MonoBehaviour
         if (_curEnIndex < _allEnemies.Count)
         {
             // Pan over to the enemy before we take their turn
-            if (OnPreSingleEnemyTurn != null)
-                OnPreSingleEnemyTurn(_allEnemies[_curEnIndex].transform);
+            OnPreSingleEnemyTurn?.Invoke(_allEnemies[_curEnIndex].transform);
         }
         // If all the enemies have taken their turn
         else
         {
             // Call the end enemy turn event
-            if (OnEndEnemyTurn != null)
-            {
-                OnEndEnemyTurn();
-            }
+            OnEndEnemyTurn?.Invoke();
         }
     }
 

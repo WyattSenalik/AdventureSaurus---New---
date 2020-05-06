@@ -18,10 +18,7 @@ public class Skill : MonoBehaviour
 
     // The skill's unique number
     protected int _skillNum = -1;
-    public int SkillNum
-    {
-        get { return _skillNum; }
-    }
+    public int GetSkillNum(){ return _skillNum; }
     // If this skill hits diagonals
     protected bool _diagnols = false;
     // If this skill heals
@@ -31,28 +28,16 @@ public class Skill : MonoBehaviour
     protected List<Health> _enemiesHP;
     // The cooldown of the skill
     protected int _cooldown = 0;
-    public int Cooldown
-    {
-        get { return _cooldown; }
-    }
+    public int GetCoolDown(){ return _cooldown; }
     // The amount of turns progressed towards the cooldown
     protected int _cooldownTimer;
-    public int CooldownTimer
-    {
-        get { return _cooldownTimer; }
-    }
+    public int GetCooldownTimer(){ return _cooldownTimer; }
     // The amount of damage this skill does / the amount this skill heals
     protected int _damage = 1;
-    public int Damage
-    {
-        get { return _damage; }
-    }
+    public int GetDamage(){ return _damage; }
     // The distance this skill can cover
     protected int _range = 1;
-    public int Range
-    {
-        get { return _range; }
-    }
+    public int GetRange() { return _range; }
 
     protected AudioManager _audManRef;
 
@@ -293,8 +278,7 @@ public class Skill : MonoBehaviour
         IncrementCooldownTimer();
 
         // Call the on cooldown change event
-        if (OnCooldownChange != null)
-            OnCooldownChange();
+        OnCooldownChange?.Invoke();
     }
 
     /// <summary>
@@ -311,6 +295,8 @@ public class Skill : MonoBehaviour
     public void UpgradeRange()
     {
         ++_range;
+        if (_maRef.SkillRef == this)
+            _maRef.AttackRange = _range;
     }
 
     /// <summary>
@@ -324,8 +310,7 @@ public class Skill : MonoBehaviour
         DecrementCooldownTimer();
 
         // Call the on cooldown change event
-        if (OnCooldownChange != null)
-            OnCooldownChange();
+        OnCooldownChange?.Invoke();
     }
 
     /// <summary>
@@ -352,6 +337,7 @@ public class Skill : MonoBehaviour
     {
         // Set the range
         _maRef.AttackRange = _range;
+        Debug.Log(this.name + " has attack range " + _maRef.AttackRange);
 
         // Set if the skill is friendly or deadly
         _maRef.TargetFriendly = _healing;

@@ -13,6 +13,14 @@ public class CharacterSkills : MonoBehaviour
     // Reference to the skill holder
     protected SkillHolder _skillHoldRef;
 
+
+    // Called when the component is destroyed
+    // Unsubscribe from ALL events
+    private void OnDestroy()
+    {
+        ProceduralGenerationController.OnFinishGenerationNoParam -= Initialize;
+    }
+
     // Called 0th
     // Set references to itself
     private void Awake()
@@ -26,13 +34,21 @@ public class CharacterSkills : MonoBehaviour
         _skillHoldRef = gameContObj.GetComponent<SkillHolder>();
         if (_skillHoldRef == null)
             Debug.Log("WARNING - There was no SkillHolder script attached to " + gameContObj.name);
+
+        // Initialize the list of skills
+        _availableSkills = new List<Skill>();
+
+        // Subscribe to the procedural gen event
+        ProceduralGenerationController.OnFinishGenerationNoParam += Initialize;
     }
 
-    // Called before the first frame update
-    protected void Start()
+    /// <summary>
+    /// Called when generation is finished.
+    /// Initialize some things.
+    /// </summary>
+    protected virtual void Initialize()
     {
-        // Initialize the list
-        _availableSkills = new List<Skill>();
+        // TODO in children
     }
 
     /// <summary>

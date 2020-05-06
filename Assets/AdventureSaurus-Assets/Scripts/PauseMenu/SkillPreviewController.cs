@@ -80,12 +80,12 @@ public class SkillPreviewController : MonoBehaviour
                 Skill activeSkill = skillContRef.SpecialSkill;
                 if (activeSkill != null)
                 {
-                    skillName = " " + SkillHolder.GetSkillName(activeSkill.SkillNum);
-                    skillDescription = SkillHolder.GetSkillDescription(activeSkill.SkillNum);
-                    skillDmg = activeSkill.Damage.ToString();
-                    skillRange = activeSkill.Range.ToString();
-                    skillCooldown = activeSkill.Cooldown.ToString();
-                    skillIcon = SkillHolder.GetSkillImage(activeSkill.SkillNum);
+                    skillName = " " + SkillHolder.GetSkillName(activeSkill.GetSkillNum());
+                    skillDescription = SkillHolder.GetSkillDescription(activeSkill.GetSkillNum());
+                    skillDmg = activeSkill.GetDamage().ToString();
+                    skillRange = activeSkill.GetRange().ToString();
+                    skillCooldown = activeSkill.GetCoolDown().ToString();
+                    skillIcon = SkillHolder.GetSkillImage(activeSkill.GetSkillNum());
                 }
             }
         }
@@ -136,12 +136,12 @@ public class SkillPreviewController : MonoBehaviour
             Skill activeSkill = skillContRef.SpecialSkill;
             if (activeSkill != null)
             {
-                skillName = " " + SkillHolder.GetSkillName(activeSkill.SkillNum);
-                skillDescription = SkillHolder.GetSkillDescription(activeSkill.SkillNum);
-                skillIcon = SkillHolder.GetSkillImage(activeSkill.SkillNum);
-                skillDmg = activeSkill.Damage;
-                skillRange = activeSkill.Range;
-                skillCooldown = activeSkill.Cooldown;
+                skillName = " " + SkillHolder.GetSkillName(activeSkill.GetSkillNum());
+                skillDescription = SkillHolder.GetSkillDescription(activeSkill.GetSkillNum());
+                skillIcon = SkillHolder.GetSkillImage(activeSkill.GetSkillNum());
+                skillDmg = activeSkill.GetDamage();
+                skillRange = activeSkill.GetRange();
+                skillCooldown = activeSkill.GetCoolDown();
             }
 
 
@@ -161,9 +161,9 @@ public class SkillPreviewController : MonoBehaviour
                         skillName = " " + SkillHolder.GetSkillName(allyGrim.SkillToGain);
                         skillDescription = SkillHolder.GetSkillDescription(allyGrim.SkillToGain);
                         skillIcon = SkillHolder.GetSkillImage(allyGrim.SkillToGain);
-                        skillDmg = gainSkill.Damage;
-                        skillRange = gainSkill.Range;
-                        skillCooldown = gainSkill.Cooldown;
+                        skillDmg = gainSkill.GetDamage();
+                        skillRange = gainSkill.GetRange();
+                        skillCooldown = gainSkill.GetCoolDown();
 
                         isSkillNameBuff = true;
                         isSkillDmgBuff = true;

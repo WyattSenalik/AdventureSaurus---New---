@@ -8,11 +8,14 @@ public class EnemySkillController : CharacterSkills
     private Skill _specialSkill;
     public Skill GetSpecialSkill() { return _specialSkill; }
 
-    // Called before the first frame
-    // Initializes skill
-    protected new void Start()
+
+    /// <summary>
+    /// Called when generation is finished.
+    /// Initialize skill
+    /// </summary>
+    protected override void Initialize()
     {
-        base.Start();
+        base.Initialize();
         // We want to set the enemies skill to the one skill they have
         Skill mySkill = this.GetComponent<Skill>();
         if (mySkill != null)
@@ -22,7 +25,7 @@ public class EnemySkillController : CharacterSkills
             _availableSkills.Add(mySkill);
             mySkill.SetAsEnemySkill();
         }
-        if (mySkill.SkillNum != SkillHolder.BASIC_ATTACK && mySkill.SkillNum != SkillHolder.PUSH)
+        if (mySkill.GetSkillNum() != SkillHolder.BASIC_ATTACK && mySkill.GetSkillNum() != SkillHolder.PUSH)
             _specialSkill = mySkill;
         // See if we should increase magic at all
         EnemyGrimoire enGrim = this.GetComponent<EnemyGrimoire>();

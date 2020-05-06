@@ -75,12 +75,12 @@ public class SkillMenu : MonoBehaviour
         Skill skillToCareAbout = availSkills[skillIndex];
 
         // Set the display information to go with the skill
-        _skillIcon.sprite = SkillHolder.GetSkillImage(skillToCareAbout.SkillNum);
-        _skillNameText.text = " " + SkillHolder.GetSkillName(skillToCareAbout.SkillNum);
-        _skillDescription.text = SkillHolder.GetSkillDescription(skillToCareAbout.SkillNum);
-        _damageText.text = skillToCareAbout.Damage.ToString();
-        _rangeText.text = skillToCareAbout.Range.ToString();
-        _cooldownText.text = skillToCareAbout.Cooldown.ToString();
+        _skillIcon.sprite = SkillHolder.GetSkillImage(skillToCareAbout.GetSkillNum());
+        _skillNameText.text = " " + SkillHolder.GetSkillName(skillToCareAbout.GetSkillNum());
+        _skillDescription.text = SkillHolder.GetSkillDescription(skillToCareAbout.GetSkillNum());
+        _damageText.text = skillToCareAbout.GetDamage().ToString();
+        _rangeText.text = skillToCareAbout.GetRange().ToString();
+        _cooldownText.text = skillToCareAbout.GetCoolDown().ToString();
     }
 
     /// <summary>
@@ -104,9 +104,9 @@ public class SkillMenu : MonoBehaviour
         for (int i = 0; i < amountSkills; ++i)
         {
             _sideSkillObjs[i].SetActive(true);
-            _sideSkillIcons[i].sprite = SkillHolder.GetSkillImage(availSkills[i].SkillNum);
-            if (availSkills[i].CooldownTimer > 0)
-                _skillCoolTexts[i].text = availSkills[i].CooldownTimer.ToString();
+            _sideSkillIcons[i].sprite = SkillHolder.GetSkillImage(availSkills[i].GetSkillNum());
+            if (availSkills[i].GetCooldownTimer() > 0)
+                _skillCoolTexts[i].text = availSkills[i].GetCooldownTimer().ToString();
             else
                 _skillCoolTexts[i].text = "";
             // If the skill is the active one, make it have the active color
@@ -133,7 +133,7 @@ public class SkillMenu : MonoBehaviour
         // Get the current character's available skills
         List<Skill> availSkills = charMA.GetComponent<CharacterSkills>().GetAvailableSkills();
         // If the skill is on cooldown, don't swap to it
-        if (availSkills[index].CooldownTimer > 0)
+        if (availSkills[index].GetCooldownTimer() > 0)
         {
 
         }
