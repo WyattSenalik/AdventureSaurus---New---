@@ -56,8 +56,6 @@ public class MoveAttackGUIController : MonoBehaviour
         TurnSystem.OnFinishPlayerTurn += Deselect;
         // When the enemy's turn begins, deny the user from selecting
         TurnSystem.OnBeginEnemyTurn += DenySelect;
-        // When we confirm stat changes, try to reselect the character (if we have one selected)
-        CharDetailedMenuController.OnStatConfirm += ReselectCurrentCharacter;
         
         // When the game is paused, disable this script
         Pause.OnPauseGame += HideScript;
@@ -72,7 +70,6 @@ public class MoveAttackGUIController : MonoBehaviour
         TurnSystem.OnBeginPlayerTurn -= AllowSelect;
         TurnSystem.OnFinishPlayerTurn -= Deselect;
         TurnSystem.OnBeginEnemyTurn -= DenySelect;
-        CharDetailedMenuController.OnStatConfirm -= ReselectCurrentCharacter;
 
         // Unsubscribe to the pause event (since if this is inactive, the game is paused)
         Pause.OnPauseGame -= HideScript;
@@ -113,6 +110,10 @@ public class MoveAttackGUIController : MonoBehaviour
         {
             Debug.Log("Could not find InputController attached to " + this.name);
         }
+
+        // We don't put this in OnEnable because this component will get disabled
+        // When we confirm stat changes, try to reselect the character (if we have one selected)
+        CharDetailedMenuController.OnStatConfirm += ReselectCurrentCharacter;
     }
 
     // Start is called before the first frame update
@@ -324,7 +325,6 @@ public class MoveAttackGUIController : MonoBehaviour
     /// <returns>Returns true if the attack was successful, false otherwise</returns>
     private bool AttemptAttack(Node selNode, MoveAttack charToAttack)
     {
-        Debug.Log(charToAttack);
         // If the current character can attack there or is targetting friendlies and can heal/buff there
         if ((_charSelected.AttackTiles.Contains(selNode) && selNode.Occupying == CharacterType.Enemy
             && charToAttack != null && charToAttack.gameObject.activeInHierarchy) 
@@ -730,8 +730,9 @@ public class MoveAttackGUIController : MonoBehaviour
     {
         if (_charSelected != null)
         {
+            Vector3 lastChaPos = _charSelected.transform.position;
             Deselect();
-            AttemptSelect(_mAContRef.GetNodeByWorldPosition(_charSelected.transform.position));
+            AttemptSelect(_mAContRef.GetNodeByWorldPosition(lastChaPos));
         }
     }
 }

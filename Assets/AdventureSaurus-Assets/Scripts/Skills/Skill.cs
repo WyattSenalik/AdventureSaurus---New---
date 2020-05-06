@@ -368,4 +368,13 @@ public class Skill : MonoBehaviour
     /// prefab to play an animation
     /// </summary>
     public virtual void SpawnSkillAddition() { }
+
+    /// <summary>
+    /// Called if this skill is attached to an enemy from the EnemySkillController.
+    /// Sets cooldown to 0
+    /// </summary>
+    public void SetAsEnemySkill()
+    {
+        _cooldown = 0;
+    }
 }
