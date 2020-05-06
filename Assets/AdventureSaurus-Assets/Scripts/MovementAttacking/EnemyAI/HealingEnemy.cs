@@ -201,8 +201,8 @@ public class HealingEnemy : SingleEnemy
             {
                 //Debug.Log(atkNode.Position);
                 MoveAttack potAlly = MAContRef.GetCharacterMAByNode(atkNode);
-                // If we found a damaged enemy at that tile
-                if (potAlly != null && potAlly.WhatAmI == CharacterType.Enemy)
+                // If we found a damaged enemy at that tile (that is not this enemy)
+                if (potAlly != null && potAlly.WhatAmI == CharacterType.Enemy && potAlly != MARef)
                 {
                     Health enHealth = potAlly.GetComponent<Health>();
                     if (enHealth.CurHP < enHealth.MaxHP)

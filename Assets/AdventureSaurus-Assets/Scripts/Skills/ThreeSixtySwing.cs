@@ -31,6 +31,9 @@ public class ThreeSixtySwing : Skill
         // If we have a node to attack
         if (nodeToAttack != null)
         {
+            // Sound
+            _audManRef.PlaySound("360");
+
             // Gets a initial reference point at the position of this charcter
             Vector2Int center = new Vector2Int(Mathf.RoundToInt(this.transform.position.x), Mathf.RoundToInt(this.transform.position.y));
 

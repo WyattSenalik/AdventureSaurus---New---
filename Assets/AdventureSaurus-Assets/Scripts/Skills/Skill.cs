@@ -337,7 +337,6 @@ public class Skill : MonoBehaviour
     {
         // Set the range
         _maRef.AttackRange = _range;
-        Debug.Log(this.name + " has attack range " + _maRef.AttackRange);
 
         // Set if the skill is friendly or deadly
         _maRef.TargetFriendly = _healing;
@@ -359,7 +358,7 @@ public class Skill : MonoBehaviour
     /// Called if this skill is attached to an enemy from the EnemySkillController.
     /// Sets cooldown to 0
     /// </summary>
-    public void SetAsEnemySkill()
+    public virtual void SetAsEnemySkill()
     {
         _cooldown = 0;
     }

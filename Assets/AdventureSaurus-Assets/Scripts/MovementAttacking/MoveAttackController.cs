@@ -596,15 +596,15 @@ public class MoveAttackController : MonoBehaviour
         // Make sure its not out of bounds
         if (pos.x < _gridTopLeft.x || pos.x > _gridBotRight.x || pos.y < _gridBotRight.y || pos.y > _gridTopLeft.y)
         {
-            Debug.Log("Node was invalid");
-            if (pos.x < _gridTopLeft.x)
-                Debug.Log("X lower than left: " + pos.x + " < " + _gridTopLeft.x);
-            if (pos.x > _gridBotRight.x)
-                Debug.Log("X higher than right: " + pos.x + " > " + _gridBotRight.x);
-            if (pos.y < _gridBotRight.y)
-                Debug.Log("Y lower than bot: " + pos.y + " < " + _gridBotRight.y);
-            if (pos.y > _gridTopLeft.y)
-                Debug.Log("Y higher than top: " + pos.y + " > " + _gridTopLeft.y);
+            //Debug.Log("Node was invalid");
+            //if (pos.x < _gridTopLeft.x)
+            //    Debug.Log("X lower than left: " + pos.x + " < " + _gridTopLeft.x);
+            //if (pos.x > _gridBotRight.x)
+            //    Debug.Log("X higher than right: " + pos.x + " > " + _gridBotRight.x);
+            //if (pos.y < _gridBotRight.y)
+            //    Debug.Log("Y lower than bot: " + pos.y + " < " + _gridBotRight.y);
+            //if (pos.y > _gridTopLeft.y)
+            //    Debug.Log("Y higher than top: " + pos.y + " > " + _gridTopLeft.y);
             return null;
         }
 
