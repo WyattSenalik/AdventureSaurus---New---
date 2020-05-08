@@ -140,7 +140,6 @@ public class ParentSaving : MonoBehaviour
         // Save the amount of enemies
         SaveSystem.SaveEnemyAmount(_enemyParent);
 
-        int counter = 0;
         // Iterate over each enemy
         foreach (Transform enemyTrans in _enemyParent)
         {

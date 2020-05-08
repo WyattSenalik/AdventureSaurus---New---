@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +25,9 @@ public class SkillMenu : MonoBehaviour
     // Reference to the MoveAttackGUIController to get the selected character
     private MoveAttackGUIController _mAGUIContRef;
 
+    // Reference to the last skill selected
+    private Skill _lastSkill = null;
+
 
     // Called when the component is enabled
     // Subscribe to events
@@ -37,6 +39,8 @@ public class SkillMenu : MonoBehaviour
         MoveAttack.OnCharacterFinishedAction += RefreshSkillButtons;
         // When an ally gains a skill, upate the side skill icons
         AllySkillController.OnSkillGain += RefreshSkillButtons;
+        // When the play confirms a stat updgrade, update the side skill icons
+        CharDetailedMenuController.OnStatConfirm += RefreshSkillButtons;
     }
     // Called when the component is disabled
     // Unsubscribe from events
@@ -45,6 +49,7 @@ public class SkillMenu : MonoBehaviour
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButtons;
         MoveAttack.OnCharacterFinishedAction -= RefreshSkillButtons;
         AllySkillController.OnSkillGain -= RefreshSkillButtons;
+        CharDetailedMenuController.OnStatConfirm -= RefreshSkillButtons;
     }
     // Called then the component is destroyed
     // Unsubscribe from ALL events
@@ -53,6 +58,7 @@ public class SkillMenu : MonoBehaviour
         MoveAttackGUIController.OnCharacterSelect -= UpdateSkillButtons;
         MoveAttack.OnCharacterFinishedAction -= RefreshSkillButtons;
         AllySkillController.OnSkillGain -= RefreshSkillButtons;
+        CharDetailedMenuController.OnStatConfirm -= RefreshSkillButtons;
     }
 
     // Called before Start
@@ -81,6 +87,27 @@ public class SkillMenu : MonoBehaviour
         _damageText.text = skillToCareAbout.GetDamage().ToString();
         _rangeText.text = skillToCareAbout.GetRange().ToString();
         _cooldownText.text = skillToCareAbout.GetCoolDown().ToString();
+
+        _lastSkill = skillToCareAbout;
+    }
+
+    /// <summary>
+    /// Refreshes the skill detailed menu about the last selected skill
+    /// </summary>
+    /// <param name="skillToCareAbout">The last selected skill</param>
+    private void RefreshSkillDetails()
+    {
+        if (_lastSkill != null)
+        {
+            Skill skillToCareAbout = _lastSkill;
+            // Set the display information to go with the skill
+            _skillIcon.sprite = SkillHolder.GetSkillImage(skillToCareAbout.GetSkillNum());
+            _skillNameText.text = " " + SkillHolder.GetSkillName(skillToCareAbout.GetSkillNum());
+            _skillDescription.text = SkillHolder.GetSkillDescription(skillToCareAbout.GetSkillNum());
+            _damageText.text = skillToCareAbout.GetDamage().ToString();
+            _rangeText.text = skillToCareAbout.GetRange().ToString();
+            _cooldownText.text = skillToCareAbout.GetCoolDown().ToString();
+        }
     }
 
     /// <summary>
@@ -158,5 +185,7 @@ public class SkillMenu : MonoBehaviour
         // Get the current selected allies skill controller
         MoveAttack charMA = _mAGUIContRef.RecentCharSelectedMA;
         UpdateSkillButtons(charMA);
+        // Also refresh the skill pop out menu
+        RefreshSkillDetails();
     }
 }
