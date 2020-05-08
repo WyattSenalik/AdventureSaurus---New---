@@ -46,6 +46,7 @@ public abstract class PersistantController : MonoBehaviour
     // What tile set we should use
     protected TileSet _activeTileSet;
     [SerializeField] protected TileSet[] _tileSets = null;
+    public TileSet GetActiveTileSet() { return _activeTileSet; }
 
     // The amount of potions the player has
     private static int _potCharges = 3;

@@ -225,7 +225,7 @@ public class AllyStats : Stats
         do
         {
             // Test if the character has enough exp to level up and isn't already currently leveling up
-            if (!_isLevelingUp && _experience >= _nextLevelThreshold)
+            if (!_isLevelingUp && _oneLevelExperience >= _oneLevelNextLevelThreshold)
             {
                 _audManRef.PlaySound("LevelUp");
                 // Start leveling the character up
@@ -236,7 +236,7 @@ public class AllyStats : Stats
                 _amountStatIncreases += 3;
 
                 // Set the oneLevel variables accordingly
-                _oneLevelExperience = _experience - _nextLevelThreshold;
+                _oneLevelExperience -= _oneLevelNextLevelThreshold;
                 _oneLevelNextLevelThreshold = CalculateAmountToReachNextLevel(_level);
                 _nextLevelThreshold += _oneLevelNextLevelThreshold;
 

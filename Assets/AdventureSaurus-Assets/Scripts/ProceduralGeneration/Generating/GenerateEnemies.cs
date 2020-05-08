@@ -140,7 +140,7 @@ public class GenerateEnemies : MonoBehaviour
                 /// 
                 // Initialize some stuff we will need after the loop
                 // Reference to the GameObject of the enemy spawned
-                GameObject spawnedEnemyObj;
+                GameObject spawnedEnemyObj = null;
                 // Reference to the EnemyDifficulty script attached to the spawned enemy
                 EnemyStats enStatsScriptRef;
 
@@ -154,23 +154,24 @@ public class GenerateEnemies : MonoBehaviour
                     int enemyPrefIndex = Random.Range(0, maxSpawnLength);
                     GameObject enemyPrefToSpawn = _enemyPrefabs[enemyPrefIndex];
 
-                    /// Step 4d: Spawn the enemy
-                    /// 
-                    spawnedEnemyObj = Instantiate(enemyPrefToSpawn, enemyParent);
-                    spawnedEnemyObj.transform.position = spawnWorldPos;
 
-                    /// Step 4e: If that enemy is too strong for the current difficulty we need, then destroy it and try to spawn
-                    /// another enemy. We will pick a enemy further left in the list, since they are sorted by difficulty
+                    /// Step 4d: If that enemy is too strong for the current difficulty we need, then to pick a weaker one.
+                    /// We will pick a enemy further left in the list, since they are sorted by difficulty
                     /// 
-                    enStatsScriptRef = spawnedEnemyObj.GetComponent<EnemyStats>();
+                    enStatsScriptRef = enemyPrefToSpawn.GetComponent<EnemyStats>();
                     if (enStatsScriptRef.GetDifficulty() > curRoomScript.RoomDifficulty - currentDifficulty)
                     {
-                        Destroy(spawnedEnemyObj);
-                        maxSpawnLength = enemyPrefIndex;
                         chooseNew = true;
+                        maxSpawnLength = enemyPrefIndex;
                     }
                     else
+                    {
                         chooseNew = false;
+                        /// Step 4e: Spawn the enemy
+                        /// 
+                        spawnedEnemyObj = Instantiate(enemyPrefToSpawn, enemyParent);
+                        spawnedEnemyObj.transform.position = spawnWorldPos;
+                    }
                 } while (chooseNew);
 
 

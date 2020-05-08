@@ -46,6 +46,9 @@ public class ProceduralGenerationController : MonoBehaviour
     // For when we need to initialize scripts after generating
     public delegate void FinishGenerationNoParam();
     public static event FinishGenerationNoParam OnFinishGenerationNoParam;
+    // For right after OnFinishGenerationNoParam
+    public delegate void PostFinishGeneration();
+    public static event PostFinishGeneration OnPostFinishGeneration;
 
 
     // Set references
@@ -178,8 +181,9 @@ public class ProceduralGenerationController : MonoBehaviour
             }
 
             // Call the OnFinishGeneration event
-            if (OnFinishGenerationNoParam != null)
-                OnFinishGenerationNoParam();
+            OnFinishGenerationNoParam?.Invoke();
+            // Call the PostFinishGeneration event
+            OnPostFinishGeneration?.Invoke();
         }
     }
 

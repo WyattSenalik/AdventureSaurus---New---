@@ -17,8 +17,8 @@ public static class SaveSystem
     /// </summary>
     public static void SaveGame()
     {
-        if (OnSave != null)
-            OnSave();
+        RefreshMainSaveFolder();
+        OnSave?.Invoke();
     }
 
     /// <summary>
@@ -42,6 +42,26 @@ public static class SaveSystem
         }
         // Create a new folder with the path
         Directory.CreateDirectory(fullPath);
+    }
+
+    /// <summary>
+    /// For resetting the folder we are saving in
+    /// </summary>
+    public static void RefreshMainSaveFolder()
+    {
+        if (_folderDir != "")
+        {
+            // Get the fullPath
+            string fullPath = Application.persistentDataPath + _folderDir;
+            // Delete any already existing directory
+            if (Directory.Exists(fullPath))
+            {
+                DirectoryInfo dir = new DirectoryInfo(fullPath);
+                dir.Delete(true);
+            }
+            // Create a new folder with the path
+            Directory.CreateDirectory(fullPath);
+        }
     }
 
     /// <summary>

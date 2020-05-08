@@ -26,8 +26,8 @@ public class Campfire : Interactable
     {
         try
         {
-            GameObject genContObj = GameObject.FindWithTag("GenerationController");
-            TileSet activeTileSet = genContObj.GetComponent<GenerateTiles>().GetActiveTileSet();
+            GameObject genContObj = GameObject.FindWithTag("PersistantController");
+            TileSet activeTileSet = genContObj.GetComponent<PersistantController>().GetActiveTileSet();
             _litCampfire = activeTileSet.GetLitCampfire();
         }
         catch
